@@ -3,7 +3,7 @@ import json
 from flask import Flask, request, jsonify, send_from_directory
 import anthropic
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=None)  # disable Flask's built-in static handler
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 MODEL = "claude-sonnet-4-5"
 
@@ -11,9 +11,9 @@ MODEL = "claude-sonnet-4-5"
 def index():
     return send_from_directory("templates", "index.html")
 
-@app.route("/static/<path:filename>")
-def static_files(filename):
-    return send_from_directory("static", filename)
+@app.route("/static/questions.js")
+def questions_js():
+    return send_from_directory("static", "questions.js")
 
 @app.route("/chat", methods=["POST"])
 def chat():
