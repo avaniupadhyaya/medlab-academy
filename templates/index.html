@@ -370,21 +370,22 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     
     <!-- WORD BANK -->
     <div class="screen" id="screen-wordbank">
-      <div style="padding:10px 14px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--surf);">
-        <button onclick="goBack()" style="background:var(--surf2);border:1px solid var(--bord);border-radius:7px;padding:6px 11px;font-size:11px;color:var(--muted);cursor:pointer;font-family:var(--font);">← Back</button>
-        <div style="flex:1"><div style="font-size:16px;font-weight:700;">📖 Word Bank</div><div style="font-size:11px;color:var(--muted);font-family:var(--mono)" id="wbSubtitle">479 medical terms</div></div>
-        <div style="font-size:11px;color:var(--teal);font-family:var(--mono);font-weight:700;" id="wbCount"></div>
+      <div style="padding:12px 14px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <button onclick="goBack()" style="background:var(--surf2);border:1px solid var(--bord);border-radius:7px;padding:7px 12px;font-size:13px;color:var(--muted);cursor:pointer;font-family:var(--font);">← Back</button>
+        <div style="flex:1;">
+          <div style="font-size:17px;font-weight:700;">📖 Word Bank</div>
+          <div id="wbSubtitle" style="font-size:12px;color:var(--muted);font-family:var(--mono);">479 medical terms</div>
+        </div>
+        <div id="wbCount" style="font-size:12px;color:var(--teal);font-family:var(--mono);font-weight:700;"></div>
       </div>
-      <div style="padding:8px 14px;border-bottom:1px solid var(--bord);overflow-x:auto;white-space:nowrap;flex-shrink:0;" id="wbSystemRow">
-        <span style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-right:6px;">SYSTEM:</span>
+      <div id="wbSystemRow" style="padding:8px 14px;border-bottom:1px solid var(--bord);overflow-x:auto;white-space:nowrap;flex-shrink:0;-webkit-overflow-scrolling:touch;">
+        <span style="font-size:10px;color:var(--muted);font-family:var(--mono);">SYSTEM: </span>
       </div>
       <div style="padding:8px 14px;border-bottom:1px solid var(--bord);flex-shrink:0;">
-        <input type="text" id="wbSearch" placeholder="🔍  Search terms..." style="width:100%;background:var(--surf2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);font-family:var(--font);font-size:14px;padding:9px 12px;box-sizing:border-box;">
+        <input type="text" id="wbSearch" placeholder="🔍 Search any term or definition..." style="width:100%;background:var(--surf2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);font-family:var(--font);font-size:14px;padding:9px 12px;box-sizing:border-box;" oninput="renderWordBank()">
       </div>
-      <div id="wbGrid" style="overflow-y:auto;padding:10px 14px;flex:1;"></div>
+      <div id="wbGrid" style="overflow-y:auto;flex:1;padding:10px 14px;"></div>
     </div>
-
-</div>
 
     <!-- PLACEMENT -->
     <div class="screen" id="screen-placement">
@@ -5420,99 +5421,79 @@ document.getElementById('chatInM').addEventListener('keydown',e=>{if(e.key==='En
 document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>sendChat(b.dataset.q)));
 
 // ── WORD BANK ──────────────────────────────────────────
-let wbCurrentSystem = 'all';
-let wbBuilt = false;
+var wbSystem = 'all';
+var wbReady = false;
 
-const WB_LABELS = {
-  all:'All Systems',cardiovascular:'Cardiovascular',respiratory:'Respiratory',
-  gastrointestinal:'Digestive / GI',musculoskeletal:'Musculoskeletal',
-  nervous_system:'Nervous System',urinary:'Urinary',endocrine:'Endocrine',
-  blood_immune:'Blood & Immune',skin:'Skin',eye_ear:'Eye & Ear',
-  oncology:'Oncology',pharmacology:'Pharmacology',
-  diagnostic_procedures:'Diagnostic Tests',prefixes_suffixes:'Prefixes & Suffixes',
-  reproductive_obstetric:'Reproductive'
-};
+var WB_SYSTEMS = [
+  ['all','All Systems (479)'],['cardiovascular','Cardiovascular'],
+  ['respiratory','Respiratory'],['gastrointestinal','Digestive / GI'],
+  ['musculoskeletal','Musculoskeletal'],['nervous_system','Nervous System'],
+  ['urinary','Urinary'],['endocrine','Endocrine'],
+  ['blood_immune','Blood & Immune'],['skin','Skin'],
+  ['eye_ear','Eye & Ear'],['oncology','Oncology'],
+  ['pharmacology','Pharmacology'],['diagnostic_procedures','Diagnostic Tests'],
+  ['prefixes_suffixes','Prefixes & Suffixes'],['reproductive_obstetric','Reproductive'],
+];
 
 function initWordBank(){
-  // Build filter buttons once
-  const row = document.getElementById('wbSystemRow');
-  if(row && !wbBuilt){
-    wbBuilt = true;
-    Object.entries(WB_LABELS).forEach(([key,label])=>{
-      const b = document.createElement('button');
-      b.textContent = label;
-      b.dataset.sys = key;
-      b.style.cssText = 'font-size:10px;padding:4px 9px;margin-right:4px;border-radius:5px;cursor:pointer;font-family:var(--font);border:1px solid var(--bord);background:'+(key==='all'?'var(--teal)':'var(--surf2)')+';color:'+(key==='all'?'white':'var(--muted)')+';white-space:nowrap;';
-      b.onclick = function(){
-        wbCurrentSystem = key;
-        document.querySelectorAll('#wbSystemRow button').forEach(btn=>{
-          btn.style.background='var(--surf2)'; btn.style.color='var(--muted)';
+  var row = document.getElementById('wbSystemRow');
+  if(row && !wbReady){
+    wbReady = true;
+    WB_SYSTEMS.forEach(function(pair){
+      var key=pair[0], label=pair[1];
+      var btn = document.createElement('button');
+      btn.textContent = label;
+      btn.style.cssText = 'display:inline-block;margin-right:5px;margin-bottom:4px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:var(--font);font-size:10px;white-space:nowrap;border:1px solid '+(key==='all'?'var(--teal)':'var(--bord)')+';background:'+(key==='all'?'var(--teal)':'var(--surf2)')+';color:'+(key==='all'?'white':'var(--muted)')+';';
+      btn.onclick = function(){
+        wbSystem = key;
+        document.querySelectorAll('#wbSystemRow button').forEach(function(b){
+          b.style.background='var(--surf2)';b.style.color='var(--muted)';b.style.borderColor='var(--bord)';
         });
-        b.style.background='var(--teal)'; b.style.color='white';
+        btn.style.background='var(--teal)';btn.style.color='white';btn.style.borderColor='var(--teal)';
         renderWordBank();
       };
-      row.appendChild(b);
+      row.appendChild(btn);
     });
-    const inp = document.getElementById('wbSearch');
-    if(inp) inp.oninput = renderWordBank;
   }
   renderWordBank();
 }
 
 function renderWordBank(){
-  const grid = document.getElementById('wbGrid');
+  var grid = document.getElementById('wbGrid');
   if(!grid) return;
-  
-  const WBD = window.QB_TERM_WORDS;
+  var WBD = window.QB_TERM_WORDS;
   if(!WBD){
-    grid.innerHTML = '<p style="color:var(--muted);padding:20px;text-align:center;">Loading word bank... try refreshing.</p>';
+    grid.innerHTML='<div style="padding:30px;text-align:center;color:var(--muted);font-size:14px;">Word bank not loaded.<br>Please do a hard refresh: <strong>Cmd+Shift+R</strong></div>';
     return;
   }
-  
-  const q = ((document.getElementById('wbSearch')||{}).value||'').toLowerCase().trim();
-  
-  let terms = [];
-  if(wbCurrentSystem === 'all'){
-    Object.values(WBD).forEach(sys=>{ if(sys&&sys.terms) terms = terms.concat(sys.terms); });
+  var inp = document.getElementById('wbSearch');
+  var q = inp ? inp.value.toLowerCase().trim() : '';
+  var terms = [];
+  if(wbSystem==='all'){
+    Object.keys(WBD).forEach(function(k){ var s=WBD[k]; if(s&&s.terms) s.terms.forEach(function(t){terms.push(t);}); });
   } else {
-    terms = (WBD[wbCurrentSystem]&&WBD[wbCurrentSystem].terms) || [];
+    var s2=WBD[wbSystem]; if(s2&&s2.terms) terms=s2.terms;
   }
-  
-  if(q) terms = terms.filter(t=> t.term.toLowerCase().includes(q)||t.def.toLowerCase().includes(q)||t.breakdown.toLowerCase().includes(q));
-  
-  const sub = document.getElementById('wbSubtitle');
-  const cnt = document.getElementById('wbCount');
-  if(sub) sub.textContent = (WB_LABELS[wbCurrentSystem]||'All') + ' — ' + terms.length + ' terms';
-  if(cnt) cnt.textContent = terms.length + ' terms';
-  
-  if(!terms.length){
-    grid.innerHTML = '<p style="color:var(--muted);padding:20px;text-align:center;">No terms found.</p>';
-    return;
-  }
-  
-  // Build cards as a 2-column grid
-  grid.style.cssText = 'overflow-y:auto;padding:10px 14px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start;';
-  
-  let cards = '';
-  terms.forEach((t,i)=>{
-    const esc = (s)=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-    let termTxt = esc(t.term);
-    let defTxt = esc(t.def);
-    if(q){
-      const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
-      termTxt = termTxt.replace(re,'<mark style="background:#faeeda;color:#633806;border-radius:2px">$&</mark>');
-      defTxt = defTxt.replace(re,'<mark style="background:#faeeda;color:#633806;border-radius:2px">$&</mark>');
-    }
-    cards += '<div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:11px 12px;" onclick="this.lastElementChild.style.display=this.lastElementChild.style.display===\'block\'?\'none\':\'block\'">'
-      + '<div style="font-size:14px;font-weight:700;color:var(--teal);font-family:var(--mono);margin-bottom:3px">' + termTxt + '</div>'
-      + '<div style="font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:3px">' + defTxt + '</div>'
-      + '<div style="font-size:9px;color:var(--muted);margin-bottom:4px">▼ tap for breakdown</div>'
-      + '<div style="display:none;font-size:11px;color:var(--muted);background:var(--surf2);padding:6px 8px;border-radius:6px;font-family:var(--mono)">' + esc(t.breakdown) + '</div>'
-      + '</div>';
+  if(q) terms=terms.filter(function(t){ return t.term.toLowerCase().indexOf(q)>=0||t.def.toLowerCase().indexOf(q)>=0||t.breakdown.toLowerCase().indexOf(q)>=0; });
+  var sub=document.getElementById('wbSubtitle');
+  var cnt=document.getElementById('wbCount');
+  var lbl='All Systems'; WB_SYSTEMS.forEach(function(p){if(p[0]===wbSystem)lbl=p[1];});
+  if(sub) sub.textContent=lbl+' — '+terms.length+' terms';
+  if(cnt) cnt.textContent=terms.length+' terms';
+  if(!terms.length){grid.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);">No terms match.</div>';return;}
+  var out='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+  terms.forEach(function(t){
+    var e=function(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');};
+    out+='<div style="background:var(--surf);border:1px solid var(--bord);border-radius:9px;padding:11px 12px;cursor:pointer;" onclick="var b=this.querySelector(\'.wbd\');b.style.display=b.style.display===\'block\'?\'none\':\'block\'">'
+      +'<div style="font-size:13px;font-weight:700;color:var(--teal);font-family:var(--mono);margin-bottom:3px;">'+e(t.term)+'</div>'
+      +'<div style="font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:3px;">'+e(t.def)+'</div>'
+      +'<div style="font-size:9px;color:var(--muted);">&#9660; tap for breakdown</div>'
+      +'<div class="wbd" style="display:none;margin-top:6px;font-size:11px;color:var(--muted);background:var(--surf2);padding:6px 8px;border-radius:5px;font-family:var(--mono);">'+e(t.breakdown)+'</div>'
+      +'</div>';
   });
-  grid.innerHTML = cards;
+  out+='</div>';
+  grid.innerHTML=out;
 }
-
 
 // ── INIT ─────────────────────────────────────────────
 // Verify question banks loaded
