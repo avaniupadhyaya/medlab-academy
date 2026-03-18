@@ -3,51 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>HOSA Academy v2.0</title>
+<title>HOSA Academy v4</title>
 <meta name="version" content="2.0">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* ── 3-COLUMN LAYOUT ─────────────────────────────────── */
-.layout{
-  position:fixed;
-  top:56px; left:0; right:0; bottom:0;
-  display:flex;
-  flex-direction:row;
-  align-items:stretch;
-  overflow:hidden;
-}
-.sidebar{
-  width:190px;
-  flex:0 0 190px;
-  background:var(--surf);
-  border-right:1px solid var(--bord);
-  display:flex;
-  flex-direction:column;
-  overflow-y:auto;
-  padding:10px 8px;
-  z-index:1;
-}
-.main{
-  flex:1 1 0%;
-  min-width:0;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  background:var(--bg);
-}
-.chat-col{
-  width:270px;
-  flex:0 0 270px;
-  background:var(--surf);
-  border-left:1px solid var(--bord);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  z-index:1;
-}
-/* ── RESPONSIVE ──────────────────────────────────────── */
+/* ── LAYOUT ── */
+.layout{position:fixed;top:56px;left:0;right:0;bottom:0;}
+.sidebar{position:fixed;top:56px;left:0;bottom:0;width:190px;overflow-y:auto;background:var(--surf);border-right:1px solid var(--bord);display:flex;flex-direction:column;padding:10px 8px;z-index:10;}
+.main{position:fixed;top:56px;left:190px;right:270px;bottom:0;overflow-y:auto;display:flex;flex-direction:column;background:var(--bg);}
+.chat-col{position:fixed;top:56px;right:0;bottom:0;width:270px;overflow:hidden;background:var(--surf);border-left:1px solid var(--bord);display:flex;flex-direction:column;z-index:10;}
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
   .sidebar{display:none;}
+  .chat-col{display:none;}
+  .main{left:0;right:0;bottom:60px;}
+  .bnav{display:flex;}
+}
+@media(min-width:901px){
+  .bnav{display:none!important;}
+  #screen-chat{display:none!important;}
+  .logo-event{display:block;}
+}
+
   .chat-col{display:none;}
   .bnav{display:flex;}
   .layout{bottom:60px;}
@@ -288,9 +265,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div>
 </div>
 
-<div class="layout" style="position:fixed;top:56px;left:0;right:0;bottom:0;display:flex!important;flex-direction:row!important;overflow:hidden;">
+<div class="layout" style="position:fixed;top:56px;left:0;right:0;bottom:0;display:flex;flex-direction:row;flex-wrap:nowrap;overflow:hidden;">
   <!-- SIDEBAR -->
-  <div class="sidebar" style="width:190px;flex:0 0 190px;display:flex;flex-direction:column;overflow-y:auto;">
+  <div class="sidebar" style="position:fixed;top:56px;left:0;bottom:0;width:190px;display:flex;flex-direction:column;overflow-y:auto;background:var(--surf);border-right:1px solid var(--bord);z-index:10;">
     <div class="sl">Navigate</div>
     <button class="nb active" data-screen="home"><span class="nb-icon">🏠</span>Home</button>
     <button class="nb" data-screen="placement"><span class="nb-icon">🎯</span>Placement Test</button>
@@ -311,7 +288,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div>
 
   <!-- MAIN -->
-  <div class="main" id="mainArea" style="flex:1 1 0%;min-width:0;overflow-y:auto;display:flex;flex-direction:column;">
+  <div class="main" id="mainArea" style="position:fixed;top:56px;left:190px;right:270px;bottom:0;overflow-y:auto;display:flex;flex-direction:column;background:var(--bg);">
 
     <!-- HOME / EVENT SELECTOR -->
     <div class="screen active" id="screen-home">
@@ -454,7 +431,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div><!-- end main -->
 
   <!-- DESKTOP CHAT -->
-  <div class="chat-col" style="width:270px;flex:0 0 270px;display:flex;flex-direction:column;overflow:hidden;border-left:1px solid var(--bord);background:var(--surf);">
+  <div class="chat-col" style="position:fixed;top:56px;right:0;bottom:0;width:270px;display:flex;flex-direction:column;overflow:hidden;background:var(--surf);border-left:1px solid var(--bord);z-index:10;">
     <div class="ch-hdr" style="background:var(--teal);padding:12px 14px;flex-shrink:0;">
       <div style="font-size:24px;width:38px;height:38px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;">🤖</div>
       <div style="margin-left:10px;"><div style="font-weight:700;color:white;font-size:15px;">Dr. Morph</div><div style="font-size:11px;color:rgba(255,255,255,0.8);">● AI Tutor</div></div>
