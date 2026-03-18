@@ -1,3 +1,4 @@
+// ── questions_emergency_healthy.js ──
 // HOSA Academy — Life Threatening Situations + Foundations of Healthy Living
 window.QB_EMERGENCY = {
 flashcards: {
@@ -34,6 +35,40 @@ medium: [
   {term:"Frostbite",def:"Tissue freezing from extreme cold; white/gray/waxy skin",breakdown:"Do NOT rub; rewarm in warm (not hot) water if no refreeze risk"},
   {term:"Spinal injury",def:"Suspect in any head/neck trauma, diving accident, significant fall",breakdown:"Immobilize head and neck; do not move unless immediate danger"},
   {term:"Triage",def:"Sorting patients by severity to prioritize treatment when resources are limited",breakdown:"START triage: Red (immediate), Yellow (delayed), Green (minor), Black (deceased)"},
+,
+  {term:"CPR compression quality factors",def:"Depth (2-2.4 in adults), rate (100-120/min), full recoil, minimal interruptions, correct hand placement",breakdown:"Most common errors: insufficient depth, leaning on chest between compressions, interrupting for >10 sec"},
+  {term:"Child vs infant CPR differences",def:"Child (1yr-puberty): heel of 1-2 hands, 2 inch depth, 1-rescuer 30:2, 2-rescuer 15:2",breakdown:"Infant (<1yr): 2 fingers on center of chest below nipples, 1.5 inch depth, cover both mouth and nose"},
+  {term:"AED special situations",def:"Wet patient: dry chest first. Implanted device: pads 2 inches away. Pediatric: use child pads if available",breakdown:"Medication patches: remove and wipe. Never delay defibrillation for perfect conditions"},
+  {term:"Ventricular fibrillation",def:"Chaotic unsynchronized ventricular quivering — no effective pumping — most common cardiac arrest rhythm",breakdown:"AED/defibrillator delivers shock to reset electrical activity. CPR maintains minimal perfusion between shocks"},
+  {term:"Tourniquet application details",def:"Apply 2-3 inches ABOVE wound. Tighten until bleeding STOPS. Write time on tourniquet or skin",breakdown:"Commercial tourniquets (CAT, SOFTT-W) preferred. Width matters: narrow band cuts without stopping bleeding"},
+  {term:"Wound packing for junctional wounds",def:"Pack hemostatic gauze tightly into deep wound. Apply firm direct pressure for minimum 3 minutes",breakdown:"Junctional wounds (groin, axilla, neck) cannot receive tourniquet — wound packing is the alternative"},
+  {term:"Types of shock",def:"Hypovolemic (fluid/blood loss), Cardiogenic (pump failure), Distributive (sepsis/anaphylaxis), Obstructive (PE/tamponade)",breakdown:"All share: inadequate tissue perfusion. All cause: tachycardia, hypotension, altered mental status (late sign)"},
+  {term:"Anaphylaxis pathophysiology",def:"IgE-mediated: mast cells release histamine + other mediators causing vasodilation and bronchoconstriction",breakdown:"Epinephrine reverses ALL manifestations — vasoconstriction raises BP, bronchodilation opens airway"},
+  {term:"EpiPen administration",def:"Remove blue cap. Press orange tip firmly to outer thigh (through clothing is fine). Hold 10 seconds",breakdown:"Adult: 0.3 mg epinephrine. Junior: 0.15 mg. Call 911 even after use — biphasic reaction can occur hours later"},
+  {term:"Stroke treatment time window",def:"IV tPA (alteplase) must be given within 3-4.5 hours of symptom onset for eligible patients",breakdown:"Mechanical thrombectomy (catheter clot removal) effective up to 24 hours in selected patients"},
+  {term:"Diabetic emergency comparison",def:"Hypoglycemia (<70): rapid onset, shaking, sweating, confusion. Hyperglycemia: gradual, fruity breath, polyuria",breakdown:"Conscious and low glucose: give 15g sugar. Unconscious: IV dextrose or glucagon. NEVER oral to unconscious"},
+  {term:"Seizure: when to call 911",def:"Call 911: seizure >5 minutes, no return to consciousness, repeated seizures (status epilepticus), first-ever seizure",breakdown:"Also call: injury during seizure, diabetic/pregnant patient, post-seizure difficulty breathing"},
+  {term:"Hypothermia treatment principles",def:"Remove wet clothing. Warm core first with warm environment and blankets. Warm fluids if conscious",breakdown:"Handle very gently — cold heart prone to VF. Add heat gradually. Never give alcohol"},
+  {term:"Frostbite first aid",def:"Do NOT rub frostbitten tissue. Rewarm in warm water (100-108F) ONLY if no risk of refreezing",breakdown:"Rewarming is very painful (good sign — means circulation returning). Sterile dressing. No blisters popped"},
+  {term:"Hypovolemic shock stages",def:"Class I: <15% loss, no symptoms. Class II: 15-30%, tachycardia. Class III: 30-40%, hypotension. Class IV: >40%, lethal",breakdown:"Adult blood volume ~70 mL/kg. 70 kg adult = ~4,900 mL total. Class III = nearly 2 liters lost"},
+  {term:"Pediatric airway differences",def:"Larger tongue relative to mouth, floppy epiglottis, funnel-shaped airway (narrowest at cricoid), obligate nose breathers",breakdown:"These differences make pediatric airway management more challenging than adults"},
+  {term:"Burns: rule of nines",def:"Head 9%, each arm 9%, chest (front) 18%, back 18%, each leg 18%, genitals 1%",breakdown:"Used to estimate % body surface area burned — guides fluid resuscitation (Parkland formula)"},
+  {term:"Carbon monoxide poisoning",def:"Colorless, odorless gas. Binds hemoglobin (240x stronger than O2). Causes tissue hypoxia despite normal SpO2",breakdown:"Pulse ox reads FALSELY NORMAL. Suspect in: headache, nausea, confusion in enclosed space. Treatment: 100% O2"},
+  {term:"Drowning first aid",def:"Remove from water safely. Check pulse — start CPR if absent. Assume hypothermia. Treat for shock",breakdown:"Submersion victims: always transport to hospital even if they seem fine (secondary drowning risk up to 72 hrs)"},
+  {term:"Tension pneumothorax recognition",def:"Absent breath sounds one side + tracheal deviation AWAY from affected side + hypotension + JVD",breakdown:"Medical emergency. Air accumulates, cannot escape, compresses heart and opposite lung. Needle decompression"}
+
+],
+hard: [
+  {term:"START triage system",def:"Red=immediate (life threat, survivable), Yellow=delayed (serious, stable), Green=minor, Black=dead/unsurvivable",breakdown:"Sort in <60 seconds per patient. Respirations >30 or absent = Red (after repositioning airway)"},
+  {term:"Cardiac tamponade Becks Triad",def:"Blood in pericardial sac compresses heart. Becks Triad: hypotension + muffled heart sounds + JVD",breakdown:"Pericardiocentesis (needle aspiration of blood) is life-saving treatment. Can follow chest trauma"},
+  {term:"Crush syndrome pathophysiology",def:"Prolonged muscle compression releases myoglobin. When pressure released, myoglobin enters blood and damages kidneys",breakdown:"Never release crush injury without IV access. Give fluids BEFORE release to prevent renal failure"},
+  {term:"Compartment syndrome 6 Ps",def:"Pain (disproportionate), Pressure (tense compartment), Pallor, Pulselessness (late), Paresthesia, Paralysis",breakdown:"Emergency fasciotomy required within 6 hours. Caused by: fractures, circumferential burns, reperfusion"},
+  {term:"Electrical injury principles",def:"Current follows path of least resistance. Entry wound small, exit wound larger. Internal injuries extensive",breakdown:"Requires: cardiac monitoring (VF risk), kidney function monitoring (myoglobin), burn wound care"},
+  {term:"Chemical burn management",def:"Water irrigation (NOT neutralization) for 20-30 minutes. Remove contaminated clothing",breakdown:"Neutralization generates heat, worsens injury. Hydrofluoric acid exception: calcium gluconate antidote"},
+  {term:"Sucking chest wound treatment",def:"Cover with vented (3-sided) occlusive dressing — allows air out but not in",breakdown:"Unvented seal can cause tension pneumothorax. Improvise with: Vaseline gauze, plastic taped 3 sides"},
+  {term:"Hemorrhagic shock fluid resuscitation",def:"Balanced crystalloids (Lactated Ringers) preferred over Normal Saline for large-volume resuscitation",breakdown:"LR is more physiologic — less hyperchloremic acidosis. 1:1:1 ratio (RBC:plasma:platelets) for massive transfusion"},
+  {term:"Spinal motion restriction indications",def:"Significant mechanism (fall >20ft, high-speed MVC, diving) + altered mental status or neurological signs",breakdown:"NOT required for low-risk patients. Unnecessary immobilization can cause pressure sores, airway compromise"},
+  {term:"Pediatric assessment triangle",def:"Appearance (TICLS: Tone, Interactivity, Consolability, Look, Speech/cry), Work of breathing, Circulation",breakdown:"Used for initial rapid pediatric assessment before touching patient. Identifies sick vs not sick child"}
 ]
 },
 quiz: {
@@ -54,7 +89,7 @@ medium: [
   {q:"A conscious patient has signs of low blood sugar (hypoglycemia): shaking, sweating, confused. You should:",opts:["Give insulin","Give orange juice or glucose tablets","Have them lie down and wait","Give aspirin"],correct:1,explain:"For conscious hypoglycemia: give fast-acting sugar — 4 oz juice, glucose tablets, or regular soda. Recheck in 15 min. Never give anything by mouth to an unconscious person."},
   {q:"Heat stroke is different from heat exhaustion because heat stroke involves:",opts:["Heavy sweating","Cool pale skin","Temperature above 104°F with no sweating — life-threatening","Nausea and dizziness only"],correct:2,explain:"Heat stroke: temp >104°F, hot dry skin (no sweating), confusion, possible unconsciousness — EMERGENCY. Heat exhaustion: heavy sweating, cool pale skin, nausea — serious but treatable with rest and hydration."},
   {q:"During a seizure, you should:",opts:["Hold the person down to prevent injury","Put something in their mouth to prevent biting","Remove nearby hazards, turn on side, time the seizure","Give the person water"],correct:2,explain:"During a seizure: move away hazards, cushion the head, turn on side (recovery position) to prevent aspiration, time the seizure, and stay until fully conscious. NEVER restrain or put anything in the mouth."},
-  {q:"A tourniquet should be applied:",opts:["Directly over the wound","2-3 inches above the wound","Below the wound","Only to leg wounds"],correct:1,explain:"Apply a tourniquet 2-3 inches above (proximal to) the wound — between the wound and the heart. Note the exact time of application on the tourniquet or patient's skin. Tourniquets are a last resort for severe, life-threatening limb bleeding."},
+  {q:"A tourniquet should be applied:",opts:["Directly over the wound","2-3 inches above the wound","Below the wound","Only to leg wounds"],correct:1,explain:"Apply a tourniquet 2-3 inches above (proximal to) the wound — between the wound and the heart. Note the exact time of application on the tourniquet or patients skin. Tourniquets are a last resort for severe, life-threatening limb bleeding."},
   {q:"Triage color RED means:",opts:["Patient is deceased","Minor injuries, can wait","Delayed — serious but can wait","Immediate — life-threatening but survivable with treatment"],correct:3,explain:"START Triage: RED = Immediate (life-threatening, can survive with treatment). YELLOW = Delayed (serious, stable). GREEN = Minor. BLACK = Deceased/unsurvivable. Red patients get treatment first."},
 ]
 }
@@ -69,7 +104,7 @@ easy: [
   {term:"Anaerobic exercise",def:"Short bursts of high-intensity activity; builds muscle strength",breakdown:"Examples: sprinting, weightlifting, HIIT"},
   {term:"Sleep recommendations (teens)",def:"8-10 hours per night for teenagers (13-18 years)",breakdown:"Sleep deprivation linked to obesity, mental health issues, poor grades"},
   {term:"Mental health",def:"Emotional, psychological, and social well-being",breakdown:"Affects how we think, feel, act, and handle stress"},
-  {term:"Stress management",def:"Techniques to control body's response to challenges",breakdown:"Exercise, deep breathing, sleep, social support, mindfulness"},
+  {term:"Stress management",def:"Techniques to control bodys response to challenges",breakdown:"Exercise, deep breathing, sleep, social support, mindfulness"},
   {term:"Substance abuse",def:"Harmful use of alcohol, tobacco, drugs; impacts developing brains especially",breakdown:"Teen brain is especially vulnerable to addiction"},
   {term:"Nicotine",def:"Addictive chemical in tobacco and e-cigarettes; harmful to developing brains",breakdown:"Vaping exposes teens to nicotine and toxic chemicals"},
   {term:"Tobacco effects",def:"Cancer (lung, mouth, throat), heart disease, COPD, stroke",breakdown:"No safe level of tobacco use"},
@@ -96,6 +131,40 @@ medium: [
   {term:"Muscular endurance",def:"Ability of muscle to sustain repeated contractions over time",breakdown:"Running, cycling, push-ups; different from strength"},
   {term:"FITT principle",def:"Frequency, Intensity, Time, Type — framework for exercise prescription",breakdown:"Customize training by adjusting these 4 variables"},
   {term:"Target heart rate zone",def:"60-85% of maximum heart rate; optimal zone for aerobic benefit",breakdown:"Max HR ≈ 220 - age; aerobic zone = 60-85% of max"},
+,
+  {term:"5 components of physical fitness",def:"Cardiovascular endurance, muscular strength, muscular endurance, flexibility, body composition",breakdown:"HOSA tests: definition of each component, how to improve each, and health benefits of each"},
+  {term:"Progressive overload principle",def:"Must gradually increase training demands (weight, reps, sets, frequency, intensity) to continue improving",breakdown:"Without overload, body adapts and progress stops. Increase demand by 5-10% per week maximum"},
+  {term:"Target heart rate zone",def:"60-85% of maximum heart rate (220 - age). Optimal zone for aerobic benefit",breakdown:"14-year-old: Max HR = 206. Target zone = 124-175 bpm. Below this = too easy. Above = too intense"},
+  {term:"Muscle fiber types",def:"Type I (slow-twitch): aerobic, fatigue-resistant, red color. Type II (fast-twitch): anaerobic, powerful, white",breakdown:"Endurance training increases Type I. Strength/power training increases Type II. Both types are trainable"},
+  {term:"Sleep architecture",def:"NREM Stage 1 (light) > NREM 2 > NREM 3 (deep/slow wave) > REM (dreaming). Cycle ~90 min",breakdown:"Deep sleep: physical repair, growth hormone release. REM: memory consolidation, emotional processing"},
+  {term:"Circadian rhythm",def:"24-hour internal body clock regulating sleep/wake, hormones, body temperature, metabolism",breakdown:"Disrupted by: shift work, jet lag, blue light (screens) at night. Disruption linked to metabolic disease"},
+  {term:"Adolescent vaccine schedule",def:"HPV series, Tdap booster (age 11-12), meningococcal, annual influenza",breakdown:"HPV vaccine prevents 6 types of cancer. Most effective when given before sexual activity begins"},
+  {term:"3 levels of prevention",def:"Primary: prevent disease before it occurs. Secondary: early detection. Tertiary: reduce disease impact",breakdown:"Primary = vaccine. Secondary = mammogram. Tertiary = cardiac rehab after heart attack"},
+  {term:"Social determinants of health",def:"5 domains (Healthy People 2030): Economic stability, Education, Healthcare access, Neighborhood, Social context",breakdown:"Account for 80-90% of health outcomes — far more than medical care alone"},
+  {term:"Adverse Childhood Experiences (ACEs)",def:"Abuse, neglect, household dysfunction in childhood. ACE score = number of categories experienced",breakdown:"4+ ACEs doubles risk of heart disease, cancer, diabetes, and depression. Trauma-informed care is response"},
+  {term:"Depression diagnostic criteria",def:"5+ symptoms for 2+ weeks including depressed mood OR loss of interest/pleasure",breakdown:"SIGECAPS: Sleep, Interest, Guilt, Energy, Concentration, Appetite, Psychomotor changes, Suicidal ideation"},
+  {term:"Anxiety disorder spectrum",def:"GAD, panic disorder, social anxiety, specific phobias, separation anxiety — all share excessive fear/worry",breakdown:"Most common mental health condition — 19% of US adults annually. All are highly treatable"},
+  {term:"Opioid overdose signs",def:"Unconscious, slow or absent breathing, pin-point pupils, cyanosis (blue lips/fingertips), gurgling sounds",breakdown:"Naloxone (Narcan): IN intranasally or IM injection. Works in 2-3 minutes. Short-acting — may need repeat doses"},
+  {term:"Motivational interviewing",def:"Patient-centered counseling to strengthen motivation for health behavior change. Uses OARS technique",breakdown:"OARS: Open questions, Affirmation, Reflective listening, Summary. Avoids confrontation and lecturing"},
+  {term:"Stages of Change model",def:"Precontemplation > Contemplation > Preparation > Action > Maintenance. Relapse is part of the process",breakdown:"Match intervention to stage. Pushing action on someone in precontemplation = resistance and failure"},
+  {term:"Health equity definition",def:"Everyone has fair opportunity to attain their highest level of health, regardless of circumstances",breakdown:"Requires addressing systemic barriers and social determinants — not just providing equal resources"},
+  {term:"Substance use disorder biology",def:"Dopamine reward pathway is hijacked. Tolerance, dependence, and cravings are neurobiological changes",breakdown:"Prefrontal cortex (decision-making) weakened. Amygdala (craving/emotion) strengthened. Not a choice"},
+  {term:"Teen brain and substance risk",def:"Prefrontal cortex (judgment, impulse control) not fully developed until age 25",breakdown:"Teen brain more susceptible to addiction. Earlier use = higher lifetime addiction risk. Every year of delay helps"},
+  {term:"Allostatic load",def:"Cumulative physiological wear from chronic stress — measurable through cortisol, BP, inflammatory markers",breakdown:"High allostatic load accelerates aging, increases disease risk. Exercise, social support, sleep reduce it"},
+  {term:"Epigenetics basics",def:"Environmental/behavioral factors can turn genes on or off without changing DNA sequence",breakdown:"Smoking, diet, stress, exercise all cause epigenetic changes — some heritable across generations"}
+
+],
+hard: [
+  {term:"Chronic inflammation and disease",def:"Chronic low-grade inflammation is the shared mechanism linking obesity, poor diet, inactivity, stress to most chronic diseases",breakdown:"C-reactive protein (CRP) is a blood marker of systemic inflammation. Anti-inflammatory lifestyle reduces risk"},
+  {term:"Health behavior change evidence",def:"Most effective: education + skills training + environmental change + social support COMBINED",breakdown:"Knowledge alone rarely changes behavior. Environment and social norms are equally important drivers"},
+  {term:"Syndemic theory",def:"Syndemics = co-occurring, interacting epidemics that share social determinants",breakdown:"Example: COVID-19 mortality disproportionate in communities with pre-existing obesity, diabetes, poverty"},
+  {term:"Precision medicine and genetics",def:"Pharmacogenomics: genetic testing to predict drug response and adverse effects",breakdown:"BRCA genes and cancer risk. CYP450 enzymes and drug metabolism. Growing clinical application"},
+  {term:"Planetary health and food systems",def:"Food systems contribute 26% of global greenhouse gases. Plant-rich diets are both healthier AND more sustainable",breakdown:"EAT-Lancet Commission: Planetary Health Diet mostly plant-based with small amounts of animal foods"},
+  {term:"Structural racism health impacts",def:"Documented disparities: Black women 3x higher maternal mortality. Racial disparities in pain management",breakdown:"Redlining, environmental injustice, implicit bias all contribute to measurable health outcome gaps"},
+  {term:"Polypharmacy in elderly",def:"5+ medications simultaneously increases: drug interactions, falls, cognitive impairment, hospitalizations",breakdown:"De-prescribing (safely stopping unnecessary medications) is an emerging clinical priority for elderly care"},
+  {term:"Mental health parity laws",def:"Mental Health Parity and Addiction Equity Act: insurance must cover mental health same as physical health",breakdown:"Implementation remains incomplete. Many plans still have higher cost-sharing for mental health services"},
+  {term:"Immunological memory",def:"After vaccination or infection, memory B and T cells persist for years providing faster response to re-exposure",breakdown:"Basis of all vaccines. Booster doses strengthen and broaden immune memory. Waning immunity concept"},
+  {term:"Health literacy levels",def:"Functional: read drug labels. Interactive: understand medical advice. Critical: evaluate information quality",breakdown:"Only 12% of US adults have proficient health literacy. Low HL causes $238 billion/year in excess healthcare costs"}
 ]
 },
 quiz: {
@@ -111,10 +180,11 @@ easy: [
 ],
 medium: [
   {q:"Social determinants of health include:",opts:["Only genetics and family history","Non-medical factors like income, education, housing, and neighborhood","Only diet and exercise choices","Only access to healthcare"],correct:1,explain:"Social determinants of health are non-medical conditions that influence health: income, education, housing quality, neighborhood safety, social connections. They account for 30-55% of health outcomes."},
-  {q:"The FITT principle stands for:",opts:["Fitness, Intensity, Training, Time","Frequency, Intensity, Time, Type","Flexibility, Intervals, Training, Tempo","Frequency, Intervals, Tempo, Training"],correct:1,explain:"FITT = Frequency (how often), Intensity (how hard), Time (how long), Type (what kind). It's the framework for designing effective, personalized exercise programs."},
+  {q:"The FITT principle stands for:",opts:["Fitness, Intensity, Training, Time","Frequency, Intensity, Time, Type","Flexibility, Intervals, Training, Tempo","Frequency, Intervals, Tempo, Training"],correct:1,explain:"FITT = Frequency (how often), Intensity (how hard), Time (how long), Type (what kind). It is the framework for designing effective, personalized exercise programs."},
   {q:"What is the formula for calculating maximum heart rate (approximate)?",opts:["200 minus age","220 minus age","180 plus age","150 plus age"],correct:1,explain:"Maximum Heart Rate ≈ 220 - age. For a 14-year-old: 220-14 = 206 bpm. Target aerobic zone = 60-85% of max HR (123-175 bpm for a 14-year-old)."},
   {q:"Health disparities are best described as:",opts:["Normal differences in health between individuals","Preventable differences in health outcomes between population groups","Differences in hospital quality across states","Individual lifestyle choices"],correct:1,explain:"Health disparities are preventable, unjust differences in health outcomes between groups based on race, income, geography, education, or gender. They reflect social inequities, not natural variation."},
   {q:"Which of the following is a MODIFIABLE risk factor for chronic disease?",opts:["Age","Family genetics","Smoking","Sex assigned at birth"],correct:2,explain:"Modifiable risk factors can be changed — smoking, diet, physical activity, weight, alcohol use. Non-modifiable: age, genetics, sex, race. Focus on what you CAN control."},
 ]
 }
 }; // end QB_HEALTHY_LIVING
+
