@@ -2,18 +2,30 @@ import os, json
 from flask import Flask, request, jsonify, send_from_directory
 import anthropic
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app = Flask(__name__, static_folder=None)
+# Use Flask built-in static handling - most reliable on Render
+app = Flask(__name__)  
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 MODEL = "claude-sonnet-4-5"
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @app.route("/")
 def index():
     return send_from_directory(os.path.join(BASE_DIR, "templates"), "index.html")
 
-@app.route("/static/<path:filename>")
-def static_files(filename):
-    return send_from_directory(os.path.join(BASE_DIR, "static"), filename)
+@app.route("/debug")
+def debug():
+    """Debug route to check file paths on Render"""
+    import glob
+    static_path = os.path.join(BASE_DIR, "static")
+    files = glob.glob(static_path + "/*")
+    return jsonify({
+        "base_dir": BASE_DIR,
+        "cwd": os.getcwd(),
+        "static_path": static_path,
+        "static_exists": os.path.exists(static_path),
+        "files": [os.path.basename(f) for f in files],
+    })
 
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -46,10 +58,9 @@ Last question: "{last_q}"
 Rules:
 - Keep responses SHORT (2-4 sentences max)
 - Be encouraging, fun, and accurate
-- Use health/medical emoji occasionally 🔬🧬🩺💉🧪
+- Use health/medical emoji occasionally
 - Give memory tricks when students struggle
-- Stay focused on the current HOSA competitive event topic
-- If asked about a different event, redirect helpfully"""
+- Stay focused on the current HOSA competitive event topic"""
 
     response = client.messages.create(
         model=MODEL, max_tokens=200,
