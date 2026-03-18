@@ -633,6 +633,128 @@ const AM_S=(QB.termMatch)||{easy:[],medium:[],hard:[]};
 const STOR=(QB.patientStory)||{easy:[],medium:[],hard:[]};
 const FC_C=(QB.flashcards)||{easy:[],medium:[],hard:[]};
 
+// ── XP ──
+function addXP(n){
+  state.xp+=n;
+  const t=[0,100,250,500,850,1300,1900];
+  let lv=1;
+  for(let i=t.length-1;i>=0;i--){if(state.xp>=t[i]){lv=i+1;break;}}
+  state.level=lv;
+  const next=t[lv]||t[t.length-1]+600,prev=t[lv-1]||0;
+  const pct=Math.min(100,Math.round((state.xp-prev)/(next-prev)*100));
+  document.getElementById('xpVal').textContent=state.xp;
+  document.getElementById('xpMax').textContent=next;
+  document.getElementById('xpBar').style.width=pct+'%';
+  document.getElementById('levelBadge').textContent='Lv '+lv;
+  updateStats();
+}
+function updateStats(){
+  document.getElementById('statTerms').textContent=state.termsCorrect;
+  document.getElementById('statStreak').textContent=state.level+'🔥';
+  document.getElementById('statAccuracy').textContent=state.totalAnswered>0?Math.round(state.termsCorrect/state.totalAnswered*100)+'%':'—';
+}
+
+// ── NAVIGATION ──
+function showScreen(name){
+  state.prevScreen=state.currentScreen;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('[data-screen]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('[data-screen="'+name+'"]').forEach(b=>b.classList.add('active'));
+  state.currentScreen=name;
+  if(name==='wordbuilder')initWB();
+  if(name==='detective')initDD();
+  if(name==='match')initMatch();
+  if(name==='flashcards')initFC();
+  if(name==='story')initStory();
+  if(name==='progress')renderProgress();
+  if(name==='course')renderCourse();
+  if(name==='doctor')initDoctor();
+  if(name==='chat')syncMobileChat();
+}
+function goBack(){showScreen(state.prevScreen||'home');}
+
+document.querySelectorAll('[data-screen]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.screen)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.goto)));
+document.getElementById('wbBack').addEventListener('click',goBack);
+document.getElementById('ddBack').addEventListener('click',goBack);
+document.getElementById('amBack').addEventListener('click',goBack);
+document.getElementById('fcBack').addEventListener('click',goBack);
+document.getElementById('smBack').addEventListener('click',goBack);
+document.getElementById('drBack').addEventListener('click',goBack);
+document.getElementById('ptBack').addEventListener('click',goBack);
+
+// ── DIFFICULTY ──
+function setDiff(d){
+  state.difficulty=d;
+  const m={easy:'active-easy',medium:'active-medium',hard:'active-hard'};
+  ['Easy','Med','Hard'].forEach(x=>{
+    const k={Easy:'easy',Med:'medium',Hard:'hard'}[x];
+    ['diff'+x,'diff'+x+'M'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='diff-btn'+(k===d?' '+m[d]:'');});
+  });
+  addMsg('ai','Difficulty → '+(d==='easy'?'Easy 🌱':d==='medium'?'Medium 👍':'Hard 💪')+'!','both');
+  const s=state.currentScreen;
+  if(!['home','source','progress','chat','course','placement'].includes(s))showScreen(s);
+}
+document.getElementById('diffEasy').addEventListener('click',()=>setDiff('easy'));
+document.getElementById('diffMed').addEventListener('click',()=>setDiff('medium'));
+document.getElementById('diffHard').addEventListener('click',()=>setDiff('hard'));
+document.getElementById('diffEasyM').addEventListener('click',()=>setDiff('easy'));
+document.getElementById('diffMedM').addEventListener('click',()=>setDiff('medium'));
+document.getElementById('diffHardM').addEventListener('click',()=>setDiff('hard'));
+
+// ── PLACEMENT TEST ──
+let ptState={qIdx:0,score:0,answers:[],questions:[]};
+const PT_QUESTIONS=[
+  {q:"What does 'cardio-' mean?",opts:["Heart","Skin","Bone","Nerve"],correct:0,diff:'easy'},
+  {q:"What does '-itis' mean?",opts:["Study of","Inflammation","Removal","Pain"],correct:1,diff:'easy'},
+  {q:"'Hyper-' means...",opts:["Below normal","Fast","Above normal / excessive","Without"],correct:2,diff:'easy'},
+  {q:"The term 'hepatitis' means...",opts:["Study of liver","Inflammation of liver","Removal of liver","Liver pain"],correct:1,diff:'easy'},
+  {q:"'Brady-' means...",opts:["Fast","Slow","Large","Small"],correct:1,diff:'easy'},
+  {q:"What does '-ectomy' mean?",opts:["Surgical repair","Visual exam","Surgical removal","Incision"],correct:2,diff:'easy'},
+  {q:"'Nephro-' refers to which organ?",opts:["Liver","Kidney","Lung","Heart"],correct:1,diff:'medium'},
+  {q:"What does 'tachycardia' mean?",opts:["Slow heart rate","Heart inflammation","Fast heart rate","Heart disease"],correct:2,diff:'medium'},
+  {q:"'-penia' means...",opts:["Enlargement","Deficiency","Hardening","Softening"],correct:1,diff:'medium'},
+  {q:"'Hematuria' means...",opts:["Blood in urine","Blood in stool","Blood clot","Blood disease"],correct:0,diff:'medium'},
+  {q:"'-megaly' means...",opts:["Narrowing","Hardening","Enlargement","Softening"],correct:2,diff:'medium'},
+  {q:"'Dyspnea' means...",opts:["Rapid breathing","Difficult breathing","No breathing","Slow breathing"],correct:1,diff:'medium'},
+  {q:"The suffix '-plasty' means...",opts:["Visual examination","Surgical removal","Surgical repair","Incision"],correct:2,diff:'medium'},
+  {q:"'Leukopenia' refers to a deficiency of...",opts:["Red blood cells","Platelets","White blood cells","Oxygen"],correct:2,diff:'medium'},
+  {q:"'Osteoporosis' involves...",opts:["Bone inflammation","Bone softening","Bone hardening","Bone density loss"],correct:3,diff:'hard'},
+  {q:"What does '-stenosis' mean?",opts:["Widening","Narrowing","Rupture","Fusion"],correct:1,diff:'hard'},
+  {q:"'Erythrocytes' are...",opts:["White blood cells","Platelets","Red blood cells","Nerve cells"],correct:2,diff:'hard'},
+  {q:"'Cholecystectomy' is removal of...",opts:["Kidney","Gallbladder","Appendix","Spleen"],correct:1,diff:'hard'},
+  {q:"'Atherosclerosis' means...",opts:["Hardening of arteries from fatty plaque","Inflammation of arteries","Narrowing of veins","Rupture of blood vessels"],correct:0,diff:'hard'},
+  {q:"'Myocarditis' means inflammation of...",opts:["Heart sac","Outer heart layer","Heart muscle","Heart valve"],correct:2,diff:'hard'},
+];
+function shufflePT(){return [...PT_QUESTIONS].sort(()=>Math.random()-0.5).slice(0,20);}
+document.getElementById('startPlacement').addEventListener('click',()=>{
+  ptState={qIdx:0,score:0,answers:[],questions:shufflePT()};
+  renderPTQuestion();
+});
+function renderPTQuestion(){
+  const q=ptState.questions[ptState.qIdx];
+  const pct=Math.round((ptState.qIdx/ptState.questions.length)*100);
+  document.getElementById('ptBody').innerHTML=`<div class="pt-wrap"><div class="pt-progress"><div class="pt-progress-fill" style="width:${pct}%"></div></div><div class="pt-q-num">Question ${ptState.qIdx+1} of ${ptState.questions.length}</div><div class="pt-question">${q.q}</div><div class="pt-options">${q.opts.map((o,i)=>`<div class="pt-option" data-i="${i}">${o}</div>`).join('')}</div></div>`;
+  document.querySelectorAll('.pt-option').forEach(el=>{el.addEventListener('click',()=>{const idx=parseInt(el.dataset.i);document.querySelectorAll('.pt-option').forEach(o=>o.style.pointerEvents='none');if(idx===q.correct){el.classList.add('correct');ptState.score++;}else{el.classList.add('wrong');document.querySelectorAll('.pt-option')[q.correct].classList.add('correct');}ptState.answers.push({diff:q.diff,correct:idx===q.correct});setTimeout(()=>{ptState.qIdx++;if(ptState.qIdx>=ptState.questions.length)showPTResult();else renderPTQuestion();},800);});});
+}
+function showPTResult(){
+  const score=ptState.score,total=ptState.questions.length,pct=Math.round(score/total*100);
+  let level,badge,color,icon,message;
+  if(pct>=75){level='hard';badge='Expert Level';color='var(--red)';icon='🏆';message="Outstanding! You clearly know your medical terminology. Starting at Hard difficulty!";}
+  else if(pct>=45){level='medium';badge='Intermediate Level';color='var(--amber)';icon='⭐';message="Great foundation! You know the basics and are ready for more complex terms. Starting at Medium difficulty!";}
+  else{level='easy';badge='Beginner Level';color='var(--teal)';icon='🌱';message="No worries — that's what we're here for! Starting at Easy so you can build a strong foundation!";}
+  setDiff(level);
+  document.getElementById('ptBody').innerHTML=`<div class="pt-result"><div class="pt-result-icon">${icon}</div><div class="pt-result-title">${score}/${total} Correct (${pct}%)</div><div class="pt-level-badge" style="background:${color};color:white;">${badge}</div><div class="pt-result-sub">${message}</div><button class="action-btn" onclick="showScreen('course')" style="max-width:300px;margin:0 auto;display:block;">Start Course →</button><button style="margin-top:12px;background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:var(--text-muted);cursor:pointer;font-family:var(--font);width:100%;max-width:300px;display:block;margin-left:auto;margin-right:auto;" onclick="showScreen('home')">Go to Free Play</button></div>`;
+  addXP(50);
+  addMsg('ai','Placement test done! Scored '+score+'/'+total+' — set to '+level+' difficulty 🎓','both');
+}
+
+// ── LESSON COMPLETE HELPER ──
+function completeLessonIfActive(){
+  if(state.currentLesson){state.courseProgress[state.currentLesson]=true;state.currentLesson=null;}
+}
+
 // ── COURSE DATA ──
 const COURSE = [
   {
