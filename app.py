@@ -1,104 +1,63 @@
-import os
-import json
+import os, json
 from flask import Flask, request, jsonify, send_from_directory
 import anthropic
 
-app = Flask(__name__, static_folder=None)  # disable Flask's built-in static handler
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(__name__, static_folder=None)
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 MODEL = "claude-sonnet-4-5"
 
 @app.route("/")
 def index():
-    return send_from_directory("templates", "index.html")
+    return send_from_directory(os.path.join(BASE_DIR, "templates"), "index.html")
 
-@app.route("/static/questions.js")
-def questions_js():
-    return send_from_directory("static", "questions.js")
+@app.route("/static/<path:filename>")
+def static_files(filename):
+    return send_from_directory(os.path.join(BASE_DIR, "static"), filename)
 
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
-    message = data.get("message", "").strip()
-    difficulty = data.get("difficulty", "medium")
-    current_screen = data.get("currentScreen", "home")
-    last_question = data.get("lastQuestion", "")
-    xp = data.get("xp", 0)
-
+    message = data.get("message","").strip()
+    event = data.get("event","general")
+    difficulty = data.get("difficulty","medium")
+    xp = data.get("xp",0)
+    last_q = data.get("lastQuestion","")
     if not message:
-        return jsonify({"error": "No message provided"}), 400
+        return jsonify({"error":"No message"}),400
 
-    system_prompt = f"""You are Dr. Morph, an enthusiastic but concise AI tutor inside a medical terminology game app for 8th graders preparing for the HOSA Foundations of Medical Terminology event.
+    event_context = {
+        "terminology":"Foundations of Medical Terminology",
+        "nutrition":"Foundations of Nutrition",
+        "math":"Math for Health Careers",
+        "careers":"Health Career Exploration",
+        "emergency":"Life Threatening Situations",
+        "healthy_living":"Foundations of Healthy Living",
+        "hosa_bowl":"Foundations of HOSA Bowl"
+    }.get(event, "HOSA general knowledge")
 
-Keep responses SHORT (2-4 sentences max). Be encouraging, fun, and educational.
-Current difficulty: {difficulty}
-Current screen/game: {current_screen}
-Last question context: "{last_question}"
+    system = f"""You are Dr. Morph, an enthusiastic AI tutor in the HOSA Academy app for middle school HOSA competitors.
+
+Current event: {event_context}
+Difficulty: {difficulty}
 Student XP: {xp}
+Last question: "{last_q}"
 
-If asked to change difficulty, confirm it and be encouraging.
-Use medical emoji occasionally (🔬 🧬 🩺 💉 🧪).
-Never be preachy. Focus on medical terminology concepts — prefixes, roots, suffixes, body systems.
-If a student gets something wrong, give a quick memory trick to help them remember."""
-
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=200,
-        system=system_prompt,
-        messages=[{"role": "user", "content": message}]
-    )
-
-    reply = response.content[0].text
-    return jsonify({"reply": reply})
-
-
-@app.route("/analyze-source", methods=["POST"])
-def analyze_source():
-    data = request.get_json()
-    source_text = data.get("text", "").strip()
-
-    if not source_text:
-        return jsonify({"error": "No source text provided"}), 400
-
-    system_prompt = """You are an HOSA medical terminology expert. Analyze the provided study material and extract key medical terms, prefixes, roots, and suffixes.
-
-Return ONLY a valid JSON object with NO markdown, NO backticks, NO preamble. Structure:
-{
-  "title": "short descriptive title for this source",
-  "summary": "1-2 sentence summary of what was covered",
-  "terms": [
-    {"term": "cardio", "type": "root", "meaning": "heart", "example": "cardiology"},
-    {"term": "-itis", "type": "suffix", "meaning": "inflammation", "example": "arthritis"}
-  ]
-}
-
-Types must be one of: prefix, root, suffix, full_term
-Extract as many terms as possible, up to 30."""
+Rules:
+- Keep responses SHORT (2-4 sentences max)
+- Be encouraging, fun, and accurate
+- Use health/medical emoji occasionally 🔬🧬🩺💉🧪
+- Give memory tricks when students struggle
+- Stay focused on the current HOSA competitive event topic
+- If asked about a different event, redirect helpfully"""
 
     response = client.messages.create(
-        model=MODEL,
-        max_tokens=1500,
-        system=system_prompt,
-        messages=[{"role": "user", "content": f"Analyze this medical terminology source:\n\n{source_text[:4000]}"}]
+        model=MODEL, max_tokens=200,
+        system=system,
+        messages=[{"role":"user","content":message}]
     )
-
-    raw = response.content[0].text.strip()
-
-    try:
-        parsed = json.loads(raw)
-    except json.JSONDecodeError:
-        clean = raw.replace("```json", "").replace("```", "").strip()
-        try:
-            parsed = json.loads(clean)
-        except json.JSONDecodeError:
-            parsed = {
-                "title": "Custom Source",
-                "summary": "Source added successfully.",
-                "terms": []
-            }
-
-    return jsonify(parsed)
-
+    return jsonify({"reply": response.content[0].text})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT",5000))
     app.run(host="0.0.0.0", port=port, debug=False)

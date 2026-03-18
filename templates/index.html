@@ -1582,7 +1582,10 @@ let fcCards=[],fcIdx=0,fcKnown=0;
 function initFC(){
   const ev=EVENTS[S.currentEvent];
   document.getElementById('fcEventLabel').textContent=ev?ev.name:'Select event first';
-  fcCards=ev?[...ev.getFlash(S.difficulty)].sort(()=>Math.random()-.5):[];
+  const pool=ev?ev.getFlash(S.difficulty):[];
+  // Debug: log what we got
+  console.log('initFC: event='+S.currentEvent+' diff='+S.difficulty+' pool='+pool.length);
+  fcCards=pool.length?[...pool].sort(()=>Math.random()-.5):[];
   fcIdx=0;fcKnown=0;renderFC();
 }
 function renderFC(){
@@ -1601,7 +1604,9 @@ let qzPool=[],qzIdx=0,qzScore=0;
 function initQZ(){
   const ev=EVENTS[S.currentEvent];
   document.getElementById('qzEventLabel').textContent=ev?ev.name:'Select event first';
-  qzPool=ev?[...ev.getQuiz(S.difficulty)].sort(()=>Math.random()-.5):[];
+  const pool2=ev?ev.getQuiz(S.difficulty):[];
+  console.log('initQZ: event='+S.currentEvent+' diff='+S.difficulty+' pool='+pool2.length);
+  qzPool=pool2.length?[...pool2].sort(()=>Math.random()-.5):[];
   qzIdx=0;qzScore=0;
   document.getElementById('qzScore').textContent=0;
   renderQZ();
@@ -1750,6 +1755,21 @@ document.getElementById('chatInM').addEventListener('keydown',e=>{if(e.key==='En
 document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>sendChat(b.dataset.q)));
 
 // ── INIT ─────────────────────────────────────────────
+// Verify question banks loaded
+window.addEventListener('load',()=>{
+  const checks={
+    'QUESTION_BANK':!!window.QUESTION_BANK,
+    'QB_NUTRITION':!!window.QB_NUTRITION,
+    'QB_MATH':!!window.QB_MATH,
+    'QB_CAREERS':!!window.QB_CAREERS,
+    'QB_EMERGENCY':!!window.QB_EMERGENCY,
+    'QB_HEALTHY_LIVING':!!window.QB_HEALTHY_LIVING,
+    'QB_HOSA_BOWL':!!window.QB_HOSA_BOWL,
+  };
+  console.log('Question bank load status:', JSON.stringify(checks));
+  const failed=Object.entries(checks).filter(([k,v])=>!v).map(([k])=>k);
+  if(failed.length) console.warn('FAILED TO LOAD:', failed.join(', '));
+});
 updateStats();
 renderSidebarEvents();
 setTimeout(()=>addMsg('ai',"Welcome to HOSA Academy! 🏥 Pick your competitive event from the home screen, then start with the Course for structured learning. I'm here to help — just ask! 🔬",'both'),400);
