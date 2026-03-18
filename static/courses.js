@@ -761,7 +761,6 @@ function COURSE_CAREERS(){
       {q:'Medicare is a federal health insurance program for:',opts:['All low-income Americans','Only children under 18','Adults 65 and older and certain disabled individuals','Only veterans'],correct:2,explain:'Medicare is federal health insurance covering adults 65+ and certain younger people with disabilities. Medicaid (different program) covers low-income individuals of all ages.'},
     ]},
   ]},
-  ,
   {id:'c3',icon:'⚖️',title:'Unit 3: Healthcare Ethics, Law & Patient Rights',sub:'HIPAA, informed consent, scope of practice, ethics',
    lessons:[
     {id:'c3l1',title:'Medical Ethics — The 4 Principles',xp:30,sections:[
@@ -1041,7 +1040,6 @@ function COURSE_EMERGENCY(){
       {q:'What is status epilepticus?',opts:['A mild type of seizure','A seizure lasting more than 5 minutes or repeated seizures without recovery','Any seizure in a public place','A seizure in a diabetic patient only'],correct:1,explain:'Status epilepticus is a medical emergency — a seizure lasting >5 minutes OR repeated seizures without regaining consciousness between them. The brain begins to suffer damage. Call 911 immediately.'},
     ]},
   ]},
-  ,
   {id:'e3',icon:'🧠',title:'Unit 3: Medical Emergencies',sub:'Stroke, diabetes, seizures, allergic reactions & poisoning',
    lessons:[
     {id:'e3l1',title:'Neurological & Metabolic Emergencies',xp:30,sections:[
@@ -1279,7 +1277,6 @@ function COURSE_HEALTHY_LIVING(){
       {q:'Which factor has the STRONGEST influence on individual health outcomes?',opts:['Quality of medical care received','Individual genetic makeup','Social and economic conditions (SDOH)','Personal healthcare choices alone'],correct:2,explain:'Social determinants of health — income, education, housing, neighborhood — account for 80-90% of health outcomes. Medical care (which we usually think of as most important) accounts for only 10-20%.'},
     ]},
   ]},
-  ,
   {id:'h3',icon:'🍎',title:'Unit 3: Nutrition, Weight Management & Body Image',sub:'Evidence-based nutrition, eating disorders & healthy weight',
    lessons:[
     {id:'h3l1',title:'Practical Nutrition for Healthy Living',xp:25,sections:[
@@ -1553,7 +1550,6 @@ function COURSE_HOSA_BOWL(){
       {q:'In HOSA Bowl, what happens if a team answers a toss-up question incorrectly?',opts:['No penalty — just the other team gets to answer','Negative points are assessed to that team','The team is disqualified from that round','The question is passed to judges'],correct:1,explain:'Incorrect toss-up answers typically result in point deductions. This is why it\'s critical not to buzz in unless you\'re confident. If unsure, let your teammates or the opposing team attempt the answer.'},
     ]},
   ]},
-  ,
   {id:'b3',icon:'⚡',title:'Unit 3: Advanced Health Science Bowl Prep',sub:'Complex terminology, clinical reasoning & rapid recall',
    lessons:[
     {id:'b3l1',title:'Advanced Terminology — Complex Decode Practice',xp:30,sections:[
@@ -1768,8 +1764,8 @@ function COURSE_STOP_BLEED(){
       {q:'In a mass casualty situation with multiple bleeding victims, your priority is:',opts:['Treat the first victim you see first, completely','Quickly assess all victims and call for bystander assistance before treating','Wait for EMS to direct you','Only treat people you know'],correct:1,explain:'In multiple victim scenarios: do a rapid scan of all victims first, get other bystanders calling 911 and helping, then prioritize the most critically injured. One person doing CPR on someone who has already died while others bleed out is a common triage error.'},
       {q:'When handing off to EMS after applying a tourniquet, the MOST critical information is:',opts:['The patient name and insurance','Time tourniquet was applied and patient current mental status trend','Your name and contact information','Which hospital the patient prefers'],correct:1,explain:'EMS and hospital teams need: time of tourniquet application (tissue viability), what interventions were done, and trend in mental status (getting better or worse). This guides urgent surgical decisions.'},
     ]},
-  ]},,
-{id:'stb3',icon:'🏥',title:'Unit 3: Bleeding Control Skills Demonstration',sub:'HOSA competition skills and assessment',
+  ]},
+  {id:'stb3',icon:'🏥',title:'Unit 3: Bleeding Control Skills Demonstration',sub:'HOSA competition skills and assessment',
    lessons:[
     {id:'stb3l1',title:'HOSA Stop the Bleed Competition Format',xp:25,sections:[
       {type:'teach',heading:'What judges are looking for in competition',
@@ -1901,8 +1897,8 @@ function COURSE_VETERINARY(){
       {q:'Pregnant women should be especially cautious about Toxoplasma because:',opts:['It causes rabies in humans','It is transmitted through cat feces and can cause severe birth defects or fetal death','It only affects cats, not humans','It is untreatable'],correct:1,explain:'Toxoplasma gondii is a parasite that cats shed in their feces. Primary infection during pregnancy can cross the placenta and cause severe birth defects (eye damage, brain damage) or fetal death. Pregnant women should avoid cleaning litter boxes or wear gloves if unavoidable.'},
       {q:'Antibiotic overuse in livestock contributes to:',opts:['Better human health outcomes','Antibiotic-resistant bacteria that can spread to humans (antimicrobial resistance)','Lower food costs only','No impact on human medicine'],correct:1,explain:'Overuse of antibiotics in livestock (for growth promotion and disease prevention) contributes to antimicrobial resistance. Resistant bacteria (MRSA, resistant Salmonella, E. coli) can spread to humans through food, direct contact, or the environment — a major One Health issue.'},
     ]},
-  ]},,
-{id:'vet3',icon:'🧬',title:'Unit 3: Veterinary Pharmacology & Procedures',sub:'Medications, dosing and common vet procedures',
+  ]},
+  {id:'vet3',icon:'🧬',title:'Unit 3: Veterinary Pharmacology & Procedures',sub:'Medications, dosing and common vet procedures',
    lessons:[
     {id:'vet3l1',title:'Veterinary Pharmacology Basics',xp:30,sections:[
       {type:'teach',heading:'Same drugs, very different doses — and some drugs are toxic to specific species',
@@ -2055,8 +2051,8 @@ function COURSE_PUBLIC_HEALTH(){
       {q:'The socio-ecological model of health behavior recognizes that:',opts:['Only individual choices determine health','Health behaviors are shaped by individual, community, and policy factors simultaneously','Policy is the only effective lever','Education alone can change population health behaviors'],correct:1,explain:'The socio-ecological model recognizes that health behaviors are shaped at multiple levels: individual (knowledge/attitudes), interpersonal (family/social networks), community (organizations/resources), and policy (laws/regulations/taxes). Effective interventions address multiple levels simultaneously.'},
       {q:'A health equity approach to an SSB tax would require:',opts:['Taxing only low-income neighborhoods','Investing tax revenue in programs benefiting the communities most affected','Exempting low-income consumers from the tax','Only taxing expensive premium sodas'],correct:1,explain:'Health equity requires that interventions do not worsen existing disparities. A regressive SSB tax (which takes a larger percentage of income from low-income people) should reinvest revenue in nutrition programs, food access, and healthcare in the communities most affected by diet-related disease.'},
     ]},
-  ]},,
-{id:'ph3',icon:'🔬',title:'Unit 3: Research Methods & HOSA Competition Prep',sub:'Study design, data analysis, and presentation skills',
+  ]},
+  {id:'ph3',icon:'🔬',title:'Unit 3: Research Methods & HOSA Competition Prep',sub:'Study design, data analysis, and presentation skills',
    lessons:[
     {id:'ph3l1',title:'Public Health Research Methods',xp:30,sections:[
       {type:'teach',heading:'Evidence-based public health — how we know what we know',
