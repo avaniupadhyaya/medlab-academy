@@ -3926,6 +3926,10 @@ function renderCourse(){
   }
 
   const units=getCourse();
+  if(!units||!units.length){
+    home.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted)">Course content loading... Please go back and try again.</div>';
+    return;
+  }
   let html='<div style="font-size:18px;font-weight:700;margin-bottom:4px;padding:0 2px">'+ev.icon+' Course</div><div style="font-size:12px;color:var(--muted);margin-bottom:16px;padding:0 2px">Complete lessons to unlock next unit</div>';
   units.forEach((unit,ui)=>{
     const done=unit.lessons.filter(l=>S.courseProgress[l.id]).length;
@@ -4332,16 +4336,17 @@ function initWordBank() {
 }
 
 function renderWordBank() {
-  if (!window.QB_TERM_WORDS) {
-    document.getElementById('wbGrid').innerHTML = '<div style="color:var(--muted);padding:20px">Word bank loading...</div>';
+  const WBD = window.QB_TERM_WORDS;
+  if (!WBD) {
+    document.getElementById('wbGrid').innerHTML = '<div style="color:var(--muted);padding:20px;text-align:center">Word bank data not loaded. Please refresh the page.</div>';
     return;
   }
   const query = (document.getElementById('wbSearch').value || '').toLowerCase().trim();
   let allTerms = [];
   if (wbCurrentSystem === 'all') {
-    Object.values(QB_TERM_WORDS).forEach(sys => allTerms.push(...sys.terms));
-  } else if (QB_TERM_WORDS[wbCurrentSystem]) {
-    allTerms = QB_TERM_WORDS[wbCurrentSystem].terms;
+    Object.values(WBD).forEach(sys => { if(sys && sys.terms) allTerms.push(...sys.terms); });
+  } else if (WBD[wbCurrentSystem] && WBD[wbCurrentSystem].terms) {
+    allTerms = WBD[wbCurrentSystem].terms;
   }
   const filtered = query
     ? allTerms.filter(t => t.term.toLowerCase().includes(query) || t.def.toLowerCase().includes(query) || t.breakdown.toLowerCase().includes(query))
