@@ -47,7 +47,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .db.am{background:var(--amber-l);color:var(--amber-d);border-color:var(--amber);font-weight:700;}
 .db.ah{background:var(--red-l);color:var(--red-d);border-color:var(--red);font-weight:700;}
 .main{flex:1;min-width:0;overflow-y:auto;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;}
-.chat-col{width:280px;flex-shrink:0;background:var(--surf);border-left:1px solid var(--bord);display:none;flex-direction:column;}
+.chat-col{width:300px;flex-shrink:0;background:var(--surf);border-left:1px solid var(--bord);display:flex;flex-direction:column;}
 .ch-hdr{padding:10px 12px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:8px;}
 .ai-av{width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
 .ai-nm{font-size:12px;font-weight:600;}
@@ -221,6 +221,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 @media(min-width:769px){
   .logo-event{display:block;}
   .bnav{display:none!important;}
+  #screen-chat{display:none!important;}
 }
 </style>
 </head>
@@ -254,7 +255,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     <button class="nb" data-screen="flashcards"><span class="nb-icon">🃏</span>Flashcards<span class="nb-badge">+15</span></button>
     <button class="nb" data-screen="quiz"><span class="nb-icon">🧠</span>Quiz Mode<span class="nb-badge">+30</span></button>
     <button class="nb" data-screen="bowl"><span class="nb-icon">🏆</span>HOSA Bowl<span class="nb-badge">+50</span></button>
-    <button class="nb" data-screen="chat"><span class="nb-icon">🤖</span>Dr. Morph</button>
     <div class="sl" style="margin-top:6px">Word Bank</div>
     <button class="nb" data-screen="wordbank"><span class="nb-icon">📖</span>Term Lookup<span class="nb-badge">479</span></button>
     <div class="diff-wrap">
@@ -571,18 +571,7 @@ function showScreen(name){
   if(el)el.classList.add('active');
   document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===name));
   S.currentScreen=name;
-  // On desktop: show chat panel only when on chat screen
-  const chatCol=document.querySelector('.chat-col');
-  const mainArea=document.getElementById('mainArea');
-  if(chatCol){
-    if(name==='chat'){
-      chatCol.style.display='flex';
-      if(mainArea) mainArea.style.display='none';
-    } else {
-      chatCol.style.display='none';
-      if(mainArea) mainArea.style.display='flex';
-    }
-  }
+
   if(name==='flashcards')initFC();
   if(name==='quiz')initQZ();
   if(name==='bowl')initBowl();
