@@ -1,18 +1,19 @@
 import os
 import json
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, send_from_directory
 import anthropic
 
 app = Flask(__name__)
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 MODEL = "claude-sonnet-4-5"
 
-# ── ROUTES ──
-
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return send_from_directory("templates", "index.html")
 
+@app.route("/static/<path:filename>")
+def static_files(filename):
+    return send_from_directory("static", filename)
 
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -85,7 +86,6 @@ Extract as many terms as possible, up to 30."""
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError:
-        # Try stripping accidental markdown fences
         clean = raw.replace("```json", "").replace("```", "").strip()
         try:
             parsed = json.loads(clean)
