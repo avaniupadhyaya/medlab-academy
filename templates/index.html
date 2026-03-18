@@ -251,6 +251,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     <button class="nb" data-screen="flashcards"><span class="nb-icon">🃏</span>Flashcards<span class="nb-badge">+15</span></button>
     <button class="nb" data-screen="quiz"><span class="nb-icon">🧠</span>Quiz Mode<span class="nb-badge">+30</span></button>
     <button class="nb" data-screen="bowl"><span class="nb-icon">🏆</span>HOSA Bowl<span class="nb-badge">+50</span></button>
+    <div class="sl" style="margin-top:6px">Word Bank</div>
+    <button class="nb" data-screen="wordbank"><span class="nb-icon">📖</span>Term Lookup<span class="nb-badge">479</span></button>
     <div class="diff-wrap">
       <div class="diff-lbl">Difficulty</div>
       <div class="diff-row">
@@ -352,7 +354,25 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
         <div class="sc-row">Score: <span class="sc-v" id="bowlScore">0</span></div>
       </div>
       <div class="bowl-scene" id="bowlScene"></div>
+    
+    <!-- WORD BANK -->
+    <div class="screen" id="screen-wordbank">
+      <div class="gh">
+        <button class="bk" id="wbBack">← Back</button>
+        <div><div class="gt">📖 Word Bank</div><div class="gs" id="wbSubtitle">Medical Terminology — 479 words</div></div>
+        <div class="sc-row" style="margin-left:auto;font-size:11px;color:var(--muted)" id="wbCount"></div>
+      </div>
+      <div style="padding:8px 14px;border-bottom:1px solid var(--bord);display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">System:</span>
+        <div id="wbSystemBtns" style="display:flex;gap:5px;flex-wrap:wrap;"></div>
+      </div>
+      <div style="padding:7px 14px;border-bottom:1px solid var(--bord);">
+        <input type="text" id="wbSearch" placeholder="🔍  Search any term or definition..." style="width:100%;background:var(--surf2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);font-family:var(--font);font-size:14px;padding:9px 12px;">
+      </div>
+      <div id="wbGrid" style="overflow-y:auto;flex:1;padding:10px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start;"></div>
     </div>
+
+</div>
 
     <!-- PLACEMENT -->
     <div class="screen" id="screen-placement">
@@ -417,6 +437,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   <button class="bnb" data-screen="course"><span class="bnb-ic">📖</span>Course</button>
   <button class="bnb" data-screen="quiz"><span class="bnb-ic">🧠</span>Quiz</button>
   <button class="bnb" data-screen="bowl"><span class="bnb-ic">🏆</span>Bowl</button>
+  <button class="bnb" data-screen="wordbank"><span class="bnb-ic">📖</span>Words</button>
   <button class="bnb" data-screen="chat"><span class="bnb-ic">🤖</span>Morph</button>
 </div>
 
@@ -1923,6 +1944,569 @@ rounds: [
 }; // end QB_HOSA_BOWL
 
 
+
+
+// HOSA Academy — Medical Terminology Complete Word Bank
+// 479+ complete medical terms organized by body system
+// Each term has: word, breakdown (prefix+root+suffix decoded), definition
+
+window.QB_TERM_WORDS = {
+  "cardiovascular": {
+    label: "Cardiovascular",
+    terms: [
+      {term:"Tachycardia",def:"tachy (fast) + card (heart) + ia (condition)",breakdown:"Heart rate above 100 beats per minute"},
+      {term:"Bradycardia",def:"brady (slow) + card (heart) + ia (condition)",breakdown:"Heart rate below 60 beats per minute"},
+      {term:"Myocarditis",def:"myo (muscle) + card (heart) + itis (inflammation)",breakdown:"Inflammation of the heart muscle"},
+      {term:"Pericarditis",def:"peri (around) + card (heart) + itis (inflammation)",breakdown:"Inflammation of the sac surrounding the heart"},
+      {term:"Endocarditis",def:"endo (within) + card (heart) + itis (inflammation)",breakdown:"Inflammation of the inner lining of the heart"},
+      {term:"Cardiomegaly",def:"cardio (heart) + megaly (enlargement)",breakdown:"Abnormal enlargement of the heart"},
+      {term:"Cardiomyopathy",def:"cardio (heart) + myo (muscle) + pathy (disease)",breakdown:"Disease of the heart muscle"},
+      {term:"Atherosclerosis",def:"athero (fatty plaque) + sclerosis (hardening)",breakdown:"Hardening of arteries from fatty plaque buildup"},
+      {term:"Arteriosclerosis",def:"arterio (artery) + sclerosis (hardening)",breakdown:"General hardening and thickening of artery walls"},
+      {term:"Hypertension",def:"hyper (above normal) + tension (pressure)",breakdown:"Persistently elevated blood pressure above 130/80"},
+      {term:"Hypotension",def:"hypo (below normal) + tension (pressure)",breakdown:"Abnormally low blood pressure below 90/60"},
+      {term:"Arrhythmia",def:"a (without) + rhythmia (rhythm)",breakdown:"Any abnormal heart rate or rhythm"},
+      {term:"Fibrillation",def:"fibrill (small fiber) + ation (process)",breakdown:"Rapid chaotic uncoordinated heart contractions"},
+      {term:"Thrombosis",def:"thromb (clot) + osis (abnormal condition)",breakdown:"Formation of a blood clot inside a blood vessel"},
+      {term:"Thrombophlebitis",def:"thromb (clot) + phleb (vein) + itis (inflammation)",breakdown:"Inflammation of a vein with clot formation"},
+      {term:"Phlebitis",def:"phleb (vein) + itis (inflammation)",breakdown:"Inflammation of a vein"},
+      {term:"Embolism",def:"embol (plug) + ism (condition)",breakdown:"Obstruction of a blood vessel by a traveling clot"},
+      {term:"Aneurysm",def:"aneurysma (dilation)",breakdown:"Bulging or ballooning of a weakened blood vessel wall"},
+      {term:"Angioplasty",def:"angio (vessel) + plasty (surgical repair)",breakdown:"Surgical repair or unblocking of a blood vessel"},
+      {term:"Endarterectomy",def:"end (within) + arteri (artery) + ectomy (removal)",breakdown:"Surgical removal of plaque from inside an artery"},
+      {term:"Myocardial infarction",def:"myo (muscle) + card (heart) + al + infarct (tissue death)",breakdown:"Heart attack — death of heart muscle from blocked blood supply"},
+      {term:"Palpitation",def:"palpitat (flutter) + ion",breakdown:"Rapid strong or irregular heartbeat felt by the patient"},
+      {term:"Aortic stenosis",def:"aort (aorta) + ic + sten (narrowing) + osis",breakdown:"Narrowing of the aortic valve opening"},
+      {term:"Congestive heart failure",def:"congest (accumulate) + ive + heart + failure",breakdown:"Heart cannot pump enough blood causing fluid buildup"},
+      {term:"Electrocardiogram",def:"electro (electrical) + cardio (heart) + gram (record)",breakdown:"Recording of the electrical activity of the heart"},
+      {term:"Echocardiography",def:"echo (sound wave) + cardio (heart) + graphy (recording)",breakdown:"Ultrasound imaging of heart structure and function"},
+      {term:"Angiography",def:"angio (vessel) + graphy (recording)",breakdown:"X-ray imaging of blood vessels using contrast dye"},
+      {term:"Cardioversion",def:"cardio (heart) + version (turning)",breakdown:"Restoring normal heart rhythm using electricity or drugs"},
+      {term:"Valvuloplasty",def:"valvulo (valve) + plasty (repair)",breakdown:"Surgical repair of a heart valve"},
+      {term:"Coronary artery disease",def:"coron (crown) + ary + artery + disease",breakdown:"Narrowing of arteries supplying the heart muscle"},
+    ]
+  },
+  "respiratory": {
+    label: "Respiratory",
+    terms: [
+      {term:"Pneumonia",def:"pneumon (lung) + ia (condition)",breakdown:"Lung infection causing inflammation and fluid accumulation"},
+      {term:"Pneumothorax",def:"pneumo (air) + thorax (chest)",breakdown:"Air in the pleural space causing lung collapse"},
+      {term:"Pleuritis",def:"pleur (pleura) + itis (inflammation)",breakdown:"Inflammation of the pleural membrane around the lungs"},
+      {term:"Bronchitis",def:"bronch (bronchial tubes) + itis (inflammation)",breakdown:"Inflammation of the bronchial airways"},
+      {term:"Bronchospasm",def:"broncho (bronchi) + spasm (sudden contraction)",breakdown:"Sudden contraction of bronchial muscle narrowing airways"},
+      {term:"Bronchiectasis",def:"bronchi (airways) + ectasis (dilation)",breakdown:"Permanent widening and scarring of the bronchial airways"},
+      {term:"Rhinitis",def:"rhin (nose) + itis (inflammation)",breakdown:"Inflammation of the nasal mucous membranes"},
+      {term:"Sinusitis",def:"sinus + itis (inflammation)",breakdown:"Inflammation of the paranasal sinuses"},
+      {term:"Laryngitis",def:"laryng (larynx) + itis (inflammation)",breakdown:"Inflammation of the larynx causing hoarseness"},
+      {term:"Pharyngitis",def:"pharyng (pharynx) + itis (inflammation)",breakdown:"Inflammation of the pharynx — sore throat"},
+      {term:"Tracheitis",def:"trache (trachea) + itis (inflammation)",breakdown:"Inflammation of the trachea or windpipe"},
+      {term:"Epiglottitis",def:"epiglott (epiglottis) + itis (inflammation)",breakdown:"Dangerous swelling of the epiglottis blocking the airway"},
+      {term:"Tonsillitis",def:"tonsill (tonsils) + itis (inflammation)",breakdown:"Inflammation and infection of the tonsils"},
+      {term:"Dyspnea",def:"dys (difficult) + pnea (breathing)",breakdown:"Difficult or labored breathing — shortness of breath"},
+      {term:"Apnea",def:"a (without) + pnea (breathing)",breakdown:"Complete cessation of breathing"},
+      {term:"Tachypnea",def:"tachy (fast) + pnea (breathing)",breakdown:"Abnormally fast breathing rate above 20 per minute"},
+      {term:"Bradypnea",def:"brady (slow) + pnea (breathing)",breakdown:"Abnormally slow breathing rate below 12 per minute"},
+      {term:"Orthopnea",def:"ortho (straight) + pnea (breathing)",breakdown:"Inability to breathe comfortably except when upright"},
+      {term:"Hemoptysis",def:"hemo (blood) + ptysis (spitting)",breakdown:"Coughing up blood from the respiratory tract"},
+      {term:"Atelectasis",def:"atele (incomplete) + ectasis (expansion)",breakdown:"Collapse or incomplete expansion of lung tissue"},
+      {term:"Emphysema",def:"em (in) + physema (blowing)",breakdown:"Destruction of alveolar walls causing air trapping in lungs"},
+      {term:"Pulmonary embolism",def:"pulmon (lung) + ary + embol (plug) + ism",breakdown:"Blood clot blocking a pulmonary artery"},
+      {term:"Pulmonary edema",def:"pulmon (lung) + ary + edema (fluid)",breakdown:"Fluid accumulation in the lung tissue and air spaces"},
+      {term:"Cyanosis",def:"cyan (blue) + osis (condition)",breakdown:"Bluish skin discoloration from low blood oxygen"},
+      {term:"Spirometry",def:"spiro (breathing) + metry (measurement)",breakdown:"Test measuring lung volume and airflow capacity"},
+      {term:"Bronchoscopy",def:"broncho (bronchi) + scopy (visual exam)",breakdown:"Visual examination of bronchial tubes with a scope"},
+      {term:"Thoracentesis",def:"thorac (chest) + centesis (puncture)",breakdown:"Needle puncture of the chest to drain pleural fluid"},
+      {term:"Tracheotomy",def:"trache (trachea) + otomy (incision)",breakdown:"Surgical incision into the trachea for airway access"},
+      {term:"Tracheostomy",def:"trache (trachea) + ostomy (creating opening)",breakdown:"Creating a permanent opening in the trachea"},
+      {term:"Lobectomy",def:"lob (lobe) + ectomy (removal)",breakdown:"Surgical removal of a lobe of the lung"},
+      {term:"Pneumonectomy",def:"pneumon (lung) + ectomy (removal)",breakdown:"Surgical removal of an entire lung"},
+    ]
+  },
+  "gastrointestinal": {
+    label: "Gastrointestinal",
+    terms: [
+      {term:"Gastritis",def:"gastr (stomach) + itis (inflammation)",breakdown:"Inflammation of the stomach lining"},
+      {term:"Gastroenteritis",def:"gastro (stomach) + enter (intestine) + itis",breakdown:"Inflammation of the stomach and intestines"},
+      {term:"Esophagitis",def:"esophag (esophagus) + itis (inflammation)",breakdown:"Inflammation of the esophagus"},
+      {term:"Dysphagia",def:"dys (difficult) + phagia (swallowing)",breakdown:"Difficulty swallowing"},
+      {term:"Odynophagia",def:"odyn (pain) + phagia (swallowing)",breakdown:"Painful swallowing"},
+      {term:"Hematemesis",def:"hemat (blood) + emesis (vomiting)",breakdown:"Vomiting blood from the upper GI tract"},
+      {term:"Melena",def:"melan (black) + a",breakdown:"Black tarry stool from digested blood in upper GI"},
+      {term:"Hematochezia",def:"hemat (blood) + chezia (passing stool)",breakdown:"Bright red blood in stool from lower GI bleeding"},
+      {term:"Hepatitis",def:"hepat (liver) + itis (inflammation)",breakdown:"Inflammation of the liver often from viral infection"},
+      {term:"Hepatomegaly",def:"hepato (liver) + megaly (enlargement)",breakdown:"Abnormal enlargement of the liver"},
+      {term:"Cirrhosis",def:"cirrh (scarred) + osis (condition)",breakdown:"Chronic liver scarring replacing normal liver tissue"},
+      {term:"Jaundice",def:"jaundice (yellow)",breakdown:"Yellow discoloration of skin and eyes from excess bilirubin"},
+      {term:"Cholecystitis",def:"cholecyst (gallbladder) + itis (inflammation)",breakdown:"Inflammation of the gallbladder usually from gallstones"},
+      {term:"Cholelithiasis",def:"chole (bile) + lith (stone) + iasis (presence of)",breakdown:"Presence of gallstones in the gallbladder"},
+      {term:"Cholecystectomy",def:"cholecyst (gallbladder) + ectomy (removal)",breakdown:"Surgical removal of the gallbladder"},
+      {term:"Pancreatitis",def:"pancreat (pancreas) + itis (inflammation)",breakdown:"Inflammation of the pancreas"},
+      {term:"Appendicitis",def:"appendic (appendix) + itis (inflammation)",breakdown:"Inflammation and infection of the appendix"},
+      {term:"Appendectomy",def:"appendic (appendix) + ectomy (removal)",breakdown:"Surgical removal of the appendix"},
+      {term:"Colitis",def:"col (colon) + itis (inflammation)",breakdown:"Inflammation of the large intestine"},
+      {term:"Diverticulitis",def:"diverticul (pouch) + itis (inflammation)",breakdown:"Inflammation of small pouches in the colon wall"},
+      {term:"Diverticulosis",def:"diverticul (pouch) + osis (condition)",breakdown:"Presence of pouches in the colon wall without inflammation"},
+      {term:"Colostomy",def:"colo (colon) + stomy (creating opening)",breakdown:"Creating a surgical opening from the colon to body surface"},
+      {term:"Ileostomy",def:"ileo (ileum) + stomy (creating opening)",breakdown:"Creating a surgical opening from the ileum to body surface"},
+      {term:"Colonoscopy",def:"colon + scopy (visual examination)",breakdown:"Visual examination of the entire colon with a scope"},
+      {term:"Gastroscopy",def:"gastro (stomach) + scopy (visual exam)",breakdown:"Visual examination of the stomach with a scope"},
+      {term:"Laparoscopy",def:"laparo (abdomen) + scopy (visual exam)",breakdown:"Minimally invasive visualization of the abdominal cavity"},
+      {term:"Laparotomy",def:"laparo (abdomen) + tomy (surgical incision)",breakdown:"Surgical incision into the abdominal cavity"},
+      {term:"Herniorrhaphy",def:"hernio (hernia) + rrhaphy (suturing)",breakdown:"Surgical repair of a hernia by suturing"},
+      {term:"Gastrectomy",def:"gastr (stomach) + ectomy (removal)",breakdown:"Surgical removal of all or part of the stomach"},
+      {term:"Anastomosis",def:"anastom (opening into) + osis",breakdown:"Surgical connection between two hollow organs or vessels"},
+    ]
+  },
+  "musculoskeletal": {
+    label: "Musculoskeletal",
+    terms: [
+      {term:"Arthritis",def:"arthr (joint) + itis (inflammation)",breakdown:"Inflammation of one or more joints"},
+      {term:"Osteoarthritis",def:"osteo (bone) + arthr (joint) + itis",breakdown:"Degenerative joint disease from cartilage breakdown"},
+      {term:"Rheumatoid arthritis",def:"rheumat (flowing) + oid + arthr + itis",breakdown:"Autoimmune inflammatory disease attacking joints"},
+      {term:"Arthralgia",def:"arthr (joint) + algia (pain)",breakdown:"Joint pain without inflammation"},
+      {term:"Arthroscopy",def:"arthr (joint) + scopy (visual exam)",breakdown:"Visual examination inside a joint with a scope"},
+      {term:"Arthroplasty",def:"arthr (joint) + plasty (repair)",breakdown:"Surgical reconstruction or replacement of a joint"},
+      {term:"Arthrocentesis",def:"arthr (joint) + centesis (puncture)",breakdown:"Needle puncture of a joint to remove fluid"},
+      {term:"Arthrodesis",def:"arthr (joint) + desis (fusion)",breakdown:"Surgical fusion of a joint to eliminate movement"},
+      {term:"Osteoporosis",def:"osteo (bone) + por (porous) + osis (condition)",breakdown:"Decreased bone density causing brittle fracture-prone bones"},
+      {term:"Osteomalacia",def:"osteo (bone) + malacia (softening)",breakdown:"Softening of bones from Vitamin D deficiency in adults"},
+      {term:"Osteomyelitis",def:"osteo (bone) + myel (marrow) + itis",breakdown:"Infection and inflammation of bone and bone marrow"},
+      {term:"Osteosarcoma",def:"osteo (bone) + sarc (flesh) + oma (tumor)",breakdown:"Malignant tumor arising from bone tissue"},
+      {term:"Bursitis",def:"burs (bursa sac) + itis (inflammation)",breakdown:"Inflammation of a fluid-filled sac near a joint"},
+      {term:"Tendinitis",def:"tendin (tendon) + itis (inflammation)",breakdown:"Inflammation of a tendon from overuse or injury"},
+      {term:"Myalgia",def:"my (muscle) + algia (pain)",breakdown:"Muscle pain"},
+      {term:"Myositis",def:"myo (muscle) + itis (inflammation)",breakdown:"Inflammation of muscle tissue"},
+      {term:"Myopathy",def:"myo (muscle) + pathy (disease)",breakdown:"General term for any disease of muscle tissue"},
+      {term:"Fibromyalgia",def:"fibro (fibrous tissue) + my (muscle) + algia (pain)",breakdown:"Chronic widespread muscle pain and tenderness"},
+      {term:"Kyphosis",def:"kypho (humpback) + osis (condition)",breakdown:"Excessive forward curvature of the upper spine"},
+      {term:"Lordosis",def:"lord (bent backward) + osis (condition)",breakdown:"Excessive inward curvature of the lower spine"},
+      {term:"Scoliosis",def:"scoli (crooked) + osis (condition)",breakdown:"Lateral sideways curvature of the spine"},
+      {term:"Laminectomy",def:"lamin (lamina) + ectomy (removal)",breakdown:"Surgical removal of vertebral lamina to relieve spinal pressure"},
+      {term:"Spinal stenosis",def:"spin (spine) + al + sten (narrowing) + osis",breakdown:"Narrowing of the spinal canal causing nerve compression"},
+      {term:"Chondromalacia",def:"chondro (cartilage) + malacia (softening)",breakdown:"Softening and breakdown of cartilage tissue"},
+      {term:"Fracture",def:"fract (broken) + ure",breakdown:"Break in the continuity of a bone"},
+      {term:"Dislocation",def:"dis (apart) + locat (place) + ion",breakdown:"Displacement of a bone from its normal joint position"},
+      {term:"Sprain",def:"sprain (wrench)",breakdown:"Stretching or tearing of ligaments around a joint"},
+      {term:"Strain",def:"strain (overexertion)",breakdown:"Stretching or tearing of a muscle or tendon"},
+      {term:"Muscular dystrophy",def:"muscul + ar + dys (bad) + trophy (development)",breakdown:"Inherited disease causing progressive muscle weakness and wasting"},
+      {term:"Periosteum",def:"peri (around) + oste (bone) + um",breakdown:"Fibrous membrane covering the outer surface of all bones"},
+    ]
+  },
+  "nervous_system": {
+    label: "Nervous System",
+    terms: [
+      {term:"Encephalitis",def:"encephal (brain) + itis (inflammation)",breakdown:"Inflammation of the brain usually from viral infection"},
+      {term:"Encephalopathy",def:"encephalo (brain) + pathy (disease)",breakdown:"Any disease or disorder of the brain"},
+      {term:"Meningitis",def:"mening (meninges) + itis (inflammation)",breakdown:"Inflammation of the membranes surrounding brain and spinal cord"},
+      {term:"Neuropathy",def:"neuro (nerve) + pathy (disease)",breakdown:"Disease or dysfunction of the peripheral nerves"},
+      {term:"Neuralgia",def:"neuro (nerve) + algia (pain)",breakdown:"Intense nerve pain along a nerve pathway"},
+      {term:"Neuritis",def:"neur (nerve) + itis (inflammation)",breakdown:"Inflammation of a nerve"},
+      {term:"Multiple sclerosis",def:"multi (many) + sclero (hardening) + sis",breakdown:"Autoimmune demyelinating disease of the central nervous system"},
+      {term:"Radiculopathy",def:"radicul (nerve root) + pathy (disease)",breakdown:"Disease of a spinal nerve root causing radiating pain"},
+      {term:"Hemiplegia",def:"hemi (half) + plegia (paralysis)",breakdown:"Paralysis of one entire side of the body"},
+      {term:"Paraplegia",def:"para (beside) + plegia (paralysis)",breakdown:"Paralysis of both legs and lower body"},
+      {term:"Quadriplegia",def:"quadri (four) + plegia (paralysis)",breakdown:"Paralysis of all four limbs"},
+      {term:"Paresthesia",def:"para (abnormal) + esthesia (sensation)",breakdown:"Abnormal sensations such as tingling numbness or burning"},
+      {term:"Aphasia",def:"a (without) + phasia (speech)",breakdown:"Loss or impairment of the ability to speak or understand language"},
+      {term:"Dysphasia",def:"dys (difficult) + phasia (speech)",breakdown:"Difficulty with language production or comprehension"},
+      {term:"Dysarthria",def:"dys (difficult) + arthr (joint) + ia",breakdown:"Difficulty speaking due to muscle weakness or paralysis"},
+      {term:"Ataxia",def:"a (without) + tax (order) + ia",breakdown:"Loss of muscle coordination and balance"},
+      {term:"Vertigo",def:"vertigo (spinning)",breakdown:"Sensation that the environment or self is spinning"},
+      {term:"Syncope",def:"syncop (cut short)",breakdown:"Temporary loss of consciousness from reduced brain blood flow"},
+      {term:"Epilepsy",def:"epilep (to seize) + sy",breakdown:"Chronic neurological disorder with recurrent seizures"},
+      {term:"Stroke (CVA)",def:"cerebro (brain) + vascul (vessel) + ar + accident",breakdown:"Sudden brain damage from blocked or ruptured blood vessel"},
+      {term:"Transient ischemic attack",def:"transient + ischem (blood stoppage) + ic",breakdown:"Temporary stroke-like symptoms resolving within 24 hours"},
+      {term:"Alzheimer disease",def:"Alzheimer (discoverer) + disease",breakdown:"Progressive dementia from amyloid plaques destroying brain tissue"},
+      {term:"Parkinson disease",def:"Parkinson (discoverer) + disease",breakdown:"Progressive movement disorder from dopamine cell loss"},
+      {term:"Concussion",def:"con (together) + cuss (shake)",breakdown:"Traumatic brain injury causing temporary brain dysfunction"},
+      {term:"Craniotomy",def:"cranio (skull) + tomy (incision)",breakdown:"Surgical opening of the skull to access the brain"},
+      {term:"Myelitis",def:"myel (spinal cord) + itis (inflammation)",breakdown:"Inflammation of the spinal cord"},
+      {term:"Hydrocephalus",def:"hydro (water) + cephal (head) + us",breakdown:"Excess cerebrospinal fluid accumulating in the brain ventricles"},
+      {term:"Neurosclerosis",def:"neuro (nerve) + sclerosis (hardening)",breakdown:"Hardening of nervous tissue from degeneration"},
+      {term:"Cerebrovascular accident",def:"cerebro (brain) + vascul (vessel) + ar",breakdown:"Medical term for stroke — brain blood vessel accident"},
+      {term:"Amyotrophic lateral sclerosis",def:"a (without) + myo (muscle) + troph (nourishment)",breakdown:"ALS — progressive motor neuron disease causing paralysis"},
+    ]
+  },
+  "urinary": {
+    label: "Urinary",
+    terms: [
+      {term:"Nephritis",def:"nephr (kidney) + itis (inflammation)",breakdown:"Inflammation of the kidneys"},
+      {term:"Pyelonephritis",def:"pyelo (renal pelvis) + nephr (kidney) + itis",breakdown:"Bacterial infection of the kidney and renal pelvis"},
+      {term:"Glomerulonephritis",def:"glomerul (filter ball) + nephr (kidney) + itis",breakdown:"Inflammation of the kidney filtering units"},
+      {term:"Nephropathy",def:"nephro (kidney) + pathy (disease)",breakdown:"General term for any chronic kidney disease"},
+      {term:"Nephrolithiasis",def:"nephro (kidney) + lith (stone) + iasis",breakdown:"Kidney stones — calculi in the kidney"},
+      {term:"Nephrectomy",def:"nephr (kidney) + ectomy (removal)",breakdown:"Surgical removal of a kidney"},
+      {term:"Cystitis",def:"cyst (bladder) + itis (inflammation)",breakdown:"Inflammation and infection of the urinary bladder"},
+      {term:"Cystoscopy",def:"cysto (bladder) + scopy (visual exam)",breakdown:"Visual examination inside the urinary bladder"},
+      {term:"Cystectomy",def:"cyst (bladder) + ectomy (removal)",breakdown:"Surgical removal of the urinary bladder"},
+      {term:"Urethritis",def:"urethr (urethra) + itis (inflammation)",breakdown:"Inflammation and infection of the urethra"},
+      {term:"Hematuria",def:"hemat (blood) + uria (urine condition)",breakdown:"Blood in the urine"},
+      {term:"Proteinuria",def:"protein + uria (urine condition)",breakdown:"Abnormal amount of protein in the urine"},
+      {term:"Glycosuria",def:"glycos (sugar) + uria (urine condition)",breakdown:"Glucose in the urine — sign of uncontrolled diabetes"},
+      {term:"Pyuria",def:"py (pus) + uria (urine condition)",breakdown:"Pus or white blood cells in the urine — sign of infection"},
+      {term:"Oliguria",def:"olig (little) + uria (urine condition)",breakdown:"Decreased urine output below 400 mL per day"},
+      {term:"Polyuria",def:"poly (many) + uria (urine condition)",breakdown:"Excessive urine output above 2.5 liters per day"},
+      {term:"Dysuria",def:"dys (difficult) + uria (urine condition)",breakdown:"Painful or difficult urination"},
+      {term:"Anuria",def:"an (without) + uria (urine condition)",breakdown:"No urine production — below 100 mL per day — renal failure sign"},
+      {term:"Nocturia",def:"noct (night) + uria (urine condition)",breakdown:"Excessive nighttime urination disrupting sleep"},
+      {term:"Urinary incontinence",def:"urin + ary + in (not) + continent (holding)",breakdown:"Inability to control urination"},
+      {term:"Dialysis",def:"dia (through) + lysis (separation)",breakdown:"Artificial filtration of blood when kidneys fail"},
+      {term:"Hemodialysis",def:"hemo (blood) + dia + lysis",breakdown:"Blood filtration through an external machine"},
+      {term:"Lithotripsy",def:"lith (stone) + tripsy (crushing)",breakdown:"Crushing kidney or bladder stones with shock waves"},
+      {term:"Ureterolithiasis",def:"ureter + lith (stone) + iasis",breakdown:"Stones trapped in the ureter"},
+      {term:"Nephrotic syndrome",def:"nephro (kidney) + tic + syndrome",breakdown:"Massive protein loss in urine from glomerular damage"},
+      {term:"Renal calculus",def:"ren (kidney) + al + calculus (stone)",breakdown:"Kidney stone — crystallized mineral deposit in the kidney"},
+      {term:"Vesicoureteral reflux",def:"vesico (bladder) + ureter + al + reflux",breakdown:"Backward flow of urine from bladder into ureter and kidney"},
+      {term:"Ureteroscopy",def:"ureter + scopy (visual exam)",breakdown:"Visual examination of the ureter with a scope"},
+      {term:"Nephrostomy",def:"nephro (kidney) + stomy (opening)",breakdown:"Creating a surgical opening into the kidney for drainage"},
+      {term:"Urodynamics",def:"uro (urine) + dynamics (forces)",breakdown:"Testing of urinary tract function and pressure"},
+    ]
+  },
+  "endocrine": {
+    label: "Endocrine",
+    terms: [
+      {term:"Diabetes mellitus",def:"diabet (passing through) + mellitus (honey-sweet)",breakdown:"Metabolic disorder with insufficient insulin or insulin resistance"},
+      {term:"Diabetes insipidus",def:"diabet (passing through) + insipidus (tasteless)",breakdown:"ADH disorder causing excessive dilute urine output"},
+      {term:"Hyperglycemia",def:"hyper (above normal) + glyc (sugar) + emia (blood)",breakdown:"Abnormally high blood glucose above 180 mg/dL"},
+      {term:"Hypoglycemia",def:"hypo (below normal) + glyc (sugar) + emia (blood)",breakdown:"Abnormally low blood glucose below 70 mg/dL — brain emergency"},
+      {term:"Diabetic ketoacidosis",def:"diabetic + keton (ketone) + acid + osis",breakdown:"Life-threatening Type 1 complication with ketone buildup"},
+      {term:"Hypothyroidism",def:"hypo (below normal) + thyroid + ism",breakdown:"Underactive thyroid producing insufficient hormones"},
+      {term:"Hyperthyroidism",def:"hyper (above normal) + thyroid + ism",breakdown:"Overactive thyroid producing excessive hormones"},
+      {term:"Thyroiditis",def:"thyroid + itis (inflammation)",breakdown:"Inflammation of the thyroid gland"},
+      {term:"Thyroidectomy",def:"thyroid + ectomy (removal)",breakdown:"Surgical removal of all or part of the thyroid gland"},
+      {term:"Goiter",def:"goiter (enlarged throat)",breakdown:"Visible enlargement of the thyroid gland"},
+      {term:"Acromegaly",def:"acro (extremity) + megaly (enlargement)",breakdown:"Excess growth hormone in adults causing enlarged extremities"},
+      {term:"Gigantism",def:"gigant (giant) + ism",breakdown:"Excess growth hormone in children causing abnormal height"},
+      {term:"Cushing syndrome",def:"Cushing (discoverer) + syndrome",breakdown:"Excess cortisol causing moon face central obesity and hypertension"},
+      {term:"Addison disease",def:"Addison (discoverer) + disease",breakdown:"Adrenal insufficiency causing low BP fatigue and bronze skin"},
+      {term:"Hyperparathyroidism",def:"hyper + parathyroid + ism",breakdown:"Excess parathyroid hormone causing high blood calcium"},
+      {term:"Hypoparathyroidism",def:"hypo + parathyroid + ism",breakdown:"Insufficient parathyroid hormone causing low blood calcium"},
+      {term:"Tetany",def:"tetan (rigid) + y",breakdown:"Muscle spasms and cramps from critically low blood calcium"},
+      {term:"Pheochromocytoma",def:"pheo (dark) + chromo (color) + cyt (cell) + oma",breakdown:"Adrenal medulla tumor secreting excess adrenaline"},
+      {term:"Adrenalectomy",def:"adrenal + ectomy (removal)",breakdown:"Surgical removal of one or both adrenal glands"},
+      {term:"Pancreatitis",def:"pancreat (pancreas) + itis (inflammation)",breakdown:"Inflammation of the pancreas"},
+      {term:"Insulinoma",def:"insulin + oma (tumor)",breakdown:"Insulin-secreting pancreatic tumor causing hypoglycemia"},
+      {term:"Hypercalcemia",def:"hyper + calc (calcium) + emia (blood)",breakdown:"Abnormally high blood calcium level"},
+      {term:"Hypocalcemia",def:"hypo + calc (calcium) + emia (blood)",breakdown:"Abnormally low blood calcium level"},
+      {term:"Hyponatremia",def:"hypo + natr (sodium) + emia (blood)",breakdown:"Critically low sodium in the blood"},
+      {term:"Hypernatremia",def:"hyper + natr (sodium) + emia (blood)",breakdown:"Critically high sodium in the blood"},
+      {term:"Hypokalemia",def:"hypo + kal (potassium) + emia (blood)",breakdown:"Dangerously low potassium causing muscle weakness and arrhythmia"},
+      {term:"Hyperkalemia",def:"hyper + kal (potassium) + emia (blood)",breakdown:"Dangerously high potassium causing cardiac arrest risk"},
+      {term:"Polycystic ovary syndrome",def:"poly (many) + cyst + ic + ovary",breakdown:"Hormonal disorder causing ovarian cysts and androgen excess"},
+      {term:"Hyperpituitarism",def:"hyper + pituitar (pituitary) + ism",breakdown:"Overactive pituitary gland causing excess hormone production"},
+      {term:"Hypopituitarism",def:"hypo + pituitar (pituitary) + ism",breakdown:"Underactive pituitary failing to produce enough hormones"},
+    ]
+  },
+  "blood_immune": {
+    label: "Blood Immune",
+    terms: [
+      {term:"Anemia",def:"an (without) + emia (blood condition)",breakdown:"Deficiency of red blood cells or hemoglobin"},
+      {term:"Leukopenia",def:"leuko (white) + penia (deficiency)",breakdown:"Abnormally low white blood cell count"},
+      {term:"Leukocytosis",def:"leuko (white) + cyt (cell) + osis (increase)",breakdown:"Abnormally high white blood cell count"},
+      {term:"Leukemia",def:"leuk (white) + emia (blood)",breakdown:"Cancer of blood-forming cells with excess abnormal WBCs"},
+      {term:"Thrombocytopenia",def:"thrombocyt (platelet) + penia (deficiency)",breakdown:"Low platelet count causing dangerous bleeding tendency"},
+      {term:"Thrombocytosis",def:"thrombocyt (platelet) + osis (increase)",breakdown:"Abnormally elevated platelet count"},
+      {term:"Polycythemia",def:"poly (many) + cyt (cell) + emia (blood)",breakdown:"Abnormally increased number of red blood cells"},
+      {term:"Hemophilia",def:"hemo (blood) + philia (affinity)",breakdown:"Inherited bleeding disorder from clotting factor deficiency"},
+      {term:"Hemolysis",def:"hemo (blood) + lysis (destruction)",breakdown:"Destruction or rupture of red blood cells"},
+      {term:"Hemolytic anemia",def:"hemolyt (destroying blood) + ic + anemia",breakdown:"Anemia caused by premature destruction of red blood cells"},
+      {term:"Sickle cell anemia",def:"sickle (crescent shape) + cell + anemia",breakdown:"Inherited disorder with abnormally shaped sickle-shaped RBCs"},
+      {term:"Thalassemia",def:"thalass (sea) + emia (blood)",breakdown:"Inherited disorder with abnormal hemoglobin chain production"},
+      {term:"Pernicious anemia",def:"pernicious (destructive) + anemia",breakdown:"B12 deficiency anemia from lack of intrinsic factor"},
+      {term:"Lymphoma",def:"lymph + oma (tumor)",breakdown:"Cancer of lymphatic system — Hodgkin and Non-Hodgkin types"},
+      {term:"Lymphadenopathy",def:"lymph + adeno (gland) + pathy (disease)",breakdown:"Disease or enlargement of lymph nodes"},
+      {term:"Lymphadenitis",def:"lymph + aden (gland) + itis (inflammation)",breakdown:"Inflammation of lymph nodes"},
+      {term:"Splenomegaly",def:"spleno (spleen) + megaly (enlargement)",breakdown:"Abnormal enlargement of the spleen"},
+      {term:"Splenectomy",def:"splen (spleen) + ectomy (removal)",breakdown:"Surgical removal of the spleen"},
+      {term:"Septicemia",def:"septic (infected) + emia (blood)",breakdown:"Presence of bacteria or toxins in the bloodstream"},
+      {term:"Bacteremia",def:"bacter (bacteria) + emia (blood)",breakdown:"Presence of bacteria circulating in the bloodstream"},
+      {term:"Anaphylaxis",def:"ana (against) + phylaxis (protection)",breakdown:"Severe life-threatening systemic allergic reaction"},
+      {term:"Autoimmune disease",def:"auto (self) + immune + disease",breakdown:"Immune system attacks the body's own healthy tissues"},
+      {term:"Immunodeficiency",def:"immuno (immune) + deficiency",breakdown:"Inadequate immune response leaving body vulnerable to infection"},
+      {term:"Phlebotomy",def:"phlebo (vein) + tomy (incision/cutting)",breakdown:"Drawing blood from a vein for testing or donation"},
+      {term:"Hematology",def:"hemato (blood) + logy (study of)",breakdown:"Medical specialty studying blood and blood disorders"},
+      {term:"Anticoagulation",def:"anti (against) + coagul (clotting) + ation",breakdown:"Prevention of blood clot formation using medication"},
+      {term:"Erythrocytosis",def:"erythro (red) + cyt (cell) + osis (increase)",breakdown:"Increased number of red blood cells in circulation"},
+      {term:"Coagulopathy",def:"coagul (clotting) + pathy (disease)",breakdown:"Any disorder affecting the blood clotting process"},
+      {term:"Myeloma",def:"myelo (marrow) + oma (tumor)",breakdown:"Cancer of plasma cells in bone marrow — multiple myeloma"},
+      {term:"Bone marrow transplant",def:"bone + marrow + transplant",breakdown:"Replacing diseased marrow with healthy donor stem cells"},
+    ]
+  },
+  "skin": {
+    label: "Skin",
+    terms: [
+      {term:"Dermatitis",def:"dermat (skin) + itis (inflammation)",breakdown:"Inflammation of the skin"},
+      {term:"Dermatology",def:"dermat (skin) + ology (study of)",breakdown:"Medical specialty focused on skin hair and nail disorders"},
+      {term:"Psoriasis",def:"psori (itch) + asis (condition)",breakdown:"Autoimmune skin disease causing scaly red plaques"},
+      {term:"Eczema",def:"ekzema (to boil over)",breakdown:"Chronic inflammatory skin condition causing itchy rashes"},
+      {term:"Urticaria",def:"urtic (nettle rash) + aria",breakdown:"Hives — itchy raised welts from allergic reaction"},
+      {term:"Cellulitis",def:"cellul (small cells) + itis (inflammation)",breakdown:"Bacterial skin and soft tissue infection"},
+      {term:"Impetigo",def:"impetigo (to attack)",breakdown:"Highly contagious bacterial skin infection with honey-crusted sores"},
+      {term:"Melanoma",def:"melan (black pigment) + oma (tumor)",breakdown:"Malignant cancer of melanocytes — deadliest skin cancer"},
+      {term:"Basal cell carcinoma",def:"basal (base) + cell + carcin (cancer) + oma",breakdown:"Most common skin cancer from basal epithelial cells"},
+      {term:"Squamous cell carcinoma",def:"squam (scale) + ous + cell + carcin + oma",breakdown:"Skin cancer from squamous epithelial cells"},
+      {term:"Seborrhea",def:"sebo (oil) + rrhea (discharge)",breakdown:"Excessive secretion of sebum causing oily scaly patches"},
+      {term:"Acne vulgaris",def:"acne (point) + vulgar (common) + is",breakdown:"Common inflammatory condition of hair follicles and oil glands"},
+      {term:"Pruritus",def:"prurit (itch) + us",breakdown:"Severe persistent itching of the skin"},
+      {term:"Alopecia",def:"alop (fox mange) + ecia",breakdown:"Hair loss or baldness from various causes"},
+      {term:"Onychomycosis",def:"onycho (nail) + myc (fungus) + osis",breakdown:"Fungal infection of the fingernails or toenails"},
+      {term:"Vitiligo",def:"vitiligo (skin spots)",breakdown:"Loss of skin pigmentation creating white patches"},
+      {term:"Erythema",def:"erythem (redness) + a",breakdown:"Superficial reddening of the skin from inflammation"},
+      {term:"Petechiae",def:"petechi (small spots)",breakdown:"Tiny pinpoint hemorrhages in the skin"},
+      {term:"Ecchymosis",def:"ecchym (pour out) + osis",breakdown:"Bruise — discoloration from blood leaking under skin"},
+      {term:"Abscess",def:"ab (away) + scess (to go)",breakdown:"Pocket of pus surrounded by inflamed tissue"},
+      {term:"Laceration",def:"lacerat (to tear) + ion",breakdown:"Jagged irregular wound or cut through skin"},
+      {term:"Abrasion",def:"abras (to scrape off) + ion",breakdown:"Superficial scrape or wearing away of skin surface"},
+      {term:"Contusion",def:"contus (to bruise) + ion",breakdown:"Bruise — injury without breaking the skin"},
+      {term:"Subcutaneous",def:"sub (under) + cutane (skin) + ous",breakdown:"Pertaining to beneath the skin layer"},
+      {term:"Intradermal",def:"intra (within) + dermal (skin)",breakdown:"Within the skin layers — ID injections"},
+      {term:"Biopsy",def:"bio (life) + opsy (view)",breakdown:"Removal of tissue sample for microscopic examination"},
+      {term:"Nevus",def:"nevus (birthmark/mole)",breakdown:"Mole or birthmark — benign skin lesion"},
+      {term:"Vesicle",def:"vesicul (small bladder) + e",breakdown:"Small fluid-filled blister on the skin"},
+      {term:"Pustule",def:"pustul (pimple) + e",breakdown:"Small pus-filled blister or pimple on the skin"},
+      {term:"Macule",def:"macul (spot) + e",breakdown:"Flat discolored skin spot — freckle or flat mole"},
+    ]
+  },
+  "eye_ear": {
+    label: "Eye Ear",
+    terms: [
+      {term:"Ophthalmology",def:"ophthalmo (eye) + logy (study of)",breakdown:"Medical specialty focused on the eye and vision"},
+      {term:"Conjunctivitis",def:"conjunctiv (connecting membrane) + itis",breakdown:"Inflammation of the conjunctiva — pink eye"},
+      {term:"Keratitis",def:"kerat (cornea) + itis (inflammation)",breakdown:"Inflammation of the cornea"},
+      {term:"Iritis",def:"ir (iris) + itis (inflammation)",breakdown:"Inflammation of the iris"},
+      {term:"Retinopathy",def:"retino (retina) + pathy (disease)",breakdown:"Disease of the retina often from diabetes or hypertension"},
+      {term:"Glaucoma",def:"glaucom (gray-green opacity) + a",breakdown:"Increased intraocular pressure damaging the optic nerve"},
+      {term:"Cataract",def:"cataract (waterfall) + a",breakdown:"Clouding of the eye lens causing blurred vision"},
+      {term:"Blepharitis",def:"blephar (eyelid) + itis (inflammation)",breakdown:"Inflammation of the eyelid margins"},
+      {term:"Strabismus",def:"strabism (squinting)",breakdown:"Misalignment of the eyes — crossed eyes"},
+      {term:"Amblyopia",def:"ambly (dull) + opia (vision)",breakdown:"Lazy eye — reduced vision in one eye from disuse in childhood"},
+      {term:"Myopia",def:"my (to close) + opia (vision)",breakdown:"Nearsightedness — clear close vision blurry distance"},
+      {term:"Hyperopia",def:"hyper (over/far) + opia (vision)",breakdown:"Farsightedness — clear distance vision difficulty with close"},
+      {term:"Presbyopia",def:"presby (old man) + opia (vision)",breakdown:"Age-related loss of close focusing ability"},
+      {term:"Astigmatism",def:"a (without) + stigmat (point) + ism",breakdown:"Irregular corneal curvature causing blurred vision at all distances"},
+      {term:"Enucleation",def:"e (out) + nucleat (kernel) + ion",breakdown:"Surgical removal of the entire eyeball"},
+      {term:"Otitis media",def:"ot (ear) + itis + media (middle)",breakdown:"Infection of the middle ear — most common in children"},
+      {term:"Otitis externa",def:"ot (ear) + itis + externa (outer)",breakdown:"Infection of the outer ear canal — swimmer's ear"},
+      {term:"Tinnitus",def:"tinnit (ringing) + us",breakdown:"Ringing buzzing or other phantom sounds in the ear"},
+      {term:"Otosclerosis",def:"oto (ear) + sclerosis (hardening)",breakdown:"Abnormal bone growth in the middle ear causing hearing loss"},
+      {term:"Myringotomy",def:"myringo (eardrum) + tomy (incision)",breakdown:"Surgical incision into the eardrum to drain fluid"},
+      {term:"Tympanoplasty",def:"tympano (eardrum) + plasty (repair)",breakdown:"Surgical repair of the eardrum"},
+      {term:"Audiometry",def:"audio (hearing) + metry (measurement)",breakdown:"Testing and measurement of hearing ability"},
+      {term:"Mastoiditis",def:"mastoid (bone behind ear) + itis",breakdown:"Infection of the mastoid bone behind the ear"},
+      {term:"Labyrinthitis",def:"labyrinth (inner ear) + itis",breakdown:"Inflammation of the inner ear causing vertigo and hearing loss"},
+      {term:"Presbycusis",def:"presby (old) + cusis (hearing)",breakdown:"Age-related progressive hearing loss"},
+      {term:"Sensorineural hearing loss",def:"sensori (sensory) + neural (nerve)",breakdown:"Hearing loss from damage to inner ear or auditory nerve"},
+      {term:"Conductive hearing loss",def:"conduct (carry) + ive + hearing + loss",breakdown:"Hearing loss from problem in outer or middle ear transmission"},
+      {term:"Nystagmus",def:"nystagm (nodding) + us",breakdown:"Involuntary rapid rhythmic eye movement"},
+      {term:"Ptosis",def:"ptosis (falling/drooping)",breakdown:"Drooping of the upper eyelid"},
+      {term:"Diplopia",def:"diplo (double) + opia (vision)",breakdown:"Double vision — seeing two images of one object"},
+    ]
+  },
+  "oncology": {
+    label: "Oncology",
+    terms: [
+      {term:"Neoplasm",def:"neo (new) + plasm (growth)",breakdown:"Any new abnormal tissue growth — benign or malignant"},
+      {term:"Benign tumor",def:"benignus (well-born) + tumor",breakdown:"Non-cancerous growth — does not invade or spread"},
+      {term:"Malignant tumor",def:"malignus (evil-born) + tumor",breakdown:"Cancerous growth — invades tissue and can spread"},
+      {term:"Metastasis",def:"meta (beyond) + stasis (standing still)",breakdown:"Spread of cancer from primary site to distant locations"},
+      {term:"Carcinoma",def:"carcino (crab/cancer) + oma (tumor)",breakdown:"Cancer arising from epithelial tissue — most common type"},
+      {term:"Sarcoma",def:"sarco (flesh) + oma (tumor)",breakdown:"Cancer arising from connective tissue — bone muscle fat"},
+      {term:"Lymphoma",def:"lymph + oma (tumor)",breakdown:"Cancer of lymphatic system cells"},
+      {term:"Melanoma",def:"melan (black) + oma (tumor)",breakdown:"Malignant cancer of melanocytes — deadliest skin cancer"},
+      {term:"Glioma",def:"gli (glue/glia cells) + oma",breakdown:"Brain tumor arising from glial support cells"},
+      {term:"Adenocarcinoma",def:"adeno (gland) + carcin (cancer) + oma",breakdown:"Cancer arising from glandular epithelial tissue"},
+      {term:"Adenoma",def:"adeno (gland) + oma (tumor)",breakdown:"Benign tumor of glandular epithelial origin"},
+      {term:"Fibroma",def:"fibro (fiber) + oma (tumor)",breakdown:"Benign tumor of fibrous connective tissue"},
+      {term:"Lipoma",def:"lip (fat) + oma (tumor)",breakdown:"Benign soft movable fatty tissue tumor"},
+      {term:"Osteosarcoma",def:"osteo (bone) + sarc (flesh) + oma",breakdown:"Primary bone cancer — most common in adolescents"},
+      {term:"Leukemia",def:"leuk (white) + emia (blood)",breakdown:"Blood cancer with excessive abnormal white blood cells"},
+      {term:"Myeloma",def:"myelo (marrow) + oma (tumor)",breakdown:"Cancer of plasma cells in bone marrow"},
+      {term:"Chemotherapy",def:"chemo (chemical) + therapy",breakdown:"Use of chemical drugs to kill rapidly dividing cancer cells"},
+      {term:"Radiation therapy",def:"radiat (radiation) + therapy",breakdown:"Use of high-energy radiation to destroy cancer cells"},
+      {term:"Immunotherapy",def:"immuno (immune) + therapy",breakdown:"Harnessing the immune system to recognize and fight cancer"},
+      {term:"Biopsy",def:"bio (life) + opsy (view)",breakdown:"Removal of tissue sample for pathological examination"},
+      {term:"Oncology",def:"onco (tumor) + logy (study of)",breakdown:"Medical specialty focused on cancer diagnosis and treatment"},
+      {term:"Staging",def:"staging (determining extent)",breakdown:"Classifying cancer by size and spread using Roman numerals I-IV"},
+      {term:"Remission",def:"re (back) + miss (send) + ion",breakdown:"Reduction or disappearance of cancer signs and symptoms"},
+      {term:"Prognosis",def:"pro (before) + gnosis (knowledge)",breakdown:"Predicted course and outcome of a disease"},
+      {term:"Brachytherapy",def:"brachy (short distance) + therapy",breakdown:"Internal radiation therapy with radioactive seeds placed in tumor"},
+      {term:"Carcinogenesis",def:"carcino (cancer) + genesis (origin)",breakdown:"Process by which normal cells become cancerous"},
+      {term:"Oncogene",def:"onco (tumor) + gene",breakdown:"Gene that promotes cell division and can cause cancer when mutated"},
+      {term:"Tumor suppressor gene",def:"tumor + suppressor + gene",breakdown:"Gene that inhibits cell division — loss causes cancer"},
+      {term:"Palliative care",def:"palliat (cloak/relieve) + ive + care",breakdown:"Care focused on relief of symptoms and quality of life"},
+      {term:"Cytology",def:"cyto (cell) + logy (study of)",breakdown:"Study of cells — used in cancer screening like Pap smear"},
+    ]
+  },
+  "pharmacology": {
+    label: "Pharmacology",
+    terms: [
+      {term:"Analgesic",def:"an (without) + alges (pain) + ic",breakdown:"Pain-relieving medication — aspirin ibuprofen acetaminophen"},
+      {term:"Antibiotic",def:"anti (against) + bio (life) + tic",breakdown:"Drug that kills or inhibits bacteria — amoxicillin azithromycin"},
+      {term:"Antipyretic",def:"anti (against) + pyret (fever) + ic",breakdown:"Fever-reducing medication — acetaminophen ibuprofen"},
+      {term:"Anticoagulant",def:"anti (against) + coagulant (clotting)",breakdown:"Drug preventing blood clot formation — warfarin heparin"},
+      {term:"Antihypertensive",def:"anti + hyper + tens (pressure) + ive",breakdown:"Drug lowering elevated blood pressure"},
+      {term:"Antiarrhythmic",def:"anti + arrhythm (rhythm) + ic",breakdown:"Drug correcting abnormal heart rhythms"},
+      {term:"Antiemetic",def:"anti (against) + emet (vomiting) + ic",breakdown:"Drug preventing or treating nausea and vomiting"},
+      {term:"Antifungal",def:"anti + fungal",breakdown:"Drug killing or inhibiting fungal infections — fluconazole"},
+      {term:"Antiviral",def:"anti + viral",breakdown:"Drug targeting viruses — oseltamivir acyclovir"},
+      {term:"Diuretic",def:"diuret (passing urine) + ic",breakdown:"Drug increasing urine output to reduce fluid retention"},
+      {term:"Bronchodilator",def:"broncho (bronchi) + dilat (widen) + or",breakdown:"Drug widening the bronchial airways — albuterol"},
+      {term:"Vasodilator",def:"vaso (vessel) + dilat (widen) + or",breakdown:"Drug widening blood vessels to lower blood pressure"},
+      {term:"Vasoconstrictor",def:"vaso (vessel) + constrict + or",breakdown:"Drug narrowing blood vessels to raise blood pressure"},
+      {term:"Immunosuppressant",def:"immuno + suppress + ant",breakdown:"Drug reducing immune system activity — used in transplants"},
+      {term:"Corticosteroid",def:"cortico (cortex) + steroid",breakdown:"Anti-inflammatory steroid hormone drug — prednisone"},
+      {term:"Antihistamine",def:"anti + histamine",breakdown:"Drug blocking histamine to treat allergies — diphenhydramine"},
+      {term:"Beta-blocker",def:"beta + block + er",breakdown:"Drug blocking beta receptors to slow heart rate — metoprolol"},
+      {term:"ACE inhibitor",def:"angiotensin converting enzyme + inhibitor",breakdown:"Drug lowering blood pressure by blocking ACE — lisinopril"},
+      {term:"Statin",def:"statin (standing still)",breakdown:"Drug lowering cholesterol by blocking its synthesis — atorvastatin"},
+      {term:"Insulin",def:"insul (island) + in",breakdown:"Pancreatic hormone used to lower blood glucose in diabetes"},
+      {term:"Narcotic analgesic",def:"narcotic (numbing) + analgesic",breakdown:"Opioid pain reliever — morphine oxycodone hydrocodone"},
+      {term:"Sedative",def:"sedat (to calm) + ive",breakdown:"Drug inducing calm or sleep — benzodiazepines barbiturates"},
+      {term:"Antipsy chotic",def:"anti + psycho (mind) + tic",breakdown:"Drug treating psychosis and schizophrenia — haloperidol"},
+      {term:"Antidepressant",def:"anti + depress + ant",breakdown:"Drug treating depression — SSRIs SNRIs tricyclics"},
+      {term:"Prophylaxis",def:"pro (before) + phylax (guard) + is",breakdown:"Preventive treatment to stop a disease from occurring"},
+      {term:"Contraindication",def:"contra (against) + indicat (point out)",breakdown:"Condition making a particular drug or treatment inadvisable"},
+      {term:"Side effect",def:"side + effect",breakdown:"Unintended but expected effect of a medication at normal doses"},
+      {term:"Adverse reaction",def:"adverse (turned against) + reaction",breakdown:"Harmful unexpected response to a medication"},
+      {term:"Bioavailability",def:"bio (life) + availabil + ity",breakdown:"Fraction of drug dose that reaches systemic circulation"},
+      {term:"Half-life",def:"half + life",breakdown:"Time for drug concentration in blood to decrease by 50 percent"},
+    ]
+  },
+  "diagnostic_procedures": {
+    label: "Diagnostic Procedures",
+    terms: [
+      {term:"Electrocardiogram",def:"electro (electrical) + cardio (heart) + gram (record)",breakdown:"Recording of the heart's electrical activity — ECG/EKG"},
+      {term:"Electroencephalogram",def:"electro + encephalo (brain) + gram",breakdown:"Recording of the brain's electrical activity — EEG"},
+      {term:"Electromyogram",def:"electro + myo (muscle) + gram",breakdown:"Recording of electrical activity in muscles — EMG"},
+      {term:"Radiograph",def:"radio (radiation) + graph (record)",breakdown:"X-ray image of internal body structures"},
+      {term:"Computed tomography",def:"comput + ed + tomo (slice) + graphy",breakdown:"CT scan — cross-sectional X-ray images of body"},
+      {term:"Magnetic resonance imaging",def:"magnetic + resonance + imaging",breakdown:"MRI — detailed soft tissue imaging using magnetic fields"},
+      {term:"Ultrasonography",def:"ultra (beyond) + sono (sound) + graphy",breakdown:"Ultrasound imaging using high-frequency sound waves"},
+      {term:"Echocardiography",def:"echo + cardio (heart) + graphy",breakdown:"Ultrasound imaging of heart structure and function"},
+      {term:"Scintigraphy",def:"scinti (spark) + graphy",breakdown:"Nuclear medicine imaging using radioactive tracers — bone scan"},
+      {term:"Positron emission tomography",def:"positron + emission + tomo + graphy",breakdown:"PET scan showing metabolic activity — cancer staging"},
+      {term:"Angiography",def:"angio (vessel) + graphy (recording)",breakdown:"X-ray imaging of blood vessels with contrast dye"},
+      {term:"Mammography",def:"mammo (breast) + graphy",breakdown:"X-ray imaging of breast tissue for cancer screening"},
+      {term:"Biopsy",def:"bio (life) + opsy (view)",breakdown:"Removal of living tissue for microscopic examination"},
+      {term:"Endoscopy",def:"endo (within) + scopy (visual exam)",breakdown:"Visual examination of internal body cavity with a scope"},
+      {term:"Laparoscopy",def:"laparo (abdomen) + scopy",breakdown:"Minimally invasive examination of the abdominal cavity"},
+      {term:"Bronchoscopy",def:"broncho + scopy",breakdown:"Visual examination of the bronchial airways"},
+      {term:"Colonoscopy",def:"colon + scopy",breakdown:"Visual examination of the entire large intestine"},
+      {term:"Cystoscopy",def:"cysto (bladder) + scopy",breakdown:"Visual examination inside the urinary bladder"},
+      {term:"Arthroscopy",def:"arthr (joint) + scopy",breakdown:"Visual examination inside a joint"},
+      {term:"Urinalysis",def:"urin (urine) + analysis",breakdown:"Laboratory analysis of urine composition and characteristics"},
+      {term:"Complete blood count",def:"complete + blood + count",breakdown:"CBC — laboratory test counting all blood cell types"},
+      {term:"Blood culture",def:"blood + culture",breakdown:"Laboratory test growing microorganisms from blood sample"},
+      {term:"Lumbar puncture",def:"lumbar (lower back) + puncture",breakdown:"Spinal tap — withdrawing cerebrospinal fluid for analysis"},
+      {term:"Amniocentesis",def:"amnio (amniotic sac) + centesis (puncture)",breakdown:"Sampling amniotic fluid for prenatal genetic diagnosis"},
+      {term:"Thoracentesis",def:"thorac (chest) + centesis (puncture)",breakdown:"Needle drainage of fluid from the pleural chest cavity"},
+      {term:"Paracentesis",def:"para (beside) + centesis (puncture)",breakdown:"Needle drainage of fluid from the abdominal cavity"},
+      {term:"Pericardiocentesis",def:"pericardio (pericardium) + centesis",breakdown:"Needle drainage of fluid from the pericardial sac"},
+      {term:"Spirometry",def:"spiro (breathing) + metry (measurement)",breakdown:"Pulmonary function test measuring airflow and lung volumes"},
+      {term:"Audiometry",def:"audio (hearing) + metry (measurement)",breakdown:"Hearing test measuring auditory threshold across frequencies"},
+      {term:"Urodynamics",def:"uro (urine) + dynamics (forces)",breakdown:"Testing urinary tract pressure and flow"},
+    ]
+  },
+  "prefixes_suffixes": {
+    label: "Prefixes Suffixes",
+    terms: [
+      {term:"Macro-",def:"macro (large)",breakdown:"Prefix: large or long. Macrocyte = abnormally large cell"},
+      {term:"Micro-",def:"micro (small)",breakdown:"Prefix: small. Microscopic = only visible with microscope"},
+      {term:"Mega-",def:"mega (great)",breakdown:"Prefix: very large. Megacolon = grossly enlarged colon"},
+      {term:"Brady-",def:"brady (slow)",breakdown:"Prefix: slow. Bradycardia = slow heart. Bradypnea = slow breathing"},
+      {term:"Tachy-",def:"tachy (fast)",breakdown:"Prefix: rapid. Tachycardia = fast heart. Tachypnea = fast breathing"},
+      {term:"Hyper-",def:"hyper (over)",breakdown:"Prefix: above normal. Hypertension = high BP. Hyperglycemia = high sugar"},
+      {term:"Hypo-",def:"hypo (under)",breakdown:"Prefix: below normal. Hypoglycemia = low sugar. Hypothyroidism = low thyroid"},
+      {term:"A- / An-",def:"a or an (without)",breakdown:"Prefix: without or absence of. Apnea = no breathing. Anemia = no/low blood"},
+      {term:"Dys-",def:"dys (bad/difficult)",breakdown:"Prefix: abnormal or difficult. Dyspnea = hard breathing. Dysuria = painful urination"},
+      {term:"Poly-",def:"poly (many)",breakdown:"Prefix: many or excessive. Polyuria = excess urine. Polycythemia = excess RBCs"},
+      {term:"Mono-",def:"mono (one)",breakdown:"Prefix: one or single. Monocyte = one-lobed WBC. Mononucleosis"},
+      {term:"Bi-",def:"bi (two)",breakdown:"Prefix: two. Bilateral = both sides. Bicuspid = two cusps"},
+      {term:"Hemi-",def:"hemi (half)",breakdown:"Prefix: half. Hemiplegia = half-body paralysis. Hemisphere = half sphere"},
+      {term:"Peri-",def:"peri (around)",breakdown:"Prefix: around or surrounding. Pericarditis = around heart. Periosteum = around bone"},
+      {term:"Endo-",def:"endo (within)",breakdown:"Prefix: within or inside. Endocarditis = inside heart. Endoscopy = looking inside"},
+      {term:"Exo- / Extra-",def:"exo/extra (outside)",breakdown:"Prefix: outside. Extracellular = outside cells. Exocrine = secreting outward"},
+      {term:"Intra-",def:"intra (within)",breakdown:"Prefix: within. Intravenous = within a vein. Intradermal = within skin"},
+      {term:"Sub-",def:"sub (under/below)",breakdown:"Prefix: beneath. Subcutaneous = under skin. Sublingual = under tongue"},
+      {term:"Supra-",def:"supra (above)",breakdown:"Prefix: above. Suprarenal = above kidney. Supraclavicular = above clavicle"},
+      {term:"Pre-",def:"pre (before)",breakdown:"Prefix: before. Prenatal = before birth. Preoperative = before surgery"},
+      {term:"Post-",def:"post (after)",breakdown:"Prefix: after. Postoperative = after surgery. Postpartum = after birth"},
+      {term:"Neo-",def:"neo (new)",breakdown:"Prefix: new. Neoplasm = new growth. Neonatal = newborn. Neovascularization"},
+      {term:"Anti-",def:"anti (against)",breakdown:"Prefix: against. Antibiotic = against life (bacteria). Antiviral = against viruses"},
+      {term:"-itis",def:"-itis (inflammation)",breakdown:"Suffix: inflammation. Hepatitis, arthritis, appendicitis, meningitis"},
+      {term:"-osis",def:"-osis (abnormal condition)",breakdown:"Suffix: condition or process. Scoliosis, thrombosis, neurosis"},
+      {term:"-oma",def:"-oma (tumor or swelling)",breakdown:"Suffix: tumor or mass. Carcinoma, adenoma, melanoma, hematoma"},
+      {term:"-ectomy",def:"-ectomy (surgical removal)",breakdown:"Suffix: surgical excision. Appendectomy, cholecystectomy, mastectomy"},
+      {term:"-plasty",def:"-plasty (surgical repair)",breakdown:"Suffix: reconstruction. Rhinoplasty, arthroplasty, angioplasty"},
+      {term:"-scopy",def:"-scopy (visual examination)",breakdown:"Suffix: looking inside. Colonoscopy, arthroscopy, bronchoscopy"},
+      {term:"-ostomy",def:"-ostomy (creating opening)",breakdown:"Suffix: new opening. Colostomy, tracheostomy, ileostomy"},
+      {term:"-otomy / -tomy",def:"-otomy (surgical incision)",breakdown:"Suffix: cutting into. Craniotomy, tracheotomy, laparotomy"},
+      {term:"-graphy",def:"-graphy (recording process)",breakdown:"Suffix: making an image. Radiography, mammography, echocardiography"},
+      {term:"-gram",def:"-gram (record/image)",breakdown:"Suffix: the recorded image. Electrocardiogram, mammogram"},
+      {term:"-logy",def:"-logy (study of)",breakdown:"Suffix: medical specialty. Cardiology, neurology, oncology"},
+      {term:"-pathy",def:"-pathy (disease)",breakdown:"Suffix: disease or disorder. Neuropathy, cardiomyopathy, nephropathy"},
+      {term:"-algia",def:"-algia (pain)",breakdown:"Suffix: pain. Myalgia, arthralgia, neuralgia, fibromyalgia"},
+      {term:"-plegia",def:"-plegia (paralysis)",breakdown:"Suffix: complete paralysis. Hemiplegia, paraplegia, quadriplegia"},
+      {term:"-emia",def:"-emia (blood condition)",breakdown:"Suffix: blood state. Anemia, leukemia, bacteremia, hyperglycemia"},
+      {term:"-uria",def:"-uria (urine condition)",breakdown:"Suffix: urine state. Hematuria, glycosuria, pyuria, oliguria"},
+      {term:"-pnea",def:"-pnea (breathing)",breakdown:"Suffix: breathing. Apnea, dyspnea, tachypnea, orthopnea"},
+      {term:"-phasia",def:"-phasia (speech)",breakdown:"Suffix: speech. Aphasia, dysphasia — language disorders"},
+      {term:"-megaly",def:"-megaly (enlargement)",breakdown:"Suffix: abnormal enlargement. Cardiomegaly, hepatomegaly, splenomegaly"},
+      {term:"-stenosis",def:"-stenosis (narrowing)",breakdown:"Suffix: narrowing. Aortic stenosis, spinal stenosis, pyloric stenosis"},
+      {term:"-rrhea",def:"-rrhea (flow or discharge)",breakdown:"Suffix: discharge. Rhinorrhea, diarrhea, seborrhea, gonorrhea"},
+      {term:"-rrhagia",def:"-rrhagia (excessive flow)",breakdown:"Suffix: hemorrhage. Menorrhagia, metrorrhagia, hemorrhage"},
+      {term:"-malacia",def:"-malacia (softening)",breakdown:"Suffix: softening. Osteomalacia, chondromalacia, tracheomalacia"},
+      {term:"-sclerosis",def:"-sclerosis (hardening)",breakdown:"Suffix: hardening. Atherosclerosis, multiple sclerosis, otosclerosis"},
+      {term:"-centesis",def:"-centesis (surgical puncture)",breakdown:"Suffix: aspirating fluid. Thoracentesis, amniocentesis, arthrocentesis"},
+      {term:"-desis",def:"-desis (surgical fusion)",breakdown:"Suffix: fusing together. Arthrodesis, pleurodesis, spondylodesis"},
+      {term:"-rrhaphy",def:"-rrhaphy (surgical suturing)",breakdown:"Suffix: stitching. Herniorrhaphy, cardiorrhaphy, blepharorrhaphy"},
+      {term:"-pexy",def:"-pexy (surgical fixation)",breakdown:"Suffix: anchoring in place. Nephropexy, orchiopexy, gastropexy"},
+      {term:"-tripsy",def:"-tripsy (crushing)",breakdown:"Suffix: crushing. Lithotripsy, cholecystolithotripsy"},
+      {term:"-lysis",def:"-lysis (destruction)",breakdown:"Suffix: breaking down. Hemolysis, dialysis, thrombolysis"},
+      {term:"-penia",def:"-penia (deficiency)",breakdown:"Suffix: deficiency. Leukopenia, thrombocytopenia, neutropenia"},
+      {term:"-trophy",def:"-trophy (development)",breakdown:"Suffix: growth or nourishment. Hypertrophy, atrophy, dystrophy"},
+      {term:"-kinesia",def:"-kinesia (movement)",breakdown:"Suffix: movement. Bradykinesia = slow movement. Hyperkinesia"},
+      {term:"cardio-",def:"cardio (heart)",breakdown:"Root: heart. Cardiology, cardiomegaly, cardiomyopathy"},
+      {term:"hepat-",def:"hepat (liver)",breakdown:"Root: liver. Hepatitis, hepatomegaly, hepatectomy"},
+      {term:"nephr-",def:"nephr (kidney)",breakdown:"Root: kidney. Nephritis, nephrectomy, nephrology"},
+      {term:"neuro-",def:"neuro (nerve)",breakdown:"Root: nerve or nervous system. Neurology, neuropathy, neuritis"},
+      {term:"oste-",def:"oste (bone)",breakdown:"Root: bone. Osteoporosis, osteomyelitis, osteosarcoma"},
+      {term:"dermat-",def:"dermat (skin)",breakdown:"Root: skin. Dermatology, dermatitis, dermatosis"},
+      {term:"gastr-",def:"gastr (stomach)",breakdown:"Root: stomach. Gastritis, gastrectomy, gastroscopy"},
+      {term:"pulmon-",def:"pulmon (lung)",breakdown:"Root: lung. Pulmonology, pulmonary, pulmonectomy"},
+      {term:"hem-/hemat-",def:"hem or hemat (blood)",breakdown:"Root: blood. Hemoglobin, hematology, hematuria, hemophilia"},
+      {term:"arthr-",def:"arthr (joint)",breakdown:"Root: joint. Arthritis, arthroscopy, arthroplasty, arthralgia"},
+    ]
+  },
+  "reproductive_obstetric": {
+    label: "Reproductive Obstetric",
+    terms: [
+      {term:"Hysterectomy",def:"hyster (uterus) + ectomy (removal)",breakdown:"Surgical removal of the uterus"},
+      {term:"Oophorectomy",def:"oophor (ovary) + ectomy (removal)",breakdown:"Surgical removal of one or both ovaries"},
+      {term:"Salpingectomy",def:"salping (fallopian tube) + ectomy (removal)",breakdown:"Surgical removal of a fallopian tube"},
+      {term:"Mastectomy",def:"mast (breast) + ectomy (removal)",breakdown:"Surgical removal of the breast tissue"},
+      {term:"Mammography",def:"mammo (breast) + graphy (recording)",breakdown:"X-ray imaging of breast tissue for cancer screening"},
+      {term:"Episiotomy",def:"episi (vulva) + otomy (incision)",breakdown:"Surgical incision of the perineum during childbirth"},
+      {term:"Cesarean section",def:"Caes (Caesar legend) + arean + section",breakdown:"Surgical delivery of a baby through the abdominal wall"},
+      {term:"Amniocentesis",def:"amnio (amniotic sac) + centesis (puncture)",breakdown:"Sampling of amniotic fluid for prenatal diagnosis"},
+      {term:"Eclampsia",def:"ec (out) + lampsia (seizure)",breakdown:"Seizures in pregnancy from severe preeclampsia"},
+      {term:"Preeclampsia",def:"pre (before) + ec + lampsia",breakdown:"Hypertension and proteinuria developing during pregnancy"},
+      {term:"Placenta previa",def:"placenta + previa (going before)",breakdown:"Placenta covering or near the cervical opening"},
+      {term:"Ectopic pregnancy",def:"ec (out of) + top (place) + ic",breakdown:"Pregnancy implanted outside the uterus — usually fallopian tube"},
+      {term:"Endometriosis",def:"endo + metr (uterus) + osis",breakdown:"Growth of uterine tissue outside the uterus"},
+      {term:"Dysmenorrhea",def:"dys (painful) + men (month) + rrhea (flow)",breakdown:"Painful menstruation"},
+      {term:"Amenorrhea",def:"a (without) + men (month) + rrhea (flow)",breakdown:"Absence of menstruation"},
+      {term:"Menorrhagia",def:"meno (menstruation) + rrhagia (excessive flow)",breakdown:"Abnormally heavy or prolonged menstrual bleeding"},
+      {term:"Cervicitis",def:"cervic (cervix) + itis (inflammation)",breakdown:"Inflammation of the cervix"},
+      {term:"Vaginitis",def:"vagin (vagina) + itis (inflammation)",breakdown:"Inflammation of the vagina"},
+      {term:"Prostatitis",def:"prostat (prostate) + itis (inflammation)",breakdown:"Inflammation of the prostate gland"},
+      {term:"Orchitis",def:"orch (testicle) + itis (inflammation)",breakdown:"Inflammation of one or both testicles"},
+      {term:"Cryptorchidism",def:"crypt (hidden) + orch (testicle) + ism",breakdown:"Failure of testes to descend into the scrotum"},
+      {term:"Colposcopy",def:"colpo (vagina) + scopy (visual exam)",breakdown:"Visual examination of the cervix and vagina"},
+    ]
+  },
+};
+
 </script>
 
 <script>
@@ -3267,6 +3851,7 @@ function showScreen(name){
   if(name==='flashcards')initFC();
   if(name==='quiz')initQZ();
   if(name==='bowl')initBowl();
+  if(name==='wordbank')initWordBank();
   if(name==='course')renderCourse();
   if(name==='chat')syncMobileChat();
   if(name==='home')renderSidebarEvents();
@@ -3697,6 +4282,93 @@ document.getElementById('chatInDk').addEventListener('keydown',e=>{if(e.key==='E
 document.getElementById('chatSendM').addEventListener('click',()=>{const v=document.getElementById('chatInM').value.trim();if(!v)return;document.getElementById('chatInM').value='';sendChat(v);});
 document.getElementById('chatInM').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('chatSendM').click();}});
 document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>sendChat(b.dataset.q)));
+
+// ── WORD BANK ──────────────────────────────────────────
+let wbCurrentSystem = 'all';
+const WB_SYSTEM_LABELS = {
+  all: 'All Systems',
+  cardiovascular: 'Cardiovascular',
+  respiratory: 'Respiratory',
+  gastrointestinal: 'Digestive / GI',
+  musculoskeletal: 'Musculoskeletal',
+  nervous_system: 'Nervous System',
+  urinary: 'Urinary',
+  endocrine: 'Endocrine',
+  blood_immune: 'Blood & Immune',
+  skin: 'Skin',
+  eye_ear: 'Eye & Ear',
+  oncology: 'Oncology',
+  pharmacology: 'Pharmacology',
+  diagnostic_procedures: 'Diagnostic Tests',
+  prefixes_suffixes: 'Prefixes & Suffixes',
+  reproductive_obstetric: 'Reproductive',
+};
+
+function initWordBank() {
+  // Build system filter buttons
+  const btnContainer = document.getElementById('wbSystemBtns');
+  if (btnContainer && !btnContainer.dataset.built) {
+    btnContainer.dataset.built = '1';
+    Object.entries(WB_SYSTEM_LABELS).forEach(([key, label]) => {
+      const btn = document.createElement('button');
+      btn.className = 'bk';
+      btn.textContent = label;
+      btn.style.cssText = 'font-size:10px;padding:4px 8px;white-space:nowrap;';
+      btn.dataset.sys = key;
+      if (key === 'all') { btn.style.borderColor = 'var(--teal)'; btn.style.color = 'var(--teal)'; }
+      btn.addEventListener('click', () => {
+        wbCurrentSystem = key;
+        document.querySelectorAll('#wbSystemBtns .bk').forEach(b => {
+          b.style.borderColor = ''; b.style.color = '';
+        });
+        btn.style.borderColor = 'var(--teal)'; btn.style.color = 'var(--teal)';
+        renderWordBank();
+      });
+      btnContainer.appendChild(btn);
+    });
+    document.getElementById('wbSearch').addEventListener('input', renderWordBank);
+  }
+  renderWordBank();
+}
+
+function renderWordBank() {
+  if (!window.QB_TERM_WORDS) {
+    document.getElementById('wbGrid').innerHTML = '<div style="color:var(--muted);padding:20px">Word bank loading...</div>';
+    return;
+  }
+  const query = (document.getElementById('wbSearch').value || '').toLowerCase().trim();
+  let allTerms = [];
+  if (wbCurrentSystem === 'all') {
+    Object.values(QB_TERM_WORDS).forEach(sys => allTerms.push(...sys.terms));
+  } else if (QB_TERM_WORDS[wbCurrentSystem]) {
+    allTerms = QB_TERM_WORDS[wbCurrentSystem].terms;
+  }
+  const filtered = query
+    ? allTerms.filter(t => t.term.toLowerCase().includes(query) || t.def.toLowerCase().includes(query) || t.breakdown.toLowerCase().includes(query))
+    : allTerms;
+
+  document.getElementById('wbCount').textContent = filtered.length + ' terms';
+  const systemLabel = WB_SYSTEM_LABELS[wbCurrentSystem] || 'All Systems';
+  document.getElementById('wbSubtitle').textContent = systemLabel + ' — ' + filtered.length + ' terms';
+
+  const grid = document.getElementById('wbGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div style="color:var(--muted);grid-column:1/-1;padding:20px;text-align:center">No terms match your search.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(t => {
+    const termH = query ? t.term.replace(new RegExp(query,'gi'), m=>`<mark style="background:var(--amber-l);color:var(--amber-d);border-radius:2px">${m}</mark>`) : t.term;
+    const defH = query ? t.def.replace(new RegExp(query,'gi'), m=>`<mark style="background:var(--amber-l);color:var(--amber-d);border-radius:2px">${m}</mark>`) : t.def;
+    return `<div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:11px 12px;cursor:pointer;transition:all .15s;" onclick="this.querySelector('.wb-breakdown').style.display=this.querySelector('.wb-breakdown').style.display==='none'?'block':'none'">
+      <div style="font-size:14px;font-weight:700;font-family:var(--mono);color:var(--teal);margin-bottom:4px">${termH}</div>
+      <div style="font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:4px">${defH}</div>
+      <div class="wb-breakdown" style="display:none;font-size:11px;color:var(--muted);background:var(--surf2);padding:6px 8px;border-radius:6px;margin-top:5px;font-family:var(--mono)">${t.breakdown}</div>
+      <div style="font-size:9px;color:var(--muted);margin-top:5px;font-family:var(--mono)">tap to see definition breakdown</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('wbBack').addEventListener('click', goBack);
 
 // ── INIT ─────────────────────────────────────────────
 // Verify question banks loaded
