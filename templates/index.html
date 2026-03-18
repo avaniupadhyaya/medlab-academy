@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>HOSA Academy</title>
+<title>HOSA Academy v2.0</title>
+<meta name="version" content="2.0">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -356,20 +357,19 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
       <div class="bowl-scene" id="bowlScene"></div>
     
     <!-- WORD BANK -->
-    <div class="screen" id="screen-wordbank">
-      <div class="gh">
-        <button class="bk" id="wbBack">← Back</button>
-        <div><div class="gt">📖 Word Bank</div><div class="gs" id="wbSubtitle">Medical Terminology — 479 words</div></div>
-        <div class="sc-row" style="margin-left:auto;font-size:11px;color:var(--muted)" id="wbCount"></div>
+    <div class="screen" id="screen-wordbank" style="display:none;flex-direction:column;">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--surf);">
+        <button onclick="goBack()" style="background:var(--surf2);border:1px solid var(--bord);border-radius:7px;padding:6px 11px;font-size:11px;color:var(--muted);cursor:pointer;font-family:var(--font);">← Back</button>
+        <div style="flex:1"><div style="font-size:16px;font-weight:700;">📖 Word Bank</div><div style="font-size:11px;color:var(--muted);font-family:var(--mono)" id="wbSubtitle">479 medical terms</div></div>
+        <div style="font-size:11px;color:var(--teal);font-family:var(--mono);font-weight:700;" id="wbCount"></div>
       </div>
-      <div style="padding:8px 14px;border-bottom:1px solid var(--bord);display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-        <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">System:</span>
-        <div id="wbSystemBtns" style="display:flex;gap:5px;flex-wrap:wrap;"></div>
+      <div style="padding:8px 14px;border-bottom:1px solid var(--bord);overflow-x:auto;white-space:nowrap;flex-shrink:0;" id="wbSystemRow">
+        <span style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-right:6px;">SYSTEM:</span>
       </div>
-      <div style="padding:7px 14px;border-bottom:1px solid var(--bord);">
-        <input type="text" id="wbSearch" placeholder="🔍  Search any term or definition..." style="width:100%;background:var(--surf2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);font-family:var(--font);font-size:14px;padding:9px 12px;">
+      <div style="padding:8px 14px;border-bottom:1px solid var(--bord);flex-shrink:0;">
+        <input type="text" id="wbSearch" placeholder="🔍  Search terms..." style="width:100%;background:var(--surf2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);font-family:var(--font);font-size:14px;padding:9px 12px;box-sizing:border-box;">
       </div>
-      <div id="wbGrid" style="overflow-y:auto;flex:1;padding:10px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start;"></div>
+      <div id="wbGrid" style="overflow-y:auto;padding:10px 14px;flex:1;"></div>
     </div>
 
 </div>
@@ -4739,91 +4739,98 @@ document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>
 
 // ── WORD BANK ──────────────────────────────────────────
 let wbCurrentSystem = 'all';
-const WB_SYSTEM_LABELS = {
-  all: 'All Systems',
-  cardiovascular: 'Cardiovascular',
-  respiratory: 'Respiratory',
-  gastrointestinal: 'Digestive / GI',
-  musculoskeletal: 'Musculoskeletal',
-  nervous_system: 'Nervous System',
-  urinary: 'Urinary',
-  endocrine: 'Endocrine',
-  blood_immune: 'Blood & Immune',
-  skin: 'Skin',
-  eye_ear: 'Eye & Ear',
-  oncology: 'Oncology',
-  pharmacology: 'Pharmacology',
-  diagnostic_procedures: 'Diagnostic Tests',
-  prefixes_suffixes: 'Prefixes & Suffixes',
-  reproductive_obstetric: 'Reproductive',
+let wbBuilt = false;
+
+const WB_LABELS = {
+  all:'All Systems',cardiovascular:'Cardiovascular',respiratory:'Respiratory',
+  gastrointestinal:'Digestive / GI',musculoskeletal:'Musculoskeletal',
+  nervous_system:'Nervous System',urinary:'Urinary',endocrine:'Endocrine',
+  blood_immune:'Blood & Immune',skin:'Skin',eye_ear:'Eye & Ear',
+  oncology:'Oncology',pharmacology:'Pharmacology',
+  diagnostic_procedures:'Diagnostic Tests',prefixes_suffixes:'Prefixes & Suffixes',
+  reproductive_obstetric:'Reproductive'
 };
 
-function initWordBank() {
-  // Build system filter buttons
-  const btnContainer = document.getElementById('wbSystemBtns');
-  if (btnContainer && !btnContainer.dataset.built) {
-    btnContainer.dataset.built = '1';
-    Object.entries(WB_SYSTEM_LABELS).forEach(([key, label]) => {
-      const btn = document.createElement('button');
-      btn.className = 'bk';
-      btn.textContent = label;
-      btn.style.cssText = 'font-size:10px;padding:4px 8px;white-space:nowrap;';
-      btn.dataset.sys = key;
-      if (key === 'all') { btn.style.borderColor = 'var(--teal)'; btn.style.color = 'var(--teal)'; }
-      btn.addEventListener('click', () => {
+function initWordBank(){
+  // Build filter buttons once
+  const row = document.getElementById('wbSystemRow');
+  if(row && !wbBuilt){
+    wbBuilt = true;
+    Object.entries(WB_LABELS).forEach(([key,label])=>{
+      const b = document.createElement('button');
+      b.textContent = label;
+      b.dataset.sys = key;
+      b.style.cssText = 'font-size:10px;padding:4px 9px;margin-right:4px;border-radius:5px;cursor:pointer;font-family:var(--font);border:1px solid var(--bord);background:'+(key==='all'?'var(--teal)':'var(--surf2)')+';color:'+(key==='all'?'white':'var(--muted)')+';white-space:nowrap;';
+      b.onclick = function(){
         wbCurrentSystem = key;
-        document.querySelectorAll('#wbSystemBtns .bk').forEach(b => {
-          b.style.borderColor = ''; b.style.color = '';
+        document.querySelectorAll('#wbSystemRow button').forEach(btn=>{
+          btn.style.background='var(--surf2)'; btn.style.color='var(--muted)';
         });
-        btn.style.borderColor = 'var(--teal)'; btn.style.color = 'var(--teal)';
+        b.style.background='var(--teal)'; b.style.color='white';
         renderWordBank();
-      });
-      btnContainer.appendChild(btn);
+      };
+      row.appendChild(b);
     });
-    document.getElementById('wbSearch').addEventListener('input', renderWordBank);
+    const inp = document.getElementById('wbSearch');
+    if(inp) inp.oninput = renderWordBank;
   }
   renderWordBank();
 }
 
-function renderWordBank() {
-  const WBD = window.QB_TERM_WORDS;
-  if (!WBD) {
-    document.getElementById('wbGrid').innerHTML = '<div style="color:var(--muted);padding:20px;text-align:center">Word bank data not loaded. Please refresh the page.</div>';
-    return;
-  }
-  const query = (document.getElementById('wbSearch').value || '').toLowerCase().trim();
-  let allTerms = [];
-  if (wbCurrentSystem === 'all') {
-    Object.values(WBD).forEach(sys => { if(sys && sys.terms) allTerms.push(...sys.terms); });
-  } else if (WBD[wbCurrentSystem] && WBD[wbCurrentSystem].terms) {
-    allTerms = WBD[wbCurrentSystem].terms;
-  }
-  const filtered = query
-    ? allTerms.filter(t => t.term.toLowerCase().includes(query) || t.def.toLowerCase().includes(query) || t.breakdown.toLowerCase().includes(query))
-    : allTerms;
-
-  document.getElementById('wbCount').textContent = filtered.length + ' terms';
-  const systemLabel = WB_SYSTEM_LABELS[wbCurrentSystem] || 'All Systems';
-  document.getElementById('wbSubtitle').textContent = systemLabel + ' — ' + filtered.length + ' terms';
-
+function renderWordBank(){
   const grid = document.getElementById('wbGrid');
-  if (!filtered.length) {
-    grid.innerHTML = '<div style="color:var(--muted);grid-column:1/-1;padding:20px;text-align:center">No terms match your search.</div>';
+  if(!grid) return;
+  
+  const WBD = window.QB_TERM_WORDS;
+  if(!WBD){
+    grid.innerHTML = '<p style="color:var(--muted);padding:20px;text-align:center;">Loading word bank... try refreshing.</p>';
     return;
   }
-  grid.innerHTML = filtered.map(t => {
-    const termH = query ? t.term.replace(new RegExp(query,'gi'), m=>`<mark style="background:var(--amber-l);color:var(--amber-d);border-radius:2px">${m}</mark>`) : t.term;
-    const defH = query ? t.def.replace(new RegExp(query,'gi'), m=>`<mark style="background:var(--amber-l);color:var(--amber-d);border-radius:2px">${m}</mark>`) : t.def;
-    return `<div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:11px 12px;cursor:pointer;transition:all .15s;" onclick="this.querySelector('.wb-breakdown').style.display=this.querySelector('.wb-breakdown').style.display==='none'?'block':'none'">
-      <div style="font-size:14px;font-weight:700;font-family:var(--mono);color:var(--teal);margin-bottom:4px">${termH}</div>
-      <div style="font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:4px">${defH}</div>
-      <div class="wb-breakdown" style="display:none;font-size:11px;color:var(--muted);background:var(--surf2);padding:6px 8px;border-radius:6px;margin-top:5px;font-family:var(--mono)">${t.breakdown}</div>
-      <div style="font-size:9px;color:var(--muted);margin-top:5px;font-family:var(--mono)">tap to see definition breakdown</div>
-    </div>`;
-  }).join('');
+  
+  const q = ((document.getElementById('wbSearch')||{}).value||'').toLowerCase().trim();
+  
+  let terms = [];
+  if(wbCurrentSystem === 'all'){
+    Object.values(WBD).forEach(sys=>{ if(sys&&sys.terms) terms = terms.concat(sys.terms); });
+  } else {
+    terms = (WBD[wbCurrentSystem]&&WBD[wbCurrentSystem].terms) || [];
+  }
+  
+  if(q) terms = terms.filter(t=> t.term.toLowerCase().includes(q)||t.def.toLowerCase().includes(q)||t.breakdown.toLowerCase().includes(q));
+  
+  const sub = document.getElementById('wbSubtitle');
+  const cnt = document.getElementById('wbCount');
+  if(sub) sub.textContent = (WB_LABELS[wbCurrentSystem]||'All') + ' — ' + terms.length + ' terms';
+  if(cnt) cnt.textContent = terms.length + ' terms';
+  
+  if(!terms.length){
+    grid.innerHTML = '<p style="color:var(--muted);padding:20px;text-align:center;">No terms found.</p>';
+    return;
+  }
+  
+  // Build cards as a 2-column grid
+  grid.style.cssText = 'overflow-y:auto;padding:10px 14px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start;';
+  
+  let cards = '';
+  terms.forEach((t,i)=>{
+    const esc = (s)=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+    let termTxt = esc(t.term);
+    let defTxt = esc(t.def);
+    if(q){
+      const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+      termTxt = termTxt.replace(re,'<mark style="background:#faeeda;color:#633806;border-radius:2px">$&</mark>');
+      defTxt = defTxt.replace(re,'<mark style="background:#faeeda;color:#633806;border-radius:2px">$&</mark>');
+    }
+    cards += '<div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:11px 12px;" onclick="this.lastElementChild.style.display=this.lastElementChild.style.display===\'block\'?\'none\':\'block\'">'
+      + '<div style="font-size:14px;font-weight:700;color:var(--teal);font-family:var(--mono);margin-bottom:3px">' + termTxt + '</div>'
+      + '<div style="font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:3px">' + defTxt + '</div>'
+      + '<div style="font-size:9px;color:var(--muted);margin-bottom:4px">▼ tap for breakdown</div>'
+      + '<div style="display:none;font-size:11px;color:var(--muted);background:var(--surf2);padding:6px 8px;border-radius:6px;font-family:var(--mono)">' + esc(t.breakdown) + '</div>'
+      + '</div>';
+  });
+  grid.innerHTML = cards;
 }
 
-document.getElementById('wbBack').addEventListener('click', goBack);
 
 // ── INIT ─────────────────────────────────────────────
 // Verify question banks loaded
