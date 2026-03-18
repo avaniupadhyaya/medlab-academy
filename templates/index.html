@@ -230,29 +230,82 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .pt-level-badge{display:inline-block;padding:8px 20px;border-radius:20px;font-weight:700;font-size:16px;font-family:var(--mono);margin-bottom:24px;}
 
 /* COURSE MODE */
-.course-wrap{padding:16px;overflow-y:auto;flex:1;}
+.course-wrap{padding:0;overflow-y:auto;flex:1;}
+.course-home{padding:16px;}
 .course-title{font-size:20px;font-weight:700;margin-bottom:4px;}
 .course-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
-.unit-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;}
-.unit-header{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;}
-.unit-icon{font-size:24px;flex-shrink:0;}
-.unit-title{font-size:15px;font-weight:700;}
-.unit-sub{font-size:11px;color:var(--text-muted);}
-.unit-progress{margin-left:auto;text-align:right;}
+.unit-card{border-radius:14px;margin-bottom:12px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
+.unit-card:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-1px);}
+.unit-card.locked{opacity:0.45;cursor:not-allowed;}
+.unit-card.locked:hover{transform:none;}
+.unit-header{padding:14px 16px;display:flex;align-items:center;gap:12px;background:var(--surface);}
+.unit-icon{font-size:26px;flex-shrink:0;}
+.unit-title{font-size:14px;font-weight:700;}
+.unit-sub{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.unit-progress{margin-left:auto;text-align:right;flex-shrink:0;}
 .unit-pct{font-size:12px;font-family:var(--mono);color:var(--teal);}
-.unit-bar{width:80px;height:5px;background:var(--surface2);border-radius:3px;margin-top:3px;}
+.unit-bar{width:70px;height:5px;background:var(--surface2);border-radius:3px;margin-top:4px;}
 .unit-bar-fill{height:100%;background:var(--teal);border-radius:3px;transition:width 0.6s;}
-.unit-locked{opacity:0.4;cursor:not-allowed;}
-.lessons-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:6px;display:none;}
-.lessons-list.open{display:flex;}
-.lesson-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;transition:all 0.15s;}
-.lesson-item:hover{border-color:var(--teal);}
-.lesson-item.completed{border-color:var(--green);background:rgba(99,153,34,0.06);}
-.lesson-item.locked{opacity:0.4;cursor:not-allowed;}
-.lesson-icon{font-size:18px;flex-shrink:0;}
-.lesson-title{font-size:13px;font-weight:600;flex:1;}
-.lesson-type{font-size:10px;font-family:var(--mono);color:var(--text-muted);}
-.lesson-check{font-size:16px;margin-left:auto;}
+/* LESSON VIEWER */
+.lesson-viewer{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.lesson-viewer.active{display:flex;}
+.lesson-nav{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);flex-shrink:0;}
+.lesson-breadcrumb{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
+.lesson-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.lesson-section{padding:20px 16px;border-bottom:1px solid var(--border);}
+.ls-tag{display:inline-block;font-size:10px;font-family:var(--mono);font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;}
+.ls-tag.teach{background:var(--blue-light);color:var(--blue-dark);}
+.ls-tag.example{background:var(--teal-light);color:var(--teal-dark);}
+.ls-tag.remember{background:var(--amber-light);color:var(--amber-dark);}
+.ls-tag.practice{background:var(--purple-light);color:var(--purple-dark);}
+.ls-heading{font-size:18px;font-weight:700;margin-bottom:8px;line-height:1.3;}
+.ls-body{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:12px;}
+.ls-body strong{color:var(--text);}
+.term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:12px 0;}
+.term-tile{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;transition:all 0.2s;cursor:default;}
+.term-tile:hover{border-color:var(--teal);}
+.term-tile .tt-term{font-size:15px;font-weight:700;font-family:var(--mono);color:var(--teal);margin-bottom:4px;}
+.term-tile .tt-meaning{font-size:12px;color:var(--text-muted);}
+.term-tile .tt-example{font-size:11px;color:var(--text-muted);margin-top:4px;font-style:italic;}
+.example-box{background:var(--surface);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 16px;margin:12px 0;font-size:14px;line-height:1.7;}
+.example-box .ex-term{font-size:20px;font-weight:700;font-family:var(--mono);color:var(--teal);margin-bottom:6px;}
+.example-box .ex-breakdown{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
+.ex-part{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;font-family:var(--mono);}
+.ex-part.prefix{background:var(--blue-light);color:var(--blue-dark);}
+.ex-part.root{background:var(--teal-light);color:var(--teal-dark);}
+.ex-part.suffix{background:var(--amber-light);color:var(--amber-dark);}
+.ex-part.plus{background:transparent;color:var(--text-muted);font-size:14px;padding:4px 2px;}
+.body-system-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin:10px 0;}
+.bsc-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.bsc-icon{font-size:32px;}
+.bsc-title{font-size:16px;font-weight:700;}
+.bsc-sub{font-size:12px;color:var(--text-muted);}
+.bsc-organs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.bsc-organ{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;font-family:var(--mono);}
+.bsc-function{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:10px;}
+.bsc-terms{display:flex;flex-wrap:wrap;gap:6px;}
+.bsc-term{background:var(--teal-light);color:var(--teal-dark);border-radius:6px;padding:3px 10px;font-size:11px;font-family:var(--mono);font-weight:600;}
+/* LESSON QUIZ */
+.lq-wrap{padding:16px;background:var(--surface2);margin:0;}
+.lq-title{font-size:14px;font-weight:700;margin-bottom:14px;color:var(--text);}
+.lq-question{font-size:15px;font-weight:600;margin-bottom:12px;line-height:1.5;background:var(--surface);padding:14px;border-radius:10px;border:1px solid var(--border);}
+.lq-options{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.lq-option{padding:13px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;font-size:14px;font-family:var(--font);color:var(--text);min-height:48px;display:flex;align-items:center;transition:all 0.15s;}
+.lq-option:hover{border-color:var(--blue);}
+.lq-option.correct{background:var(--green-light);color:var(--green-dark);border-color:var(--green);}
+.lq-option.wrong{background:var(--red-light);color:var(--red-dark);border-color:var(--red);}
+.lq-feedback{padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:12px;display:none;}
+.lq-feedback.show{display:block;}
+.lq-next{background:var(--teal);color:white;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);width:100%;min-height:48px;display:none;}
+.lq-next.show{display:block;}
+.lesson-complete{text-align:center;padding:32px 16px;background:var(--surface);}
+.lc-icon{font-size:52px;margin-bottom:12px;}
+.lc-title{font-size:20px;font-weight:700;margin-bottom:8px;}
+.lc-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.5;}
+.lc-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.lc-btn{padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);min-height:44px;border:none;}
+.lc-btn.primary{background:var(--teal);color:white;}
+.lc-btn.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
 
 /* DOCTOR DIAGNOSIS MODE */
 .dr-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
@@ -396,11 +449,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 
     <!-- COURSE MODE -->
     <div class="screen" id="screen-course">
-      <div class="game-header" style="padding-bottom:14px;">
-        <button class="back-btn" onclick="showScreen('home')">← Back</button>
-        <div><div class="game-title">🎓 MedLab Course</div><div class="game-subtitle">Complete lessons to unlock the next unit</div></div>
+      <div class="game-header" style="padding-bottom:14px;" id="courseGameHeader">
+        <button class="back-btn" id="courseBackBtn" onclick="showScreen('home')">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
+        <div id="courseTitleWrap"><div class="game-title">🎓 MedLab Course</div><div class="game-subtitle">Complete lessons to unlock the next unit</div></div>
       </div>
-      <div class="course-wrap" id="courseWrap"></div>
+      <!-- Course Home (unit list) -->
+      <div id="courseHome" class="course-home"></div>
+      <!-- Lesson Viewer (shown when a lesson is open) -->
+      <div class="lesson-viewer" id="lessonViewer">
+        <div class="lesson-nav">
+          <button class="back-btn" style="font-size:11px;padding:5px 10px;" id="lessonBackBtn">← Units</button>
+          <div class="lesson-breadcrumb" id="lessonBreadcrumb">Unit 1 · Lesson 1</div>
+          <div style="margin-left:auto;font-size:11px;font-family:var(--mono);color:var(--text-muted)" id="lessonProgress"></div>
+        </div>
+        <div class="lesson-content" id="lessonContent"></div>
+      </div>
     </div>
 
     <!-- WORD BUILDER -->
@@ -570,364 +634,751 @@ const STOR=(QB.patientStory)||{easy:[],medium:[],hard:[]};
 const FC_C=(QB.flashcards)||{easy:[],medium:[],hard:[]};
 
 // ── COURSE DATA ──
-const COURSE_UNITS=[
-  {id:'u1',icon:'🔤',title:'Unit 1: Building Blocks',sub:'Prefixes & Suffixes',color:'teal',
-   lessons:[
-    {id:'u1l1',title:'What is medical terminology?',type:'flashcards',icon:'🃏',keys:['cardio-','dermat-','-itis','-ology','hyper-','hypo-']},
-    {id:'u1l2',title:'Common prefixes: hyper, hypo, brady, tachy',type:'wordbuilder',icon:'🧬',keys:['hyper-','hypo-','brady-','tachy-']},
-    {id:'u1l3',title:'Common suffixes: -itis, -ology, -ectomy',type:'flashcards',icon:'🃏',keys:['-itis','-ology','-ectomy','-algia','-pathy']},
-    {id:'u1l4',title:'Build your first terms!',type:'wordbuilder',icon:'🧬',keys:['dermatitis','cardiology','hepatitis']},
-    {id:'u1l5',title:'Unit 1 Review',type:'match',icon:'⚡',keys:['easy']},
-  ]},
-  {id:'u2',icon:'❤️',title:'Unit 2: Heart & Blood',sub:'Cardiovascular System',color:'coral',
-   lessons:[
-    {id:'u2l1',title:'Heart roots: cardio, myo, angio',type:'flashcards',icon:'🃏',keys:['cardio-','myo-','angi-','arteri-','phleb-']},
-    {id:'u2l2',title:'Diagnose heart conditions',type:'detective',icon:'🔍',keys:['tachycardia','bradycardia','hypertension']},
-    {id:'u2l3',title:'Blood cell vocabulary',type:'flashcards',icon:'🃏',keys:['erythr-','leuko-','thromb-','hemat-']},
-    {id:'u2l4',title:'Be the cardiologist!',type:'doctor',icon:'🩺',keys:['cardio']},
-    {id:'u2l5',title:'Unit 2 Review',type:'match',icon:'⚡',keys:['medium']},
-  ]},
-  {id:'u3',icon:'🫁',title:'Unit 3: Breathing & Lungs',sub:'Respiratory System',color:'blue',
-   lessons:[
-    {id:'u3l1',title:'Lung roots: pneumon, bronch, pulmon',type:'flashcards',icon:'🃏',keys:['pulmon-','bronch-','pneum-','pleur-','thorac-']},
-    {id:'u3l2',title:'Breathing conditions',type:'detective',icon:'🔍',keys:['dyspnea','apnea','tachypnea','bronchitis']},
-    {id:'u3l3',title:'Build respiratory terms',type:'wordbuilder',icon:'🧬',keys:['bronchitis','pneumonitis','tachypnea']},
-    {id:'u3l4',title:'Unit 3 Review',type:'story',icon:'📋',keys:['medium']},
-  ]},
-  {id:'u4',icon:'🦴',title:'Unit 4: Bones & Muscles',sub:'Musculoskeletal System',color:'amber',
-   lessons:[
-    {id:'u4l1',title:'Bone & muscle roots',type:'flashcards',icon:'🃏',keys:['oste-','arthr-','my-','tendin-','burs-']},
-    {id:'u4l2',title:'Joint and bone conditions',type:'detective',icon:'🔍',keys:['arthritis','osteoporosis','tendinitis']},
-    {id:'u4l3',title:'Bone procedures',type:'wordbuilder',icon:'🧬',keys:['arthroplasty','arthroscopy','osteotomy']},
-    {id:'u4l4',title:'Unit 4 Review',type:'match',icon:'⚡',keys:['medium']},
-  ]},
-  {id:'u5',icon:'🧠',title:'Unit 5: Brain & Nerves',sub:'Nervous System',color:'purple',
-   lessons:[
-    {id:'u5l1',title:'Nervous system roots',type:'flashcards',icon:'🃏',keys:['neuro-','encephal-','myel-','mening-','cerebell-']},
-    {id:'u5l2',title:'Neurological conditions',type:'detective',icon:'🔍',keys:['encephalitis','meningitis','neuropathy']},
-    {id:'u5l3',title:'Brain condition builder',type:'wordbuilder',icon:'🧬',keys:['encephalitis','neuralgia','polyneuropathy']},
-    {id:'u5l4',title:'Unit 5 Review',type:'story',icon:'📋',keys:['hard']},
-  ]},
-  {id:'u6',icon:'🏆',title:'Unit 6: Master Level',sub:'Advanced Pathology & Procedures',color:'green',
-   lessons:[
-    {id:'u6l1',title:'Advanced suffixes deep dive',type:'flashcards',icon:'🃏',keys:['-stenosis','-plasty','-scopy','-ectomy','-ostomy']},
-    {id:'u6l2',title:'Complex diagnoses',type:'detective',icon:'🔍',keys:['hard']},
-    {id:'u6l3',title:'Full procedure builder',type:'wordbuilder',icon:'🧬',keys:['hard']},
-    {id:'u6l4',title:'Master ER chart',type:'story',icon:'📋',keys:['hard']},
-    {id:'u6l5',title:'HOSA Final Challenge',type:'match',icon:'⚡',keys:['hard']},
-  ]},
+const COURSE = [
+  {
+    id:'u1', icon:'🔤', title:'Unit 1: Building Blocks', sub:'Roots, Prefixes & Suffixes',
+    color:'var(--teal)', colorLight:'var(--teal-light)', colorDark:'var(--teal-dark)',
+    lessons:[
+      {
+        id:'u1l1', title:'What is Medical Terminology?', xp:20,
+        sections:[
+          {type:'teach', heading:'Medical words are like puzzles 🧩',
+           body:'Medical terminology is the language of healthcare. Almost every medical word is built from small parts — just like LEGO bricks. Once you know the parts, you can figure out what <strong>any</strong> medical word means — even ones you\'ve never seen before!',
+          },
+          {type:'example', heading:'The three building blocks',
+           items:[
+             {label:'PREFIX', color:'prefix', desc:'Comes at the START. Changes or adds to the meaning.', ex:'hyper- (excessive), brady- (slow), a- (without)'},
+             {label:'ROOT WORD', color:'root', desc:'The CORE of the word. Usually refers to a body part or function.', ex:'cardio (heart), dermat (skin), nephr (kidney)'},
+             {label:'SUFFIX', color:'suffix', desc:'Comes at the END. Usually tells you what\'s happening.', ex:'-itis (inflammation), -ology (study of), -ectomy (removal)'},
+           ]
+          },
+          {type:'example', heading:'Let\'s decode "dermatitis" together:',
+           breakdown:{term:'dermatitis', parts:[{text:'dermat',type:'root',meaning:'skin'},{text:'-itis',type:'suffix',meaning:'inflammation'}], meaning:'Inflammation of the skin'}
+          },
+          {type:'remember', heading:'Memory tip 💡',
+           body:'Think of medical terms like a recipe: the <strong>root</strong> is the main ingredient (body part), the <strong>prefix</strong> adds flavor at the start (how much/what kind), and the <strong>suffix</strong> describes what\'s happening at the end (the condition or procedure).'
+          },
+        ],
+        quiz:[
+          {q:'What part of a medical word comes at the BEGINNING and modifies the meaning?',opts:['Suffix','Root word','Prefix','Combining vowel'],correct:2,explain:'A prefix comes at the START of a word to change or add to its meaning. Example: "hyper-" in hypertension.'},
+          {q:'What does the ROOT WORD in a medical term usually refer to?',opts:['The type of procedure','A body part or function','The severity of a condition','The direction of movement'],correct:1,explain:'The root is the core of the word and usually names a body part or function. Example: "cardio" = heart.'},
+          {q:'Which part of the word "hepatitis" is the suffix?',opts:['hepat','hepa','-itis','hep'],correct:2,explain:'-itis is the suffix meaning "inflammation". "Hepat-" is the root meaning liver.'},
+        ]
+      },
+      {
+        id:'u1l2', title:'Root Words: The Core of Every Term', xp:25,
+        sections:[
+          {type:'teach', heading:'Root words are body part names in disguise',
+           body:'Most medical root words come from <strong>Greek or Latin</strong> — ancient languages that doctors used centuries ago. Today we still use the same roots! Learning just 30 core roots lets you understand thousands of medical words.'
+          },
+          {type:'example', heading:'Most important root words to know:',
+           termGrid:[
+             {term:'cardio-',meaning:'heart',example:'cardiology'},
+             {term:'dermat-',meaning:'skin',example:'dermatitis'},
+             {term:'hepat-',meaning:'liver',example:'hepatitis'},
+             {term:'nephr-',meaning:'kidney',example:'nephritis'},
+             {term:'gastr-',meaning:'stomach',example:'gastritis'},
+             {term:'neuro-',meaning:'nerve',example:'neurology'},
+             {term:'oste-',meaning:'bone',example:'osteology'},
+             {term:'arthr-',meaning:'joint',example:'arthritis'},
+             {term:'pulmon-',meaning:'lung',example:'pulmonology'},
+             {term:'encephal-',meaning:'brain',example:'encephalitis'},
+             {term:'hemat-',meaning:'blood',example:'hematology'},
+             {term:'my/myo-',meaning:'muscle',example:'myocarditis'},
+           ]
+          },
+          {type:'remember', heading:'Greek vs Latin roots 💡',
+           body:'When you see a root like <strong>nephr-</strong> (Greek for kidney), notice that Latin also has <strong>ren-</strong> for kidney — that\'s why we say both "nephrology" and "renal." Both words mean kidney-related! Many body parts have TWO root words.'
+          },
+        ],
+        quiz:[
+          {q:'What does the root "hepat-" refer to?',opts:['Heart','Liver','Kidney','Lung'],correct:1,explain:'"Hepat-" comes from Greek "hepar" meaning liver. That\'s why hepatitis = liver inflammation!'},
+          {q:'A doctor says "nephrectomy." The root "nephr-" tells you this involves the...',opts:['Nerve','Knee','Kidney','Nose'],correct:2,explain:'"Nephr-" = kidney (Greek: nephros). An -ectomy = removal. So nephrectomy = surgical removal of the kidney.'},
+          {q:'Which root word means BONE?',opts:['arthr-','my-','oste-','pulmon-'],correct:2,explain:'"Oste-" comes from Greek "osteon" meaning bone. Osteology = study of bones, osteoporosis = porous bones.'},
+          {q:'The word "myocarditis" contains two roots. "Myo-" means muscle. What does "card-" mean?',opts:['Blood','Lung','Brain','Heart'],correct:3,explain:'"Card/cardio-" = heart (Greek: kardia). Myocarditis = inflammation of the heart muscle. Two roots in one word!'},
+        ]
+      },
+      {
+        id:'u1l3', title:'Prefixes: The Modifiers', xp:25,
+        sections:[
+          {type:'teach', heading:'Prefixes change everything about a word',
+           body:'A prefix sits at the START of a medical word and tells you <strong>how much</strong>, <strong>where</strong>, <strong>when</strong>, or <strong>what kind</strong>. The same root word can mean very different things depending on which prefix is attached.'
+          },
+          {type:'example', heading:'Essential prefixes — grouped by meaning:',
+           groups:[
+             {label:'Amount / Level', color:'blue', items:[
+               {term:'hyper-',meaning:'excessive / above normal',ex:'hyperglycemia (high blood sugar)'},
+               {term:'hypo-',meaning:'below normal / deficient',ex:'hypoglycemia (low blood sugar)'},
+               {term:'poly-',meaning:'many / much / excessive',ex:'polyuria (excessive urination)'},
+               {term:'olig-',meaning:'little / few / scanty',ex:'oliguria (little urine)'},
+             ]},
+             {label:'Speed', color:'teal', items:[
+               {term:'tachy-',meaning:'fast / rapid',ex:'tachycardia (fast heart rate)'},
+               {term:'brady-',meaning:'slow',ex:'bradycardia (slow heart rate)'},
+             ]},
+             {label:'Absence / Opposition', color:'amber', items:[
+               {term:'a- / an-',meaning:'without / absence of',ex:'apnea (absence of breathing)'},
+               {term:'anti-',meaning:'against',ex:'antibiotic (against bacteria)'},
+               {term:'dys-',meaning:'bad / difficult / painful',ex:'dyspnea (difficult breathing)'},
+             ]},
+             {label:'Location', color:'purple', items:[
+               {term:'peri-',meaning:'around / surrounding',ex:'pericarditis (around the heart)'},
+               {term:'endo-',meaning:'within / inside',ex:'endocardium (inside the heart)'},
+               {term:'sub-',meaning:'below / under',ex:'subcutaneous (under the skin)'},
+               {term:'supra-',meaning:'above / over',ex:'suprarenal (above the kidney)'},
+             ]},
+           ]
+          },
+          {type:'example', heading:'See how the prefix changes everything:',
+           breakdown:{term:'tachycardia', parts:[{text:'tachy-',type:'prefix',meaning:'fast'},{text:'card',type:'root',meaning:'heart'},{text:'-ia',type:'suffix',meaning:'condition'}], meaning:'Abnormally fast heart rate (>100 bpm)'}
+          },
+        ],
+        quiz:[
+          {q:'A patient has "bradycardia." The prefix brady- means SLOW. What is bradycardia?',opts:['Fast heart rate','Slow heart rate','Heart inflammation','No heartbeat'],correct:1,explain:'Brady- = slow + cardia = heart condition. Bradycardia = abnormally slow heart rate (less than 60 bpm).'},
+          {q:'The prefix "hyper-" means excessive. What does "hypertension" most likely mean?',opts:['Low blood pressure','Normal blood pressure','High blood pressure','No blood pressure'],correct:2,explain:'Hyper- = excessive/above normal + tension = pressure. Hypertension = high blood pressure.'},
+          {q:'A patient has "apnea." The prefix "a-" means WITHOUT. What is apnea?',opts:['Fast breathing','Slow breathing','Painful breathing','No breathing'],correct:3,explain:'A- = without + pnea = breathing. Apnea = absence of breathing. Often seen during sleep (sleep apnea).'},
+          {q:'Which prefix means AROUND?',opts:['endo-','sub-','peri-','hypo-'],correct:2,explain:'"Peri-" means around/surrounding (Greek: peri). Example: pericarditis = inflammation around the heart.'},
+        ]
+      },
+      {
+        id:'u1l4', title:'Suffixes: What\'s Happening?', xp:25,
+        sections:[
+          {type:'teach', heading:'Suffixes tell you the condition or procedure',
+           body:'While the root says WHAT (body part) and the prefix says HOW (modifier), the <strong>suffix tells you WHAT IS HAPPENING</strong> — is it inflamed? Being studied? Being removed? Being repaired? The suffix is often the most important part for understanding a diagnosis.'
+          },
+          {type:'example', heading:'The most tested suffixes for HOSA:',
+           groups:[
+             {label:'Conditions & Diseases', color:'red', items:[
+               {term:'-itis',meaning:'inflammation',ex:'hepatitis (liver inflammation)'},
+               {term:'-osis',meaning:'abnormal condition / increase',ex:'cyanosis (bluish skin condition)'},
+               {term:'-pathy',meaning:'disease of',ex:'neuropathy (nerve disease)'},
+               {term:'-algia',meaning:'pain',ex:'arthralgia (joint pain)'},
+               {term:'-emia',meaning:'blood condition',ex:'anemia (low red blood cells)'},
+               {term:'-uria',meaning:'urine condition',ex:'hematuria (blood in urine)'},
+               {term:'-pnea',meaning:'breathing',ex:'dyspnea (difficult breathing)'},
+             ]},
+             {label:'Procedures & Surgeries', color:'teal', items:[
+               {term:'-ectomy',meaning:'surgical removal',ex:'appendectomy (appendix removal)'},
+               {term:'-plasty',meaning:'surgical repair',ex:'rhinoplasty (nose repair)'},
+               {term:'-scopy',meaning:'visual examination',ex:'colonoscopy (colon exam)'},
+               {term:'-ostomy',meaning:'create new opening',ex:'colostomy (colon opening)'},
+               {term:'-tomy',meaning:'surgical incision',ex:'craniotomy (skull incision)'},
+               {term:'-centesis',meaning:'surgical puncture',ex:'thoracentesis (chest puncture)'},
+             ]},
+             {label:'Tests & Records', color:'blue', items:[
+               {term:'-ology',meaning:'study of',ex:'cardiology (study of heart)'},
+               {term:'-gram',meaning:'record / image',ex:'electrocardiogram (heart tracing)'},
+               {term:'-graphy',meaning:'process of recording',ex:'mammography (breast imaging)'},
+               {term:'-megaly',meaning:'enlargement',ex:'cardiomegaly (enlarged heart)'},
+             ]},
+           ]
+          },
+          {type:'remember', heading:'Quick trick for -ectomy vs -ostomy 💡',
+           body:'Both involve surgery. <strong>-ectomy</strong> = REMOVAL (something taken out). <strong>-ostomy</strong> = NEW OPENING (a hole is made). An appendectomy removes the appendix. A colostomy creates a new opening in the colon. Different operations!'
+          },
+        ],
+        quiz:[
+          {q:'A patient needs a "cholecystectomy." The suffix -ectomy means REMOVAL. What is being removed?',opts:['The colon','The gallbladder','The appendix','The kidney'],correct:1,explain:'"Cholecyst-" = gallbladder, "-ectomy" = surgical removal. Cholecystectomy = surgical removal of the gallbladder.'},
+          {q:'The suffix "-itis" always means...',opts:['Surgical removal','Study of','Inflammation','Pain'],correct:2,explain:'"-itis" means inflammation. It comes from Greek and is one of the most common medical suffixes. Arthritis, hepatitis, appendicitis — all inflammations!'},
+          {q:'A doctor orders a "gastroscopy." The suffix -scopy means VISUAL EXAMINATION. What is being examined?',opts:['The gallbladder','The colon','The stomach','The lungs'],correct:2,explain:'"Gastr-" = stomach, "-scopy" = visual examination. A gastroscopy uses a camera to look inside the stomach.'},
+          {q:'What does the suffix "-megaly" mean?',opts:['Softening','Enlargement','Narrowing','Hardening'],correct:1,explain:'"-megaly" means enlargement (Greek: megas = large). Hepatomegaly = enlarged liver, cardiomegaly = enlarged heart.'},
+        ]
+      },
+      {
+        id:'u1l5', title:'Putting It Together: Decoding Any Term', xp:30,
+        sections:[
+          {type:'teach', heading:'You now have the tools to decode ANY medical word',
+           body:'Here\'s the secret technique doctors use when they see an unfamiliar term: <strong>1)</strong> Find the suffix (end) first — it tells you what\'s happening. <strong>2)</strong> Find the root (middle) — it tells you what body part. <strong>3)</strong> Check for a prefix (start) — it modifies the meaning. Put it together and you have your answer!'
+          },
+          {type:'example', heading:'Let\'s practice decoding together:',
+           decodeExamples:[
+             {term:'osteomyelitis', breakdown:[{text:'oste-',type:'root',meaning:'bone'},{text:'myel-',type:'root',meaning:'marrow'},{text:'-itis',type:'suffix',meaning:'inflammation'}], meaning:'Inflammation of the bone and bone marrow'},
+             {term:'tachypnea', breakdown:[{text:'tachy-',type:'prefix',meaning:'fast'},{text:'-pnea',type:'suffix',meaning:'breathing'}], meaning:'Abnormally fast breathing rate'},
+             {term:'hyponatremia', breakdown:[{text:'hypo-',type:'prefix',meaning:'below normal'},{text:'natr-',type:'root',meaning:'sodium'},{text:'-emia',type:'suffix',meaning:'blood condition'}], meaning:'Abnormally low sodium level in the blood'},
+           ]
+          },
+          {type:'remember', heading:'HOSA exam tip 🏆',
+           body:'On the HOSA Foundations of Medical Terminology event, you\'ll be tested on recognizing and defining medical terms. Always break the word apart: <strong>suffix → root → prefix</strong>. Even if you don\'t know the full word, knowing the parts gets you to the right answer!'
+          },
+        ],
+        quiz:[
+          {q:'Using your decoding skills: "Encephalitis" — "encephal-" = brain, "-itis" = inflammation. What does encephalitis mean?',opts:['Study of the brain','Brain removal','Inflammation of the brain','Brain disease'],correct:2,explain:'Encephal- (brain) + -itis (inflammation) = encephalitis. Exactly! Break it apart and it tells you everything.'},
+          {q:'Decode "hepatomegaly": "hepat-" = liver, "-megaly" = enlargement. So hepatomegaly means...',opts:['Liver inflammation','Liver removal','Liver disease','Enlarged liver'],correct:3,explain:'Hepat- (liver) + -megaly (enlargement) = hepatomegaly. An abnormally enlarged liver.'},
+          {q:'What is the FIRST step when decoding an unfamiliar medical term?',opts:['Look at the prefix','Look at the root','Look at the suffix','Look up the whole word'],correct:2,explain:'Start with the SUFFIX — it tells you what is happening (inflammation, removal, study of, etc.). Then find the root for the body part.'},
+          {q:'"Polyuria" — "poly-" = many/much, "-uria" = urine condition. What does polyuria mean?',opts:['No urine production','Painful urination','Excessive urine production','Blood in urine'],correct:2,explain:'Poly- (many/much) + -uria (urine condition) = polyuria. Producing an abnormally large amount of urine, often seen in diabetes.'},
+        ]
+      },
+    ]
+  },
+  {
+    id:'u2', icon:'❤️', title:'Unit 2: Cardiovascular System', sub:'Heart, Blood & Vessels',
+    color:'var(--coral)', colorLight:'var(--coral-light)', colorDark:'var(--coral-dark)',
+    lessons:[
+      {
+        id:'u2l1', title:'The Heart: Structure & Vocabulary', xp:25,
+        sections:[
+          {type:'teach', heading:'The heart is the engine of the body',
+           body:'The cardiovascular system pumps blood throughout the entire body. The heart beats about <strong>100,000 times per day</strong> — delivering oxygen and nutrients to every cell. Understanding heart vocabulary is essential because cardiovascular disease is the #1 cause of death worldwide.'
+          },
+          {type:'system', system:{
+            icon:'❤️', title:'The Heart', sub:'Cardiovascular System',
+            organs:['Heart','Arteries','Veins','Capillaries','Aorta','Coronary vessels'],
+            function:'The heart is a muscular pump divided into 4 chambers (2 atria + 2 ventricles). It pumps oxygenated blood to the body through arteries and receives deoxygenated blood back through veins.',
+            roots:[
+              {term:'cardio-',meaning:'heart',ex:'cardiology'},
+              {term:'myo-',meaning:'muscle',ex:'myocardium'},
+              {term:'angi-',meaning:'vessel',ex:'angioplasty'},
+              {term:'arteri-',meaning:'artery',ex:'arteriosclerosis'},
+              {term:'phleb-',meaning:'vein',ex:'phlebitis'},
+              {term:'thromb-',meaning:'clot',ex:'thrombosis'},
+            ]
+          }},
+          {type:'example', heading:'Key heart terms decoded:',
+           breakdown:{term:'myocarditis', parts:[{text:'myo-',type:'root',meaning:'muscle'},{text:'card-',type:'root',meaning:'heart'},{text:'-itis',type:'suffix',meaning:'inflammation'}], meaning:'Inflammation of the heart muscle'}
+          },
+          {type:'remember', heading:'Heart chambers memory trick 💡',
+           body:'The heart has <strong>4 chambers</strong>: Right Atrium → Right Ventricle → Lungs → Left Atrium → Left Ventricle → Body. Remember: <strong>"Atria</strong> are on top (A = Above), <strong>Ventricles</strong> are on the bottom (V = Very low)."'
+          },
+        ],
+        quiz:[
+          {q:'A patient has "pericarditis." "Peri-" means around, "card-" means heart. What is pericarditis?',opts:['Heart muscle inflammation','Heart valve disease','Inflammation around the heart','Enlarged heart'],correct:2,explain:'Peri- (around) + card- (heart) + -itis (inflammation) = pericarditis. Inflammation of the pericardium — the sac surrounding the heart.'},
+          {q:'What does "tachycardia" mean?',opts:['Slow heart rate','Abnormally fast heart rate','Irregular heart rate','No heartbeat'],correct:1,explain:'Tachy- (fast) + cardia (heart condition) = tachycardia. Heart rate above 100 beats per minute.'},
+          {q:'The suffix "-emia" means blood condition. What is "anemia"?',opts:['Too many red blood cells','Normal blood cells','Blood clot','Deficiency of red blood cells / hemoglobin'],correct:3,explain:'An- (without/deficient) + -emia (blood condition) = anemia. A condition where there aren\'t enough healthy red blood cells.'},
+        ]
+      },
+      {
+        id:'u2l2', title:'Blood Disorders & Cardiovascular Conditions', xp:30,
+        sections:[
+          {type:'teach', heading:'Cardiovascular conditions you must know for HOSA',
+           body:'The cardiovascular system can develop many conditions. Most of their names follow the prefix-root-suffix pattern you\'ve already learned. Let\'s go through the most important ones systematically.'
+          },
+          {type:'example', heading:'Essential cardiovascular terms:',
+           termGrid:[
+             {term:'Tachycardia',meaning:'Fast heart rate (>100 bpm)',example:'tachy + cardia'},
+             {term:'Bradycardia',meaning:'Slow heart rate (<60 bpm)',example:'brady + cardia'},
+             {term:'Hypertension',meaning:'High blood pressure',example:'hyper + tension'},
+             {term:'Hypotension',meaning:'Low blood pressure',example:'hypo + tension'},
+             {term:'Arrhythmia',meaning:'Abnormal heart rhythm',example:'a + rhythm + ia'},
+             {term:'Cardiomegaly',meaning:'Enlarged heart',example:'cardio + megaly'},
+             {term:'Myocarditis',meaning:'Heart muscle inflammation',example:'myo + card + itis'},
+             {term:'Atherosclerosis',meaning:'Artery hardening from plaque',example:'athero + sclerosis'},
+             {term:'Anemia',meaning:'Low red blood cell count',example:'an + emia'},
+             {term:'Leukopenia',meaning:'Low white blood cell count',example:'leuko + penia'},
+             {term:'Thrombocytopenia',meaning:'Low platelet count',example:'thrombocyte + penia'},
+             {term:'Leukocytosis',meaning:'High white blood cell count',example:'leuko + cyte + osis'},
+           ]
+          },
+          {type:'remember', heading:'Leuko vs Erythro 💡',
+           body:'<strong>Leuko-</strong> = white (white blood cells). <strong>Erythro-</strong> = red (red blood cells). Leukopenia = low WBCs, Erythrocytosis = too many RBCs. The color prefix tells you exactly which blood cell is affected!'
+          },
+        ],
+        quiz:[
+          {q:'A patient\'s blood pressure reading is 160/100 mmHg — above normal. What is this condition called?',opts:['Hypotension','Hypertension','Tachycardia','Arrhythmia'],correct:1,explain:'Hyper- (above normal) + tension (pressure) = hypertension. Normal blood pressure is around 120/80 mmHg.'},
+          {q:'Lab results show a very LOW count of white blood cells. What is the medical term?',opts:['Leukocytosis','Polycythemia','Leukopenia','Erythrocytosis'],correct:2,explain:'Leuko- (white) + -penia (deficiency) = leukopenia. White blood cell deficiency makes it harder for the body to fight infection.'},
+          {q:'What does "atherosclerosis" mean?',opts:['Softening of the arteries','Hardening of arteries from fatty plaque','Inflammation of arteries','Narrowing of veins'],correct:1,explain:'Athero- (fatty porridge-like plaque) + -sclerosis (hardening) = atherosclerosis. Plaque builds up in artery walls, hardening and narrowing them.'},
+        ]
+      },
+    ]
+  },
+  {
+    id:'u3', icon:'🫁', title:'Unit 3: Respiratory System', sub:'Lungs, Airways & Breathing',
+    color:'var(--blue)', colorLight:'var(--blue-light)', colorDark:'var(--blue-dark)',
+    lessons:[
+      {
+        id:'u3l1', title:'The Respiratory System', xp:25,
+        sections:[
+          {type:'teach', heading:'Every breath you take — the respiratory system',
+           body:'The respiratory system brings oxygen into the body and removes carbon dioxide. You breathe about <strong>20,000 times per day</strong>! The respiratory system includes the nose, pharynx, larynx, trachea, bronchi, and lungs.'
+          },
+          {type:'system', system:{
+            icon:'🫁', title:'Respiratory System', sub:'Breathing & Gas Exchange',
+            organs:['Nose/Nasal cavity','Pharynx (throat)','Larynx (voice box)','Trachea (windpipe)','Bronchi','Bronchioles','Alveoli (air sacs)','Lungs','Diaphragm','Pleura'],
+            function:'Air enters through the nose/mouth → travels down the trachea → branches into bronchi → reaches tiny alveoli → oxygen crosses into the blood → carbon dioxide moves back out. The diaphragm muscle drives breathing.',
+            roots:[
+              {term:'pneumon-',meaning:'lung/air',ex:'pneumonia'},
+              {term:'bronch-',meaning:'bronchial tube',ex:'bronchitis'},
+              {term:'pulmon-',meaning:'lung',ex:'pulmonology'},
+              {term:'rhin-',meaning:'nose',ex:'rhinitis'},
+              {term:'pharyng-',meaning:'throat',ex:'pharyngitis'},
+              {term:'laryng-',meaning:'voice box',ex:'laryngitis'},
+              {term:'trache-',meaning:'trachea',ex:'tracheotomy'},
+              {term:'pleur-',meaning:'lung lining',ex:'pleuritis'},
+            ]
+          }},
+          {type:'remember', heading:'Breathing conditions memory guide 💡',
+           body:'The suffix <strong>-pnea</strong> always relates to breathing. Add a prefix: <strong>tachy</strong>pnea (fast), <strong>brady</strong>pnea (slow), <strong>a</strong>pnea (none), <strong>dys</strong>pnea (difficult). Master -pnea and you know 4 conditions instantly!'
+          },
+        ],
+        quiz:[
+          {q:'A child has "rhinitis." "Rhin-" = nose, "-itis" = inflammation. What is rhinitis?',opts:['Throat inflammation','Ear inflammation','Nasal inflammation','Lung inflammation'],correct:2,explain:'Rhin- (nose) + -itis (inflammation) = rhinitis. Inflammation of the nasal passages — common with allergies or colds.'},
+          {q:'A patient stops breathing momentarily during sleep. What is this called?',opts:['Dyspnea','Tachypnea','Apnea','Bradypnea'],correct:2,explain:'A- (without/absence) + -pnea (breathing) = apnea. Temporary cessation of breathing, common in sleep apnea.'},
+          {q:'What is the function of the alveoli?',opts:['Produce mucus','Filter air','Exchange oxygen and carbon dioxide with blood','Control breathing rate'],correct:2,explain:'Alveoli are tiny air sacs in the lungs where gas exchange happens — oxygen enters the blood and CO2 leaves.'},
+        ]
+      },
+    ]
+  },
+  {
+    id:'u4', icon:'🦴', title:'Unit 4: Musculoskeletal System', sub:'Bones, Muscles & Joints',
+    color:'var(--amber)', colorLight:'var(--amber-light)', colorDark:'var(--amber-dark)',
+    lessons:[
+      {
+        id:'u4l1', title:'Bones, Muscles & Joints', xp:25,
+        sections:[
+          {type:'teach', heading:'The body\'s framework and movement system',
+           body:'The musculoskeletal system gives your body its shape, protects organs, and makes movement possible. An adult human has <strong>206 bones</strong> and over <strong>600 muscles</strong>! Learning the root words for bones and muscles helps you understand orthopedic (bone/joint) medical terms.'
+          },
+          {type:'system', system:{
+            icon:'🦴', title:'Musculoskeletal System', sub:'Bones, Muscles & Joints',
+            organs:['Bones (206 total)','Skeletal muscles (600+)','Cartilage','Tendons','Ligaments','Joints','Bursae'],
+            function:'Bones provide structure and protect organs. Muscles attach to bones via tendons and contract to create movement. Ligaments connect bone to bone. Cartilage cushions joints. Bursae are fluid-filled sacs that reduce friction at joints.',
+            roots:[
+              {term:'oste-',meaning:'bone',ex:'osteoporosis'},
+              {term:'arthr-',meaning:'joint',ex:'arthritis'},
+              {term:'my/myo-',meaning:'muscle',ex:'myopathy'},
+              {term:'tendin-',meaning:'tendon',ex:'tendinitis'},
+              {term:'burs-',meaning:'bursa',ex:'bursitis'},
+              {term:'chondr-',meaning:'cartilage',ex:'chondritis'},
+            ]
+          }},
+          {type:'example', heading:'Key musculoskeletal terms:',
+           termGrid:[
+             {term:'Osteoporosis',meaning:'Porous, brittle bones',example:'osteo + por + osis'},
+             {term:'Osteomalacia',meaning:'Softening of bones',example:'osteo + malacia'},
+             {term:'Arthritis',meaning:'Joint inflammation',example:'arthr + itis'},
+             {term:'Arthroplasty',meaning:'Surgical joint repair',example:'arthr + plasty'},
+             {term:'Arthroscopy',meaning:'Visual exam of joint',example:'arthr + scopy'},
+             {term:'Tendinitis',meaning:'Tendon inflammation',example:'tendin + itis'},
+             {term:'Bursitis',meaning:'Bursa inflammation',example:'burs + itis'},
+             {term:'Myopathy',meaning:'Muscle disease',example:'myo + pathy'},
+           ]
+          },
+        ],
+        quiz:[
+          {q:'A patient is diagnosed with "osteoporosis." "Oste-" = bone. What does osteoporosis involve?',opts:['Bone infection','Bone inflammation','Bone softening','Decreased bone density making bones porous and brittle'],correct:3,explain:'Osteo- (bone) + por- (porous) + -osis (condition) = osteoporosis. Bones lose density and become fragile, increasing fracture risk.'},
+          {q:'An athlete has "tendinitis." What is inflamed?',opts:['The joint','The bone','The tendon','The muscle'],correct:2,explain:'Tendin- (tendon) + -itis (inflammation) = tendinitis. Tendons connect muscle to bone, and overuse can cause inflammation.'},
+          {q:'A surgeon performs an "arthroscopy." What does this procedure involve?',opts:['Removing a joint','Repairing a joint','Visually examining a joint','Fusing two bones'],correct:2,explain:'Arthr- (joint) + -scopy (visual examination) = arthroscopy. A tiny camera is inserted into the joint to examine it.'},
+        ]
+      },
+    ]
+  },
+  {
+    id:'u5', icon:'🧠', title:'Unit 5: Nervous & Digestive Systems', sub:'Brain, Nerves & GI Tract',
+    color:'var(--purple)', colorLight:'var(--purple-light)', colorDark:'var(--purple-dark)',
+    lessons:[
+      {
+        id:'u5l1', title:'The Nervous System', xp:25,
+        sections:[
+          {type:'teach', heading:'The body\'s command and control center',
+           body:'The nervous system controls everything — from heartbeat to thinking to reflexes. It has two main divisions: the <strong>Central Nervous System (CNS)</strong> — brain and spinal cord — and the <strong>Peripheral Nervous System (PNS)</strong> — all other nerves. The brain has about <strong>86 billion neurons</strong>!'
+          },
+          {type:'system', system:{
+            icon:'🧠', title:'Nervous System', sub:'Brain, Spinal Cord & Nerves',
+            organs:['Brain (cerebrum, cerebellum, brainstem)','Spinal cord','Cranial nerves (12 pairs)','Spinal nerves','Meninges (3 protective layers)','Cerebrospinal fluid'],
+            function:'The brain processes information and sends commands. The spinal cord relays signals between brain and body. Nerves carry electrical signals to all muscles and organs. Meninges protect the brain and spinal cord.',
+            roots:[
+              {term:'neuro-',meaning:'nerve',ex:'neurology'},
+              {term:'encephal-',meaning:'brain',ex:'encephalitis'},
+              {term:'myel-',meaning:'spinal cord/marrow',ex:'myelitis'},
+              {term:'mening-',meaning:'meninges',ex:'meningitis'},
+              {term:'cerebell-',meaning:'cerebellum',ex:'cerebellitis'},
+              {term:'cerebr-',meaning:'cerebrum',ex:'cerebral'},
+            ]
+          }},
+        ],
+        quiz:[
+          {q:'A patient has "meningitis." "Mening-" = meninges (brain coverings). What is meningitis?',opts:['Brain tissue inflammation','Inflammation of the membranes surrounding the brain/spinal cord','Spinal cord injury','Nerve disease'],correct:1,explain:'Mening- (meninges) + -itis (inflammation) = meningitis. The meninges are 3 protective layers surrounding the brain and spinal cord.'},
+          {q:'What does "encephalitis" mean?',opts:['Brain study','Inflammation of the brain','Brain removal','Brain disease'],correct:1,explain:'Encephal- (brain) + -itis (inflammation) = encephalitis. Inflammation of the brain, often caused by viral infection.'},
+          {q:'What is the CNS (Central Nervous System)?',opts:['All nerves in the body','Brain and spinal cord only','Just the brain','The nerves outside the brain and spinal cord'],correct:1,explain:'The CNS consists of the BRAIN and SPINAL CORD. All other nerves form the Peripheral Nervous System (PNS).'},
+        ]
+      },
+      {
+        id:'u5l2', title:'The Digestive System', xp:25,
+        sections:[
+          {type:'teach', heading:'From mouth to... well, you know.',
+           body:'The digestive system breaks down food into nutrients the body can use. The entire digestive tract — from mouth to anus — is about <strong>30 feet (9 meters) long</strong>! It involves many organs, each with important medical terminology.'
+          },
+          {type:'system', system:{
+            icon:'🫃', title:'Digestive System', sub:'GI Tract & Accessory Organs',
+            organs:['Mouth','Esophagus','Stomach','Small intestine (duodenum, jejunum, ileum)','Large intestine/Colon','Rectum','Liver','Gallbladder','Pancreas','Appendix'],
+            function:'Food is chewed → swallowed → stomach acid breaks it down → small intestine absorbs nutrients → large intestine absorbs water → waste exits. The liver produces bile (stored in gallbladder) to digest fats. The pancreas releases digestive enzymes.',
+            roots:[
+              {term:'gastr-',meaning:'stomach',ex:'gastritis'},
+              {term:'hepat-',meaning:'liver',ex:'hepatitis'},
+              {term:'cholecyst-',meaning:'gallbladder',ex:'cholecystectomy'},
+              {term:'pancreat-',meaning:'pancreas',ex:'pancreatitis'},
+              {term:'enter-',meaning:'small intestine',ex:'gastroenteritis'},
+              {term:'col-',meaning:'colon',ex:'colitis'},
+              {term:'append-',meaning:'appendix',ex:'appendicitis'},
+            ]
+          }},
+          {type:'example', heading:'Common GI terms to know:',
+           termGrid:[
+             {term:'Gastritis',meaning:'Stomach inflammation',example:'gastr + itis'},
+             {term:'Hepatitis',meaning:'Liver inflammation',example:'hepat + itis'},
+             {term:'Cholecystitis',meaning:'Gallbladder inflammation',example:'cholecyst + itis'},
+             {term:'Pancreatitis',meaning:'Pancreas inflammation',example:'pancreat + itis'},
+             {term:'Appendicitis',meaning:'Appendix inflammation',example:'appendic + itis'},
+             {term:'Gastroscopy',meaning:'Visual exam of stomach',example:'gastr + scopy'},
+             {term:'Colonoscopy',meaning:'Visual exam of colon',example:'colon + scopy'},
+             {term:'Cholecystectomy',meaning:'Gallbladder removal',example:'cholecyst + ectomy'},
+           ]
+          },
+        ],
+        quiz:[
+          {q:'A patient has "cholecystitis." "Cholecyst-" = gallbladder. What is cholecystitis?',opts:['Liver inflammation','Gallbladder inflammation','Stomach inflammation','Pancreas inflammation'],correct:1,explain:'Cholecyst- (gallbladder) + -itis (inflammation) = cholecystitis. Inflammation of the gallbladder, often caused by gallstones.'},
+          {q:'What organ produces BILE to help digest fats?',opts:['Pancreas','Stomach','Appendix','Liver'],correct:3,explain:'The LIVER produces bile, which is stored in the gallbladder and released into the small intestine to help break down fats.'},
+          {q:'A doctor orders a "colonoscopy." What does this procedure examine?',opts:['The stomach','The liver','The colon (large intestine)','The esophagus'],correct:2,explain:'Colon- + -scopy (visual examination) = colonoscopy. A camera examines the inside of the large intestine (colon).'},
+        ]
+      },
+    ]
+  },
+  {
+    id:'u6', icon:'🏆', title:'Unit 6: Urinary, Endocrine & Integumentary', sub:'Kidneys, Hormones & Skin',
+    color:'var(--green)', colorLight:'var(--green-light)', colorDark:'var(--green-dark)',
+    lessons:[
+      {
+        id:'u6l1', title:'Urinary & Endocrine Systems', xp:30,
+        sections:[
+          {type:'teach', heading:'Filtering blood and controlling the body\'s chemistry',
+           body:'The urinary system filters <strong>200 liters of blood per day</strong> through the kidneys — producing about 1-2 liters of urine. The endocrine system uses <strong>hormones</strong> (chemical messengers) to control metabolism, growth, reproduction, and more. Both systems are major HOSA exam topics!'
+          },
+          {type:'system', system:{
+            icon:'🫘', title:'Urinary System', sub:'Filtration & Waste Removal',
+            organs:['Kidneys (2)','Ureters (2)','Urinary bladder','Urethra','Adrenal glands (sit on kidneys)'],
+            function:'Kidneys filter blood, removing waste products and excess water to form urine. Urine travels down ureters to the bladder (storage), then exits through the urethra. Kidneys also regulate blood pressure and produce red blood cell hormone (EPO).',
+            roots:[
+              {term:'nephr-/ren-',meaning:'kidney',ex:'nephritis / renal'},
+              {term:'ureter-',meaning:'ureter',ex:'ureteroscopy'},
+              {term:'cyst-',meaning:'bladder',ex:'cystitis'},
+              {term:'urethr-',meaning:'urethra',ex:'urethritis'},
+              {term:'-uria',meaning:'urine condition',ex:'hematuria'},
+            ]
+          }},
+          {type:'example', heading:'Key urine terms (all end in -uria):',
+           termGrid:[
+             {term:'Hematuria',meaning:'Blood in urine',example:'hemat + uria'},
+             {term:'Proteinuria',meaning:'Protein in urine',example:'protein + uria'},
+             {term:'Glycosuria',meaning:'Sugar in urine',example:'glycos + uria'},
+             {term:'Dysuria',meaning:'Painful urination',example:'dys + uria'},
+             {term:'Polyuria',meaning:'Excessive urine',example:'poly + uria'},
+             {term:'Oliguria',meaning:'Little urine',example:'olig + uria'},
+           ]
+          },
+        ],
+        quiz:[
+          {q:'A urine test shows "hematuria." "Hemat-" = blood. What does hematuria mean?',opts:['Protein in urine','Sugar in urine','Blood in urine','No urine production'],correct:2,explain:'Hemat- (blood) + -uria (urine condition) = hematuria. The presence of blood in the urine — an important clinical finding.'},
+          {q:'The kidneys\' primary job is to...',opts:['Produce bile','Filter blood and produce urine','Control heart rate','Store hormones'],correct:1,explain:'The kidneys filter about 200 liters of blood per day, removing waste products and excess water to produce 1-2 liters of urine.'},
+          {q:'A patient with uncontrolled diabetes has sugar in their urine. What is this called?',opts:['Hematuria','Proteinuria','Glycosuria','Dysuria'],correct:2,explain:'Glycos- (sugar/glucose) + -uria (urine condition) = glycosuria. When blood sugar is too high, the kidneys cannot reabsorb it all, so it spills into urine.'},
+        ]
+      },
+      {
+        id:'u6l2', title:'Integumentary System & HOSA Review', xp:40,
+        sections:[
+          {type:'teach', heading:'The body\'s largest organ — your skin!',
+           body:'The integumentary system is the body\'s outer covering: skin, hair, and nails. Your skin is the <strong>largest organ</strong> in the body (about 20 square feet!). It protects against pathogens, regulates temperature, provides sensation, and synthesizes Vitamin D.'
+          },
+          {type:'system', system:{
+            icon:'🧑', title:'Integumentary System', sub:'Skin, Hair & Nails',
+            organs:['Epidermis (outer skin layer)','Dermis (true skin layer)','Hypodermis (subcutaneous layer)','Hair follicles','Sebaceous (oil) glands','Sweat glands','Nails'],
+            function:'The skin provides a physical barrier against pathogens. It regulates body temperature through sweating and blood vessel dilation. Nerve endings in skin detect touch, pressure, pain, and temperature. Melanocytes in the epidermis produce melanin pigment.',
+            roots:[
+              {term:'derm-/dermat-',meaning:'skin',ex:'dermatitis'},
+              {term:'cutane-',meaning:'skin',ex:'subcutaneous'},
+              {term:'kerat-',meaning:'keratin/hard tissue',ex:'keratosis'},
+              {term:'melan-',meaning:'black/pigment',ex:'melanoma'},
+              {term:'seb-',meaning:'oil/sebum',ex:'sebaceous'},
+            ]
+          }},
+          {type:'remember', heading:'🏆 HOSA Final Review — Most Tested Terms',
+           body:'<strong>Cardiovascular:</strong> tachycardia, bradycardia, hypertension, arrhythmia, atherosclerosis<br><strong>Respiratory:</strong> dyspnea, apnea, bronchitis, pneumonia, tachypnea<br><strong>GI:</strong> gastritis, hepatitis, cholecystectomy, appendicitis, colonoscopy<br><strong>Musculoskeletal:</strong> arthritis, osteoporosis, tendinitis, arthroplasty<br><strong>Nervous:</strong> encephalitis, meningitis, neuropathy<br><strong>Urinary:</strong> nephritis, cystitis, hematuria, polyuria<br><strong>Prefixes:</strong> hyper, hypo, brady, tachy, poly, dys, a/an, peri, endo<br><strong>Suffixes:</strong> -itis, -ology, -ectomy, -plasty, -scopy, -gram, -pathy, -megaly, -emia'
+          },
+        ],
+        quiz:[
+          {q:'What is the LARGEST organ in the human body?',opts:['The liver','The brain','The skin','The lungs'],correct:2,explain:'The SKIN (integumentary system) is the largest organ, covering about 20 square feet in adults. It weighs about 8 pounds!'},
+          {q:'A patient has "dermatitis." What does this mean?',opts:['Skin cancer','Skin removal','Skin inflammation','Skin infection'],correct:2,explain:'Dermat- (skin) + -itis (inflammation) = dermatitis. Inflammation of the skin, which can be caused by allergies, irritants, or autoimmune conditions.'},
+          {q:'Which suffix means "study of"?',opts:['-itis','-ectomy','-ology','-plasty'],correct:2,explain:'"-ology" means study of (Greek: logos = word/reason/study). Cardiology = study of the heart, dermatology = study of the skin.'},
+          {q:'Final challenge: Decode "nephrolithiasis" — nephr = kidney, lith = stone, iasis = condition. What is it?',opts:['Kidney inflammation','Kidney removal','Kidney stones','Kidney disease'],correct:2,explain:'Nephro- (kidney) + lith- (stone) + -iasis (presence of/condition) = nephrolithiasis. The medical term for kidney stones!'},
+        ]
+      },
+    ]
+  },
 ];
 
-// ── PLACEMENT TEST DATA ──
-const PT_QUESTIONS=[
-  {q:"What does 'cardio-' mean?",opts:["Heart","Skin","Bone","Nerve"],correct:0,diff:'easy'},
-  {q:"What does '-itis' mean?",opts:["Study of","Inflammation","Removal","Pain"],correct:1,diff:'easy'},
-  {q:"'Hyper-' means...",opts:["Below normal","Fast","Above normal / excessive","Without"],correct:2,diff:'easy'},
-  {q:"The term 'hepatitis' means...",opts:["Study of liver","Inflammation of liver","Removal of liver","Liver pain"],correct:1,diff:'easy'},
-  {q:"'Brady-' means...",opts:["Fast","Slow","Large","Small"],correct:1,diff:'easy'},
-  {q:"What does '-ectomy' mean?",opts:["Surgical repair","Visual exam","Surgical removal","Incision"],correct:2,diff:'easy'},
-  {q:"'Nephro-' refers to which organ?",opts:["Liver","Kidney","Lung","Heart"],correct:1,diff:'medium'},
-  {q:"What does 'tachycardia' mean?",opts:["Slow heart rate","Heart inflammation","Fast heart rate","Heart disease"],correct:2,diff:'medium'},
-  {q:"'-penia' means...",opts:["Enlargement","Deficiency","Hardening","Softening"],correct:1,diff:'medium'},
-  {q:"'Hematuria' means...",opts:["Blood in urine","Blood in stool","Blood clot","Blood disease"],correct:0,diff:'medium'},
-  {q:"'-megaly' means...",opts:["Narrowing","Hardening","Enlargement","Softening"],correct:2,diff:'medium'},
-  {q:"'Dyspnea' means...",opts:["Rapid breathing","Difficult breathing","No breathing","Slow breathing"],correct:1,diff:'medium'},
-  {q:"The suffix '-plasty' means...",opts:["Visual examination","Surgical removal","Surgical repair","Incision"],correct:2,diff:'medium'},
-  {q:"'Leukopenia' refers to a deficiency of...",opts:["Red blood cells","Platelets","White blood cells","Oxygen"],correct:2,diff:'medium'},
-  {q:"'Osteoporosis' involves...",opts:["Bone inflammation","Bone softening","Bone hardening","Bone density loss"],correct:3,diff:'hard'},
-  {q:"What does '-stenosis' mean?",opts:["Widening","Narrowing","Rupture","Fusion"],correct:1,diff:'hard'},
-  {q:"'Erythrocytes' are...",opts:["White blood cells","Platelets","Red blood cells","Nerve cells"],correct:2,diff:'hard'},
-  {q:"'Cholecystectomy' is removal of...",opts:["Kidney","Gallbladder","Appendix","Spleen"],correct:1,diff:'hard'},
-  {q:"'Atherosclerosis' means...",opts:["Hardening of arteries from fatty plaque","Inflammation of arteries","Narrowing of veins","Rupture of blood vessels"],correct:0,diff:'hard'},
-  {q:"'Myocarditis' means inflammation of...",opts:["Heart sac","Outer heart layer","Heart muscle","Heart valve"],correct:2,diff:'hard'},
-];
+// ── COURSE ENGINE ──
+let currentLesson=null;
+let currentLessonQIdx=0;
+let currentLessonScore=0;
 
-// ── DOCTOR DIAGNOSIS CASES ──
-const DR_CASES=[
-  {
-    patientName:"Alex, 12",patientMood:"😣",
-    speech:"My skin is super itchy and red after touching a plant!",
-    bodyPart:"skin",hotspotLabel:"SKIN",
-    question:"What condition does Alex have?",
-    choices:["Dermatitis","Carditis","Rhinitis","Nephritis"],correct:0,
-    explain:"'Dermat-' = skin + '-itis' = inflammation. Alex has dermatitis — inflammation of the skin from contact with an irritant.",
-    animation:"skin-glow",color:"#D85A30"
-  },
-  {
-    patientName:"Sam, 14",patientMood:"😰",
-    speech:"My heart is pounding super fast — like 180 beats per minute!",
-    bodyPart:"heart",hotspotLabel:"HEART",
-    question:"What is Sam's heart condition called?",
-    choices:["Bradycardia","Tachycardia","Cardiomegaly","Myocarditis"],correct:1,
-    explain:"'Tachy-' = fast + '-cardia' = heart condition. Tachycardia means the heart beats abnormally fast (over 100 bpm).",
-    animation:"heart-pulse",color:"#E24B4A"
-  },
-  {
-    patientName:"Jamie, 13",patientMood:"🤢",
-    speech:"My stomach hurts so much and I keep throwing up!",
-    bodyPart:"abdomen",hotspotLabel:"STOMACH",
-    question:"What GI condition is Jamie experiencing?",
-    choices:["Hepatitis","Gastritis","Nephritis","Bronchitis"],correct:1,
-    explain:"'Gastr-' = stomach + '-itis' = inflammation. Gastritis is inflammation of the stomach lining.",
-    animation:"abdomen-glow",color:"#BA7517"
-  },
-  {
-    patientName:"Jordan, 11",patientMood:"😤",
-    speech:"I can't breathe properly — every breath hurts and I'm wheezing!",
-    bodyPart:"lungs",hotspotLabel:"LUNGS",
-    question:"What respiratory condition matches?",
-    choices:["Dermatitis","Arthritis","Bronchitis","Nephritis"],correct:2,
-    explain:"'Bronch-' = bronchial tubes + '-itis' = inflammation. Bronchitis is inflammation of the airways.",
-    animation:"lung-glow",color:"#378ADD"
-  },
-  {
-    patientName:"Riley, 15",patientMood:"😟",
-    speech:"My knee joint is really swollen and painful — especially in the morning!",
-    bodyPart:"knee",hotspotLabel:"JOINT",
-    question:"What joint condition does Riley have?",
-    choices:["Bursitis","Tendinitis","Arthritis","Myositis"],correct:2,
-    explain:"'Arthr-' = joint + '-itis' = inflammation. Arthritis is inflammation of a joint.",
-    animation:"joint-glow",color:"#534AB7"
-  },
-  {
-    patientName:"Casey, 12",patientMood:"😵",
-    speech:"I have a terrible headache and my neck is stiff — it started yesterday!",
-    bodyPart:"head",hotspotLabel:"BRAIN",
-    question:"The doctor is concerned about inflammation of the brain coverings. What is this called?",
-    choices:["Encephalitis","Meningitis","Neuritis","Sinusitis"],correct:1,
-    explain:"'Mening-' = meninges (membranes covering the brain) + '-itis' = inflammation. Meningitis = brain covering inflammation.",
-    animation:"head-glow",color:"#534AB7"
-  },
-  {
-    patientName:"Morgan, 14",patientMood:"🥴",
-    speech:"My eyes are yellow and my stomach hurts on the right side!",
-    bodyPart:"liver",hotspotLabel:"LIVER",
-    question:"The liver is inflamed. What is the correct term?",
-    choices:["Pancreatitis","Cholecystitis","Hepatitis","Gastritis"],correct:2,
-    explain:"'Hepat-' = liver + '-itis' = inflammation. Hepatitis is inflammation of the liver, causing yellowing of the eyes.",
-    animation:"liver-glow",color:"#639922"
-  },
-  {
-    patientName:"Taylor, 13",patientMood:"😓",
-    speech:"My urine is dark and I have pain in my lower back where my kidneys are!",
-    bodyPart:"kidney",hotspotLabel:"KIDNEY",
-    question:"What kidney condition is Taylor most likely experiencing?",
-    choices:["Cystitis","Nephritis","Urethritis","Pyelitis"],correct:1,
-    explain:"'Nephr-' = kidney + '-itis' = inflammation. Nephritis is inflammation of the kidney.",
-    animation:"kidney-glow",color:"#1D9E75"
-  },
-  {
-    patientName:"Avery, 11",patientMood:"😮",
-    speech:"The doctor says my liver is enlarged — bigger than normal!",
-    bodyPart:"liver",hotspotLabel:"LIVER",
-    question:"What is the medical term for an enlarged liver?",
-    choices:["Hepatomegaly","Hepatitis","Splenomegaly","Cardiomegaly"],correct:0,
-    explain:"'Hepat-' = liver + '-megaly' = enlargement. Hepatomegaly literally means an abnormally enlarged liver.",
-    animation:"liver-glow",color:"#639922"
-  },
-  {
-    patientName:"Drew, 15",patientMood:"😪",
-    speech:"My blood test shows my white blood cell count is really low!",
-    bodyPart:"blood",hotspotLabel:"BLOOD",
-    question:"What is the term for low white blood cell count?",
-    choices:["Anemia","Polycythemia","Leukopenia","Thrombocytopenia"],correct:2,
-    explain:"'Leuko-' = white (blood cells) + '-penia' = deficiency. Leukopenia = deficiency of white blood cells.",
-    animation:"blood-glow",color:"#E24B4A"
-  },
-];
-
-// ── XP ──
-function addXP(n){
-  state.xp+=n;
-  const t=[0,100,250,500,850,1300,1900];
-  let lv=1;
-  for(let i=t.length-1;i>=0;i--){if(state.xp>=t[i]){lv=i+1;break;}}
-  state.level=lv;
-  const next=t[lv]||t[t.length-1]+600,prev=t[lv-1]||0;
-  const pct=Math.min(100,Math.round((state.xp-prev)/(next-prev)*100));
-  document.getElementById('xpVal').textContent=state.xp;
-  document.getElementById('xpMax').textContent=next;
-  document.getElementById('xpBar').style.width=pct+'%';
-  document.getElementById('levelBadge').textContent='Lv '+lv;
-  updateStats();
-}
-function updateStats(){
-  document.getElementById('statTerms').textContent=state.termsCorrect;
-  document.getElementById('statStreak').textContent=state.level+'🔥';
-  document.getElementById('statAccuracy').textContent=state.totalAnswered>0?Math.round(state.termsCorrect/state.totalAnswered*100)+'%':'—';
-}
-
-// ── NAVIGATION ──
-function showScreen(name){
-  state.prevScreen=state.currentScreen;
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');
-  document.querySelectorAll('[data-screen]').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('[data-screen="'+name+'"]').forEach(b=>b.classList.add('active'));
-  state.currentScreen=name;
-  if(name==='wordbuilder')initWB();
-  if(name==='detective')initDD();
-  if(name==='match')initMatch();
-  if(name==='flashcards')initFC();
-  if(name==='story')initStory();
-  if(name==='progress')renderProgress();
-  if(name==='course')renderCourse();
-  if(name==='doctor')initDoctor();
-  if(name==='chat')syncMobileChat();
-}
-function goBack(){showScreen(state.prevScreen||'home');}
-
-document.querySelectorAll('[data-screen]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.screen)));
-document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.goto)));
-document.getElementById('wbBack').addEventListener('click',goBack);
-document.getElementById('ddBack').addEventListener('click',goBack);
-document.getElementById('amBack').addEventListener('click',goBack);
-document.getElementById('fcBack').addEventListener('click',goBack);
-document.getElementById('smBack').addEventListener('click',goBack);
-document.getElementById('drBack').addEventListener('click',goBack);
-document.getElementById('ptBack').addEventListener('click',goBack);
-
-// ── DIFFICULTY ──
-function setDiff(d){
-  state.difficulty=d;
-  const m={easy:'active-easy',medium:'active-medium',hard:'active-hard'};
-  ['Easy','Med','Hard'].forEach(x=>{
-    const k={Easy:'easy',Med:'medium',Hard:'hard'}[x];
-    ['diff'+x,'diff'+x+'M'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='diff-btn'+(k===d?' '+m[d]:'');});
-  });
-  addMsg('ai','Difficulty → '+(d==='easy'?'Easy 🌱':d==='medium'?'Medium 👍':'Hard 💪')+'!','both');
-  const s=state.currentScreen;
-  if(!['home','source','progress','chat','course','placement'].includes(s))showScreen(s);
-}
-document.getElementById('diffEasy').addEventListener('click',()=>setDiff('easy'));
-document.getElementById('diffMed').addEventListener('click',()=>setDiff('medium'));
-document.getElementById('diffHard').addEventListener('click',()=>setDiff('hard'));
-document.getElementById('diffEasyM').addEventListener('click',()=>setDiff('easy'));
-document.getElementById('diffMedM').addEventListener('click',()=>setDiff('medium'));
-document.getElementById('diffHardM').addEventListener('click',()=>setDiff('hard'));
-
-// ── PLACEMENT TEST ──
-let ptState={qIdx:0,score:0,answers:[],questions:[]};
-
-function shufflePT(){
-  const qs=[...PT_QUESTIONS].sort(()=>Math.random()-0.5);
-  return qs.slice(0,20);
-}
-
-document.getElementById('startPlacement').addEventListener('click',()=>{
-  ptState={qIdx:0,score:0,answers:[],questions:shufflePT()};
-  renderPTQuestion();
-});
-
-function renderPTQuestion(){
-  const q=ptState.questions[ptState.qIdx];
-  const pct=Math.round((ptState.qIdx/ptState.questions.length)*100);
-  document.getElementById('ptBody').innerHTML=`
-    <div class="pt-wrap">
-      <div class="pt-progress"><div class="pt-progress-fill" style="width:${pct}%"></div></div>
-      <div class="pt-q-num">Question ${ptState.qIdx+1} of ${ptState.questions.length}</div>
-      <div class="pt-question">${q.q}</div>
-      <div class="pt-options">${q.opts.map((o,i)=>`<div class="pt-option" data-i="${i}">${o}</div>`).join('')}</div>
-    </div>`;
-  document.querySelectorAll('.pt-option').forEach(el=>{
-    el.addEventListener('click',()=>{
-      const idx=parseInt(el.dataset.i);
-      document.querySelectorAll('.pt-option').forEach(o=>o.style.pointerEvents='none');
-      if(idx===q.correct){el.classList.add('correct');ptState.score++;}
-      else{el.classList.add('wrong');document.querySelectorAll('.pt-option')[q.correct].classList.add('correct');}
-      ptState.answers.push({diff:q.diff,correct:idx===q.correct});
-      setTimeout(()=>{
-        ptState.qIdx++;
-        if(ptState.qIdx>=ptState.questions.length)showPTResult();
-        else renderPTQuestion();
-      },800);
-    });
-  });
-}
-
-function showPTResult(){
-  const total=ptState.questions.length;
-  const score=ptState.score;
-  const pct=Math.round(score/total*100);
-  let level,badge,color,icon,message;
-  if(pct>=75){level='hard';badge='Expert Level';color='var(--red)';icon='🏆';message="Outstanding! You clearly know your medical terminology. Starting at Hard difficulty — you can handle complex terms and procedures!";}
-  else if(pct>=45){level='medium';badge='Intermediate Level';color='var(--amber)';icon='⭐';message="Great foundation! You know the basics and are ready for more complex terms. Starting at Medium difficulty!";}
-  else{level='easy';badge='Beginner Level';color='var(--teal)';icon='🌱';message="No worries — that's what we're here for! Starting at Easy so you can build a strong foundation. You'll be an expert in no time!";}
-  setDiff(level);
-  document.getElementById('ptBody').innerHTML=`
-    <div class="pt-result">
-      <div class="pt-result-icon">${icon}</div>
-      <div class="pt-result-title">${score}/${total} Correct (${pct}%)</div>
-      <div class="pt-level-badge" style="background:${color};color:white;">${badge}</div>
-      <div class="pt-result-sub">${message}</div>
-      <button class="action-btn" onclick="showScreen('course')" style="max-width:300px;margin:0 auto;display:block;">Start Course at ${level.charAt(0).toUpperCase()+level.slice(1)} Level →</button>
-      <button style="margin-top:12px;background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:var(--text-muted);cursor:pointer;font-family:var(--font);width:100%;max-width:300px;display:block;margin-left:auto;margin-right:auto;" onclick="showScreen('home')">Go to Free Play</button>
-    </div>`;
-  addXP(50);
-  addMsg('ai','Placement test done! Scored '+score+'/'+total+' — set to '+level+' difficulty. Head to the Course to start learning 🎓','both');
-}
-
-// ── COURSE MODE ──
 function renderCourse(){
-  const wrap=document.getElementById('courseWrap');
-  let html='<div class="course-title">Your Learning Path</div><div class="course-sub">Complete each lesson to unlock the next unit.</div>';
-  COURSE_UNITS.forEach((unit,ui)=>{
-    const completed=getUnitCompleted(unit);
-    const total=unit.lessons.length;
-    const pct=Math.round(completed/total*100);
-    const locked=ui>0&&getUnitCompleted(COURSE_UNITS[ui-1])<COURSE_UNITS[ui-1].lessons.length;
-    html+=`<div class="unit-card">
-      <div class="unit-header ${locked?'unit-locked':''}" onclick="toggleUnit('${unit.id}',${locked})">
+  const home=document.getElementById('courseHome');
+  const viewer=document.getElementById('lessonViewer');
+  home.style.display='block';
+  viewer.classList.remove('active');
+  document.getElementById('courseBackBtn').onclick=()=>showScreen('home');
+  document.getElementById('lessonBackBtn').onclick=showCourseHome;
+
+  let html='<div class="course-title">Your Learning Path</div><div class="course-sub">Each unit teaches the material, then tests you on it.</div>';
+  COURSE.forEach((unit,ui)=>{
+    const totalLessons=unit.lessons.length;
+    const doneLessons=unit.lessons.filter(l=>state.courseProgress[l.id]).length;
+    const pct=Math.round(doneLessons/totalLessons*100);
+    const prevDone=ui===0||COURSE[ui-1].lessons.every(l=>state.courseProgress[l.id]);
+    const locked=!prevDone;
+    html+=`<div class="unit-card${locked?' locked':''}" onclick="${locked?'lockedUnitClick()':('openUnit('+ui+')')}">
+      <div class="unit-header">
         <div class="unit-icon">${unit.icon}</div>
-        <div><div class="unit-title">${unit.title}</div><div class="unit-sub">${unit.sub}${locked?' 🔒':''}</div></div>
+        <div style="flex:1"><div class="unit-title">${unit.title}${locked?' 🔒':''}</div><div class="unit-sub">${unit.sub}</div></div>
         <div class="unit-progress">
-          <div class="unit-pct">${completed}/${total}</div>
+          <div class="unit-pct" style="color:${locked?'var(--text-muted)':'var(--teal)'};">${doneLessons}/${totalLessons}</div>
           <div class="unit-bar"><div class="unit-bar-fill" style="width:${pct}%"></div></div>
         </div>
       </div>
-      <div class="lessons-list" id="lessons-${unit.id}">
-        ${unit.lessons.map(l=>{
-          const done=state.courseProgress[l.id];
-          return `<div class="lesson-item ${done?'completed':''} ${locked?'locked':''}" onclick="${locked?'':(`startLesson('`+l.id+`','`+l.type+`')`)}">
-            <div class="lesson-icon">${l.icon}</div>
-            <div><div class="lesson-title">${l.title}</div><div class="lesson-type">${l.type.toUpperCase()}</div></div>
-            <div class="lesson-check">${done?'✅':'○'}</div>
-          </div>`;
-        }).join('')}
-      </div>
     </div>`;
   });
-  wrap.innerHTML=html;
+  home.innerHTML=html;
 }
 
-function toggleUnit(id,locked){
-  if(locked){addMsg('ai','Finish the previous unit first to unlock this one! 🔒','both');return;}
-  const el=document.getElementById('lessons-'+id);
-  el.classList.toggle('open');
+function openUnit(ui){
+  const unit=COURSE[ui];
+  const home=document.getElementById('courseHome');
+  home.style.display='block';
+
+  // Show lesson list inline
+  let html='<div class="course-title">'+unit.icon+' '+unit.title+'</div><div class="course-sub">'+unit.sub+'</div>';
+  html+='<button style="background:transparent;border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text-muted);cursor:pointer;font-family:var(--font);font-size:12px;margin-bottom:16px;" onclick="renderCourse()">← All Units</button>';
+  unit.lessons.forEach((lesson,li)=>{
+    const done=state.courseProgress[lesson.id];
+    const prevDone=li===0||state.courseProgress[unit.lessons[li-1].id];
+    const locked=!prevDone;
+    html+=`<div class="lesson-item${done?' completed':''}${locked?' locked':''}" style="cursor:${locked?'not-allowed':'pointer'}" onclick="${locked?'lockedUnitClick()':('openLesson('+ui+','+li+')')}">
+      <div class="lesson-icon">${lesson.title.includes('Review')||lesson.title.includes('Putting')?'🏁':['📖','💡','🔤','🧩','⚡'][li%5]}</div>
+      <div style="flex:1"><div class="lesson-title">${lesson.title}</div><div class="lesson-type">+${lesson.xp} XP${locked?' · 🔒 Complete previous lesson':''}</div></div>
+      <div>${done?'✅':'○'}</div>
+    </div>`;
+  });
+  home.innerHTML=html;
 }
 
-function getUnitCompleted(unit){
-  return unit.lessons.filter(l=>state.courseProgress[l.id]).length;
+function lockedUnitClick(){
+  addMsg('ai','Finish the previous lesson to unlock this one! Keep going 💪','both');
 }
 
-function startLesson(lessonId,type){
-  state.currentLesson=lessonId;
-  if(type==='flashcards'){showScreen('flashcards');}
-  else if(type==='wordbuilder'){showScreen('wordbuilder');}
-  else if(type==='detective'){showScreen('detective');}
-  else if(type==='match'){showScreen('match');}
-  else if(type==='story'){showScreen('story');}
-  else if(type==='doctor'){showScreen('doctor');}
-}
-window.startLesson=startLesson;
-window.toggleUnit=toggleUnit;
+function openLesson(ui,li){
+  const unit=COURSE[ui];
+  const lesson=unit.lessons[li];
+  currentLesson={unit,lesson,ui,li};
+  currentLessonQIdx=0;
+  currentLessonScore=0;
 
-function completeLessonIfActive(){
-  if(state.currentLesson){
-    state.courseProgress[state.currentLesson]=true;
-    state.currentLesson=null;
+  document.getElementById('courseHome').style.display='none';
+  const viewer=document.getElementById('lessonViewer');
+  viewer.classList.add('active');
+  document.getElementById('lessonBreadcrumb').textContent=unit.title+' · '+lesson.title;
+  document.getElementById('lessonProgress').textContent='Lesson '+(li+1)+' of '+unit.lessons.length;
+  document.getElementById('courseBackBtn').onclick=()=>openUnit(ui);
+
+  renderLessonContent();
+}
+
+function renderLessonContent(){
+  const {lesson}=currentLesson;
+  let html='';
+
+  // Render all teaching sections
+  lesson.sections.forEach(sec=>{
+    if(sec.type==='teach'){
+      html+=`<div class="lesson-section">
+        <span class="ls-tag teach">📖 Lesson</span>
+        <div class="ls-heading">${sec.heading}</div>
+        <div class="ls-body">${sec.body}</div>
+      </div>`;
+    }
+    else if(sec.type==='remember'){
+      html+=`<div class="lesson-section">
+        <span class="ls-tag remember">💡 Remember</span>
+        <div class="ls-heading">${sec.heading}</div>
+        <div class="ls-body">${sec.body}</div>
+      </div>`;
+    }
+    else if(sec.type==='example'&&sec.breakdown){
+      html+=`<div class="lesson-section">
+        <span class="ls-tag example">🔍 Decode it</span>
+        <div class="ls-heading">${sec.heading}</div>
+        <div class="example-box">
+          <div class="ex-term">${sec.breakdown.term}</div>
+          <div class="ex-breakdown">${sec.breakdown.parts.map(p=>`<span class="ex-part ${p.type}">${p.text} <small>(${p.meaning})</small></span>`).join('<span class="ex-part plus">+</span>')}</div>
+          <div style="font-size:13px;color:var(--text-muted)">= ${sec.breakdown.meaning}</div>
+        </div>
+      </div>`;
+    }
+    else if(sec.type==='example'&&sec.termGrid){
+      html+=`<div class="lesson-section">
+        <span class="ls-tag example">📋 Terms</span>
+        <div class="ls-heading">${sec.heading}</div>
+        <div class="term-grid">${sec.termGrid.map(t=>`<div class="term-tile"><div class="tt-term">${t.term}</div><div class="tt-meaning">${t.meaning}</div><div class="tt-example">${t.example}</div></div>`).join('')}</div>
+      </div>`;
+    }
+    else if(sec.type==='example'&&sec.groups){
+      html+=`<div class="lesson-section">
+        <span class="ls-tag example">📋 Groups</span>
+        <div class="ls-heading">${sec.heading}</div>`;
+      sec.groups.forEach(g=>{
+        html+=`<div style="margin-bottom:14px"><div style="font-size:11px;font-family:var(--mono);font-weight:700;color:var(--${g.color}-dark,var(--text-muted));margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">${g.label}</div>
+          <div class="term-grid">${g.items.map(t=>`<div class="term-tile"><div class="tt-term">${t.term}</div><div class="tt-meaning">${t.meaning}</div><div class="tt-example">${t.ex}</div></div>`).join('')}</div>
+        </div>`;
+      });
+      html+=`</div>`;
+    }
+    else if(sec.type==='example'&&sec.decodeExamples){
+      html+=`<div class="lesson-section">
+        <span class="ls-tag example">🔍 Practice Decoding</span>
+        <div class="ls-heading">${sec.heading}</div>`;
+      sec.decodeExamples.forEach(ex=>{
+        html+=`<div class="example-box" style="margin-bottom:10px">
+          <div class="ex-term">${ex.term}</div>
+          <div class="ex-breakdown">${ex.breakdown.map(p=>`<span class="ex-part ${p.type}">${p.text} <small>(${p.meaning})</small></span>`).join('<span class="ex-part plus">+</span>')}</div>
+          <div style="font-size:13px;color:var(--text-muted)">= ${ex.meaning}</div>
+        </div>`;
+      });
+      html+=`</div>`;
+    }
+    else if(sec.type==='example'&&sec.items){
+      html+=`<div class="lesson-section">
+        <span class="ls-tag example">📋 The Building Blocks</span>
+        <div class="ls-heading">${sec.heading}</div>`;
+      sec.items.forEach(item=>{
+        html+=`<div class="example-box" style="margin-bottom:10px">
+          <div class="ex-breakdown"><span class="ex-part ${item.color}">${item.label}</span></div>
+          <div style="font-size:14px;font-weight:600;margin:6px 0 4px">${item.desc}</div>
+          <div style="font-size:12px;color:var(--text-muted);font-family:var(--mono)">${item.ex}</div>
+        </div>`;
+      });
+      html+=`</div>`;
+    }
+    else if(sec.type==='system'&&sec.system){
+      const s=sec.system;
+      html+=`<div class="lesson-section">
+        <span class="ls-tag teach">🫀 Body System</span>
+        <div class="body-system-card">
+          <div class="bsc-header"><div class="bsc-icon">${s.icon}</div><div><div class="bsc-title">${s.title}</div><div class="bsc-sub">${s.sub}</div></div></div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;font-family:var(--mono)">Structures</div>
+          <div class="bsc-organs">${s.organs.map(o=>`<span class="bsc-organ">${o}</span>`).join('')}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:0.5px;font-family:var(--mono)">Function</div>
+          <div class="bsc-function">${s.function}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;font-family:var(--mono)">Key Root Words</div>
+          <div class="bsc-terms">${s.roots.map(r=>`<span class="bsc-term">${r.term} = ${r.meaning}</span>`).join('')}</div>
+        </div>
+      </div>`;
+    }
+  });
+
+  // Quiz section
+  if(lesson.quiz&&lesson.quiz.length){
+    html+=`<div class="lq-wrap">
+      <div class="lq-title">🎯 Quiz Time — Question 1 of ${lesson.quiz.length}</div>
+      <div id="quizArea"></div>
+    </div>`;
+  } else {
+    html+=renderLessonComplete();
+  }
+
+  document.getElementById('lessonContent').innerHTML=html;
+  document.getElementById('lessonContent').scrollTop=0;
+
+  if(lesson.quiz&&lesson.quiz.length){
+    renderQuizQuestion(0);
   }
 }
+
+function renderQuizQuestion(idx){
+  const {lesson}=currentLesson;
+  const q=lesson.quiz[idx];
+  const area=document.getElementById('quizArea');
+  if(!area)return;
+  const title=document.querySelector('.lq-title');
+  if(title)title.textContent='🎯 Quiz — Question '+(idx+1)+' of '+lesson.quiz.length;
+  area.innerHTML=`
+    <div class="lq-question">${q.q}</div>
+    <div class="lq-options">${q.opts.map((o,i)=>`<div class="lq-option" data-i="${i}">${o}</div>`).join('')}</div>
+    <div class="lq-feedback" id="lqFeedback"></div>
+    <button class="lq-next" id="lqNext">${idx+1<lesson.quiz.length?'Next Question →':'Complete Lesson 🎉'}</button>`;
+
+  document.querySelectorAll('.lq-option').forEach(el=>{
+    el.addEventListener('click',()=>{
+      if(document.getElementById('lqNext').classList.contains('show'))return;
+      const i=parseInt(el.dataset.i);
+      state.totalAnswered++;
+      document.querySelectorAll('.lq-option').forEach(o=>o.style.pointerEvents='none');
+      const fb=document.getElementById('lqFeedback');
+      if(i===q.correct){
+        el.classList.add('correct');
+        currentLessonScore++;
+        addXP(10);state.termsCorrect++;
+        fb.textContent='✅ Correct! '+q.explain;
+        fb.style.cssText='background:var(--green-light);color:var(--green-dark);border:1px solid var(--green);';
+      }else{
+        el.classList.add('wrong');
+        document.querySelectorAll('.lq-option')[q.correct].classList.add('correct');
+        fb.textContent='❌ '+q.explain;
+        fb.style.cssText='background:var(--red-light);color:var(--red-dark);border:1px solid var(--red);';
+      }
+      fb.classList.add('show');
+      document.getElementById('lqNext').classList.add('show');
+    });
+  });
+
+  document.getElementById('lqNext').addEventListener('click',()=>{
+    const nextIdx=idx+1;
+    if(nextIdx<lesson.quiz.length){
+      renderQuizQuestion(nextIdx);
+      // Scroll quiz into view
+      const lqWrap=document.querySelector('.lq-wrap');
+      if(lqWrap)lqWrap.scrollIntoView({behavior:'smooth'});
+    }else{
+      finishLesson();
+    }
+  });
+}
+
+function finishLesson(){
+  const {lesson,unit,ui,li}=currentLesson;
+  const total=lesson.quiz?lesson.quiz.length:0;
+  const score=currentLessonScore;
+  state.courseProgress[lesson.id]=true;
+  addXP(lesson.xp);
+  state.lastQuestion='Course: completed '+lesson.title;
+
+  const lqWrap=document.querySelector('.lq-wrap');
+  if(lqWrap){
+    lqWrap.innerHTML=renderLessonComplete(score,total,lesson,unit,ui,li);
+  }
+}
+
+function renderLessonComplete(score,total,lesson,unit,ui,li){
+  const pct=total>0?Math.round(score/total*100):100;
+  const nextLesson=unit&&ui!==undefined&&li!==undefined?unit.lessons[li+1]:null;
+  const nextUnit=ui!==undefined&&COURSE[ui+1]?COURSE[ui+1]:null;
+  return `<div class="lesson-complete">
+    <div class="lc-icon">${pct>=70?'🏆':'⭐'}</div>
+    <div class="lc-title">${pct>=70?'Lesson Complete!':'Good Effort!'}</div>
+    <div class="lc-sub">${total>0?'You scored <strong>'+score+'/'+total+'</strong> on the quiz. '+lesson.xp+' XP earned!':'Lesson complete! '+lesson.xp+' XP earned!'}<br>${pct<70?'Review the lesson content above and try again anytime.':''}</div>
+    <div class="lc-btns">
+      ${nextLesson?`<button class="lc-btn primary" onclick="openLesson(${ui},${li+1})">Next Lesson →</button>`:''}
+      ${!nextLesson&&nextUnit?`<button class="lc-btn primary" onclick="openUnit(${ui+1})">Next Unit: ${nextUnit.title} →</button>`:''}
+      <button class="lc-btn secondary" onclick="openUnit(${ui})">Back to Unit</button>
+    </div>
+  </div>`;
+}
+
+window.openUnit=openUnit;
+window.openLesson=openLesson;
+window.lockedUnitClick=lockedUnitClick;
+window.showCourseHome=function(){
+  document.getElementById('courseHome').style.display='block';
+  document.getElementById('lessonViewer').classList.remove('active');
+  document.getElementById('courseBackBtn').onclick=()=>showScreen('home');
+  renderCourse();
+};
 
 // ── WORD BUILDER ──
 let wbQI=0;
