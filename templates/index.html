@@ -288,9 +288,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div>
 </div>
 
-<div class="layout">
+<div class="layout" style="position:fixed;top:56px;left:0;right:0;bottom:0;display:flex!important;flex-direction:row!important;overflow:hidden;">
   <!-- SIDEBAR -->
-  <div class="sidebar">
+  <div class="sidebar" style="width:190px;flex:0 0 190px;display:flex;flex-direction:column;overflow-y:auto;">
     <div class="sl">Navigate</div>
     <button class="nb active" data-screen="home"><span class="nb-icon">🏠</span>Home</button>
     <button class="nb" data-screen="placement"><span class="nb-icon">🎯</span>Placement Test</button>
@@ -311,7 +311,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div>
 
   <!-- MAIN -->
-  <div class="main" id="mainArea">
+  <div class="main" id="mainArea" style="flex:1 1 0%;min-width:0;overflow-y:auto;display:flex;flex-direction:column;">
 
     <!-- HOME / EVENT SELECTOR -->
     <div class="screen active" id="screen-home">
@@ -454,7 +454,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div><!-- end main -->
 
   <!-- DESKTOP CHAT -->
-  <div class="chat-col">
+  <div class="chat-col" style="width:270px;flex:0 0 270px;display:flex;flex-direction:column;overflow:hidden;border-left:1px solid var(--bord);background:var(--surf);">
     <div class="ch-hdr" style="background:var(--teal);padding:12px 14px;flex-shrink:0;">
       <div style="font-size:24px;width:38px;height:38px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;">🤖</div>
       <div style="margin-left:10px;"><div style="font-weight:700;color:white;font-size:15px;">Dr. Morph</div><div style="font-size:11px;color:rgba(255,255,255,0.8);">● AI Tutor</div></div>
