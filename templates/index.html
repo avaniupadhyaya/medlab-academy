@@ -32,7 +32,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .xp-bar-o{width:70px;height:5px;background:var(--surf2);border-radius:3px;}
 .xp-bar-i{height:100%;background:var(--amber);border-radius:3px;transition:width .5s;}
 .layout{position:fixed;top:56px;left:0;right:0;bottom:0;display:flex;}
-.sidebar{width:200px;flex-shrink:0;background:var(--surf);border-right:1px solid var(--bord);display:flex;flex-direction:column;overflow-y:auto;padding:10px 8px;}
+.sidebar{width:180px;flex-shrink:0;background:var(--surf);border-right:1px solid var(--bord);display:flex;flex-direction:column;overflow-y:auto;padding:10px 8px;}
 .sl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:8px 8px 4px;font-weight:600;}
 .nb{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:7px;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted);border:none;background:transparent;width:100%;text-align:left;transition:all .15s;}
 .nb:hover{background:var(--surf2);color:var(--txt);}
@@ -46,8 +46,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .db.ae{background:var(--green-l);color:var(--green-d);border-color:var(--green);font-weight:700;}
 .db.am{background:var(--amber-l);color:var(--amber-d);border-color:var(--amber);font-weight:700;}
 .db.ah{background:var(--red-l);color:var(--red-d);border-color:var(--red);font-weight:700;}
-.main{flex:1;min-width:0;overflow-y:auto;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;}
-.chat-col{width:300px;flex-shrink:0;background:var(--surf);border-left:1px solid var(--bord);display:flex;flex-direction:column;}
+.main{flex:1;min-width:0;overflow-y:auto;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;background:var(--bg);}
+.chat-col{width:260px;flex-shrink:0;background:var(--surf);border-left:1px solid var(--bord);display:flex;flex-direction:column;}
 .ch-hdr{padding:10px 12px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:8px;}
 .ai-av{width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
 .ai-nm{font-size:12px;font-weight:600;}
@@ -255,8 +255,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     <button class="nb" data-screen="flashcards"><span class="nb-icon">🃏</span>Flashcards<span class="nb-badge">+15</span></button>
     <button class="nb" data-screen="quiz"><span class="nb-icon">🧠</span>Quiz Mode<span class="nb-badge">+30</span></button>
     <button class="nb" data-screen="bowl"><span class="nb-icon">🏆</span>HOSA Bowl<span class="nb-badge">+50</span></button>
-    <div class="sl" style="margin-top:6px">Word Bank</div>
-    <button class="nb" data-screen="wordbank"><span class="nb-icon">📖</span>Term Lookup<span class="nb-badge">479</span></button>
     <div class="diff-wrap">
       <div class="diff-lbl">Difficulty</div>
       <div class="diff-row">
@@ -368,25 +366,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
         <div class="sc-row">Score: <span class="sc-v" id="bowlScore">0</span></div>
       </div>
       <div class="bowl-scene" id="bowlScene"></div>
-    
-    <!-- WORD BANK -->
-    <div class="screen" id="screen-wordbank">
-      <div style="padding:12px 14px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:8px;flex-shrink:0;">
-        <button onclick="goBack()" style="background:var(--surf2);border:1px solid var(--bord);border-radius:7px;padding:7px 12px;font-size:13px;color:var(--muted);cursor:pointer;font-family:var(--font);">← Back</button>
-        <div style="flex:1;">
-          <div style="font-size:17px;font-weight:700;">📖 Word Bank</div>
-          <div id="wbSubtitle" style="font-size:12px;color:var(--muted);font-family:var(--mono);">479 medical terms</div>
-        </div>
-        <div id="wbCount" style="font-size:12px;color:var(--teal);font-family:var(--mono);font-weight:700;"></div>
-      </div>
-      <div id="wbSystemRow" style="padding:8px 14px;border-bottom:1px solid var(--bord);overflow-x:auto;white-space:nowrap;flex-shrink:0;-webkit-overflow-scrolling:touch;">
-        <span style="font-size:10px;color:var(--muted);font-family:var(--mono);">SYSTEM: </span>
-      </div>
-      <div style="padding:8px 14px;border-bottom:1px solid var(--bord);flex-shrink:0;">
-        <input type="text" id="wbSearch" placeholder="🔍 Search any term or definition..." style="width:100%;background:var(--surf2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);font-family:var(--font);font-size:14px;padding:9px 12px;box-sizing:border-box;" oninput="renderWordBank()">
-      </div>
-      <div id="wbGrid" style="overflow-y:auto;flex:1;padding:10px 14px;"></div>
-    </div>
+
+    <!-- PL
 
     <!-- PLACEMENT -->
     <div class="screen" id="screen-placement">
@@ -451,7 +432,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   <button class="bnb" data-screen="course"><span class="bnb-ic">📖</span>Course</button>
   <button class="bnb" data-screen="quiz"><span class="bnb-ic">🧠</span>Quiz</button>
   <button class="bnb" data-screen="bowl"><span class="bnb-ic">🏆</span>Bowl</button>
-  <button class="bnb" data-screen="wordbank"><span class="bnb-ic">📖</span>Words</button>
   <button class="bnb" data-screen="chat"><span class="bnb-ic">🤖</span>Morph</button>
 </div>
 
@@ -575,7 +555,6 @@ function showScreen(name){
   if(name==='flashcards')initFC();
   if(name==='quiz')initQZ();
   if(name==='bowl')initBowl();
-  if(name==='wordbank')initWordBank();
   if(name==='course')renderCourse();
   if(name==='chat')syncMobileChat();
   if(name==='home')renderSidebarEvents();
@@ -1024,80 +1003,6 @@ document.getElementById('chatSendM').addEventListener('click',()=>{const v=docum
 document.getElementById('chatInM').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('chatSendM').click();}});
 document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>sendChat(b.dataset.q)));
 
-// ── WORD BANK ──────────────────────────────────────────
-var wbSystem = 'all';
-var wbReady = false;
-
-var WB_SYSTEMS = [
-  ['all','All Systems (479)'],['cardiovascular','Cardiovascular'],
-  ['respiratory','Respiratory'],['gastrointestinal','Digestive / GI'],
-  ['musculoskeletal','Musculoskeletal'],['nervous_system','Nervous System'],
-  ['urinary','Urinary'],['endocrine','Endocrine'],
-  ['blood_immune','Blood & Immune'],['skin','Skin'],
-  ['eye_ear','Eye & Ear'],['oncology','Oncology'],
-  ['pharmacology','Pharmacology'],['diagnostic_procedures','Diagnostic Tests'],
-  ['prefixes_suffixes','Prefixes & Suffixes'],['reproductive_obstetric','Reproductive'],
-];
-
-function initWordBank(){
-  var row = document.getElementById('wbSystemRow');
-  if(row && !wbReady){
-    wbReady = true;
-    WB_SYSTEMS.forEach(function(pair){
-      var key=pair[0], label=pair[1];
-      var btn = document.createElement('button');
-      btn.textContent = label;
-      btn.style.cssText = 'display:inline-block;margin-right:5px;margin-bottom:4px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:var(--font);font-size:10px;white-space:nowrap;border:1px solid '+(key==='all'?'var(--teal)':'var(--bord)')+';background:'+(key==='all'?'var(--teal)':'var(--surf2)')+';color:'+(key==='all'?'white':'var(--muted)')+';';
-      btn.onclick = function(){
-        wbSystem = key;
-        document.querySelectorAll('#wbSystemRow button').forEach(function(b){
-          b.style.background='var(--surf2)';b.style.color='var(--muted)';b.style.borderColor='var(--bord)';
-        });
-        btn.style.background='var(--teal)';btn.style.color='white';btn.style.borderColor='var(--teal)';
-        renderWordBank();
-      };
-      row.appendChild(btn);
-    });
-  }
-  renderWordBank();
-}
-
-function renderWordBank(){
-  var grid = document.getElementById('wbGrid');
-  if(!grid) return;
-  var WBD = window.QB_TERM_WORDS;
-  if(!WBD){
-    grid.innerHTML='<div style="padding:30px;text-align:center;color:var(--muted);font-size:14px;">Word bank not loaded.<br>Please do a hard refresh: <strong>Cmd+Shift+R</strong></div>';
-    return;
-  }
-  var inp = document.getElementById('wbSearch');
-  var q = inp ? inp.value.toLowerCase().trim() : '';
-  var terms = [];
-  if(wbSystem==='all'){
-    Object.keys(WBD).forEach(function(k){ var s=WBD[k]; if(s&&s.terms) s.terms.forEach(function(t){terms.push(t);}); });
-  } else {
-    var s2=WBD[wbSystem]; if(s2&&s2.terms) terms=s2.terms;
-  }
-  if(q) terms=terms.filter(function(t){ return t.term.toLowerCase().indexOf(q)>=0||t.def.toLowerCase().indexOf(q)>=0||t.breakdown.toLowerCase().indexOf(q)>=0; });
-  var sub=document.getElementById('wbSubtitle');
-  var cnt=document.getElementById('wbCount');
-  var lbl='All Systems'; WB_SYSTEMS.forEach(function(p){if(p[0]===wbSystem)lbl=p[1];});
-  if(sub) sub.textContent=lbl+' — '+terms.length+' terms';
-  if(cnt) cnt.textContent=terms.length+' terms';
-  if(!terms.length){grid.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);">No terms match.</div>';return;}
-  var out='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
-  terms.forEach(function(t){
-    var e=function(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');};
-    out+='<div style="background:var(--surf);border:1px solid var(--bord);border-radius:9px;padding:11px 12px;cursor:pointer;" onclick="var b=this.querySelector(\'.wbd\');b.style.display=b.style.display===\'block\'?\'none\':\'block\'">'
-      +'<div style="font-size:13px;font-weight:700;color:var(--teal);font-family:var(--mono);margin-bottom:3px;">'+e(t.term)+'</div>'
-      +'<div style="font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:3px;">'+e(t.def)+'</div>'
-      +'<div style="font-size:9px;color:var(--muted);">&#9660; tap for breakdown</div>'
-      +'<div class="wbd" style="display:none;margin-top:6px;font-size:11px;color:var(--muted);background:var(--surf2);padding:6px 8px;border-radius:5px;font-family:var(--mono);">'+e(t.breakdown)+'</div>'
-      +'</div>';
-  });
-  out+='</div>';
-  grid.innerHTML=out;
-}
 
 // ── INIT ─────────────────────────────────────────────
 // Verify question banks loaded
