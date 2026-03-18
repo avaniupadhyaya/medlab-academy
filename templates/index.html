@@ -1244,7 +1244,7 @@ function renderCourse(){
     const totalLessons=unit.lessons.length;
     const doneLessons=unit.lessons.filter(l=>state.courseProgress[l.id]).length;
     const pct=Math.round(doneLessons/totalLessons*100);
-    const prevDone=ui===0||COURSE[ui-1].lessons.every(l=>state.courseProgress[l.id]);
+    const prevDone=ui===0||COURSE[ui-1].lessons.every(l=>!!state.courseProgress[l.id]);
     const locked=!prevDone;
     html+=`<div class="unit-card${locked?' locked':''}" onclick="${locked?'lockedUnitClick()':('openUnit('+ui+')')}">
       <div class="unit-header">
@@ -1264,13 +1264,15 @@ function openUnit(ui){
   const unit=COURSE[ui];
   const home=document.getElementById('courseHome');
   home.style.display='block';
+  document.getElementById('lessonViewer').classList.remove('active');
+  document.getElementById('courseBackBtn').onclick=()=>showScreen('home');
 
   // Show lesson list inline
   let html='<div class="course-title">'+unit.icon+' '+unit.title+'</div><div class="course-sub">'+unit.sub+'</div>';
   html+='<button style="background:transparent;border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text-muted);cursor:pointer;font-family:var(--font);font-size:12px;margin-bottom:16px;" onclick="renderCourse()">← All Units</button>';
   unit.lessons.forEach((lesson,li)=>{
     const done=state.courseProgress[lesson.id];
-    const prevDone=li===0||state.courseProgress[unit.lessons[li-1].id];
+    const prevDone=li===0||!!state.courseProgress[unit.lessons[li-1].id];
     const locked=!prevDone;
     html+=`<div class="lesson-item${done?' completed':''}${locked?' locked':''}" style="cursor:${locked?'not-allowed':'pointer'}" onclick="${locked?'lockedUnitClick()':('openLesson('+ui+','+li+')')}">
       <div class="lesson-icon">${lesson.title.includes('Review')||lesson.title.includes('Putting')?'🏁':['📖','💡','🔤','🧩','⚡'][li%5]}</div>
@@ -1279,6 +1281,7 @@ function openUnit(ui){
     </div>`;
   });
   home.innerHTML=html;
+  home.scrollTop=0;
 }
 
 function lockedUnitClick(){
@@ -1300,6 +1303,13 @@ function openLesson(ui,li){
   document.getElementById('courseBackBtn').onclick=()=>openUnit(ui);
 
   renderLessonContent();
+  // Scroll to top of lesson
+  setTimeout(()=>{
+    const lc=document.getElementById('lessonContent');
+    if(lc)lc.scrollTop=0;
+    const cw=document.querySelector('.course-wrap');
+    if(cw)cw.scrollTop=0;
+  },50);
 }
 
 function renderLessonContent(){
@@ -1453,9 +1463,8 @@ function renderQuizQuestion(idx){
     const nextIdx=idx+1;
     if(nextIdx<lesson.quiz.length){
       renderQuizQuestion(nextIdx);
-      // Scroll quiz into view
-      const lqWrap=document.querySelector('.lq-wrap');
-      if(lqWrap)lqWrap.scrollIntoView({behavior:'smooth'});
+      const lc=document.getElementById('lessonContent');
+      if(lc)lc.scrollTop=0;
     }else{
       finishLesson();
     }
@@ -1473,23 +1482,29 @@ function finishLesson(){
   const lqWrap=document.querySelector('.lq-wrap');
   if(lqWrap){
     lqWrap.innerHTML=renderLessonComplete(score,total,lesson,unit,ui,li);
+    const lc=document.getElementById('lessonContent');
+    if(lc)lc.scrollTop=0;
   }
 }
 
 function renderLessonComplete(score,total,lesson,unit,ui,li){
+  // Fall back to currentLesson if called without args
+  if(ui===undefined&&currentLesson){ui=currentLesson.ui;li=currentLesson.li;unit=currentLesson.unit;lesson=currentLesson.lesson;}
   const pct=total>0?Math.round(score/total*100):100;
-  const nextLesson=unit&&ui!==undefined&&li!==undefined?unit.lessons[li+1]:null;
-  const nextUnit=ui!==undefined&&COURSE[ui+1]?COURSE[ui+1]:null;
-  return `<div class="lesson-complete">
-    <div class="lc-icon">${pct>=70?'🏆':'⭐'}</div>
-    <div class="lc-title">${pct>=70?'Lesson Complete!':'Good Effort!'}</div>
-    <div class="lc-sub">${total>0?'You scored <strong>'+score+'/'+total+'</strong> on the quiz. '+lesson.xp+' XP earned!':'Lesson complete! '+lesson.xp+' XP earned!'}<br>${pct<70?'Review the lesson content above and try again anytime.':''}</div>
-    <div class="lc-btns">
-      ${nextLesson?`<button class="lc-btn primary" onclick="openLesson(${ui},${li+1})">Next Lesson →</button>`:''}
-      ${!nextLesson&&nextUnit?`<button class="lc-btn primary" onclick="openUnit(${ui+1})">Next Unit: ${nextUnit.title} →</button>`:''}
-      <button class="lc-btn secondary" onclick="openUnit(${ui})">Back to Unit</button>
-    </div>
-  </div>`;
+  const nextLesson=(unit&&li!==undefined)?unit.lessons[li+1]:null;
+  const nextUnit=(ui!==undefined&&COURSE[ui+1])?COURSE[ui+1]:null;
+  const safeUi=ui!==undefined?ui:0;
+  const safeLi=li!==undefined?li:0;
+  const xp=lesson&&lesson.xp?lesson.xp:0;
+  return '<div class="lesson-complete">'
+    +'<div class="lc-icon">'+(pct>=70?'🏆':'⭐')+'</div>'
+    +'<div class="lc-title">'+(pct>=70?'Lesson Complete!':'Good Effort!')+'</div>'
+    +'<div class="lc-sub">'+(total>0?'You scored <strong>'+score+'/'+total+'</strong> on the quiz. '+xp+' XP earned!':'Lesson complete! '+xp+' XP earned!')+'</div>'
+    +'<div class="lc-btns">'
+    +(nextLesson?'<button class="lc-btn primary" onclick="openLesson('+safeUi+','+(safeLi+1)+')">Next Lesson →</button>':'')
+    +(!nextLesson&&nextUnit?'<button class="lc-btn primary" onclick="openUnit('+(safeUi+1)+')">Next Unit: '+nextUnit.title+' →</button>':'')
+    +'<button class="lc-btn secondary" onclick="openUnit('+safeUi+')">← Back to Unit</button>'
+    +'</div></div>';
 }
 
 window.openUnit=openUnit;
@@ -1500,6 +1515,7 @@ window.showCourseHome=function(){
   document.getElementById('lessonViewer').classList.remove('active');
   document.getElementById('courseBackBtn').onclick=()=>showScreen('home');
   renderCourse();
+  document.getElementById('courseHome').scrollTop=0;
 };
 
 // ── WORD BUILDER ──
