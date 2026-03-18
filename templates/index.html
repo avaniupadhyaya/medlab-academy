@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>MedLab Academy</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -23,6 +22,8 @@
 }
 html,body{height:100%;overflow:hidden;}
 body{font-family:var(--font);background:var(--bg);color:var(--text);}
+
+/* HEADER */
 .header{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--hh);background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;gap:10px;}
 .logo-icon{width:34px;height:34px;border-radius:8px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
@@ -31,7 +32,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .xp-wrap{display:flex;align-items:center;gap:8px;}
 .xp-badge{background:var(--amber-light);color:var(--amber-dark);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;font-family:var(--mono);white-space:nowrap;}
 .xp-bar-outer{width:80px;height:5px;background:var(--surface2);border-radius:3px;}
-.xp-bar-inner{height:100%;background:var(--amber);border-radius:3px;transition:width 0.6s ease;}
+.xp-bar-inner{height:100%;background:var(--amber);border-radius:3px;transition:width 0.6s;}
+
+/* LAYOUT */
 .app-layout{position:fixed;top:var(--hh);left:0;right:0;bottom:0;display:flex;}
 .sidebar{width:210px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:12px 10px;gap:3px;overflow-y:auto;}
 .sidebar-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);padding:8px 8px 4px;font-weight:600;}
@@ -66,11 +69,27 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .chat-input:focus{outline:none;border-color:var(--teal);}
 .chat-send{background:var(--teal);border:none;border-radius:8px;width:38px;height:38px;cursor:pointer;color:white;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--bnh);background:var(--surface);border-top:1px solid var(--border);padding:0 4px;align-items:center;justify-content:space-around;}
-.bnav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 8px;border-radius:10px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;font-family:var(--font);font-size:9px;font-weight:500;min-width:48px;transition:all 0.15s;}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 8px;border-radius:10px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;font-family:var(--font);font-size:9px;font-weight:500;min-width:44px;transition:all 0.15s;}
 .bnav-btn.active{color:var(--teal);}
 .bnav-icon{font-size:20px;}
 .screen{display:none;flex:1;flex-direction:column;}
 .screen.active{display:flex;}
+
+/* SHARED GAME STYLES */
+.game-header{padding:14px 16px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.back-btn{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;font-family:var(--font);flex-shrink:0;min-height:36px;transition:all 0.15s;}
+.back-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.2);}
+.dash-btn{background:transparent;border:1px solid var(--teal);border-radius:8px;padding:7px 12px;font-size:12px;color:var(--teal);cursor:pointer;font-family:var(--font);flex-shrink:0;min-height:36px;transition:all 0.15s;}
+.dash-btn:hover{background:var(--teal);color:white;}
+.game-title{font-size:16px;font-weight:700;}
+.game-subtitle{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
+.score-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);margin-left:auto;}
+.score-val{font-family:var(--mono);color:var(--amber);font-weight:700;font-size:15px;}
+.game-body{padding:14px 16px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.action-btn{background:var(--teal);color:white;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:14px;width:100%;min-height:48px;}
+.action-btn:hover{background:#168f67;}
+
+/* HOME */
 .home-hero{background:linear-gradient(135deg,#0d1f3c,#0a1628);padding:24px 16px 20px;border-bottom:1px solid var(--border);}
 .hero-greeting{font-size:12px;color:var(--teal);font-family:var(--mono);margin-bottom:5px;}
 .hero-title{font-size:22px;font-weight:700;margin-bottom:6px;line-height:1.2;}
@@ -89,6 +108,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .mode-card.blue::before{background:var(--blue);}
 .mode-card.amber::before{background:var(--amber);}
 .mode-card.purple::before{background:var(--purple);}
+.mode-card.coral::before{background:var(--coral);}
+.mode-card.green::before{background:var(--green);}
 .mode-icon{font-size:22px;margin-bottom:7px;}
 .mode-name{font-size:13px;font-weight:600;margin-bottom:3px;}
 .mode-desc{font-size:11px;color:var(--text-muted);line-height:1.4;}
@@ -97,14 +118,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .tag-blue{background:var(--blue-light);color:var(--blue-dark);}
 .tag-amber{background:var(--amber-light);color:var(--amber-dark);}
 .tag-purple{background:var(--purple-light);color:var(--purple-dark);}
-.game-header{padding:14px 16px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.back-btn{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--text-muted);cursor:pointer;font-family:var(--font);flex-shrink:0;min-height:36px;}
-.game-title{font-size:16px;font-weight:700;}
-.game-subtitle{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
-.score-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);margin-left:auto;}
-.score-val{font-family:var(--mono);color:var(--amber);font-weight:700;font-size:15px;}
-.game-body{padding:14px 16px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.action-btn{background:var(--teal);color:white;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:14px;width:100%;min-height:48px;}
+.tag-coral{background:var(--coral-light);color:var(--coral-dark);}
+.tag-green{background:var(--green-light);color:var(--green-dark);}
+
+/* WORD BUILDER */
 .wb-instruction{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.6;}
 .wb-target{text-align:center;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;}
 .wb-target-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:var(--mono);}
@@ -114,27 +131,35 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .wb-slot.filled{border-style:solid;border-color:var(--teal);color:var(--teal);background:rgba(29,158,117,0.08);}
 .wb-slot-label{font-size:9px;color:var(--text-muted);text-align:center;display:block;margin-top:3px;font-family:var(--mono);}
 .wb-parts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
-.wb-part{padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:15px;font-weight:600;font-family:var(--mono);color:var(--text);min-height:48px;display:flex;align-items:center;}
+.wb-part{padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:15px;font-weight:600;font-family:var(--mono);color:var(--text);min-height:48px;display:flex;align-items:center;transition:all 0.15s;}
+.wb-part:hover{border-color:var(--teal);color:var(--teal);}
 .wb-part.used{opacity:0.3;pointer-events:none;}
 .wb-feedback{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:13px;font-weight:500;display:none;}
 .wb-feedback.correct{background:var(--green-light);color:var(--green-dark);border:1px solid var(--green);display:block;}
 .wb-feedback.wrong{background:var(--red-light);color:var(--red-dark);border:1px solid var(--red);display:block;}
+
+/* DIAGNOSIS DETECTIVE */
 .dd-case{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;}
 .dd-case-label{font-size:10px;font-family:var(--mono);color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
 .dd-case-text{font-size:14px;line-height:1.7;}
 .dd-case-text .highlight{color:var(--amber);font-weight:600;font-family:var(--mono);}
 .dd-options{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px;}
-.dd-option{padding:14px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;font-size:14px;font-weight:500;font-family:var(--font);color:var(--text);min-height:48px;display:flex;align-items:center;width:100%;text-align:left;}
+.dd-option{padding:14px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;font-size:14px;font-weight:500;font-family:var(--font);color:var(--text);min-height:48px;display:flex;align-items:center;width:100%;text-align:left;transition:all 0.15s;}
+.dd-option:hover{border-color:var(--blue);}
 .dd-option.correct{background:var(--green-light);color:var(--green-dark);border-color:var(--green);}
 .dd-option.wrong{background:var(--red-light);color:var(--red-dark);border-color:var(--red);}
 .dd-explain{background:var(--blue-light);color:var(--blue-dark);border:1px solid var(--blue);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.6;display:none;margin-top:8px;}
+
+/* TERM MATCH */
 .am-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .am-col-label{font-size:10px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center;}
 .am-items{display:flex;flex-direction:column;gap:6px;}
-.am-item{padding:11px 8px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;font-size:12px;font-weight:600;font-family:var(--mono);text-align:center;color:var(--text);min-height:48px;display:flex;align-items:center;justify-content:center;}
+.am-item{padding:11px 8px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;font-size:12px;font-weight:600;font-family:var(--mono);text-align:center;color:var(--text);min-height:48px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
 .am-item.selected{border-color:var(--purple);background:var(--purple-light);color:var(--purple-dark);}
 .am-item.matched{border-color:var(--teal);background:var(--teal-light);color:var(--teal-dark);opacity:0.6;pointer-events:none;}
 .am-item.wrong-flash{border-color:var(--red);background:var(--red-light);color:var(--red-dark);}
+
+/* FLASHCARDS */
 .fc-scene{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;}
 .fc-card-wrap{perspective:1000px;width:100%;max-width:400px;height:210px;cursor:pointer;margin-bottom:18px;}
 .fc-card{width:100%;height:100%;transform-style:preserve-3d;transition:transform 0.5s ease;position:relative;border-radius:16px;}
@@ -147,15 +172,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .fc-def{font-size:14px;font-weight:500;line-height:1.5;color:#e8f5ee;}
 .fc-breakdown{font-size:11px;margin-top:8px;color:rgba(232,245,238,0.7);font-family:var(--mono);}
 .fc-controls{display:flex;gap:10px;width:100%;max-width:400px;}
-.fc-btn{flex:1;padding:14px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font);min-height:48px;}
+.fc-btn{flex:1;padding:14px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font);min-height:48px;transition:all 0.15s;}
 .fc-btn.know{border-color:var(--green);color:var(--green);}
+.fc-btn.know:hover{background:var(--green-light);}
 .fc-btn.skip{border-color:var(--amber);color:var(--amber);}
+.fc-btn.skip:hover{background:var(--amber-light);}
+
+/* PATIENT STORY */
 .sm-story{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:2.1;margin-bottom:14px;}
-.sm-blank{display:inline-block;min-width:90px;height:26px;border-bottom:2px solid var(--amber);padding:0 4px;margin:0 3px;font-family:var(--mono);font-weight:600;color:var(--amber);text-align:center;cursor:pointer;vertical-align:middle;font-size:12px;}
+.sm-blank{display:inline-block;min-width:90px;height:26px;border-bottom:2px solid var(--amber);padding:0 4px;margin:0 3px;font-family:var(--mono);font-weight:600;color:var(--amber);text-align:center;cursor:pointer;vertical-align:middle;font-size:12px;transition:all 0.15s;}
 .sm-blank.filled{color:var(--teal);border-color:var(--teal);}
 .sm-bank{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-.sm-word{padding:10px 14px;border:1px solid var(--border);border-radius:20px;background:var(--surface2);cursor:pointer;font-size:13px;font-weight:600;font-family:var(--mono);color:var(--text);min-height:44px;display:flex;align-items:center;}
+.sm-word{padding:10px 14px;border:1px solid var(--border);border-radius:20px;background:var(--surface2);cursor:pointer;font-size:13px;font-weight:600;font-family:var(--mono);color:var(--text);min-height:44px;display:flex;align-items:center;transition:all 0.15s;}
+.sm-word:hover{border-color:var(--amber);color:var(--amber);}
 .sm-word.used{opacity:0.3;pointer-events:none;}
+
+/* SOURCE PANEL */
 .source-panel{padding:18px 16px;flex:1;overflow-y:auto;}
 .sp-title{font-size:18px;font-weight:700;margin-bottom:6px;}
 .sp-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.6;}
@@ -167,6 +199,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .sp-sources{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
 .sp-source-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px;font-size:13px;}
 .sp-source-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+
+/* PROGRESS */
 .prog-panel{padding:18px 16px;overflow-y:auto;}
 .prog-title{font-size:18px;font-weight:700;margin-bottom:14px;}
 .prog-cat{margin-bottom:14px;}
@@ -174,6 +208,89 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 .prog-cat-pct{font-size:11px;font-family:var(--mono);color:var(--text-muted);}
 .prog-track{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;}
 .prog-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+
+/* PLACEMENT TEST */
+.pt-wrap{max-width:500px;margin:0 auto;padding:24px 16px;}
+.pt-header{text-align:center;margin-bottom:24px;}
+.pt-title{font-size:22px;font-weight:700;margin-bottom:8px;}
+.pt-sub{font-size:13px;color:var(--text-muted);line-height:1.6;}
+.pt-progress{height:6px;background:var(--surface2);border-radius:3px;margin-bottom:24px;overflow:hidden;}
+.pt-progress-fill{height:100%;background:var(--teal);border-radius:3px;transition:width 0.4s;}
+.pt-q-num{font-size:11px;font-family:var(--mono);color:var(--text-muted);margin-bottom:8px;}
+.pt-question{font-size:16px;font-weight:600;margin-bottom:18px;line-height:1.5;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;}
+.pt-options{display:flex;flex-direction:column;gap:8px;}
+.pt-option{padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;font-size:14px;font-family:var(--font);color:var(--text);min-height:48px;display:flex;align-items:center;transition:all 0.15s;}
+.pt-option:hover{border-color:var(--blue);}
+.pt-option.correct{background:var(--green-light);color:var(--green-dark);border-color:var(--green);}
+.pt-option.wrong{background:var(--red-light);color:var(--red-dark);border-color:var(--red);}
+.pt-result{text-align:center;padding:32px 16px;}
+.pt-result-icon{font-size:64px;margin-bottom:16px;}
+.pt-result-title{font-size:24px;font-weight:700;margin-bottom:8px;}
+.pt-result-sub{font-size:14px;color:var(--text-muted);margin-bottom:24px;line-height:1.6;}
+.pt-level-badge{display:inline-block;padding:8px 20px;border-radius:20px;font-weight:700;font-size:16px;font-family:var(--mono);margin-bottom:24px;}
+
+/* COURSE MODE */
+.course-wrap{padding:16px;overflow-y:auto;flex:1;}
+.course-title{font-size:20px;font-weight:700;margin-bottom:4px;}
+.course-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
+.unit-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;}
+.unit-header{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;}
+.unit-icon{font-size:24px;flex-shrink:0;}
+.unit-title{font-size:15px;font-weight:700;}
+.unit-sub{font-size:11px;color:var(--text-muted);}
+.unit-progress{margin-left:auto;text-align:right;}
+.unit-pct{font-size:12px;font-family:var(--mono);color:var(--teal);}
+.unit-bar{width:80px;height:5px;background:var(--surface2);border-radius:3px;margin-top:3px;}
+.unit-bar-fill{height:100%;background:var(--teal);border-radius:3px;transition:width 0.6s;}
+.unit-locked{opacity:0.4;cursor:not-allowed;}
+.lessons-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:6px;display:none;}
+.lessons-list.open{display:flex;}
+.lesson-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;transition:all 0.15s;}
+.lesson-item:hover{border-color:var(--teal);}
+.lesson-item.completed{border-color:var(--green);background:rgba(99,153,34,0.06);}
+.lesson-item.locked{opacity:0.4;cursor:not-allowed;}
+.lesson-icon{font-size:18px;flex-shrink:0;}
+.lesson-title{font-size:13px;font-weight:600;flex:1;}
+.lesson-type{font-size:10px;font-family:var(--mono);color:var(--text-muted);}
+.lesson-check{font-size:16px;margin-left:auto;}
+
+/* DOCTOR DIAGNOSIS MODE */
+.dr-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.dr-scene{flex:1;position:relative;overflow:hidden;background:linear-gradient(180deg,#0d1a2e 0%,#0a1420 100%);}
+.dr-room{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(180deg,transparent,#0f1e35);}
+.dr-patient{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:140px;cursor:pointer;user-select:none;}
+.dr-patient svg{width:100%;height:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));}
+.dr-speech{position:absolute;bottom:170px;left:50%;transform:translateX(-60%);background:white;border-radius:12px 12px 12px 0;padding:10px 14px;font-size:12px;font-weight:600;color:#1a2235;max-width:200px;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,0.3);animation:speechPop 0.3s ease;}
+@keyframes speechPop{from{opacity:0;transform:translateX(-60%) scale(0.8);}to{opacity:1;transform:translateX(-60%) scale(1);}}
+.dr-symptom-badge{position:absolute;background:var(--amber-light);color:var(--amber-dark);border:1px solid var(--amber);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;font-family:var(--mono);pointer-events:none;animation:floatBadge 0.4s ease;}
+@keyframes floatBadge{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.dr-hotspot{position:absolute;border-radius:50%;background:rgba(55,138,221,0.15);border:2px solid rgba(55,138,221,0.4);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.dr-hotspot:hover{background:rgba(55,138,221,0.3);border-color:var(--blue);transform:scale(1.1);}
+.dr-hotspot.pulsing{animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(55,138,221,0.4);}50%{box-shadow:0 0 0 8px rgba(55,138,221,0);}}
+.dr-hotspot-label{font-size:9px;color:white;font-weight:700;text-align:center;font-family:var(--mono);}
+.dr-panel{background:var(--surface);border-top:1px solid var(--border);padding:14px 16px;}
+.dr-question{font-size:14px;font-weight:600;margin-bottom:12px;line-height:1.4;}
+.dr-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.dr-choice{padding:12px 10px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);cursor:pointer;font-size:12px;font-weight:600;font-family:var(--mono);color:var(--text);text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.dr-choice:hover{border-color:var(--blue);color:var(--blue-light);}
+.dr-choice.correct{background:var(--green-light);color:var(--green-dark);border-color:var(--green);}
+.dr-choice.wrong{background:var(--red-light);color:var(--red-dark);border-color:var(--red);}
+.dr-explain{font-size:12px;margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--blue-light);color:var(--blue-dark);display:none;line-height:1.5;}
+.dr-score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.dr-score{font-family:var(--mono);color:var(--amber);font-weight:700;}
+.dr-next{background:var(--teal);color:white;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);display:none;margin-top:10px;width:100%;min-height:44px;}
+.dr-anim-correct{animation:correctPop 0.5s ease;}
+@keyframes correctPop{0%{transform:scale(1);}50%{transform:scale(1.06);}100%{transform:scale(1);}}
+
+/* PLACEMENT TEST start screen */
+.pt-start{text-align:center;padding:40px 20px;}
+.pt-start-icon{font-size:60px;margin-bottom:16px;}
+.pt-start h2{font-size:22px;font-weight:700;margin-bottom:10px;}
+.pt-start p{font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:24px;max-width:340px;margin-left:auto;margin-right:auto;}
+.pt-start-btn{background:var(--teal);color:white;border:none;border-radius:12px;padding:16px 32px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);}
+
+/* RESPONSIVE */
 @media(max-width:768px){
   .sidebar,.chat-panel{display:none;}
   .bottom-nav{display:flex;}
@@ -184,6 +301,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
   .logo-sub{display:block;}
   .mobile-diff{display:none;}
   .bottom-nav{display:none!important;}
+  .dr-choices{grid-template-columns:1fr 1fr 1fr 1fr;}
 }
 </style>
 </head>
@@ -191,10 +309,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
 <div class="header">
   <div class="logo">
     <div class="logo-icon">🔬</div>
-    <div>
-      <div class="logo-text">MedLab Academy</div>
-      <div class="logo-sub">HOSA Foundations of Medical Terminology</div>
-    </div>
+    <div><div class="logo-text">MedLab Academy</div><div class="logo-sub">HOSA Foundations of Medical Terminology</div></div>
   </div>
   <div class="xp-wrap">
     <div class="xp-badge" id="levelBadge">Lv 1</div>
@@ -204,18 +319,23 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
     </div>
   </div>
 </div>
+
 <div class="app-layout">
   <div class="sidebar">
     <div class="sidebar-label">Mission Control</div>
-    <button class="nav-btn active" data-screen="home"><span class="nav-icon">🏠</span> Home Base</button>
+    <button class="nav-btn" data-screen="course"><span class="nav-icon">🎓</span> Course<span class="nav-badge">NEW</span></button>
+    <button class="nav-btn active" data-screen="home"><span class="nav-icon">🏠</span> Free Play</button>
+    <div class="sidebar-label" style="margin-top:4px">Games</div>
     <button class="nav-btn" data-screen="wordbuilder"><span class="nav-icon">🧬</span> Word Builder<span class="nav-badge">+30</span></button>
     <button class="nav-btn" data-screen="detective"><span class="nav-icon">🔍</span> Diagnosis Detective<span class="nav-badge">+40</span></button>
     <button class="nav-btn" data-screen="match"><span class="nav-icon">⚡</span> Term Match<span class="nav-badge">+25</span></button>
     <button class="nav-btn" data-screen="flashcards"><span class="nav-icon">🃏</span> Flashcards<span class="nav-badge">+15</span></button>
     <button class="nav-btn" data-screen="story"><span class="nav-icon">📋</span> Patient Story<span class="nav-badge">+50</span></button>
-    <div class="sidebar-label" style="margin-top:8px">Lab Tools</div>
+    <button class="nav-btn" data-screen="doctor"><span class="nav-icon">🩺</span> Be the Doctor<span class="nav-badge">+60</span></button>
+    <div class="sidebar-label" style="margin-top:8px">Tools</div>
     <button class="nav-btn" data-screen="source"><span class="nav-icon">📥</span> Add Sources</button>
     <button class="nav-btn" data-screen="progress"><span class="nav-icon">📊</span> Progress</button>
+    <button class="nav-btn" data-screen="placement"><span class="nav-icon">🎯</span> Placement Test</button>
     <div class="diff-section">
       <div class="diff-label">Difficulty</div>
       <div class="diff-btns">
@@ -225,13 +345,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
       </div>
     </div>
   </div>
+
   <div class="main" id="mainContent">
 
+    <!-- HOME -->
     <div class="screen active" id="screen-home">
       <div class="home-hero">
         <div class="hero-greeting">// Welcome, Future Doctor</div>
         <div class="hero-title">Medical Terminology<br>Training Lab 🧪</div>
-        <div class="hero-sub">Master prefixes, roots and suffixes for HOSA.</div>
+        <div class="hero-sub">Master prefixes, roots & suffixes for HOSA. Take the <strong style="color:var(--teal)">Placement Test</strong> to find your level!</div>
       </div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-num" style="color:var(--teal)" id="statTerms">0</div><div class="stat-lbl">Mastered</div></div>
@@ -247,61 +369,114 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
         </div>
       </div>
       <div class="modes-grid">
-        <div class="mode-card teal" data-goto="wordbuilder"><div class="mode-icon">🧬</div><div class="mode-name">Word Builder</div><div class="mode-desc">Snap parts together to form terms.</div><div class="mode-tag tag-teal">+30 XP</div></div>
-        <div class="mode-card blue" data-goto="detective"><div class="mode-icon">🔍</div><div class="mode-name">Diagnosis Detective</div><div class="mode-desc">Read cases, pick the right term.</div><div class="mode-tag tag-blue">+40 XP</div></div>
-        <div class="mode-card amber" data-goto="match"><div class="mode-icon">⚡</div><div class="mode-name">Term Match</div><div class="mode-desc">Pair terms with definitions fast!</div><div class="mode-tag tag-amber">+25 XP</div></div>
-        <div class="mode-card purple" data-goto="story"><div class="mode-icon">📋</div><div class="mode-name">Patient Story</div><div class="mode-desc">Fill in a real ER chart.</div><div class="mode-tag tag-purple">+50 XP</div></div>
+        <div class="mode-card teal" data-goto="course"><div class="mode-icon">🎓</div><div class="mode-name">Course Mode</div><div class="mode-desc">Structured lessons from beginner to expert.</div><div class="mode-tag tag-teal">Start Here</div></div>
+        <div class="mode-card blue" data-goto="placement"><div class="mode-icon">🎯</div><div class="mode-name">Placement Test</div><div class="mode-desc">Find your level in 20 questions.</div><div class="mode-tag tag-blue">Set Your Level</div></div>
+        <div class="mode-card amber" data-goto="doctor"><div class="mode-icon">🩺</div><div class="mode-name">Be the Doctor</div><div class="mode-desc">Diagnose patients using your term knowledge!</div><div class="mode-tag tag-amber">NEW</div></div>
+        <div class="mode-card purple" data-goto="wordbuilder"><div class="mode-icon">🧬</div><div class="mode-name">Word Builder</div><div class="mode-desc">Snap prefixes, roots and suffixes together.</div><div class="mode-tag tag-purple">+30 XP</div></div>
+        <div class="mode-card coral" data-goto="detective"><div class="mode-icon">🔍</div><div class="mode-name">Diagnosis Detective</div><div class="mode-desc">Read patient cases, pick the right term.</div><div class="mode-tag tag-coral">+40 XP</div></div>
+        <div class="mode-card green" data-goto="story"><div class="mode-icon">📋</div><div class="mode-name">Patient Story</div><div class="mode-desc">Fill in a real ER chart.</div><div class="mode-tag tag-green">+50 XP</div></div>
       </div>
     </div>
 
+    <!-- PLACEMENT TEST -->
+    <div class="screen" id="screen-placement">
+      <div class="game-header">
+        <button class="back-btn" id="ptBack">← Back</button>
+        <div><div class="game-title">🎯 Placement Test</div><div class="game-subtitle">Find your starting level</div></div>
+      </div>
+      <div class="game-body" id="ptBody">
+        <div class="pt-start">
+          <div class="pt-start-icon">🎯</div>
+          <h2>Find Your Level</h2>
+          <p>Answer 20 questions and we'll place you at the right difficulty level — Easy, Medium, or Hard. The test adapts to your answers!</p>
+          <button class="pt-start-btn" id="startPlacement">Start Placement Test →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURSE MODE -->
+    <div class="screen" id="screen-course">
+      <div class="game-header" style="padding-bottom:14px;">
+        <button class="back-btn" onclick="showScreen('home')">← Back</button>
+        <div><div class="game-title">🎓 MedLab Course</div><div class="game-subtitle">Complete lessons to unlock the next unit</div></div>
+      </div>
+      <div class="course-wrap" id="courseWrap"></div>
+    </div>
+
+    <!-- WORD BUILDER -->
     <div class="screen" id="screen-wordbuilder">
       <div class="game-header">
-        <button class="back-btn" data-back>← Back</button>
+        <button class="back-btn" id="wbBack">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
         <div><div class="game-title">🧬 Word Builder</div><div class="game-subtitle">Tap parts in order</div></div>
         <div class="score-row">Score: <span class="score-val" id="wbScore">0</span></div>
       </div>
       <div class="game-body" id="wbBody"></div>
     </div>
 
+    <!-- DIAGNOSIS DETECTIVE -->
     <div class="screen" id="screen-detective">
       <div class="game-header">
-        <button class="back-btn" data-back>← Back</button>
+        <button class="back-btn" id="ddBack">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
         <div><div class="game-title">🔍 Diagnosis Detective</div><div class="game-subtitle">Pick the correct term</div></div>
         <div class="score-row">Score: <span class="score-val" id="ddScore">0</span></div>
       </div>
       <div class="game-body" id="ddBody"></div>
     </div>
 
+    <!-- TERM MATCH -->
     <div class="screen" id="screen-match">
       <div class="game-header">
-        <button class="back-btn" data-back>← Back</button>
+        <button class="back-btn" id="amBack">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
         <div><div class="game-title">⚡ Term Match</div><div class="game-subtitle">Match term to definition</div></div>
         <div class="score-row">Score: <span class="score-val" id="amScore">0</span></div>
       </div>
       <div class="game-body" id="amBody"></div>
     </div>
 
+    <!-- FLASHCARDS -->
     <div class="screen" id="screen-flashcards">
       <div class="game-header">
-        <button class="back-btn" data-back>← Back</button>
+        <button class="back-btn" id="fcBack">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
         <div><div class="game-title">🃏 Flashcard Lab</div><div class="game-subtitle">Tap card to flip</div></div>
       </div>
       <div class="fc-scene" id="fcScene"></div>
     </div>
 
+    <!-- PATIENT STORY -->
     <div class="screen" id="screen-story">
       <div class="game-header">
-        <button class="back-btn" data-back>← Back</button>
+        <button class="back-btn" id="smBack">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
         <div><div class="game-title">📋 Patient Story</div><div class="game-subtitle">Complete the ER chart</div></div>
         <div class="score-row">Score: <span class="score-val" id="smScore">0</span></div>
       </div>
       <div class="game-body" id="smBody"></div>
     </div>
 
+    <!-- DOCTOR DIAGNOSIS MODE -->
+    <div class="screen" id="screen-doctor">
+      <div class="game-header">
+        <button class="back-btn" id="drBack">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
+        <div><div class="game-title">🩺 Be the Doctor</div><div class="game-subtitle">Diagnose the patient!</div></div>
+        <div class="score-row">Score: <span class="score-val" id="drScore">0</span></div>
+      </div>
+      <div class="dr-wrap" id="drWrap"></div>
+    </div>
+
+    <!-- SOURCES -->
     <div class="screen" id="screen-source">
+      <div class="game-header">
+        <button class="back-btn" onclick="showScreen('home')">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
+        <div><div class="game-title">📥 Add Sources</div></div>
+      </div>
       <div class="source-panel">
-        <div class="sp-title">📥 Add Sources</div>
-        <div class="sp-sub">Paste any HOSA study guide, term list, or chapter. The AI extracts terms and adds them to your games.</div>
+        <div class="sp-sub">Paste any HOSA study guide, term list, or textbook chapter. The AI extracts the terms and adds them to your games.</div>
         <textarea class="sp-textarea" id="sourceText" placeholder="Paste study material here..."></textarea>
         <button class="sp-btn" id="addSourceBtn">Analyze &amp; Add to Games</button>
         <div class="sp-loading" id="spLoading">Analyzing...</div>
@@ -309,16 +484,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
       </div>
     </div>
 
+    <!-- PROGRESS -->
     <div class="screen" id="screen-progress">
+      <div class="game-header">
+        <button class="back-btn" onclick="showScreen('home')">← Back</button>
+        <button class="dash-btn" onclick="showScreen('home')">🏠 Dashboard</button>
+        <div><div class="game-title">📊 Progress</div></div>
+      </div>
       <div class="prog-panel">
-        <div class="prog-title">📊 Progress</div>
         <div id="progCats"></div>
       </div>
     </div>
 
+    <!-- DR MORPH CHAT (mobile) -->
     <div class="screen" id="screen-chat">
       <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
-        <button class="back-btn" data-back>← Back</button>
+        <button class="back-btn" onclick="showScreen('home')">← Back</button>
         <div class="ai-avatar">🤖</div>
         <div><div class="ai-name">Dr. Morph</div><div class="ai-status">AI Tutor</div></div>
       </div>
@@ -337,8 +518,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
       </div>
     </div>
 
-  </div>
+  </div><!-- end main -->
 
+  <!-- DESKTOP CHAT -->
   <div class="chat-panel">
     <div class="chat-header">
       <div class="ai-avatar">🤖</div>
@@ -356,34 +538,228 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);}
       <button class="chat-send" id="chatSend">↑</button>
     </div>
   </div>
-</div>
+</div><!-- end app-layout -->
 
 <div class="bottom-nav">
+  <button class="bnav-btn" data-screen="course"><span class="bnav-icon">🎓</span>Course</button>
   <button class="bnav-btn active" data-screen="home"><span class="bnav-icon">🏠</span>Home</button>
-  <button class="bnav-btn" data-screen="wordbuilder"><span class="bnav-icon">🧬</span>Builder</button>
-  <button class="bnav-btn" data-screen="detective"><span class="bnav-icon">🔍</span>Detective</button>
-  <button class="bnav-btn" data-screen="match"><span class="bnav-icon">⚡</span>Match</button>
+  <button class="bnav-btn" data-screen="doctor"><span class="bnav-icon">🩺</span>Doctor</button>
   <button class="bnav-btn" data-screen="flashcards"><span class="bnav-icon">🃏</span>Cards</button>
   <button class="bnav-btn" data-screen="chat"><span class="bnav-icon">🤖</span>Dr. Morph</button>
 </div>
 
 <script src="/static/questions.js"></script>
 <script>
-// QB aliases — falls back to inline data if questions.js fails
-window._QB = window.QUESTION_BANK || null;
-</script>
-<script>
-const state={xp:0,level:1,difficulty:'medium',termsCorrect:0,totalAnswered:0,wbScore:0,ddScore:0,amScore:0,smScore:0,currentScreen:'home',lastQuestion:'',customSources:[],progress:{prefixes:40,roots:25,suffixes:15,body_systems:10,clinical_terms:5}};
-const WB_Q=(window.QUESTION_BANK&&QUESTION_BANK.wordBuilder)||{easy:[{def:"Inflammation of the skin",parts:[{text:'derma',role:'Root (skin)'},{text:'-itis',role:'Suffix (inflammation)'}],answer:'dermatitis'},{def:"Study of the heart",parts:[{text:'cardio',role:'Root (heart)'},{text:'-logy',role:'Suffix (study of)'}],answer:'cardiology'},{def:"Inflammation of the brain",parts:[{text:'encephal',role:'Root (brain)'},{text:'-itis',role:'Suffix (inflammation)'}],answer:'encephalitis'}],medium:[{def:"Surgical removal of the gallbladder",parts:[{text:'chole',role:'Root (bile)'},{text:'cyst',role:'Root (bladder)'},{text:'-ectomy',role:'Suffix (removal)'}],answer:'cholecystectomy'},{def:"Abnormally fast heart rate",parts:[{text:'tachy-',role:'Prefix (fast)'},{text:'card',role:'Root (heart)'},{text:'-ia',role:'Suffix (condition)'}],answer:'tachycardia'},{def:"Surgical repair of the nose",parts:[{text:'rhin',role:'Root (nose)'},{text:'-o-',role:'Combining vowel'},{text:'-plasty',role:'Suffix (repair)'}],answer:'rhinoplasty'}],hard:[{def:"Abnormally slow heart rate",parts:[{text:'brady-',role:'Prefix (slow)'},{text:'card',role:'Root (heart)'},{text:'-ia',role:'Suffix (condition)'}],answer:'bradycardia'},{def:"Inflammation of stomach and intestine",parts:[{text:'gastro',role:'Root (stomach, combining form)'},{text:'enter',role:'Root (intestine)'},{text:'-itis',role:'Suffix (inflammation)'}],answer:'gastroenteritis'},{def:"Visual examination of the stomach",parts:[{text:'gastr',role:'Root (stomach)'},{text:'-o-',role:'Combining vowel'},{text:'-scopy',role:'Suffix (visual exam)'}],answer:'gastroscopy'}]};
-const DD_Q=(window.QUESTION_BANK&&QUESTION_BANK.diagnosisDetective)||{easy:[{scenario:"Mrs. Chen's skin is red and itchy. She has an <span class='highlight'>inflamed skin</span> condition.",options:['Dermatitis','Cardiology','Neurology','Hepatitis'],correct:0,explain:"'Dermat-' = skin, '-itis' = inflammation."},{scenario:"The patient's blood sugar is too <span class='highlight'>high</span>.",options:['Hypoglycemia','Hyperglycemia','Bradycardia','Dermatitis'],correct:1,explain:"'Hyper-' = excessive. 'Glyc-' = sugar. Hyperglycemia = too much blood sugar."}],medium:[{scenario:"Mr. Torres's heart is beating <span class='highlight'>much faster than normal</span> at 170 bpm.",options:['Bradycardia','Hypertension','Tachycardia','Arrhythmia'],correct:2,explain:"'Tachy-' = fast, '-cardia' = heart condition."},{scenario:"Doctor orders a visual examination of the patient's <span class='highlight'>stomach</span> using a tiny camera.",options:['Gastroscopy','Colonoscopy','Rhinoplasty','Hepatectomy'],correct:0,explain:"'Gastr-' = stomach, '-scopy' = visual exam."}],hard:[{scenario:"Labs show <span class='highlight'>low white blood cell count</span>. Infection risk is high.",options:['Leukopenia','Erythrocytosis','Polycythemia','Leukocytosis'],correct:0,explain:"'Leuko-' = white, '-penia' = deficiency."},{scenario:"Imaging shows <span class='highlight'>narrowing</span> of the coronary artery.",options:['Angiostenosis','Vasodilation','Angioplasty','Myopathy'],correct:0,explain:"'Angio-' = vessel, '-stenosis' = narrowing."}]};
-const AM_S=(window.QUESTION_BANK&&QUESTION_BANK.termMatch)||{easy:[{term:'cardio',def:'heart'},{term:'derma',def:'skin'},{term:'-itis',def:'inflammation'},{term:'hyper-',def:'excessive'},{term:'-ology',def:'study of'},{term:'hemat',def:'blood'}],medium:[{term:'nephro',def:'kidney'},{term:'hepat',def:'liver'},{term:'brady-',def:'slow'},{term:'tachy-',def:'fast'},{term:'-plasty',def:'surgical repair'},{term:'myo',def:'muscle'}],hard:[{term:'erythro',def:'red'},{term:'leuko',def:'white'},{term:'-emia',def:'blood condition'},{term:'dys-',def:'bad/difficult'},{term:'angio',def:'vessel'},{term:'-stenosis',def:'narrowing'}]};
-const STOR=(window.QUESTION_BANK&&QUESTION_BANK.patientStory)||{easy:{text:"Patient: Jamie R. The patient reports pain in their [BLANK1] (back region). BP is [BLANK2] (above normal). Doctor orders [BLANK3] (study of nerves).",blanks:['dorsal','hypertension','neurology'],bank:['dorsal','hypertension','neurology','cardiology','hypotension','ventral'],labels:['Region','BP status','Specialist']},medium:{text:"EMERGENCY CHART: Patient has [BLANK1] (fast heart rate). History of [BLANK2] (liver inflammation). Orders: [BLANK3] (visual exam of stomach). Labs: [BLANK4] (low blood sugar).",blanks:['tachycardia','hepatitis','gastroscopy','hypoglycemia'],bank:['tachycardia','hepatitis','gastroscopy','hypoglycemia','bradycardia','nephritis','colonoscopy','hyperglycemia'],labels:['Heart condition','Liver condition','Procedure','Lab finding']},hard:{text:"CASE REPORT: Patient has [BLANK1] (stomach+intestine inflammation). CBC: [BLANK2] (low WBC). Scheduling [BLANK3] (colon visual exam). Biopsy: [BLANK4] (cell disease). Follow-up: [BLANK5] (study of cells).",blanks:['gastroenteritis','leukopenia','colonoscopy','cytopathy','cytology'],bank:['gastroenteritis','leukopenia','colonoscopy','cytopathy','cytology','tachycardia','erythrocytosis','endoscopy','neuropathy','hematology'],labels:['GI condition','Blood finding','Procedure','Biopsy','Follow-up']}};
-const FC_C=(window.QUESTION_BANK&&QUESTION_BANK.flashcards)||{easy:[{term:'cardio-',def:'Relating to the heart',breakdown:'Greek: kardia = heart'},{term:'dermat-',def:'Relating to the skin',breakdown:'Greek: derma = skin'},{term:'-itis',def:'Inflammation of',breakdown:'Greek: itis = inflammation'},{term:'neuro-',def:'Relating to nerves',breakdown:'Greek: neuron = nerve'},{term:'hyper-',def:'Above normal / excessive',breakdown:'Greek: hyper = over'},{term:'-ology',def:'The study of',breakdown:'Greek: logos = study'}],medium:[{term:'tachy-',def:'Rapid, fast',breakdown:'Greek: takhys = swift'},{term:'brady-',def:'Slow',breakdown:'Greek: bradys = slow'},{term:'nephro-',def:'Relating to the kidney',breakdown:'Greek: nephros = kidney'},{term:'-plasty',def:'Surgical repair',breakdown:'Greek: plassein = to form'},{term:'-scopy',def:'Visual examination',breakdown:'Greek: skopein = to look'},{term:'myo-',def:'Relating to muscle',breakdown:'Greek: mys = muscle'},{term:'hepat-',def:'Relating to the liver',breakdown:'Greek: hepar = liver'}],hard:[{term:'-emia',def:'Blood condition',breakdown:'Greek: haima = blood'},{term:'erythro-',def:'Red',breakdown:'Greek: erythros = red'},{term:'leuko-',def:'White',breakdown:'Greek: leukos = white'},{term:'-stenosis',def:'Narrowing',breakdown:'Greek: stenosis = narrowing'},{term:'dys-',def:'Bad, difficult, painful',breakdown:'Greek: dys = bad'},{term:'angio-',def:'Blood or lymph vessels',breakdown:'Greek: angeion = vessel'},{term:'cyto-',def:'Relating to cells',breakdown:'Greek: kytos = cell'}]};
+// ── STATE ──
+const state={
+  xp:0,level:1,difficulty:'medium',
+  termsCorrect:0,totalAnswered:0,
+  wbScore:0,ddScore:0,amScore:0,smScore:0,drScore:0,
+  currentScreen:'home',lastQuestion:'',customSources:[],
+  prevScreen:'home',
+  courseProgress:{},
+  progress:{prefixes:40,roots:25,suffixes:15,body_systems:10,clinical_terms:5}
+};
 
-function addXP(n){state.xp+=n;const t=[0,100,250,500,850,1300,1900];let lv=1;for(let i=t.length-1;i>=0;i--){if(state.xp>=t[i]){lv=i+1;break;}}state.level=lv;const next=t[lv]||t[t.length-1]+600,prev=t[lv-1]||0;const pct=Math.min(100,Math.round((state.xp-prev)/(next-prev)*100));document.getElementById('xpVal').textContent=state.xp;document.getElementById('xpMax').textContent=next;document.getElementById('xpBar').style.width=pct+'%';document.getElementById('levelBadge').textContent='Lv '+lv;updateStats();}
-function updateStats(){document.getElementById('statTerms').textContent=state.termsCorrect;document.getElementById('statStreak').textContent=state.level+'🔥';document.getElementById('statAccuracy').textContent=state.totalAnswered>0?Math.round(state.termsCorrect/state.totalAnswered*100)+'%':'—';}
+// ── DATA ALIASES ──
+const QB=window.QUESTION_BANK||{};
+const WB_Q=(QB.wordBuilder)||{easy:[],medium:[],hard:[]};
+const DD_Q=(QB.diagnosisDetective)||{easy:[],medium:[],hard:[]};
+const AM_S=(QB.termMatch)||{easy:[],medium:[],hard:[]};
+const STOR=(QB.patientStory)||{easy:[],medium:[],hard:[]};
+const FC_C=(QB.flashcards)||{easy:[],medium:[],hard:[]};
 
+// ── COURSE DATA ──
+const COURSE_UNITS=[
+  {id:'u1',icon:'🔤',title:'Unit 1: Building Blocks',sub:'Prefixes & Suffixes',color:'teal',
+   lessons:[
+    {id:'u1l1',title:'What is medical terminology?',type:'flashcards',icon:'🃏',keys:['cardio-','dermat-','-itis','-ology','hyper-','hypo-']},
+    {id:'u1l2',title:'Common prefixes: hyper, hypo, brady, tachy',type:'wordbuilder',icon:'🧬',keys:['hyper-','hypo-','brady-','tachy-']},
+    {id:'u1l3',title:'Common suffixes: -itis, -ology, -ectomy',type:'flashcards',icon:'🃏',keys:['-itis','-ology','-ectomy','-algia','-pathy']},
+    {id:'u1l4',title:'Build your first terms!',type:'wordbuilder',icon:'🧬',keys:['dermatitis','cardiology','hepatitis']},
+    {id:'u1l5',title:'Unit 1 Review',type:'match',icon:'⚡',keys:['easy']},
+  ]},
+  {id:'u2',icon:'❤️',title:'Unit 2: Heart & Blood',sub:'Cardiovascular System',color:'coral',
+   lessons:[
+    {id:'u2l1',title:'Heart roots: cardio, myo, angio',type:'flashcards',icon:'🃏',keys:['cardio-','myo-','angi-','arteri-','phleb-']},
+    {id:'u2l2',title:'Diagnose heart conditions',type:'detective',icon:'🔍',keys:['tachycardia','bradycardia','hypertension']},
+    {id:'u2l3',title:'Blood cell vocabulary',type:'flashcards',icon:'🃏',keys:['erythr-','leuko-','thromb-','hemat-']},
+    {id:'u2l4',title:'Be the cardiologist!',type:'doctor',icon:'🩺',keys:['cardio']},
+    {id:'u2l5',title:'Unit 2 Review',type:'match',icon:'⚡',keys:['medium']},
+  ]},
+  {id:'u3',icon:'🫁',title:'Unit 3: Breathing & Lungs',sub:'Respiratory System',color:'blue',
+   lessons:[
+    {id:'u3l1',title:'Lung roots: pneumon, bronch, pulmon',type:'flashcards',icon:'🃏',keys:['pulmon-','bronch-','pneum-','pleur-','thorac-']},
+    {id:'u3l2',title:'Breathing conditions',type:'detective',icon:'🔍',keys:['dyspnea','apnea','tachypnea','bronchitis']},
+    {id:'u3l3',title:'Build respiratory terms',type:'wordbuilder',icon:'🧬',keys:['bronchitis','pneumonitis','tachypnea']},
+    {id:'u3l4',title:'Unit 3 Review',type:'story',icon:'📋',keys:['medium']},
+  ]},
+  {id:'u4',icon:'🦴',title:'Unit 4: Bones & Muscles',sub:'Musculoskeletal System',color:'amber',
+   lessons:[
+    {id:'u4l1',title:'Bone & muscle roots',type:'flashcards',icon:'🃏',keys:['oste-','arthr-','my-','tendin-','burs-']},
+    {id:'u4l2',title:'Joint and bone conditions',type:'detective',icon:'🔍',keys:['arthritis','osteoporosis','tendinitis']},
+    {id:'u4l3',title:'Bone procedures',type:'wordbuilder',icon:'🧬',keys:['arthroplasty','arthroscopy','osteotomy']},
+    {id:'u4l4',title:'Unit 4 Review',type:'match',icon:'⚡',keys:['medium']},
+  ]},
+  {id:'u5',icon:'🧠',title:'Unit 5: Brain & Nerves',sub:'Nervous System',color:'purple',
+   lessons:[
+    {id:'u5l1',title:'Nervous system roots',type:'flashcards',icon:'🃏',keys:['neuro-','encephal-','myel-','mening-','cerebell-']},
+    {id:'u5l2',title:'Neurological conditions',type:'detective',icon:'🔍',keys:['encephalitis','meningitis','neuropathy']},
+    {id:'u5l3',title:'Brain condition builder',type:'wordbuilder',icon:'🧬',keys:['encephalitis','neuralgia','polyneuropathy']},
+    {id:'u5l4',title:'Unit 5 Review',type:'story',icon:'📋',keys:['hard']},
+  ]},
+  {id:'u6',icon:'🏆',title:'Unit 6: Master Level',sub:'Advanced Pathology & Procedures',color:'green',
+   lessons:[
+    {id:'u6l1',title:'Advanced suffixes deep dive',type:'flashcards',icon:'🃏',keys:['-stenosis','-plasty','-scopy','-ectomy','-ostomy']},
+    {id:'u6l2',title:'Complex diagnoses',type:'detective',icon:'🔍',keys:['hard']},
+    {id:'u6l3',title:'Full procedure builder',type:'wordbuilder',icon:'🧬',keys:['hard']},
+    {id:'u6l4',title:'Master ER chart',type:'story',icon:'📋',keys:['hard']},
+    {id:'u6l5',title:'HOSA Final Challenge',type:'match',icon:'⚡',keys:['hard']},
+  ]},
+];
+
+// ── PLACEMENT TEST DATA ──
+const PT_QUESTIONS=[
+  {q:"What does 'cardio-' mean?",opts:["Heart","Skin","Bone","Nerve"],correct:0,diff:'easy'},
+  {q:"What does '-itis' mean?",opts:["Study of","Inflammation","Removal","Pain"],correct:1,diff:'easy'},
+  {q:"'Hyper-' means...",opts:["Below normal","Fast","Above normal / excessive","Without"],correct:2,diff:'easy'},
+  {q:"The term 'hepatitis' means...",opts:["Study of liver","Inflammation of liver","Removal of liver","Liver pain"],correct:1,diff:'easy'},
+  {q:"'Brady-' means...",opts:["Fast","Slow","Large","Small"],correct:1,diff:'easy'},
+  {q:"What does '-ectomy' mean?",opts:["Surgical repair","Visual exam","Surgical removal","Incision"],correct:2,diff:'easy'},
+  {q:"'Nephro-' refers to which organ?",opts:["Liver","Kidney","Lung","Heart"],correct:1,diff:'medium'},
+  {q:"What does 'tachycardia' mean?",opts:["Slow heart rate","Heart inflammation","Fast heart rate","Heart disease"],correct:2,diff:'medium'},
+  {q:"'-penia' means...",opts:["Enlargement","Deficiency","Hardening","Softening"],correct:1,diff:'medium'},
+  {q:"'Hematuria' means...",opts:["Blood in urine","Blood in stool","Blood clot","Blood disease"],correct:0,diff:'medium'},
+  {q:"'-megaly' means...",opts:["Narrowing","Hardening","Enlargement","Softening"],correct:2,diff:'medium'},
+  {q:"'Dyspnea' means...",opts:["Rapid breathing","Difficult breathing","No breathing","Slow breathing"],correct:1,diff:'medium'},
+  {q:"The suffix '-plasty' means...",opts:["Visual examination","Surgical removal","Surgical repair","Incision"],correct:2,diff:'medium'},
+  {q:"'Leukopenia' refers to a deficiency of...",opts:["Red blood cells","Platelets","White blood cells","Oxygen"],correct:2,diff:'medium'},
+  {q:"'Osteoporosis' involves...",opts:["Bone inflammation","Bone softening","Bone hardening","Bone density loss"],correct:3,diff:'hard'},
+  {q:"What does '-stenosis' mean?",opts:["Widening","Narrowing","Rupture","Fusion"],correct:1,diff:'hard'},
+  {q:"'Erythrocytes' are...",opts:["White blood cells","Platelets","Red blood cells","Nerve cells"],correct:2,diff:'hard'},
+  {q:"'Cholecystectomy' is removal of...",opts:["Kidney","Gallbladder","Appendix","Spleen"],correct:1,diff:'hard'},
+  {q:"'Atherosclerosis' means...",opts:["Hardening of arteries from fatty plaque","Inflammation of arteries","Narrowing of veins","Rupture of blood vessels"],correct:0,diff:'hard'},
+  {q:"'Myocarditis' means inflammation of...",opts:["Heart sac","Outer heart layer","Heart muscle","Heart valve"],correct:2,diff:'hard'},
+];
+
+// ── DOCTOR DIAGNOSIS CASES ──
+const DR_CASES=[
+  {
+    patientName:"Alex, 12",patientMood:"😣",
+    speech:"My skin is super itchy and red after touching a plant!",
+    bodyPart:"skin",hotspotLabel:"SKIN",
+    question:"What condition does Alex have?",
+    choices:["Dermatitis","Carditis","Rhinitis","Nephritis"],correct:0,
+    explain:"'Dermat-' = skin + '-itis' = inflammation. Alex has dermatitis — inflammation of the skin from contact with an irritant.",
+    animation:"skin-glow",color:"#D85A30"
+  },
+  {
+    patientName:"Sam, 14",patientMood:"😰",
+    speech:"My heart is pounding super fast — like 180 beats per minute!",
+    bodyPart:"heart",hotspotLabel:"HEART",
+    question:"What is Sam's heart condition called?",
+    choices:["Bradycardia","Tachycardia","Cardiomegaly","Myocarditis"],correct:1,
+    explain:"'Tachy-' = fast + '-cardia' = heart condition. Tachycardia means the heart beats abnormally fast (over 100 bpm).",
+    animation:"heart-pulse",color:"#E24B4A"
+  },
+  {
+    patientName:"Jamie, 13",patientMood:"🤢",
+    speech:"My stomach hurts so much and I keep throwing up!",
+    bodyPart:"abdomen",hotspotLabel:"STOMACH",
+    question:"What GI condition is Jamie experiencing?",
+    choices:["Hepatitis","Gastritis","Nephritis","Bronchitis"],correct:1,
+    explain:"'Gastr-' = stomach + '-itis' = inflammation. Gastritis is inflammation of the stomach lining.",
+    animation:"abdomen-glow",color:"#BA7517"
+  },
+  {
+    patientName:"Jordan, 11",patientMood:"😤",
+    speech:"I can't breathe properly — every breath hurts and I'm wheezing!",
+    bodyPart:"lungs",hotspotLabel:"LUNGS",
+    question:"What respiratory condition matches?",
+    choices:["Dermatitis","Arthritis","Bronchitis","Nephritis"],correct:2,
+    explain:"'Bronch-' = bronchial tubes + '-itis' = inflammation. Bronchitis is inflammation of the airways.",
+    animation:"lung-glow",color:"#378ADD"
+  },
+  {
+    patientName:"Riley, 15",patientMood:"😟",
+    speech:"My knee joint is really swollen and painful — especially in the morning!",
+    bodyPart:"knee",hotspotLabel:"JOINT",
+    question:"What joint condition does Riley have?",
+    choices:["Bursitis","Tendinitis","Arthritis","Myositis"],correct:2,
+    explain:"'Arthr-' = joint + '-itis' = inflammation. Arthritis is inflammation of a joint.",
+    animation:"joint-glow",color:"#534AB7"
+  },
+  {
+    patientName:"Casey, 12",patientMood:"😵",
+    speech:"I have a terrible headache and my neck is stiff — it started yesterday!",
+    bodyPart:"head",hotspotLabel:"BRAIN",
+    question:"The doctor is concerned about inflammation of the brain coverings. What is this called?",
+    choices:["Encephalitis","Meningitis","Neuritis","Sinusitis"],correct:1,
+    explain:"'Mening-' = meninges (membranes covering the brain) + '-itis' = inflammation. Meningitis = brain covering inflammation.",
+    animation:"head-glow",color:"#534AB7"
+  },
+  {
+    patientName:"Morgan, 14",patientMood:"🥴",
+    speech:"My eyes are yellow and my stomach hurts on the right side!",
+    bodyPart:"liver",hotspotLabel:"LIVER",
+    question:"The liver is inflamed. What is the correct term?",
+    choices:["Pancreatitis","Cholecystitis","Hepatitis","Gastritis"],correct:2,
+    explain:"'Hepat-' = liver + '-itis' = inflammation. Hepatitis is inflammation of the liver, causing yellowing of the eyes.",
+    animation:"liver-glow",color:"#639922"
+  },
+  {
+    patientName:"Taylor, 13",patientMood:"😓",
+    speech:"My urine is dark and I have pain in my lower back where my kidneys are!",
+    bodyPart:"kidney",hotspotLabel:"KIDNEY",
+    question:"What kidney condition is Taylor most likely experiencing?",
+    choices:["Cystitis","Nephritis","Urethritis","Pyelitis"],correct:1,
+    explain:"'Nephr-' = kidney + '-itis' = inflammation. Nephritis is inflammation of the kidney.",
+    animation:"kidney-glow",color:"#1D9E75"
+  },
+  {
+    patientName:"Avery, 11",patientMood:"😮",
+    speech:"The doctor says my liver is enlarged — bigger than normal!",
+    bodyPart:"liver",hotspotLabel:"LIVER",
+    question:"What is the medical term for an enlarged liver?",
+    choices:["Hepatomegaly","Hepatitis","Splenomegaly","Cardiomegaly"],correct:0,
+    explain:"'Hepat-' = liver + '-megaly' = enlargement. Hepatomegaly literally means an abnormally enlarged liver.",
+    animation:"liver-glow",color:"#639922"
+  },
+  {
+    patientName:"Drew, 15",patientMood:"😪",
+    speech:"My blood test shows my white blood cell count is really low!",
+    bodyPart:"blood",hotspotLabel:"BLOOD",
+    question:"What is the term for low white blood cell count?",
+    choices:["Anemia","Polycythemia","Leukopenia","Thrombocytopenia"],correct:2,
+    explain:"'Leuko-' = white (blood cells) + '-penia' = deficiency. Leukopenia = deficiency of white blood cells.",
+    animation:"blood-glow",color:"#E24B4A"
+  },
+];
+
+// ── XP ──
+function addXP(n){
+  state.xp+=n;
+  const t=[0,100,250,500,850,1300,1900];
+  let lv=1;
+  for(let i=t.length-1;i>=0;i--){if(state.xp>=t[i]){lv=i+1;break;}}
+  state.level=lv;
+  const next=t[lv]||t[t.length-1]+600,prev=t[lv-1]||0;
+  const pct=Math.min(100,Math.round((state.xp-prev)/(next-prev)*100));
+  document.getElementById('xpVal').textContent=state.xp;
+  document.getElementById('xpMax').textContent=next;
+  document.getElementById('xpBar').style.width=pct+'%';
+  document.getElementById('levelBadge').textContent='Lv '+lv;
+  updateStats();
+}
+function updateStats(){
+  document.getElementById('statTerms').textContent=state.termsCorrect;
+  document.getElementById('statStreak').textContent=state.level+'🔥';
+  document.getElementById('statAccuracy').textContent=state.totalAnswered>0?Math.round(state.termsCorrect/state.totalAnswered*100)+'%':'—';
+}
+
+// ── NAVIGATION ──
 function showScreen(name){
+  state.prevScreen=state.currentScreen;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
   document.querySelectorAll('[data-screen]').forEach(b=>b.classList.remove('active'));
@@ -395,20 +771,33 @@ function showScreen(name){
   if(name==='flashcards')initFC();
   if(name==='story')initStory();
   if(name==='progress')renderProgress();
+  if(name==='course')renderCourse();
+  if(name==='doctor')initDoctor();
   if(name==='chat')syncMobileChat();
 }
+function goBack(){showScreen(state.prevScreen||'home');}
+
 document.querySelectorAll('[data-screen]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.screen)));
 document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.goto)));
-document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showScreen('home')));
+document.getElementById('wbBack').addEventListener('click',goBack);
+document.getElementById('ddBack').addEventListener('click',goBack);
+document.getElementById('amBack').addEventListener('click',goBack);
+document.getElementById('fcBack').addEventListener('click',goBack);
+document.getElementById('smBack').addEventListener('click',goBack);
+document.getElementById('drBack').addEventListener('click',goBack);
+document.getElementById('ptBack').addEventListener('click',goBack);
 
+// ── DIFFICULTY ──
 function setDiff(d){
   state.difficulty=d;
   const m={easy:'active-easy',medium:'active-medium',hard:'active-hard'};
-  ['Easy','Med','Hard'].forEach(x=>{const k={Easy:'easy',Med:'medium',Hard:'hard'}[x];['diff'+x,'diff'+x+'M'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='diff-btn'+(k===d?' '+m[d]:'');});});
-  const label=d==='easy'?'Easy':d==='medium'?'Medium':'Hard';
-  addMsg('ai','Difficulty set to '+label+'! '+(d==='hard'?'Challenge mode 💪':d==='easy'?'Building foundation 🌱':'Perfect balance 👍'),'both');
+  ['Easy','Med','Hard'].forEach(x=>{
+    const k={Easy:'easy',Med:'medium',Hard:'hard'}[x];
+    ['diff'+x,'diff'+x+'M'].forEach(id=>{const el=document.getElementById(id);if(el)el.className='diff-btn'+(k===d?' '+m[d]:'');});
+  });
+  addMsg('ai','Difficulty → '+(d==='easy'?'Easy 🌱':d==='medium'?'Medium 👍':'Hard 💪')+'!','both');
   const s=state.currentScreen;
-  if(!['home','source','progress','chat'].includes(s))showScreen(s);
+  if(!['home','source','progress','chat','course','placement'].includes(s))showScreen(s);
 }
 document.getElementById('diffEasy').addEventListener('click',()=>setDiff('easy'));
 document.getElementById('diffMed').addEventListener('click',()=>setDiff('medium'));
@@ -417,62 +806,325 @@ document.getElementById('diffEasyM').addEventListener('click',()=>setDiff('easy'
 document.getElementById('diffMedM').addEventListener('click',()=>setDiff('medium'));
 document.getElementById('diffHardM').addEventListener('click',()=>setDiff('hard'));
 
+// ── PLACEMENT TEST ──
+let ptState={qIdx:0,score:0,answers:[],questions:[]};
+
+function shufflePT(){
+  const qs=[...PT_QUESTIONS].sort(()=>Math.random()-0.5);
+  return qs.slice(0,20);
+}
+
+document.getElementById('startPlacement').addEventListener('click',()=>{
+  ptState={qIdx:0,score:0,answers:[],questions:shufflePT()};
+  renderPTQuestion();
+});
+
+function renderPTQuestion(){
+  const q=ptState.questions[ptState.qIdx];
+  const pct=Math.round((ptState.qIdx/ptState.questions.length)*100);
+  document.getElementById('ptBody').innerHTML=`
+    <div class="pt-wrap">
+      <div class="pt-progress"><div class="pt-progress-fill" style="width:${pct}%"></div></div>
+      <div class="pt-q-num">Question ${ptState.qIdx+1} of ${ptState.questions.length}</div>
+      <div class="pt-question">${q.q}</div>
+      <div class="pt-options">${q.opts.map((o,i)=>`<div class="pt-option" data-i="${i}">${o}</div>`).join('')}</div>
+    </div>`;
+  document.querySelectorAll('.pt-option').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const idx=parseInt(el.dataset.i);
+      document.querySelectorAll('.pt-option').forEach(o=>o.style.pointerEvents='none');
+      if(idx===q.correct){el.classList.add('correct');ptState.score++;}
+      else{el.classList.add('wrong');document.querySelectorAll('.pt-option')[q.correct].classList.add('correct');}
+      ptState.answers.push({diff:q.diff,correct:idx===q.correct});
+      setTimeout(()=>{
+        ptState.qIdx++;
+        if(ptState.qIdx>=ptState.questions.length)showPTResult();
+        else renderPTQuestion();
+      },800);
+    });
+  });
+}
+
+function showPTResult(){
+  const total=ptState.questions.length;
+  const score=ptState.score;
+  const pct=Math.round(score/total*100);
+  let level,badge,color,icon,message;
+  if(pct>=75){level='hard';badge='Expert Level';color='var(--red)';icon='🏆';message="Outstanding! You clearly know your medical terminology. Starting at Hard difficulty — you can handle complex terms and procedures!";}
+  else if(pct>=45){level='medium';badge='Intermediate Level';color='var(--amber)';icon='⭐';message="Great foundation! You know the basics and are ready for more complex terms. Starting at Medium difficulty!";}
+  else{level='easy';badge='Beginner Level';color='var(--teal)';icon='🌱';message="No worries — that's what we're here for! Starting at Easy so you can build a strong foundation. You'll be an expert in no time!";}
+  setDiff(level);
+  document.getElementById('ptBody').innerHTML=`
+    <div class="pt-result">
+      <div class="pt-result-icon">${icon}</div>
+      <div class="pt-result-title">${score}/${total} Correct (${pct}%)</div>
+      <div class="pt-level-badge" style="background:${color};color:white;">${badge}</div>
+      <div class="pt-result-sub">${message}</div>
+      <button class="action-btn" onclick="showScreen('course')" style="max-width:300px;margin:0 auto;display:block;">Start Course at ${level.charAt(0).toUpperCase()+level.slice(1)} Level →</button>
+      <button style="margin-top:12px;background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:var(--text-muted);cursor:pointer;font-family:var(--font);width:100%;max-width:300px;display:block;margin-left:auto;margin-right:auto;" onclick="showScreen('home')">Go to Free Play</button>
+    </div>`;
+  addXP(50);
+  addMsg('ai','Placement test done! Scored '+score+'/'+total+' — set to '+level+' difficulty. Head to the Course to start learning 🎓','both');
+}
+
+// ── COURSE MODE ──
+function renderCourse(){
+  const wrap=document.getElementById('courseWrap');
+  let html='<div class="course-title">Your Learning Path</div><div class="course-sub">Complete each lesson to unlock the next unit.</div>';
+  COURSE_UNITS.forEach((unit,ui)=>{
+    const completed=getUnitCompleted(unit);
+    const total=unit.lessons.length;
+    const pct=Math.round(completed/total*100);
+    const locked=ui>0&&getUnitCompleted(COURSE_UNITS[ui-1])<COURSE_UNITS[ui-1].lessons.length;
+    html+=`<div class="unit-card">
+      <div class="unit-header ${locked?'unit-locked':''}" onclick="toggleUnit('${unit.id}',${locked})">
+        <div class="unit-icon">${unit.icon}</div>
+        <div><div class="unit-title">${unit.title}</div><div class="unit-sub">${unit.sub}${locked?' 🔒':''}</div></div>
+        <div class="unit-progress">
+          <div class="unit-pct">${completed}/${total}</div>
+          <div class="unit-bar"><div class="unit-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>
+      <div class="lessons-list" id="lessons-${unit.id}">
+        ${unit.lessons.map(l=>{
+          const done=state.courseProgress[l.id];
+          return `<div class="lesson-item ${done?'completed':''} ${locked?'locked':''}" onclick="${locked?'':(`startLesson('`+l.id+`','`+l.type+`')`)}">
+            <div class="lesson-icon">${l.icon}</div>
+            <div><div class="lesson-title">${l.title}</div><div class="lesson-type">${l.type.toUpperCase()}</div></div>
+            <div class="lesson-check">${done?'✅':'○'}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+function toggleUnit(id,locked){
+  if(locked){addMsg('ai','Finish the previous unit first to unlock this one! 🔒','both');return;}
+  const el=document.getElementById('lessons-'+id);
+  el.classList.toggle('open');
+}
+
+function getUnitCompleted(unit){
+  return unit.lessons.filter(l=>state.courseProgress[l.id]).length;
+}
+
+function startLesson(lessonId,type){
+  state.currentLesson=lessonId;
+  if(type==='flashcards'){showScreen('flashcards');}
+  else if(type==='wordbuilder'){showScreen('wordbuilder');}
+  else if(type==='detective'){showScreen('detective');}
+  else if(type==='match'){showScreen('match');}
+  else if(type==='story'){showScreen('story');}
+  else if(type==='doctor'){showScreen('doctor');}
+}
+window.startLesson=startLesson;
+window.toggleUnit=toggleUnit;
+
+function completeLessonIfActive(){
+  if(state.currentLesson){
+    state.courseProgress[state.currentLesson]=true;
+    state.currentLesson=null;
+  }
+}
+
+// ── WORD BUILDER ──
 let wbQI=0;
-function initWB(){wbQI=Math.floor(Math.random()*WB_Q[state.difficulty].length);renderWB();}
+function initWB(){wbQI=Math.floor(Math.random()*Math.max(1,WB_Q[state.difficulty].length));renderWB();}
 function renderWB(){
-  const q=WB_Q[state.difficulty][wbQI];
+  const qs=WB_Q[state.difficulty];
+  if(!qs||!qs.length){document.getElementById('wbBody').innerHTML='<div style="color:var(--text-muted);padding:20px">No questions loaded yet.</div>';return;}
+  const q=qs[wbQI%qs.length];
   let sel=Array(q.parts.length).fill(null),ns=0;
   const sh=[...q.parts].sort(()=>Math.random()-0.5);
   document.getElementById('wbBody').innerHTML='<div class="wb-instruction">Build the term meaning: <strong>'+q.def+'</strong><br><small style="color:var(--text-muted)">Tap parts in order. Tap a filled slot to undo.</small></div><div class="wb-target"><div class="wb-target-label">Target</div><div class="wb-target-def">'+q.def+'</div></div><div class="wb-slots">'+q.parts.map((p,i)=>'<div style="text-align:center"><div class="wb-slot" id="slot'+i+'" data-idx="'+i+'">—</div><span class="wb-slot-label">'+p.role+'</span></div>').join('')+'</div><div class="wb-parts">'+sh.map(p=>'<div class="wb-part" data-text="'+p.text+'">'+p.text+'</div>').join('')+'</div><div class="wb-feedback" id="wbFeedback"></div><button class="action-btn" id="wbNext" style="display:none">Next Question →</button>';
   document.querySelectorAll('.wb-part').forEach(el=>{el.addEventListener('click',()=>{if(el.classList.contains('used')||ns>=q.parts.length)return;sel[ns]=el.dataset.text;const sl=document.getElementById('slot'+ns);sl.textContent=el.dataset.text;sl.classList.add('filled');el.classList.add('used');ns++;if(sel.every(s=>s!==null))chkWB(q,sel);});});
   document.querySelectorAll('.wb-slot').forEach(el=>{el.addEventListener('click',()=>{const idx=parseInt(el.dataset.idx);if(!sel[idx])return;const pt=sel[idx];sel[idx]=null;el.textContent='—';el.classList.remove('filled');ns=Math.max(0,ns-1);document.querySelectorAll('.wb-part').forEach(p=>{if(p.dataset.text===pt&&p.classList.contains('used')){p.classList.remove('used');}});});});
-  document.getElementById('wbNext').addEventListener('click',()=>{wbQI=(wbQI+1)%WB_Q[state.difficulty].length;renderWB();});
-  function chkWB(q,sel){const ua=sel.join('').toLowerCase().replace(/[-\s]/g,''),ca=q.answer.toLowerCase().replace(/[-\s]/g,'');const fb=document.getElementById('wbFeedback');state.totalAnswered++;if(ua===ca){fb.className='wb-feedback correct';fb.innerHTML='✅ Correct! <strong>'+q.answer+'</strong> +30 XP';addXP(30);state.termsCorrect++;state.wbScore+=30;document.getElementById('wbScore').textContent=state.wbScore;state.lastQuestion='Word Builder: "'+q.def+'" answer: '+q.answer;}else{fb.className='wb-feedback wrong';fb.innerHTML='❌ The term is <strong>'+q.answer+'</strong>. Try the next one!';state.lastQuestion='Word Builder: "'+q.def+'" was '+q.answer;}document.getElementById('wbNext').style.display='block';}
+  document.getElementById('wbNext').addEventListener('click',()=>{wbQI=(wbQI+1)%qs.length;renderWB();});
+  function chkWB(q,sel){
+    const ua=sel.join('').toLowerCase().replace(/[-\s]/g,''),ca=q.answer.toLowerCase().replace(/[-\s]/g,'');
+    const fb=document.getElementById('wbFeedback');state.totalAnswered++;
+    if(ua===ca){fb.className='wb-feedback correct';fb.innerHTML='✅ Correct! <strong>'+q.answer+'</strong> +30 XP';addXP(30);state.termsCorrect++;state.wbScore+=30;document.getElementById('wbScore').textContent=state.wbScore;state.lastQuestion='Word Builder: "'+q.def+'" answer: '+q.answer;completeLessonIfActive();}
+    else{fb.className='wb-feedback wrong';fb.innerHTML='❌ The term is <strong>'+q.answer+'</strong>. Try the next one!';state.lastQuestion='Word Builder: "'+q.def+'" was '+q.answer;}
+    document.getElementById('wbNext').style.display='block';
+  }
 }
 
+// ── DIAGNOSIS DETECTIVE ──
 let ddQI=0;
-function initDD(){ddQI=Math.floor(Math.random()*DD_Q[state.difficulty].length);renderDD();}
+function initDD(){ddQI=Math.floor(Math.random()*Math.max(1,DD_Q[state.difficulty].length));renderDD();}
 function renderDD(){
-  const q=DD_Q[state.difficulty][ddQI];
+  const qs=DD_Q[state.difficulty];
+  if(!qs||!qs.length){document.getElementById('ddBody').innerHTML='<div style="color:var(--text-muted);padding:20px">No questions loaded.</div>';return;}
+  const q=qs[ddQI%qs.length];
   document.getElementById('ddBody').innerHTML='<div class="dd-case"><div class="dd-case-label">// Patient Case File</div><div class="dd-case-text">'+q.scenario+'</div></div><div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">What is the correct medical term?</div><div class="dd-options">'+q.options.map((o,i)=>'<button class="dd-option" data-idx="'+i+'">'+o+'</button>').join('')+'</div><div class="dd-explain" id="ddExplain"></div><button class="action-btn" id="ddNext" style="display:none">Next Case →</button>';
-  document.querySelectorAll('.dd-option').forEach(btn=>{btn.addEventListener('click',()=>{if(document.getElementById('ddNext').style.display!=='none')return;const idx=parseInt(btn.dataset.idx);state.totalAnswered++;document.querySelectorAll('.dd-option').forEach(b=>b.style.pointerEvents='none');const ex=document.getElementById('ddExplain');if(idx===q.correct){btn.classList.add('correct');addXP(40);state.termsCorrect++;state.ddScore+=40;document.getElementById('ddScore').textContent=state.ddScore;ex.innerHTML='✅ <strong>Correct! +40 XP</strong> — '+q.explain;state.lastQuestion='Diagnosis: '+q.options[q.correct]+' was correct';}else{btn.classList.add('wrong');document.querySelectorAll('.dd-option')[q.correct].classList.add('correct');ex.innerHTML='❌ Correct: <strong>'+q.options[q.correct]+'</strong> — '+q.explain;state.lastQuestion='Diagnosis: answer was '+q.options[q.correct];}ex.style.display='block';document.getElementById('ddNext').style.display='block';});});
-  document.getElementById('ddNext').addEventListener('click',()=>{ddQI=(ddQI+1)%DD_Q[state.difficulty].length;renderDD();});
+  document.querySelectorAll('.dd-option').forEach(btn=>{btn.addEventListener('click',()=>{if(document.getElementById('ddNext').style.display!=='none')return;const idx=parseInt(btn.dataset.idx);state.totalAnswered++;document.querySelectorAll('.dd-option').forEach(b=>b.style.pointerEvents='none');const ex=document.getElementById('ddExplain');if(idx===q.correct){btn.classList.add('correct');addXP(40);state.termsCorrect++;state.ddScore+=40;document.getElementById('ddScore').textContent=state.ddScore;ex.innerHTML='✅ <strong>Correct! +40 XP</strong> — '+q.explain;state.lastQuestion='Diagnosis: '+q.options[q.correct]+' was correct';completeLessonIfActive();}else{btn.classList.add('wrong');document.querySelectorAll('.dd-option')[q.correct].classList.add('correct');ex.innerHTML='❌ Correct: <strong>'+q.options[q.correct]+'</strong> — '+q.explain;state.lastQuestion='Diagnosis: answer was '+q.options[q.correct];}ex.style.display='block';document.getElementById('ddNext').style.display='block';});});
+  document.getElementById('ddNext').addEventListener('click',()=>{ddQI=(ddQI+1)%qs.length;renderDD();});
 }
 
+// ── TERM MATCH ──
 function initMatch(){
   let amSel=null,matched=new Set();
-  const set=[...AM_S[state.difficulty]].sort(()=>Math.random()-0.5).slice(0,6);
+  const pool=AM_S[state.difficulty];
+  if(!pool||!pool.length){document.getElementById('amBody').innerHTML='<div style="color:var(--text-muted);padding:20px">No terms loaded.</div>';return;}
+  const set=[...pool].sort(()=>Math.random()-0.5).slice(0,6);
   const terms=[...set].sort(()=>Math.random()-0.5);
   const defs=[...set].sort(()=>Math.random()-0.5);
   const pm={};set.forEach(t=>pm[t.term]=t.def);
   document.getElementById('amBody').innerHTML='<div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Tap a term, then tap its matching definition.</div><div class="am-grid"><div><div class="am-col-label">Terms</div><div class="am-items">'+terms.map(t=>'<div class="am-item" data-val="'+t.term+'" data-type="term">'+t.term+'</div>').join('')+'</div></div><div><div class="am-col-label">Definitions</div><div class="am-items">'+defs.map(t=>'<div class="am-item" data-val="'+t.term+'" data-type="def">'+t.def+'</div>').join('')+'</div></div></div><div id="amStatus" style="font-size:13px;color:var(--text-muted);margin-top:8px"></div>';
-  document.querySelectorAll('.am-item').forEach(el=>{el.addEventListener('click',()=>{if(el.classList.contains('matched'))return;if(!amSel){el.classList.add('selected');amSel=el;return;}if(amSel===el){el.classList.remove('selected');amSel=null;return;}const a=amSel,b=el;const tEl=a.dataset.type==='term'?a:b,dEl=a.dataset.type==='def'?a:b;if(tEl.dataset.type!=='term'||dEl.dataset.type!=='def'){a.classList.remove('selected');amSel=null;return;}if(pm[tEl.dataset.val]===dEl.textContent){tEl.classList.remove('selected');tEl.classList.add('matched');dEl.classList.add('matched');matched.add(tEl.dataset.val);addXP(25);state.termsCorrect++;state.amScore+=25;document.getElementById('amScore').textContent=state.amScore;if(matched.size===set.length)document.getElementById('amStatus').innerHTML='🎉 All matched! <button class="action-btn" style="margin-top:10px" onclick="initMatch()">Play Again →</button>';}else{tEl.classList.add('wrong-flash');dEl.classList.add('wrong-flash');setTimeout(()=>{tEl.classList.remove('wrong-flash','selected');dEl.classList.remove('wrong-flash');},700);state.totalAnswered++;}amSel=null;});});
+  document.querySelectorAll('.am-item').forEach(el=>{el.addEventListener('click',()=>{if(el.classList.contains('matched'))return;if(!amSel){el.classList.add('selected');amSel=el;return;}if(amSel===el){el.classList.remove('selected');amSel=null;return;}const a=amSel,b=el;const tEl=a.dataset.type==='term'?a:b,dEl=a.dataset.type==='def'?a:b;if(tEl.dataset.type!=='term'||dEl.dataset.type!=='def'){a.classList.remove('selected');amSel=null;return;}if(pm[tEl.dataset.val]===dEl.textContent){tEl.classList.remove('selected');tEl.classList.add('matched');dEl.classList.add('matched');matched.add(tEl.dataset.val);addXP(25);state.termsCorrect++;state.amScore+=25;document.getElementById('amScore').textContent=state.amScore;if(matched.size===set.length){document.getElementById('amStatus').innerHTML='🎉 All matched! <button class="action-btn" style="margin-top:10px" onclick="initMatch()">Play Again →</button>';completeLessonIfActive();}}else{tEl.classList.add('wrong-flash');dEl.classList.add('wrong-flash');setTimeout(()=>{tEl.classList.remove('wrong-flash','selected');dEl.classList.remove('wrong-flash');},700);state.totalAnswered++;}amSel=null;});});
 }
 window.initMatch=initMatch;
 
+// ── FLASHCARDS ──
 let fcCards=[],fcIdx=0,fcKnown=0;
-function initFC(){fcCards=[...FC_C[state.difficulty]].sort(()=>Math.random()-0.5);fcIdx=0;fcKnown=0;renderFC();}
+function initFC(){
+  const pool=FC_C[state.difficulty];
+  fcCards=pool?[...pool].sort(()=>Math.random()-0.5):[];
+  fcIdx=0;fcKnown=0;renderFC();
+}
 function renderFC(){
-  if(fcIdx>=fcCards.length){document.getElementById('fcScene').innerHTML='<div style="text-align:center"><div style="font-size:48px;margin-bottom:16px">🏆</div><div style="font-size:20px;font-weight:700;margin-bottom:8px">Deck Complete!</div><div style="color:var(--text-muted);margin-bottom:20px">You knew <strong style="color:var(--teal)">'+fcKnown+'</strong> of <strong>'+fcCards.length+'</strong></div><button class="action-btn" onclick="initFC()">Shuffle & Restart</button></div>';return;}
+  if(!fcCards.length){document.getElementById('fcScene').innerHTML='<div style="color:var(--text-muted)">No cards loaded.</div>';return;}
+  if(fcIdx>=fcCards.length){document.getElementById('fcScene').innerHTML='<div style="text-align:center"><div style="font-size:48px;margin-bottom:16px">🏆</div><div style="font-size:20px;font-weight:700;margin-bottom:8px">Deck Complete!</div><div style="color:var(--text-muted);margin-bottom:20px">You knew <strong style="color:var(--teal)">'+fcKnown+'</strong> of <strong>'+fcCards.length+'</strong></div><button class="action-btn" onclick="initFC()">Shuffle & Restart</button></div>';completeLessonIfActive();return;}
   const c=fcCards[fcIdx];
-  document.getElementById('fcScene').innerHTML='<div style="font-size:12px;color:var(--text-muted);font-family:var(--mono);margin-bottom:12px">'+( fcIdx+1)+'/'+fcCards.length+' — '+fcKnown+' known</div><div class="fc-card-wrap" id="fcWrap"><div class="fc-card" id="fcCard"><div class="fc-face fc-front"><div class="fc-hint">tap to reveal</div><div class="fc-term">'+c.term+'</div></div><div class="fc-face fc-back"><div class="fc-hint" style="color:rgba(232,245,238,0.5)">definition</div><div class="fc-def">'+c.def+'</div><div class="fc-breakdown">'+c.breakdown+'</div></div></div></div><div class="fc-controls" id="fcCtrl" style="display:none"><button class="fc-btn skip" onclick="fcNext(false)">Still Learning</button><button class="fc-btn know" onclick="fcNext(true)">Got It</button></div><div id="fcHint" style="font-size:12px;color:var(--text-muted);font-family:var(--mono);margin-top:8px">tap card to flip</div>';
+  document.getElementById('fcScene').innerHTML='<div style="font-size:12px;color:var(--text-muted);font-family:var(--mono);margin-bottom:12px">'+(fcIdx+1)+'/'+fcCards.length+' — '+fcKnown+' known</div><div class="fc-card-wrap" id="fcWrap"><div class="fc-card" id="fcCard"><div class="fc-face fc-front"><div class="fc-hint">tap to reveal</div><div class="fc-term">'+c.term+'</div></div><div class="fc-face fc-back"><div class="fc-hint" style="color:rgba(232,245,238,0.5)">definition</div><div class="fc-def">'+c.def+'</div><div class="fc-breakdown">'+c.breakdown+'</div></div></div></div><div class="fc-controls" id="fcCtrl" style="display:none"><button class="fc-btn skip" onclick="fcNext(false)">Still Learning</button><button class="fc-btn know" onclick="fcNext(true)">Got It ✓</button></div><div id="fcHint" style="font-size:12px;color:var(--text-muted);font-family:var(--mono);margin-top:8px">tap card to flip</div>';
   document.getElementById('fcWrap').addEventListener('click',()=>{document.getElementById('fcCard').classList.toggle('flipped');document.getElementById('fcCtrl').style.display='flex';document.getElementById('fcHint').style.display='none';});
 }
 function fcNext(k){if(k){fcKnown++;addXP(15);state.termsCorrect++;}state.totalAnswered++;fcIdx++;renderFC();}
 window.fcNext=fcNext;
 
+// ── PATIENT STORY ──
 function initStory(){
-  const story=STOR[state.difficulty];let filled={},selWord=null;
+  const pool=STOR[state.difficulty];
+  if(!pool||!pool.length){document.getElementById('smBody').innerHTML='<div style="color:var(--text-muted);padding:20px">No stories loaded.</div>';return;}
+  const story=pool[Math.floor(Math.random()*pool.length)];
+  let filled={},selWord=null;
   let txt=story.text;
   story.blanks.forEach((b,i)=>{txt=txt.replace('[BLANK'+(i+1)+']','<span class="sm-blank" id="smBlank'+i+'" data-idx="'+i+'" title="'+story.labels[i]+'">[ '+story.labels[i]+' ]</span>');});
   document.getElementById('smBody').innerHTML='<div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Tap a term from the bank, then tap its blank in the chart.</div><div class="sm-story">'+txt+'</div><div style="font-size:11px;color:var(--text-muted);font-family:var(--mono);margin-bottom:8px">WORD BANK:</div><div class="sm-bank">'+story.bank.map(w=>'<div class="sm-word" data-word="'+w+'">'+w+'</div>').join('')+'</div><div id="smFeedback"></div><button class="action-btn" id="smSubmit" style="display:none">Check Answers</button>';
   document.querySelectorAll('.sm-word').forEach(el=>{el.addEventListener('click',()=>{if(el.classList.contains('used'))return;document.querySelectorAll('.sm-word').forEach(w=>w.style.borderColor='');selWord=el.dataset.word;el.style.borderColor='var(--amber)';});});
   document.querySelectorAll('.sm-blank').forEach(el=>{el.addEventListener('click',()=>{if(!selWord)return;const idx=parseInt(el.dataset.idx);el.textContent=selWord;el.classList.add('filled');filled[idx]=selWord;document.querySelectorAll('.sm-word').forEach(w=>{if(w.dataset.word===selWord&&!w.classList.contains('used')){w.classList.add('used');w.style.borderColor='';}});selWord=null;if(Object.keys(filled).length===story.blanks.length)document.getElementById('smSubmit').style.display='block';});});
-  document.getElementById('smSubmit').addEventListener('click',()=>{let correct=0;story.blanks.forEach((ans,i)=>{const el=document.getElementById('smBlank'+i);if(filled[i]===ans){correct++;el.style.color='var(--teal)';el.style.borderColor='var(--teal)';}else{el.style.color='var(--red)';el.style.borderColor='var(--red)';el.title='Correct: '+ans;}});state.totalAnswered+=story.blanks.length;state.termsCorrect+=correct;const xp=correct*50;addXP(xp);state.smScore+=xp;document.getElementById('smScore').textContent=state.smScore;const perf=correct===story.blanks.length;const fb=document.getElementById('smFeedback');fb.style.cssText='display:block;padding:12px 14px;border-radius:10px;font-size:13px;margin-top:12px;background:var(--'+(perf?'green':'blue')+'-light);color:var(--'+(perf?'green':'blue')+'-dark);border:1px solid var(--'+(perf?'green':'blue')+')';fb.innerHTML=perf?'🎉 Perfect! All '+correct+' correct! +'+xp+' XP':'📝 '+correct+'/'+story.blanks.length+' correct. Tap red blanks to see correct answers.';const sub=document.getElementById('smSubmit');sub.textContent='Try Again';sub.onclick=initStory;state.lastQuestion='Patient Story: '+correct+'/'+story.blanks.length;});
+  document.getElementById('smSubmit').addEventListener('click',()=>{let correct=0;story.blanks.forEach((ans,i)=>{const el=document.getElementById('smBlank'+i);if(filled[i]===ans){correct++;el.style.color='var(--teal)';el.style.borderColor='var(--teal)';}else{el.style.color='var(--red)';el.style.borderColor='var(--red)';el.title='Correct: '+ans;}});state.totalAnswered+=story.blanks.length;state.termsCorrect+=correct;const xp=correct*50;addXP(xp);state.smScore+=xp;document.getElementById('smScore').textContent=state.smScore;const perf=correct===story.blanks.length;const fb=document.getElementById('smFeedback');fb.style.cssText='display:block;padding:12px 14px;border-radius:10px;font-size:13px;margin-top:12px;background:var(--'+(perf?'green':'blue')+'-light);color:var(--'+(perf?'green':'blue')+'-dark);border:1px solid var(--'+(perf?'green':'blue')+')';fb.innerHTML=perf?'🎉 Perfect! All '+correct+' correct! +'+xp+' XP':'📝 '+correct+'/'+story.blanks.length+' correct. Tap red blanks to see answers.';const sub=document.getElementById('smSubmit');sub.textContent='Try Again';sub.onclick=initStory;state.lastQuestion='Patient Story: '+correct+'/'+story.blanks.length;if(perf)completeLessonIfActive();});
 }
 
-function renderProgress(){const cats=[{name:'Prefixes',key:'prefixes',color:'var(--blue)'},{name:'Roots',key:'roots',color:'var(--teal)'},{name:'Suffixes',key:'suffixes',color:'var(--purple)'},{name:'Body Systems',key:'body_systems',color:'var(--amber)'},{name:'Clinical Terms',key:'clinical_terms',color:'var(--coral)'}];document.getElementById('progCats').innerHTML=cats.map(c=>{const pct=state.progress[c.key]||0;return'<div class="prog-cat"><div class="prog-cat-name">'+c.name+'<span class="prog-cat-pct">'+pct+'%</span></div><div class="prog-track"><div class="prog-fill" style="width:'+pct+'%;background:'+c.color+'"></div></div></div>';}).join('');}
+// ── DOCTOR DIAGNOSIS MODE ──
+let drCaseIdx=0,drUsedCases=[];
+function initDoctor(){drCaseIdx=0;drUsedCases=[];renderDoctorCase();}
 
+function renderDoctorCase(){
+  const avail=DR_CASES.filter((_,i)=>!drUsedCases.includes(i));
+  if(!avail.length){drUsedCases=[];renderDoctorCase();return;}
+  const caseIdx=DR_CASES.indexOf(avail[Math.floor(Math.random()*avail.length)]);
+  drUsedCases.push(caseIdx);
+  const c=DR_CASES[caseIdx];
+
+  // Body part hotspot positions (as % of SVG bounding box)
+  const hotspots={
+    skin:{top:'30%',left:'72%',size:44,label:'SKIN'},
+    heart:{top:'38%',left:'44%',size:44,label:'HEART'},
+    abdomen:{top:'52%',left:'44%',size:44,label:'STOMACH'},
+    lungs:{top:'35%',left:'44%',size:50,label:'LUNGS'},
+    knee:{top:'68%',left:'50%',size:40,label:'KNEE'},
+    head:{top:'8%',left:'44%',size:48,label:'BRAIN'},
+    liver:{top:'46%',left:'52%',size:40,label:'LIVER'},
+    kidney:{top:'50%',left:'36%',size:40,label:'KIDNEY'},
+    blood:{top:'38%',left:'44%',size:44,label:'BLOOD'},
+  };
+  const hs=hotspots[c.bodyPart]||hotspots.heart;
+
+  const drWrap=document.getElementById('drWrap');
+  drWrap.innerHTML=`
+    <div class="dr-scene" id="drScene">
+      <div style="position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;font-family:var(--mono);color:var(--text-muted)">Patient: <strong style="color:var(--text)">${c.patientName}</strong></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;font-family:var(--mono);color:var(--amber)">Case ${drUsedCases.length}/${DR_CASES.length}</div>
+      </div>
+      <!-- Patient figure SVG -->
+      <div class="dr-patient" id="drPatient">
+        <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- body -->
+          <circle cx="50" cy="22" r="18" fill="#f4c89a" stroke="#e0a870" stroke-width="1.5"/>
+          <!-- face -->
+          <text x="50" y="28" text-anchor="middle" font-size="18">${c.patientMood}</text>
+          <!-- torso -->
+          <rect x="28" y="42" width="44" height="58" rx="8" fill="#5a7fcf" stroke="#4a6bbf" stroke-width="1"/>
+          <!-- arms -->
+          <rect x="10" y="44" width="16" height="48" rx="6" fill="#f4c89a" stroke="#e0a870" stroke-width="1"/>
+          <rect x="74" y="44" width="16" height="48" rx="6" fill="#f4c89a" stroke="#e0a870" stroke-width="1"/>
+          <!-- legs -->
+          <rect x="28" y="102" width="18" height="60" rx="6" fill="#3a5099" stroke="#2a4080" stroke-width="1"/>
+          <rect x="54" y="102" width="18" height="60" rx="6" fill="#3a5099" stroke="#2a4080" stroke-width="1"/>
+          <!-- feet -->
+          <ellipse cx="37" cy="165" rx="12" ry="7" fill="#f4c89a" stroke="#e0a870" stroke-width="1"/>
+          <ellipse cx="63" cy="165" rx="12" ry="7" fill="#f4c89a" stroke="#e0a870" stroke-width="1"/>
+          <!-- highlight on affected body part -->
+          ${c.bodyPart==='heart'?'<circle cx="42" cy="58" r="10" fill="rgba(226,75,74,0.3)" stroke="#E24B4A" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='abdomen'?'<ellipse cx="50" cy="72" rx="14" ry="10" fill="rgba(186,117,23,0.3)" stroke="#BA7517" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='lungs'?'<ellipse cx="50" cy="56" rx="18" ry="12" fill="rgba(55,138,221,0.3)" stroke="#378ADD" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='head'||c.bodyPart==='brain'?'<circle cx="50" cy="22" r="20" fill="rgba(83,75,183,0.3)" stroke="#534AB7" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='knee'?'<circle cx="37" cy="132" r="10" fill="rgba(83,75,183,0.3)" stroke="#534AB7" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='skin'?'<rect x="74" y="44" width="16" height="48" rx="6" fill="rgba(216,90,48,0.4)" stroke="#D85A30" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='liver'?'<ellipse cx="55" cy="65" rx="12" ry="8" fill="rgba(99,153,34,0.3)" stroke="#639922" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='kidney'?'<ellipse cx="38" cy="70" rx="8" ry="10" fill="rgba(29,158,117,0.3)" stroke="#1D9E75" stroke-width="1.5"/>':''}
+          ${c.bodyPart==='blood'?'<circle cx="50" cy="58" r="22" fill="rgba(226,75,74,0.15)" stroke="#E24B4A" stroke-width="1" stroke-dasharray="4,2"/>':''}
+        </svg>
+      </div>
+      <!-- Speech bubble -->
+      <div class="dr-speech" id="drSpeech">${c.speech}</div>
+      <!-- Body part label badge -->
+      <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(${c.bodyPart==='heart'?'226,75,74':c.bodyPart==='skin'?'216,90,48':'55,138,221'},0.2);border:1px solid ${c.color};border-radius:20px;padding:5px 14px;font-size:11px;font-family:var(--mono);font-weight:700;color:${c.color};">
+        🔍 Affected: ${hs.label}
+      </div>
+    </div>
+    <div class="dr-panel">
+      <div class="dr-score-row">
+        <div style="font-size:13px;color:var(--text-muted)">What is the diagnosis?</div>
+        <div class="dr-score">Score: ${state.drScore}</div>
+      </div>
+      <div class="dr-question">${c.question}</div>
+      <div class="dr-choices">${c.choices.map((ch,i)=>`<div class="dr-choice" data-i="${i}">${ch}</div>`).join('')}</div>
+      <div class="dr-explain" id="drExplain"></div>
+      <button class="dr-next" id="drNext" onclick="renderDoctorCase()">Next Patient →</button>
+    </div>`;
+
+  document.querySelectorAll('.dr-choice').forEach(el=>{
+    el.addEventListener('click',()=>{
+      if(document.getElementById('drNext').style.display!=='none')return;
+      const idx=parseInt(el.dataset.i);
+      state.totalAnswered++;
+      document.querySelectorAll('.dr-choice').forEach(d=>d.style.pointerEvents='none');
+      const ex=document.getElementById('drExplain');
+      if(idx===c.correct){
+        el.classList.add('correct');
+        addXP(60);state.termsCorrect++;state.drScore+=60;
+        document.getElementById('drScore').textContent=state.drScore;
+        ex.innerHTML='✅ <strong>Correct diagnosis! +60 XP</strong> — '+c.explain;
+        // Animate patient recovery
+        const patient=document.getElementById('drPatient');
+        if(patient)patient.style.animation='correctPop 0.5s ease';
+        state.lastQuestion='Doctor mode: '+c.choices[c.correct]+' was correct';
+        completeLessonIfActive();
+      }else{
+        el.classList.add('wrong');
+        document.querySelectorAll('.dr-choice')[c.correct].classList.add('correct');
+        ex.innerHTML='❌ The diagnosis is <strong>'+c.choices[c.correct]+'</strong> — '+c.explain;
+        state.lastQuestion='Doctor mode: '+c.choices[c.correct];
+      }
+      ex.style.display='block';
+      document.getElementById('drNext').style.display='block';
+    });
+  });
+}
+window.renderDoctorCase=renderDoctorCase;
+
+// ── PROGRESS ──
+function renderProgress(){
+  const cats=[{name:'Prefixes',key:'prefixes',color:'var(--blue)'},{name:'Roots / Stems',key:'roots',color:'var(--teal)'},{name:'Suffixes',key:'suffixes',color:'var(--purple)'},{name:'Body Systems',key:'body_systems',color:'var(--amber)'},{name:'Clinical Terms',key:'clinical_terms',color:'var(--coral)'}];
+  document.getElementById('progCats').innerHTML=cats.map(c=>{const pct=state.progress[c.key]||0;return'<div class="prog-cat"><div class="prog-cat-name">'+c.name+'<span class="prog-cat-pct">'+pct+'%</span></div><div class="prog-track"><div class="prog-fill" style="width:'+pct+'%;background:'+c.color+'"></div></div></div>';}).join('');
+}
+
+// ── SOURCE INGESTION ──
 document.getElementById('addSourceBtn').addEventListener('click',async()=>{
   const text=document.getElementById('sourceText').value.trim();if(!text)return;
   document.getElementById('spLoading').style.display='block';document.getElementById('addSourceBtn').disabled=true;
@@ -481,6 +1133,7 @@ document.getElementById('addSourceBtn').addEventListener('click',async()=>{
   document.getElementById('spLoading').style.display='none';document.getElementById('addSourceBtn').disabled=false;
 });
 
+// ── AI CHAT ──
 let chatHist=[];
 function addMsg(role,text,target){
   chatHist.push({role,text});
@@ -506,8 +1159,9 @@ document.getElementById('chatSendMobile').addEventListener('click',()=>{const v=
 document.getElementById('chatInputMobile').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('chatSendMobile').click();}});
 document.querySelectorAll('.quick-btn').forEach(btn=>btn.addEventListener('click',()=>sendChat(btn.dataset.q)));
 
+// ── INIT ──
 updateStats();
-setTimeout(()=>{addMsg('ai',"Hey! I'm Dr. Morph 🔬 Your HOSA coach. Pick a game or ask me anything. Say 'make it harder' anytime!",'both');},400);
+setTimeout(()=>{addMsg('ai',"Hey! I'm Dr. Morph 🔬 Take the Placement Test first to find your level, then try Course Mode for structured learning. Or jump straight into any game!",'both');},400);
 </script>
 </body>
 </html>
