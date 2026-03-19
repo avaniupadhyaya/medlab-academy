@@ -415,8 +415,43 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
       <div class="bowl-scene" id="bowlScene"></div>
 
     <!-- NITRO RACE GAME -->
-    <div class="screen" id="screen-race" style="flex-direction:column;background:var(--bg);">
-      <div id="raceMain" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;"></div>
+    <div class="screen" id="screen-race" style="flex-direction:column;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;">
+      <!-- LOBBY (always visible when screen opens) -->
+      <div id="raceLobby" style="padding:20px 16px;text-align:center;">
+        <div style="font-size:52px;margin-bottom:8px;">🏎️</div>
+        <div style="font-size:22px;font-weight:800;letter-spacing:2px;color:var(--txt);margin-bottom:6px;">NITRO RACE</div>
+        <div id="raceEvName" style="font-size:13px;color:var(--teal);font-weight:600;margin-bottom:20px;">Select an event first</div>
+        <div style="display:flex;justify-content:center;gap:14px;margin-bottom:20px;">
+          <div style="text-align:center;"><div style="width:44px;height:20px;background:#00bcd4;border-radius:6px;margin:0 auto 4px;"></div><div style="font-size:9px;color:var(--muted);font-weight:700;">YOU</div></div>
+          <div style="text-align:center;"><div style="width:44px;height:20px;background:#e74c3c;border-radius:6px;margin:0 auto 4px;"></div><div style="font-size:9px;color:var(--muted);font-weight:700;">Alex</div></div>
+          <div style="text-align:center;"><div style="width:44px;height:20px;background:#f39c12;border-radius:6px;margin:0 auto 4px;"></div><div style="font-size:9px;color:var(--muted);font-weight:700;">Sam</div></div>
+          <div style="text-align:center;"><div style="width:44px;height:20px;background:#9b59b6;border-radius:6px;margin:0 auto 4px;"></div><div style="font-size:9px;color:var(--muted);font-weight:700;">Jay</div></div>
+          <div style="text-align:center;"><div style="width:44px;height:20px;background:#2ecc71;border-radius:6px;margin:0 auto 4px;"></div><div style="font-size:9px;color:var(--muted);font-weight:700;">Riley</div></div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--bord);border-radius:12px;padding:14px;margin:0 auto 20px;max-width:340px;text-align:left;">
+          <div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">How to Play</div>
+          <div style="font-size:13px;line-height:1.9;color:var(--txt);">
+            ✅ Correct answer → <strong>Speed boost!</strong><br>
+            ❌ Wrong answer → <strong>Slow down</strong><br>
+            🔥 Answer streak → <strong>Nitro multiplier!</strong><br>
+            🏁 10 questions · Winner gets a <strong>bonus round!</strong>
+          </div>
+        </div>
+        <button onclick="raceStart()" style="padding:15px 44px;background:linear-gradient(135deg,#00bcd4,#0097a7);color:white;border:none;border-radius:12px;font-size:18px;font-weight:800;cursor:pointer;letter-spacing:2px;box-shadow:0 4px 20px rgba(0,188,212,0.35);font-family:var(--font);">🚀 START RACE!</button>
+      </div>
+      <!-- GAME AREA (shown during race) -->
+      <div id="raceGame" style="display:none;flex-direction:column;flex:1;">
+        <!-- Track -->
+        <div style="padding:12px 14px;border-bottom:1px solid var(--bord);background:var(--surf);">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:11px;color:var(--muted);">🏁 Race Track</span>
+            <span id="rScoreLive" style="font-size:11px;color:var(--teal);font-weight:700;font-family:monospace;">Score: 0</span>
+          </div>
+          <div id="rTrack"></div>
+        </div>
+        <!-- Question zone -->
+        <div id="rQZone" style="padding:14px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;"></div>
+      </div>
     </div>
 
     <!-- PL
@@ -1135,379 +1170,268 @@ renderSidebarEvents();
 setTimeout(()=>addMsg('ai',"Welcome to HOSA Academy! 🏥 Pick your competitive event from the home screen, then start with the Course for structured learning. Im here to help — just ask! 🔬",'both'),400);
 </script>
 
+
+
 <script>
-// ══════════════════════════════════════════════════════
-// NITRO RACE — Pure HTML/CSS game, no canvas required
-// ══════════════════════════════════════════════════════
-(function(){
-
-var RS = null; // race state
-var RT = null; // race timer interval
-
-var CARS = [
-  {id:'you',  name:'YOU',    color:'#00bcd4', bg:'rgba(0,188,212,0.15)'},
-  {id:'alex', name:'Alex',   color:'#e74c3c', bg:'rgba(231,76,60,0.15)'},
-  {id:'sam',  name:'Sam',    color:'#f39c12', bg:'rgba(243,156,18,0.15)'},
-  {id:'jay',  name:'Jay',    color:'#9b59b6', bg:'rgba(155,89,182,0.15)'},
-  {id:'riley',name:'Riley',  color:'#2ecc71', bg:'rgba(46,204,113,0.15)'},
+// NITRO RACE GAME
+var _RS = null, _RT = null;
+var _CARS = [
+  {id:'you',  name:'YOU',  color:'#00bcd4'},
+  {id:'alex', name:'Alex', color:'#e74c3c'},
+  {id:'sam',  name:'Sam',  color:'#f39c12'},
+  {id:'jay',  name:'Jay',  color:'#9b59b6'},
+  {id:'riley',name:'Riley',color:'#2ecc71'}
 ];
+var _AI_SPEED = [0, 5.5, 4.8, 4.3, 3.8];
 
-function getQ(ev){
-  if(!ev) return [];
-  var p=[];
-  ['easy','medium','hard'].forEach(function(d){
-    var q=ev.getQuiz?ev.getQuiz(d)||[]:[];
-    p=p.concat(q);
-  });
-  for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}
-  return p.slice(0,10);
-}
-
+// Called when screen-race becomes active
 function renderRaceGame(){
-  var div = document.getElementById('raceMain');
-  if(!div) return;
   var ev = window.EVENTS && window.S && window.EVENTS[window.S.currentEvent];
-  var evName = ev ? ev.name : 'Select an event first';
-  if(RT){clearInterval(RT);RT=null;}
-  RS=null;
-  div.innerHTML = lobby(evName);
-}
-window.renderRaceGame = renderRaceGame;
-
-function lobby(evName){
-  return '<div style="padding:20px 16px;text-align:center;">'
-    +'<div style="font-size:52px;margin-bottom:8px;">🏎️</div>'
-    +'<div style="font-size:22px;font-weight:800;letter-spacing:2px;color:var(--txt);margin-bottom:6px;">NITRO RACE</div>'
-    +'<div style="font-size:13px;color:var(--teal);font-weight:600;margin-bottom:20px;">'+evName+'</div>'
-    +carLineup()
-    +'<div style="background:var(--surf);border:1px solid var(--bord);border-radius:12px;padding:14px;margin:0 auto 20px;max-width:340px;text-align:left;">'
-    +'<div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">How to Play</div>'
-    +'<div style="font-size:13px;line-height:1.9;color:var(--txt);">'
-    +'✅ Correct answer → <strong>Speed boost!</strong><br>'
-    +'❌ Wrong answer → <strong>Slow down</strong><br>'
-    +'🔥 Answer streak → <strong>Nitro multiplier!</strong><br>'
-    +'🏁 10 questions · Winner gets a <strong>bonus round!</strong>'
-    +'</div></div>'
-    +'<button onclick="startRace()" style="padding:15px 44px;background:linear-gradient(135deg,#00bcd4,#0097a7);color:white;border:none;border-radius:12px;font-size:18px;font-weight:800;cursor:pointer;letter-spacing:2px;box-shadow:0 4px 20px rgba(0,188,212,0.35);font-family:var(--font);">🚀 START RACE!</button>'
-    +'</div>';
+  var el = document.getElementById('raceEvName');
+  if(el) el.textContent = ev ? ev.name : 'Select an event first';
+  // Show lobby, hide game
+  var lobby = document.getElementById('raceLobby');
+  var game = document.getElementById('raceGame');
+  if(lobby) lobby.style.display = 'block';
+  if(game) { game.style.display = 'none'; game.style.flexDirection = ''; }
+  if(_RT){ clearInterval(_RT); _RT = null; }
+  _RS = null;
 }
 
-function carLineup(){
-  var h='<div style="display:flex;justify-content:center;gap:14px;margin-bottom:20px;">';
-  CARS.forEach(function(c){
-    h+='<div style="text-align:center;">'
-      +'<div style="width:44px;height:20px;background:'+c.color+';border-radius:6px;margin:0 auto 4px;box-shadow:0 2px 10px '+c.color+'66;"></div>'
-      +'<div style="font-size:9px;color:var(--muted);font-weight:700;">'+c.name+'</div>'
-      +'</div>';
+function raceStart(){
+  var ev = window.EVENTS && window.S && window.EVENTS[window.S.currentEvent];
+  if(!ev){
+    alert('Please select a HOSA event from the sidebar first!');
+    return;
+  }
+  // Build question pool
+  var pool = [];
+  ['easy','medium','hard'].forEach(function(d){
+    var q = ev.getQuiz ? (ev.getQuiz(d)||[]) : [];
+    pool = pool.concat(q);
   });
-  return h+'</div>';
-}
-
-window.startRace = function(){
-  var ev = window.EVENTS && window.S && window.EVENTS[window.S.currentEvent];
-  var qs = getQ(ev);
-  var div = document.getElementById('raceMain');
-  if(!div) return;
-
+  // Shuffle
+  for(var i=pool.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=pool[i];pool[i]=pool[j];pool[j]=t;
+  }
+  var qs = pool.slice(0,10);
   if(!qs.length){
-    div.innerHTML='<div style="padding:30px;text-align:center;color:var(--muted);font-size:15px;">⚠️ Select an event from the sidebar first, then come back to race!</div>';
+    alert('No questions found for this event. Please select a different event.');
     return;
   }
-
-  if(RT){clearInterval(RT);RT=null;}
-
-  RS = {
-    qs: qs,
-    qi: 0,
-    pos: [0,0,0,0,0],   // player=0, ai1..4=1..4
-    speed: [0,0,0,0,0],
-    score: 0,
-    streak: 0,
-    selected: null,
-    submitted: false,
-    finished: false,
-    finishOrder: [],
-    bonus: false,
+  // Init state
+  _RS = {
+    qs:qs, qi:0,
+    pos:[0,0,0,0,0],
+    score:0, streak:0,
+    sel:null, done:false,
+    finOrder:[]
   };
-
-  // AI base speeds (will vary randomly)
-  var bases = [0, 5.5, 4.8, 4.3, 3.8];
-  RS.bases = bases;
-
-  renderRaceUI();
-  renderQ();
-
-  // AI movement timer - every 800ms AI cars move
-  RT = setInterval(function(){
-    if(!RS || RS.finished) return;
+  if(_RT){clearInterval(_RT);_RT=null;}
+  // Show game panel
+  var lobby = document.getElementById('raceLobby');
+  var game = document.getElementById('raceGame');
+  if(lobby) lobby.style.display = 'none';
+  if(game){ game.style.display = 'flex'; game.style.flexDirection = 'column'; }
+  // Build track bars
+  rBuildTrack();
+  rShowQ();
+  // AI movement
+  _RT = setInterval(function(){
+    if(!_RS||_RS.done) return;
     for(var i=1;i<=4;i++){
-      var spd = RS.bases[i] + (Math.random()-0.3)*1.5;
-      RS.pos[i] = Math.min(100, RS.pos[i] + spd);
-      if(RS.pos[i]>=100 && RS.finishOrder.indexOf(i)<0){
-        RS.finishOrder.push(i);
-      }
+      _RS.pos[i] = Math.min(100, _RS.pos[i] + _AI_SPEED[i] + (Math.random()-0.3)*1.5);
+      if(_RS.pos[i]>=100 && _RS.finOrder.indexOf(i)<0) _RS.finOrder.push(i);
     }
-    updateTrack();
+    rUpdateTrack();
   }, 800);
-};
-
-function renderRaceUI(){
-  var div = document.getElementById('raceMain');
-  if(!div) return;
-
-  var trackHTML = '<div style="padding:12px 14px;border-bottom:1px solid var(--bord);background:var(--surf);flex-shrink:0;">'
-    +'<div style="display:flex;justify-content:space-between;margin-bottom:8px;">'
-    +'<span style="font-size:11px;color:var(--muted);">🏁 Race Track</span>'
-    +'<span id="raceScoreLive" style="font-size:11px;color:var(--teal);font-weight:700;">Score: 0</span>'
-    +'</div>';
-
-  CARS.forEach(function(c,i){
-    trackHTML += '<div style="margin-bottom:5px;">'
-      +'<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">'
-      +'<span style="font-size:11px;font-weight:700;color:'+c.color+';width:40px;">'+c.name+'</span>'
-      +'<div style="flex:1;background:#1a1a2e;height:14px;border-radius:7px;overflow:hidden;position:relative;">'
-      +'<div id="bar_'+c.id+'" style="height:100%;width:0%;background:'+c.color+';border-radius:7px;transition:width 0.4s ease;position:relative;">'
-      +'<span style="position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:9px;">'+c.name==='YOU'?'🏎️':'🚗'+'</span>'
-      +'</div>'
-      +'<div id="car_'+c.id+'" style="position:absolute;top:50%;transform:translateY(-50%);font-size:12px;left:0%;transition:left 0.4s ease;">'+(i===0?'🏎️':'🚗')+'</div>'
-      +'</div>'
-      +'<span id="pct_'+c.id+'" style="font-size:9px;color:var(--muted);width:28px;text-align:right;">0%</span>'
-      +'</div></div>';
-  });
-  trackHTML += '</div>';
-
-  var qHTML = '<div id="raceQZone" style="padding:14px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;"></div>';
-
-  div.innerHTML = trackHTML + qHTML;
 }
 
-function updateTrack(){
-  if(!RS) return;
-  CARS.forEach(function(c,i){
-    var pct = Math.min(100, Math.round(RS.pos[i]));
-    var bar = document.getElementById('bar_'+c.id);
-    var car = document.getElementById('car_'+c.id);
-    var pctEl = document.getElementById('pct_'+c.id);
+function rBuildTrack(){
+  var t = document.getElementById('rTrack');
+  if(!t) return;
+  var h = '';
+  _CARS.forEach(function(c,i){
+    h += '<div style="margin-bottom:6px;display:flex;align-items:center;gap:8px;">'
+      + '<span style="width:38px;font-size:11px;font-weight:700;color:'+c.color+';">'+c.name+'</span>'
+      + '<div style="flex:1;background:#1a1a2e;height:16px;border-radius:8px;overflow:hidden;position:relative;">'
+      + '<div id="rb_'+i+'" style="height:100%;width:0%;background:'+c.color+';border-radius:8px;transition:width 0.5s;"></div>'
+      + '</div>'
+      + '<span id="rp_'+i+'" style="width:30px;font-size:9px;color:var(--muted);text-align:right;font-family:monospace;">0%</span>'
+      + '</div>';
+  });
+  t.innerHTML = h;
+}
+
+function rUpdateTrack(){
+  if(!_RS) return;
+  for(var i=0;i<5;i++){
+    var pct = Math.min(100, Math.round(_RS.pos[i]));
+    var bar = document.getElementById('rb_'+i);
+    var pctEl = document.getElementById('rp_'+i);
     if(bar) bar.style.width = pct+'%';
-    if(car) car.style.left = Math.max(0, pct-4)+'%';
     if(pctEl) pctEl.textContent = pct+'%';
-  });
-  var sc = document.getElementById('raceScoreLive');
-  if(sc) sc.textContent = 'Score: '+RS.score;
+  }
+  var sc = document.getElementById('rScoreLive');
+  if(sc) sc.textContent = 'Score: '+_RS.score;
 }
 
-function renderQ(){
-  var zone = document.getElementById('raceQZone');
-  if(!zone || !RS) return;
-
-  if(RS.qi >= RS.qs.length){
-    // Player ran out of questions - just wait for race to finish
-    zone.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:14px;">🏁 All questions done! Watch the race finish...</div>';
-    RS.submitted = true;
-    // Force finish after 3s if not already done
-    setTimeout(checkRaceEnd, 3000);
+function rShowQ(){
+  var zone = document.getElementById('rQZone');
+  if(!zone||!_RS) return;
+  if(_RS.qi >= _RS.qs.length){
+    zone.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);">🏁 All questions done! Finishing race...</div>';
+    _RS.done = true;
+    setTimeout(rEnd, 2500);
     return;
   }
-
-  var q = RS.qs[RS.qi];
+  var q = _RS.qs[_RS.qi];
   var opts = q.opts || q.options || [];
-  RS.selected = null;
-  RS.submitted = false;
-
-  // Progress bar dots
-  var dots = '<div style="display:flex;gap:3px;margin-bottom:10px;">';
-  for(var d=0;d<RS.qs.length;d++){
-    var col = d<RS.qi?'#00bcd4':d===RS.qi?'#f39c12':'var(--surf)';
-    dots+='<div style="flex:1;height:4px;border-radius:2px;background:'+col+';border:1px solid var(--bord);"></div>';
+  _RS.sel = null;
+  // Progress dots
+  var dots = '<div style="display:flex;gap:3px;margin-bottom:12px;">';
+  for(var d=0;d<_RS.qs.length;d++){
+    var col = d<_RS.qi ? '#00bcd4' : d===_RS.qi ? '#f39c12' : 'var(--surf2)';
+    dots += '<div style="flex:1;height:4px;border-radius:2px;background:'+col+';"></div>';
   }
-  dots+='</div>';
-
-  var optsHTML='';
+  dots += '</div>';
+  var optsH = '';
   opts.forEach(function(o,i){
-    var letter=['A','B','C','D'][i];
-    optsHTML+='<div class="ropt" data-i="'+i+'" '
-      +'style="padding:11px 14px;margin-bottom:8px;background:var(--surf);border:2px solid var(--bord);'
-      +'border-radius:10px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:10px;">'
-      +'<span style="min-width:26px;height:26px;border-radius:50%;background:var(--surf2);border:1px solid var(--bord);'
-      +'display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">'+letter+'</span>'
-      +'<span>'+o+'</span></div>';
+    var L = ['A','B','C','D'][i];
+    optsH += '<div class="ropt" data-i="'+i+'" style="padding:11px 14px;margin-bottom:8px;background:var(--surf);border:2px solid var(--bord);border-radius:10px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:10px;">'
+      + '<span style="min-width:26px;height:26px;border-radius:50%;background:var(--surf2);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">'+L+'</span>'
+      + '<span>'+o+'</span></div>';
   });
-
   zone.innerHTML = dots
-    +'<div style="font-size:10px;color:var(--muted);margin-bottom:8px;font-family:monospace;">'
-    +'Q'+(RS.qi+1)+'/'+RS.qs.length+'  &nbsp; 🔥 Streak: '+RS.streak+'</div>'
-    +'<div style="font-size:14px;font-weight:700;line-height:1.45;margin-bottom:14px;padding:12px 14px;'
-    +'background:var(--surf);border-radius:10px;border-left:3px solid var(--teal);">'+q.q+'</div>'
-    +'<div id="rOptWrap">'+optsHTML+'</div>'
-    +'<button id="rSubmit" style="display:none;width:100%;padding:13px;background:linear-gradient(135deg,#f39c12,#e67e22);'
-    +'color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;margin-top:2px;'
-    +'font-family:var(--font);letter-spacing:1px;">⚡ SUBMIT!</button>'
-    +'<div id="rFeedback" style="display:none;padding:10px 12px;border-radius:9px;margin-top:8px;font-size:13px;"></div>';
-
-  // Wire option clicks
+    + '<div style="font-size:10px;color:var(--muted);margin-bottom:8px;font-family:monospace;">Q'+(_RS.qi+1)+'/'+_RS.qs.length+'  🔥 Streak: '+_RS.streak+'</div>'
+    + '<div style="font-size:14px;font-weight:700;line-height:1.45;margin-bottom:14px;padding:12px 14px;background:var(--surf);border-radius:10px;border-left:3px solid var(--teal);">'+q.q+'</div>'
+    + '<div id="rOpts">'+optsH+'</div>'
+    + '<button id="rSub" style="display:none;width:100%;padding:13px;background:linear-gradient(135deg,#f39c12,#e67e22);color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;margin-top:4px;font-family:var(--font);">⚡ SUBMIT!</button>'
+    + '<div id="rFb" style="display:none;padding:10px 12px;border-radius:9px;margin-top:8px;font-size:13px;"></div>';
+  // Wire clicks
   zone.querySelectorAll('.ropt').forEach(function(el){
     el.addEventListener('click', function(){
-      if(RS.submitted) return;
-      zone.querySelectorAll('.ropt').forEach(function(o){
-        o.style.borderColor='var(--bord)';o.style.background='var(--surf)';
-      });
-      el.style.borderColor='#f39c12';
-      el.style.background='rgba(243,156,18,0.12)';
-      RS.selected=parseInt(el.dataset.i);
-      document.getElementById('rSubmit').style.display='block';
+      if(_RS.sel!==null && document.getElementById('rSub').style.display==='block') {
+        zone.querySelectorAll('.ropt').forEach(function(o){o.style.borderColor='var(--bord)';o.style.background='var(--surf)';});
+      }
+      if(document.getElementById('rFb').style.display==='block') return;
+      el.style.borderColor='#f39c12';el.style.background='rgba(243,156,18,0.12)';
+      _RS.sel=parseInt(el.dataset.i);
+      document.getElementById('rSub').style.display='block';
     });
   });
-
-  // Wire submit
-  document.getElementById('rSubmit').addEventListener('click', function(){
-    if(RS.submitted || RS.selected===null) return;
-    RS.submitted=true;
-    submitAnswer(q);
+  document.getElementById('rSub').addEventListener('click', function(){
+    if(_RS.sel===null) return;
+    rSubmit(q);
   });
 }
 
-function submitAnswer(q){
-  var zone = document.getElementById('raceQZone');
-  if(!zone||!RS) return;
-  var sel=RS.selected, correct=q.correct;
-  var allOpts=zone.querySelectorAll('.ropt');
-  document.getElementById('rSubmit').style.display='none';
-  allOpts.forEach(function(o){o.style.pointerEvents='none';});
-  var fb=document.getElementById('rFeedback');
-
+function rSubmit(q){
+  if(!_RS) return;
+  var sel=_RS.sel, correct=q.correct;
+  var opts=document.querySelectorAll('.ropt');
+  document.getElementById('rSub').style.display='none';
+  opts.forEach(function(o){o.style.pointerEvents='none';});
+  var fb=document.getElementById('rFb');
   if(sel===correct){
-    RS.streak++;
-    var boost = 8 + Math.min(RS.streak*2, 10);
-    RS.pos[0]=Math.min(100, RS.pos[0]+boost);
-    if(RS.pos[0]>=100 && RS.finishOrder.indexOf(0)<0) RS.finishOrder.push(0);
-    RS.score += 100 + RS.streak*20;
-    allOpts[sel].style.borderColor='#27ae60';allOpts[sel].style.background='var(--green-l)';
-    fb.style.cssText='display:block;padding:10px 12px;border-radius:9px;margin-top:8px;background:var(--green-l);color:var(--green-d);border:1px solid var(--green);font-size:13px;';
-    fb.innerHTML='✅ <strong>Correct! +'+boost+' speed'+(RS.streak>1?' 🔥'+RS.streak+'x STREAK!':'')+'</strong>'
-      +(q.explain?'<br><span style="font-size:11px;opacity:0.85;">'+q.explain+'</span>':'');
+    _RS.streak++;
+    var boost=8+Math.min(_RS.streak*2,12);
+    _RS.pos[0]=Math.min(100,_RS.pos[0]+boost);
+    if(_RS.pos[0]>=100&&_RS.finOrder.indexOf(0)<0) _RS.finOrder.push(0);
+    _RS.score+=100+_RS.streak*20;
+    opts[sel].style.borderColor='#27ae60';opts[sel].style.background='var(--green-l)';
+    fb.style.cssText='display:block;padding:10px;border-radius:9px;background:var(--green-l);color:var(--green-d);border:1px solid var(--green);font-size:13px;';
+    fb.innerHTML='✅ <strong>Correct! +'+boost+' speed'+('' + (_RS.streak>1?' 🔥'+_RS.streak+'x!':''))+'</strong>'+(q.explain?'<br><span style="font-size:11px;opacity:0.85;">'+q.explain+'</span>':'');
   } else {
-    RS.streak=0;
-    RS.pos[0]=Math.max(0, RS.pos[0]-3);
-    allOpts[sel].style.borderColor='#e74c3c';allOpts[sel].style.background='rgba(231,76,60,0.12)';
-    allOpts[correct].style.borderColor='#27ae60';allOpts[correct].style.background='var(--green-l)';
-    fb.style.cssText='display:block;padding:10px 12px;border-radius:9px;margin-top:8px;background:rgba(231,76,60,0.1);color:#c0392b;border:1px solid #e74c3c;font-size:13px;';
-    fb.innerHTML='❌ <strong>Wrong! Slowing down...</strong>'
-      +(q.explain?'<br><span style="font-size:11px;opacity:0.85;">'+q.explain+'</span>':'');
+    _RS.streak=0;
+    _RS.pos[0]=Math.max(0,_RS.pos[0]-3);
+    opts[sel].style.borderColor='#e74c3c';opts[sel].style.background='rgba(231,76,60,0.12)';
+    opts[correct].style.borderColor='#27ae60';opts[correct].style.background='var(--green-l)';
+    fb.style.cssText='display:block;padding:10px;border-radius:9px;background:rgba(231,76,60,0.1);color:#c0392b;border:1px solid #e74c3c;font-size:13px;';
+    fb.innerHTML='❌ <strong>Wrong!</strong>'+(q.explain?'<br><span style="font-size:11px;opacity:0.85;">'+q.explain+'</span>':'');
   }
-
-  updateTrack();
-  RS.qi++;
+  rUpdateTrack();
+  _RS.qi++;
   setTimeout(function(){
-    checkRaceEnd();
-    if(!RS.finished) renderQ();
+    if(_RS&&!_RS.done) rShowQ();
   }, 1800);
 }
 
-function checkRaceEnd(){
-  if(!RS||RS.finished) return;
-  // End if player finished or all AI finished
-  var allAIDone = RS.finishOrder.filter(function(x){return x>0;}).length>=4;
-  var playerDone = RS.finishOrder.indexOf(0)>=0;
-  var allQsDone = RS.qi>=RS.qs.length && RS.submitted;
-  if((playerDone && allAIDone) || allQsDone){
-    RS.finished=true;
-    if(RT){clearInterval(RT);RT=null;}
-    // Fill in finish order
-    var remaining=[0,1,2,3,4].filter(function(x){return RS.finishOrder.indexOf(x)<0;});
-    remaining.sort(function(a,b){return RS.pos[b]-RS.pos[a];});
-    RS.finishOrder=RS.finishOrder.concat(remaining);
-    setTimeout(showResults, 500);
-  }
-}
-
-function showResults(){
-  var div=document.getElementById('raceMain');
-  if(!div||!RS) return;
-  var place=RS.finishOrder.indexOf(0)+1;
+function rEnd(){
+  if(!_RS) return;
+  _RS.done=true;
+  if(_RT){clearInterval(_RT);_RT=null;}
+  [0,1,2,3,4].forEach(function(i){ if(_RS.finOrder.indexOf(i)<0) _RS.finOrder.push(i); });
+  var place=_RS.finOrder.indexOf(0)+1;
   var medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
   var placeW=['1st','2nd','3rd','4th','5th'];
-  var isWinner=place===1;
-  if(window.addXP) window.addXP(Math.min(200,RS.score/8));
-
-  var orderHTML='';
-  RS.finishOrder.forEach(function(ci,i){
-    var c=CARS[ci];
-    var isYou=ci===0;
-    orderHTML+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;'
-      +'background:'+(isYou?'rgba(0,188,212,0.12)':'transparent')+';border:'+(isYou?'1px solid var(--teal)':'1px solid transparent')+';">'
-      +'<span style="font-size:16px;">'+medals[i]+'</span>'
+  var isWin=place===1;
+  if(window.addXP) window.addXP(Math.min(200,Math.floor(_RS.score/8)));
+  var orderH='';
+  _RS.finOrder.forEach(function(ci,i){
+    var c=_CARS[ci],isYou=ci===0;
+    orderH+='<div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;margin-bottom:4px;background:'+(isYou?'rgba(0,188,212,0.12)':'transparent')+';border:'+(isYou?'1px solid var(--teal)':'1px solid transparent')+';">'
+      +'<span style="font-size:15px;">'+medals[i]+'</span>'
       +'<span style="font-size:13px;font-weight:'+(isYou?800:500)+';color:'+(isYou?'var(--teal)':'var(--txt)')+';">'+c.name+'</span>'
-      +'<div style="flex:1;"></div>'
-      +'<span style="font-size:10px;color:var(--muted);">'+Math.round(RS.pos[ci])+'%</span>'
+      +'<div style="flex:1"></div>'
+      +'<span style="font-size:10px;color:var(--muted);">'+Math.round(_RS.pos[ci])+'%</span>'
       +'</div>';
   });
-
-  var bonusHTML='';
-  if(isWinner){
-    bonusHTML='<div style="background:linear-gradient(135deg,rgba(0,188,212,0.2),rgba(243,156,18,0.2));border:1px solid var(--teal);border-radius:12px;padding:14px;margin-bottom:16px;text-align:center;">'
-      +'<div style="font-size:18px;font-weight:800;color:var(--teal);margin-bottom:6px;">🌟 BONUS ROUND!</div>'
-      +'<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">You won! Answer this bonus question for extra XP.</div>'
-      +'<div id="bonusQ"></div>'
-      +'</div>';
-  }
-
-  div.innerHTML='<div style="padding:20px 16px;text-align:center;">'
+  var bonusH=isWin?'<div id="rBonus" style="background:rgba(0,188,212,0.1);border:1px solid var(--teal);border-radius:12px;padding:14px;margin-bottom:16px;text-align:left;"><div style="font-size:16px;font-weight:800;color:var(--teal);margin-bottom:6px;text-align:center;">🌟 BONUS ROUND!</div><div id="rBonusQ"></div></div>':'';
+  var game=document.getElementById('raceGame');
+  if(!game) return;
+  game.innerHTML='<div style="padding:20px 16px;text-align:center;overflow-y:auto;-webkit-overflow-scrolling:touch;">'
     +'<div style="font-size:52px;margin-bottom:8px;">'+medals[place-1]+'</div>'
     +'<div style="font-size:22px;font-weight:800;margin-bottom:4px;">'+placeW[place-1]+' Place!</div>'
-    +'<div style="font-size:13px;color:var(--muted);margin-bottom:18px;">'+(isWinner?'🏆 Champion! You won the race!':place<=3?'Great race!':'Keep practicing!')+'</div>'
-    +bonusHTML
+    +'<div style="font-size:13px;color:var(--muted);margin-bottom:18px;">'+(isWin?'🏆 Champion!':place<=3?'Great race!':'Keep practicing!')+'</div>'
+    +bonusH
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:300px;margin:0 auto 16px;">'
-    +'<div style="background:var(--surf);border:1px solid var(--bord);border-radius:8px;padding:10px;"><div style="font-size:10px;color:var(--muted);margin-bottom:4px;">🎯 Score</div><div style="font-size:18px;font-weight:800;">'+RS.score+'</div></div>'
-    +'<div style="background:var(--surf);border:1px solid var(--bord);border-radius:8px;padding:10px;"><div style="font-size:10px;color:var(--muted);margin-bottom:4px;">🔥 Streak</div><div style="font-size:18px;font-weight:800;">x'+RS.streak+'</div></div>'
+    +'<div style="background:var(--surf);border:1px solid var(--bord);border-radius:8px;padding:10px;"><div style="font-size:10px;color:var(--muted);margin-bottom:4px;">🎯 Score</div><div style="font-size:18px;font-weight:800;">'+_RS.score+'</div></div>'
+    +'<div style="background:var(--surf);border:1px solid var(--bord);border-radius:8px;padding:10px;"><div style="font-size:10px;color:var(--muted);margin-bottom:4px;">🔥 Streak</div><div style="font-size:18px;font-weight:800;">x'+_RS.streak+'</div></div>'
     +'</div>'
-    +'<div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:12px;max-width:300px;margin:0 auto 20px;text-align:left;">'
-    +'<div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Finish Order</div>'
-    +orderHTML+'</div>'
+    +'<div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:12px;max-width:300px;margin:0 auto 20px;text-align:left;"><div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Finish Order</div>'+orderH+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">'
-    +'<button onclick="startRace()" style="padding:13px 28px;background:linear-gradient(135deg,#00bcd4,#0097a7);color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:var(--font);">🚀 Race Again!</button>'
-    +'<button onclick="showScreen(\"home\")" style="padding:13px 20px;background:var(--surf2);color:var(--txt);border:1px solid var(--bord);border-radius:10px;font-size:13px;cursor:pointer;font-family:var(--font);">🏠 Home</button>'
+    +'<button onclick="raceStart()" style="padding:13px 28px;background:linear-gradient(135deg,#00bcd4,#0097a7);color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:var(--font);">🚀 Race Again!</button>'
+    +'<button onclick="renderRaceGame()" style="padding:13px 20px;background:var(--surf2);color:var(--txt);border:1px solid var(--bord);border-radius:10px;font-size:13px;cursor:pointer;font-family:var(--font);">🏠 Lobby</button>'
     +'</div></div>';
-
-  if(isWinner) loadBonusQ();
+  if(isWin) rLoadBonus();
 }
 
-function loadBonusQ(){
+function rLoadBonus(){
   var ev=window.EVENTS&&window.S&&window.EVENTS[window.S.currentEvent];
   var pool=ev?ev.getQuiz('hard')||[]:[];
+  if(!pool.length&&ev) pool=ev.getQuiz('medium')||[];
   if(!pool.length) return;
   var q=pool[Math.floor(Math.random()*pool.length)];
   var opts=q.opts||q.options||[];
-  var bz=document.getElementById('bonusQ');
+  var bz=document.getElementById('rBonusQ');
   if(!bz) return;
-  var answered=false;
-  var html='<div style="font-size:13px;font-weight:700;margin-bottom:10px;line-height:1.4;text-align:left;">'+q.q+'</div>';
+  var h='<div style="font-size:13px;font-weight:700;margin-bottom:10px;line-height:1.4;">'+q.q+'</div>';
   opts.forEach(function(o,i){
-    html+='<div class="bopt" data-i="'+i+'" style="padding:9px 12px;margin-bottom:6px;background:var(--surf2);border:2px solid var(--bord);border-radius:8px;cursor:pointer;font-size:12px;text-align:left;">'+['A','B','C','D'][i]+'. '+o+'</div>';
+    h+='<div class="bopt" data-i="'+i+'" style="padding:9px 12px;margin-bottom:6px;background:var(--surf2);border:2px solid var(--bord);border-radius:8px;cursor:pointer;font-size:12px;">'+['A','B','C','D'][i]+'. '+o+'</div>';
   });
-  bz.innerHTML=html;
+  bz.innerHTML=h;
+  var answered=false;
   bz.querySelectorAll('.bopt').forEach(function(el){
     el.addEventListener('click',function(){
-      if(answered) return;
-      answered=true;
+      if(answered) return; answered=true;
       bz.querySelectorAll('.bopt').forEach(function(o){o.style.pointerEvents='none';});
       var i=parseInt(el.dataset.i);
       if(i===q.correct){
         el.style.borderColor='#27ae60';el.style.background='var(--green-l)';
         if(window.addXP) window.addXP(100);
-        bz.innerHTML+='<div style="margin-top:8px;padding:8px;background:var(--green-l);color:var(--green-d);border-radius:7px;font-size:12px;">🌟 Bonus correct! +100 XP! '+q.explain+'</div>';
+        bz.insertAdjacentHTML('beforeend','<div style="margin-top:8px;padding:8px;background:var(--green-l);color:var(--green-d);border-radius:7px;font-size:12px;">🌟 +100 XP! '+(q.explain||'')+'</div>');
       } else {
         el.style.borderColor='#e74c3c';el.style.background='rgba(231,76,60,0.12)';
         bz.querySelectorAll('.bopt')[q.correct].style.borderColor='#27ae60';
         bz.querySelectorAll('.bopt')[q.correct].style.background='var(--green-l)';
-        bz.innerHTML+='<div style="margin-top:8px;padding:8px;background:rgba(231,76,60,0.1);color:#c0392b;border-radius:7px;font-size:12px;">❌ Not quite! '+q.explain+'</div>';
+        bz.insertAdjacentHTML('beforeend','<div style="margin-top:8px;padding:8px;background:rgba(231,76,60,0.1);color:#c0392b;border-radius:7px;font-size:12px;">Not quite! '+(q.explain||'')+'</div>');
       }
     });
   });
 }
-
-})();
 </script>
-
 <script src="/static/courses.js"></script>
 </body>
 </html>
