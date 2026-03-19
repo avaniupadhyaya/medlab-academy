@@ -748,6 +748,7 @@ function openUnit(ui){
   const units=ev.getCourse();
   const unit=units[ui];
   const home=document.getElementById('courseHome');
+  home.style.display='block';
   document.getElementById('lessonViewer').classList.remove('on');
   document.getElementById('courseBackBtn').onclick=()=>renderCourse();
 
