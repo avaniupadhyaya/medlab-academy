@@ -321,8 +321,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
         <div class="ev-card coral" data-event="emergency"><div class="ev-ic">🚑</div><div class="ev-name">Life Threatening Situations</div><div class="ev-desc">CPR, AED, bleeding, shock, burns</div><div class="ev-tag" style="background:var(--coral-l);color:var(--coral-d)">Test + Skills</div></div>
         <div class="ev-card green" data-event="healthy_living"><div class="ev-ic">💪</div><div class="ev-name">Foundations of Healthy Living</div><div class="ev-desc">Exercise, sleep, mental health, prevention</div><div class="ev-tag" style="background:var(--green-l);color:var(--green-d)">Test + Presentation</div></div>
       </div>
-      <div class="ev-section-lbl">🏆 Team Events</div>
+      <div class="ev-section-lbl">🏆 Team Events & Organization</div>
       <div class="ev-grid" style="padding-bottom:8px;">
+        <div class="ev-card navy" data-event="hosa_history"><div class="ev-ic">🏛️</div><div class="ev-name">HOSA History & Organization</div><div class="ev-desc">Founding, structure, ILC, motto & 50th anniversary</div><div class="ev-tag" style="background:#e8eef8;color:#1a2d5a">Solo · All divisions</div></div>
         <div class="ev-card navy" data-event="hosa_bowl"><div class="ev-ic">🏆</div><div class="ev-name">Foundations of HOSA Bowl</div><div class="ev-desc">All health topics — rapid-fire buzzer style</div><div class="ev-tag" style="background:#e8eef8;color:#1a2d5a">Team · 4 members</div></div>
         <div class="ev-card blue" data-event="public_health"><div class="ev-ic">🌍</div><div class="ev-name">Public Health</div><div class="ev-desc">Food Wars: Battling Big Soda & Ultra-Processed Food</div><div class="ev-tag" style="background:var(--blue-l);color:var(--blue-d)">Team · 2-6 members</div></div>
       </div>
@@ -592,6 +593,12 @@ const EVENTS={
     getQuiz:(d)=>(window.QB_MEDICAL_READING?.quiz||{})[d]||[],
     course:null,
   },
+  hosa_history:{
+    id:'hosa_history',name:'HOSA History & Organization',icon:'🏛️',color:'navy',
+    getFlash:(d)=>(window.QB_HOSA_HISTORY?.flashcards||{})[d]||[],
+    getQuiz:(d)=>(window.QB_HOSA_HISTORY?.quiz||{})[d]||[],
+    course:null,
+  },
 };
 
 
@@ -694,6 +701,7 @@ function renderSidebarEvents(){
     {id:'public_health',icon:'🌍',name:'Public Health'},
     {id:'stop_bleed',icon:'🩸',name:'Stop the Bleed'},
     {id:'medical_reading',icon:'📖',name:'Med Reading'},
+    {id:'hosa_history',icon:'🏛️',name:'HOSA History'},
   ];
   container.innerHTML=allEvs.map(e=>`<div class="ev-mini${e.id===S.currentEvent?' active':''}" onclick="selectEvent('${e.id}')" style="${e.id===S.currentEvent?'background:var(--teal);color:white;':''}">
     ${e.icon} ${e.name}
