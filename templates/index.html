@@ -1274,7 +1274,17 @@ function nrStart() {
   var lobby = document.getElementById('nrLobby');
   var game  = document.getElementById('nrGame');
   if (lobby) lobby.style.display = 'none';
-  if (game)  { game.style.display = 'flex'; }
+  if (game) {
+    game.style.display = 'flex';
+    // Always rebuild game HTML so Race Again works after results screen
+    game.innerHTML =
+      '<div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:12px;margin-bottom:12px;">'
+      + '<div style="display:flex;justify-content:space-between;margin-bottom:8px;">'
+      + '<span style="font-size:11px;color:var(--muted);">🏁 Race Track</span>'
+      + '<span id="nrScore" style="font-size:11px;color:var(--teal);font-weight:700;font-family:monospace;">Score: 0</span>'
+      + '</div><div id="nrTrack"></div></div>'
+      + '<div id="nrQ"></div>';
+  }
   nrBuildTrack();
   nrShowQ();
   nrTimer = setInterval(function() {
