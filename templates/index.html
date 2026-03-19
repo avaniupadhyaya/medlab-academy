@@ -565,8 +565,8 @@ const EVENTS={
   },
   hosa_bowl:{
     id:'hosa_bowl',name:'Foundations of HOSA Bowl',icon:'🏆',color:'navy',
-    getFlash:()=>[],
-    getQuiz:()=>[],
+    getFlash:(d)=>(window.QB_HOSA_BOWL?.flashcards||{})[d]||[],
+    getQuiz:(d)=>(window.QB_HOSA_BOWL?.quiz||{})[d]||[],
     course:null,
   },
   veterinary:{
