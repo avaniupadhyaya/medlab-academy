@@ -105,7 +105,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .bnb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 8px;border-radius:8px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--font);font-size:8px;font-weight:500;min-width:42px;transition:all .15s;}
 .bnb.active{color:var(--teal);}
 .bnb-ic{font-size:18px;}
-.screen{display:none;flex:1;flex-direction:column;-webkit-overflow-scrolling:touch;min-height:0;overflow-y:auto;}
+.screen{display:none;flex:1;flex-direction:column;-webkit-overflow-scrolling:touch;}
 .screen.active{display:flex;}
 /* EVENT SELECTOR HOME */
 .ev-hero{background:linear-gradient(135deg,#0a1628,#0d1f3c,#1a0a2e);padding:22px 16px 18px;border-bottom:1px solid var(--bord);}
@@ -312,7 +312,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div>
 
   <!-- MAIN -->
-  <div class="main" id="mainArea" style="position:fixed;top:56px;left:190px;right:270px;bottom:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;">
+  <div class="main" id="mainArea" style="position:fixed;top:56px;left:190px;right:270px;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;background:var(--bg);">
 
     <!-- HOME / EVENT SELECTOR -->
     <div class="screen active" id="screen-home">
