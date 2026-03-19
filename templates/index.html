@@ -17,8 +17,10 @@
 @media(max-width:900px){
   .sidebar{display:none!important;}
   .chat-col{display:none!important;}
-  .main{left:0!important;right:0!important;bottom:60px!important;}
-  .bnav{display:flex;}
+  .main{left:0!important;right:0!important;bottom:120px!important;}
+  .race-opt:hover{border-color:var(--teal)!important;}
+.bnav{display:flex;}
+  #mobileDiff{display:flex!important;}
 }
 @media(min-width:901px){
   .bnav{display:none!important;}
@@ -255,8 +257,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 @media(max-width:900px){
   .sidebar{display:none!important;}
   .chat-col{display:none!important;}
-  .main{left:0!important;right:0!important;bottom:60px!important;}
+  .main{left:0!important;right:0!important;bottom:120px!important;}
   .bnav{display:flex;}
+  #mobileDiff{display:flex!important;}
 }
 @media(min-width:901px){
   .bnav{display:none!important;}
@@ -297,6 +300,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     <button class="nb" data-screen="flashcards"><span class="nb-icon">🃏</span>Flashcards<span class="nb-badge">+15</span></button>
     <button class="nb" data-screen="quiz"><span class="nb-icon">🧠</span>Quiz Mode<span class="nb-badge">+30</span></button>
     <button class="nb" data-screen="bowl"><span class="nb-icon">🏆</span>HOSA Bowl<span class="nb-badge">+50</span></button>
+    <button class="nb" data-screen="race"><span class="nb-icon">🏎️</span>Nitro Race<span class="nb-badge">🔥</span></button>
     <div class="diff-wrap">
       <div class="diff-lbl">Difficulty</div>
       <div class="diff-row">
@@ -470,11 +474,18 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   </div>
 </div><!-- end layout -->
 
+<div id="mobileDiff" style="display:none;position:fixed;bottom:60px;left:0;right:0;background:var(--surf);border-top:1px solid var(--bord);padding:6px 14px;z-index:99;align-items:center;gap:8px;">
+  <span style="font-size:10px;color:var(--muted);font-weight:600;white-space:nowrap;">DIFFICULTY:</span>
+  <button class="db" id="dE2" style="flex:1;padding:7px 4px;font-size:12px;" onclick="setDiff('easy')">Easy</button>
+  <button class="db am" id="dM2" style="flex:1;padding:7px 4px;font-size:12px;" onclick="setDiff('medium')">Med</button>
+  <button class="db" id="dH2" style="flex:1;padding:7px 4px;font-size:12px;" onclick="setDiff('hard')">Hard</button>
+</div>
 <div class="bnav">
   <button class="bnb active" data-screen="home"><span class="bnb-ic">🏠</span>Home</button>
   <button class="bnb" data-screen="course"><span class="bnb-ic">📖</span>Course</button>
   <button class="bnb" data-screen="quiz"><span class="bnb-ic">🧠</span>Quiz</button>
   <button class="bnb" data-screen="bowl"><span class="bnb-ic">🏆</span>Bowl</button>
+  <button class="bnb" data-screen="race"><span class="bnb-ic">🏎️</span>Race</button>
   <button class="bnb" data-screen="chat"><span class="bnb-ic">🤖</span>Morph</button>
 </div>
 
@@ -607,6 +618,7 @@ function showScreen(name){
   if(name==='bowl')initBowl();
   if(name==='course')renderCourse();
   if(name==='chat')syncMobileChat();
+  if(name==='race')initRaceScreen();
   if(name==='home')renderSidebarEvents();
 }
 function goBack(){showScreen(S.prevScreen||'home');}
@@ -626,6 +638,11 @@ function setDiff(d){
   document.getElementById('dE').className='db'+(d==='easy'?' ae':'');
   document.getElementById('dM').className='db'+(d==='medium'?' am':'');
   document.getElementById('dH').className='db'+(d==='hard'?' ah':'');
+  if(document.getElementById('dE2')){
+    document.getElementById('dE2').className='db'+(d==='easy'?' ae':'');
+    document.getElementById('dM2').className='db'+(d==='medium'?' am':'');
+    document.getElementById('dH2').className='db'+(d==='hard'?' ah':'');
+  }
   addMsg('ai','Difficulty → '+(d==='easy'?'Easy 🌱':d==='medium'?'Medium 👍':'Hard 💪'),'both');
   const s=S.currentScreen;
   if(['flashcards','quiz'].includes(s))showScreen(s);
@@ -811,18 +828,27 @@ function renderLessonQ(idx){
   if(!area)return;
   const title=document.querySelector('.lq-title');
   if(title)title.textContent='🎯 Quiz — Question '+(idx+1)+' of '+lesson.quiz.length;
-  area.innerHTML=`<div class="qz-q">${q.q}</div><div class="qz-opts">${q.opts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="lqEx"></div><button class="qz-next" id="lqNxt">${idx+1<lesson.quiz.length?'Next Question →':'Finish Lesson 🎉'}</button>`;
+  let selectedAnswer = null;
+  area.innerHTML=`<div class="qz-q">${q.q}</div><div class="qz-opts">${q.opts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="lqEx"></div><button id="lqSubmit" style="display:none;width:100%;padding:13px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;font-family:var(--font);">Submit Answer</button><button class="qz-next" id="lqNxt">${idx+1<lesson.quiz.length?'Next Question →':'Finish Lesson 🎉'}</button>`;
   document.querySelectorAll('.qz-opt').forEach(el=>{
     el.addEventListener('click',()=>{
       if(document.getElementById('lqNxt').classList.contains('show'))return;
-      const i=parseInt(el.dataset.i);S.total++;
-      document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
-      const ex=document.getElementById('lqEx');
-      if(i===q.correct){el.classList.add('correct');S.lessonScore++;addXP(10);S.correct++;ex.textContent='✅ '+q.explain;ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';}
-      else{el.classList.add('wrong');document.querySelectorAll('.qz-opt')[q.correct].classList.add('correct');ex.textContent='❌ '+q.explain;ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';}
-      ex.classList.add('show');document.getElementById('lqNxt').classList.add('show');
-      S.lastQ=q.q;updateStats();
+      document.querySelectorAll('.qz-opt').forEach(o=>o.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedAnswer = parseInt(el.dataset.i);
+      document.getElementById('lqSubmit').style.display='block';
     });
+  });
+  document.getElementById('lqSubmit').addEventListener('click',()=>{
+    if(selectedAnswer===null)return;
+    const i=selectedAnswer;S.total++;
+    document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
+    document.getElementById('lqSubmit').style.display='none';
+    const ex=document.getElementById('lqEx');
+    if(i===q.correct){document.querySelectorAll('.qz-opt')[i].classList.add('correct');S.lessonScore++;addXP(10);S.correct++;ex.textContent='✅ '+q.explain;ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';}
+    else{document.querySelectorAll('.qz-opt')[i].classList.add('wrong');document.querySelectorAll('.qz-opt')[q.correct].classList.add('correct');ex.textContent='❌ '+q.explain;ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';}
+    ex.classList.add('show');document.getElementById('lqNxt').classList.add('show');
+    S.lastQ=q.q;updateStats();
   });
   document.getElementById('lqNxt').addEventListener('click',()=>{
     if(idx+1<lesson.quiz.length){
@@ -836,11 +862,16 @@ function renderLessonQ(idx){
 
 function finishLesson(){
   const {lesson,unit,ui,li}=S.currentLesson;
-  S.courseProgress[lesson.id]=true;
-  addXP(lesson.xp);
+  const total=lesson.quiz?lesson.quiz.length:0;
+  const pct=total>0?Math.round(S.lessonScore/total*100):100;
+  // Only mark progress if passed (80%+)
+  if(pct>=80||total===0){
+    S.courseProgress[lesson.id]=true;
+    addXP(lesson.xp);
+  }
   const wrap=document.querySelector('.lq');
   if(wrap){
-    wrap.innerHTML=buildLessonComplete(S.lessonScore,lesson.quiz?lesson.quiz.length:0,lesson,unit,ui,li);
+    wrap.innerHTML=buildLessonComplete(S.lessonScore,total,lesson,unit,ui,li);
     document.getElementById('lessonContent').scrollTop=0;
   }
 }
@@ -854,13 +885,27 @@ function buildLessonComplete(score,total,lesson,unit,ui,li){
   const units=EVENTS[S.currentEvent]?.getCourse?.();
   const nextLesson=unit?unit.lessons[safeLi+1]:null;
   const nextUnit=units&&units[safeUi+1]?units[safeUi+1]:null;
+  // FIX 3: 80% rule + auto-advance
+  const passed = pct >= 80 || total === 0;
+  if(!passed && total > 0){
+    return `<div class="lc">
+      <div class="lc-ic">😅</div>
+      <div class="lc-title" style="color:var(--coral)">Need to Retry!</div>
+      <div class="lc-sub">Scored ${score}/${total} (${pct}%). Need 80% to pass.</div>
+      <div class="lc-btns">
+        <button class="lc-btn p" onclick="openLesson(${safeUi},${safeLi})">🔄 Retry Lesson</button>
+        <button class="lc-btn s" onclick="openUnit(${safeUi})">← Back to Unit</button>
+      </div></div>`;
+  }
+  if(total > 0){ S.courseProgress[lesson&&lesson.id?lesson.id:'done']=true; }
   return `<div class="lc">
-    <div class="lc-ic">${pct>=70?'🏆':'⭐'}</div>
-    <div class="lc-title">${pct>=70?'Lesson Complete!':'Good Effort!'}</div>
-    <div class="lc-sub">${total>0?'Scored '+score+'/'+total+'. ':''}+${xp} XP earned!</div>
+    <div class="lc-ic">${pct>=90?'🏆':pct>=80?'⭐':'✅'}</div>
+    <div class="lc-title">Lesson Complete! ${pct>=90?'🔥':''}</div>
+    <div class="lc-sub">${total>0?'Scored '+score+'/'+total+' ('+pct+'%). ':''}+${xp} XP earned!</div>
     <div class="lc-btns">
       ${nextLesson?`<button class="lc-btn p" onclick="openLesson(${safeUi},${safeLi+1})">Next Lesson →</button>`:''}
       ${!nextLesson&&nextUnit?`<button class="lc-btn p" onclick="openUnit(${safeUi+1})">Next Unit →</button>`:''}
+      ${!nextLesson&&!nextUnit?`<button class="lc-btn p" onclick="showScreen('course')">🎉 Unit Complete! View All Units</button>`:''}
       <button class="lc-btn s" onclick="openUnit(${safeUi})">← Back to Unit</button>
     </div></div>`;
 }
@@ -918,21 +963,30 @@ function renderQZ(){
   // Normalize field names (diagnosisDetective uses 'scenario', others use 'q')
   const qText=q.q||q.scenario||'';
   const qOpts=q.options||q.opts||[];
-  body.innerHTML=`<div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:8px">Question ${(qzIdx%qzPool.length)+1} of ${qzPool.length}</div><div class="qz-q">${qText}</div><div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="qzEx"></div><button class="qz-next" id="qzNxt">Next Question →</button>`;
+  body.innerHTML=`<div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:8px">Question ${(qzIdx%qzPool.length)+1} of ${qzPool.length}</div><div class="qz-q">${qText}</div><div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="qzEx"></div><button id="qzSubmitBtn" style="display:none;width:100%;padding:13px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;font-family:var(--font);">Submit Answer</button><button class="qz-next" id="qzNxt">Next Question →</button>`;
+  let qzSelected = null;
   document.querySelectorAll('.qz-opt').forEach(el=>{
     el.addEventListener('click',()=>{
       if(document.getElementById('qzNxt').classList.contains('show'))return;
-      const i=parseInt(el.dataset.i);S.total++;
-      document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
-      const ex=document.getElementById('qzEx');
-      const correct=q.correct;
-      if(i===correct){el.classList.add('correct');qzScore+=30;addXP(30);S.correct++;document.getElementById('qzScore').textContent=qzScore;ex.textContent='✅ '+(q.explain||q.explain||'');ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';}
-      else{el.classList.add('wrong');document.querySelectorAll('.qz-opt')[correct].classList.add('correct');ex.textContent='❌ '+(q.explain||'');ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';}
-      ex.classList.add('show');document.getElementById('qzNxt').classList.add('show');
-      S.lastQ=qText;updateStats();
+      document.querySelectorAll('.qz-opt').forEach(o=>o.classList.remove('selected'));
+      el.classList.add('selected');
+      qzSelected = parseInt(el.dataset.i);
+      document.getElementById('qzSubmitBtn').style.display='block';
     });
   });
-  document.getElementById('qzNxt').addEventListener('click',()=>{qzIdx++;renderQZ();});
+  document.getElementById('qzSubmitBtn').addEventListener('click',()=>{
+    if(qzSelected===null)return;
+    const i=qzSelected;S.total++;
+    document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
+    document.getElementById('qzSubmitBtn').style.display='none';
+    const ex=document.getElementById('qzEx');
+    const correct=q.correct;
+    if(i===correct){document.querySelectorAll('.qz-opt')[i].classList.add('correct');qzScore+=30;addXP(30);S.correct++;document.getElementById('qzScore').textContent=qzScore;ex.textContent='✅ '+(q.explain||'');ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';}
+    else{document.querySelectorAll('.qz-opt')[i].classList.add('wrong');document.querySelectorAll('.qz-opt')[correct].classList.add('correct');ex.textContent='❌ '+(q.explain||'');ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';}
+    ex.classList.add('show');document.getElementById('qzNxt').classList.add('show');
+    S.lastQ=qText;updateStats();
+  });
+  document.getElementById('qzNxt').addEventListener('click',()=>{qzSelected=null;qzIdx++;renderQZ();});
 }
 
 // ── HOSA BOWL ─────────────────────────────────────────
@@ -1075,6 +1129,7 @@ updateStats();
 renderSidebarEvents();
 setTimeout(()=>addMsg('ai',"Welcome to HOSA Academy! 🏥 Pick your competitive event from the home screen, then start with the Course for structured learning. Im here to help — just ask! 🔬",'both'),400);
 </script>
+<script src="/static/game_racing.js"></script>
 <script src="/static/courses.js"></script>
 </body>
 </html>
