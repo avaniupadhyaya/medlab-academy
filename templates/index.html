@@ -1200,33 +1200,60 @@ function renderRaceGame() {
 
 
 function nrGetQ() {
-  // Access S directly (it's a global var, not on window)
-  var curEvent = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : null;
-  var ev = curEvent && window.EVENTS ? window.EVENTS[curEvent] : null;
-  if (!ev) return [];
+  var curEvent = (typeof S !== 'undefined') ? S.currentEvent : 'terminology';
+  var ev = window.EVENTS ? window.EVENTS[curEvent] : null;
   var pool = [];
-  // Try quiz questions first
-  ['easy','medium','hard'].forEach(function(d) {
-    var q = ev.getQuiz ? (ev.getQuiz(d) || []) : [];
-    pool = pool.concat(q);
-  });
-  // Fallback: build questions from flashcards if no quiz questions
-  if (!pool.length && ev.getFlash) {
+
+  if (ev) {
+    // Try quiz (easy/medium/hard)
     ['easy','medium','hard'].forEach(function(d) {
-      var cards = ev.getFlash(d) || [];
-      cards.forEach(function(c) {
-        if (c.term && c.def) {
-          pool.push({
-            q: 'What does "' + c.term + '" mean?',
-            opts: [c.def, 'A condition causing inflammation', 'A prefix meaning above normal', 'The removal of an organ'],
-            correct: 0,
-            explain: c.breakdown || c.def
-          });
-        }
-      });
+      var q = ev.getQuiz ? (ev.getQuiz(d) || []) : [];
+      pool = pool.concat(q);
     });
+    // terminology uses diagnosisDetective - try that too
+    if (!pool.length && window.QUESTION_BANK && window.QUESTION_BANK.diagnosisDetective) {
+      ['easy','medium','hard'].forEach(function(d) {
+        var q = (window.QUESTION_BANK.diagnosisDetective[d]) || [];
+        pool = pool.concat(q.map(function(item) {
+          return {q: item.scenario || item.q, opts: item.options || item.opts, correct: item.correct, explain: item.explain};
+        }));
+      });
+    }
+    // Fallback: build from flashcards
+    if (!pool.length && ev.getFlash) {
+      ['easy','medium','hard'].forEach(function(d) {
+        var cards = ev.getFlash(d) || [];
+        cards.slice(0, 15).forEach(function(c) {
+          if (!c || !c.term || !c.def) return;
+          var wrong = ['A condition causing inflammation', 'The study of body systems', 'A prefix meaning above normal', 'The removal of an organ', 'Below normal levels', 'Rapid heart rate condition'];
+          var opts = [c.def];
+          while (opts.length < 4) {
+            var w = wrong[Math.floor(Math.random()*wrong.length)];
+            if (opts.indexOf(w) < 0) opts.push(w);
+          }
+          pool.push({q: 'What does "' + c.term + '" mean?', opts: opts, correct: 0, explain: c.breakdown || c.def});
+        });
+      });
+    }
   }
-  // Shuffle
+
+  // Last resort: built-in sample questions so race always works
+  if (!pool.length) {
+    pool = [
+      {q:"What does 'cardio-' mean?", opts:["Heart","Skin","Bone","Nerve"], correct:0, explain:"Cardio = heart"},
+      {q:"'-itis' suffix means:", opts:["Study of","Inflammation","Removal","Pain"], correct:1, explain:"Examples: appendicitis, arthritis"},
+      {q:"'Hyper-' means:", opts:["Below normal","Fast","Above normal","Without"], correct:2, explain:"Hypertension = above normal BP"},
+      {q:"Normal adult heart rate:", opts:["40-60 bpm","60-100 bpm","100-120 bpm","120-140 bpm"], correct:1, explain:"60-100 bpm is normal"},
+      {q:"'Nephro-' refers to:", opts:["Liver","Kidney","Lung","Heart"], correct:1, explain:"Nephrology = kidney disease"},
+      {q:"'-ectomy' means:", opts:["Inflammation","Study of","Surgical removal","Visual exam"], correct:2, explain:"Appendectomy = removal of appendix"},
+      {q:"'Brady-' means:", opts:["Fast","Slow","Large","Small"], correct:1, explain:"Bradycardia = slow heart rate"},
+      {q:"CPR compression ratio:", opts:["15:2","20:2","30:2","5:1"], correct:2, explain:"30 compressions to 2 breaths"},
+      {q:"'Hepato-' refers to:", opts:["Heart","Stomach","Liver","Kidney"], correct:2, explain:"Hepatitis = liver inflammation"},
+      {q:"Normal blood pressure:", opts:["100/60","120/80","140/90","160/100"], correct:1, explain:"120/80 is normal BP"},
+    ];
+  }
+
+  // Shuffle and return 10
   for (var i = pool.length-1; i > 0; i--) {
     var j = Math.floor(Math.random()*(i+1));
     var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
@@ -1236,10 +1263,6 @@ function nrGetQ() {
 
 function nrStart() {
   var qs = nrGetQ();
-  if (!qs.length) {
-    alert('Please select a HOSA event from the sidebar first, then start the race!');
-    return;
-  }
   if (nrTimer) { clearInterval(nrTimer); nrTimer = null; }
   nrState = {
     qs: qs, qi: 0,
