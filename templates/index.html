@@ -415,8 +415,26 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
       <div class="bowl-scene" id="bowlScene"></div>
 
     <!-- NITRO RACE GAME -->
-    <div class="screen" id="screen-race">
-      <div id="raceContainer" style="width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;"></div>
+    <div class="screen" id="screen-race" style="flex-direction:column;overflow:hidden;">
+      <!-- Header -->
+      <div style="padding:10px 14px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:10px;flex-shrink:0;background:var(--surf);">
+        <button onclick="goBack()" style="background:var(--surf2);border:1px solid var(--bord);border-radius:7px;padding:7px 12px;font-size:13px;color:var(--muted);cursor:pointer;font-family:var(--font);">← Back</button>
+        <div style="font-size:20px;">🏎️</div>
+        <div><div style="font-weight:800;font-size:15px;letter-spacing:1px;">NITRO RACE</div><div id="raceEvLabel" style="font-size:11px;color:var(--teal);">Select event first</div></div>
+        <div id="raceScoreBadge" style="margin-left:auto;background:var(--surf2);border:1px solid var(--bord);border-radius:8px;padding:5px 12px;font-size:13px;font-weight:700;font-family:var(--mono);">Score: 0</div>
+      </div>
+      <!-- Canvas track -->
+      <canvas id="raceTrack" height="180" style="width:100%;height:180px;flex-shrink:0;display:block;background:#0a1628;"></canvas>
+      <!-- Nitro bar -->
+      <div style="padding:5px 14px;background:var(--surf);border-bottom:1px solid var(--bord);flex-shrink:0;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:10px;color:#f39c12;font-weight:700;white-space:nowrap;">⚡ NITRO</span>
+        <div style="flex:1;background:#1a1a2e;height:8px;border-radius:4px;overflow:hidden;border:1px solid #333;">
+          <div id="nitroBar" style="height:100%;width:0%;background:linear-gradient(90deg,#f39c12,#e74c3c);border-radius:4px;transition:width 0.3s;"></div>
+        </div>
+        <span id="streakLabel" style="font-size:10px;color:#f39c12;font-weight:700;white-space:nowrap;">🔥 x0</span>
+      </div>
+      <!-- Question / lobby area -->
+      <div id="raceQWrap" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px;"></div>
     </div>
 
     <!-- PL
