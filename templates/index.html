@@ -431,7 +431,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
           <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;">HOW TO PLAY</div>
           <div style="font-size:13px;line-height:1.8;">✅ Correct → <b>Speed boost!</b><br>❌ Wrong → Slow down<br>🔥 Streak → Nitro multiplier!<br>🏁 10 questions · 1st place = bonus round!</div>
         </div>
-        <button id="nrStartBtn" style="padding:14px 40px;background:linear-gradient(135deg,#00bcd4,#0097a7);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;font-family:var(--font);">🚀 START RACE!</button>
+        <button id="nrStartBtn" onclick="nrStart()" style="padding:14px 40px;background:linear-gradient(135deg,#00bcd4,#0097a7);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;font-family:var(--font);">🚀 START RACE!</button>
       </div>
       <div id="nrGame" style="display:none;flex-direction:column;padding:12px 14px;">
         <div style="background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:12px;margin-bottom:12px;">
@@ -1194,10 +1194,7 @@ function renderRaceGame() {
 }
 
 // Wire start button once DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-  var btn = document.getElementById('nrStartBtn');
-  if (btn) btn.addEventListener('click', nrStart);
-});
+
 
 function nrGetQ() {
   var ev = window.EVENTS && window.S && window.EVENTS[window.S.currentEvent];
