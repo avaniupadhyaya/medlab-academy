@@ -642,7 +642,7 @@ document.getElementById('fcBack').addEventListener('click',goBack);
 document.getElementById('qzBack').addEventListener('click',goBack);
 document.getElementById('bowlBack').addEventListener('click',goBack);
 document.getElementById('courseBackBtn').addEventListener('click',()=>showScreen('home'));
-document.getElementById('lessonBackBtn').addEventListener('click',showCourseHome);
+document.getElementById('lessonBackBtn').addEventListener('click',function(){ if(S.currentLesson&&S.currentLesson.ui!==undefined){openUnit(S.currentLesson.ui);}else{showCourseHome();} });
 
 // ── DIFFICULTY ─────────────────────────────────────────
 function setDiff(d){
@@ -803,6 +803,10 @@ function renderLessonContent(){
   lesson.sections.forEach(sec=>{
     if(sec.type==='teach'){
       html+=`<div class="ls"><span class="ls-tag teach">📖 Lesson</span><div class="ls-h">${sec.heading}</div><div class="ls-b">${sec.body}</div></div>`;
+    } else if(sec.type==='tip'){
+      html+=`<div class="ls" style="border-left:3px solid var(--amber);background:var(--amber-l)"><span class="ls-tag remember">🌟 Pro Tip</span><div class="ls-h" style="color:var(--amber-d)">${sec.heading}</div><div class="ls-b" style="color:var(--amber-d)">${sec.body}</div></div>`;
+    } else if(sec.type==='clinical'){
+      html+=`<div class="ls" style="border-left:3px solid var(--coral);background:var(--coral-l)"><span class="ls-tag" style="background:var(--coral-l);color:var(--coral-d)">🏥 Clinical</span><div class="ls-h" style="color:var(--coral-d)">${sec.heading}</div><div class="ls-b" style="color:var(--coral-d)">${sec.body}</div></div>`;
     } else if(sec.type==='remember'){
       html+=`<div class="ls"><span class="ls-tag remember">💡 Remember</span><div class="ls-h">${sec.heading}</div><div class="ls-b">${sec.body}</div></div>`;
     } else if(sec.type==='example'&&sec.breakdown){
@@ -958,8 +962,18 @@ function initQZ(){
   let pool2=ev?ev.getQuiz(S.difficulty):[];
   if(!pool2.length&&ev){pool2=ev.getQuiz('easy')||[];}
   if(!pool2.length&&ev){pool2=ev.getQuiz('medium')||[];}
+  // Mix in questions from other difficulties for variety
+  if(pool2.length<10&&ev){
+    ['easy','medium','hard'].forEach(d=>{
+      const extra=ev.getQuiz(d)||[];
+      extra.forEach(q=>{ if(!pool2.find(p=>p.q===q.q)) pool2.push(q); });
+    });
+  }
   console.log('initQZ: event='+S.currentEvent+' diff='+S.difficulty+' pool='+pool2.length);
-  qzPool=pool2.length?[...pool2].sort(()=>Math.random()-.5):[];
+  // Fisher-Yates shuffle for true randomness
+  const arr=[...pool2];
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  qzPool=arr;
   qzIdx=0;qzScore=0;
   document.getElementById('qzScore').textContent=0;
   renderQZ();
@@ -1066,6 +1080,25 @@ const PT_Q=[
   {q:"'-megaly' means:",opts:["Narrowing","Enlargement","Hardening","Softening"],correct:1},
   {q:"Daily physical activity for youth is:",opts:["20 min","30 min","45 min","60 min"],correct:3},
   {q:"'Hepatitis' means inflammation of the:",opts:["Heart","Stomach","Liver","Kidney"],correct:2},
+  {q:"'Tachy-' prefix means:",opts:["Slow","Fast","Large","Small"],correct:1},
+  {q:"'-oscopy' means:",opts:["Removal","Visual examination","Inflammation","Incision"],correct:1},
+  {q:"'Osteo-' refers to:",opts:["Muscle","Nerve","Bone","Blood"],correct:2},
+  {q:"'Derm-' or 'dermato-' refers to:",opts:["Heart","Skin","Lung","Kidney"],correct:1},
+  {q:"'-plasty' means:",opts:["Surgical repair","Study of","Inflammation","Removal"],correct:0},
+  {q:"'Gastro-' refers to:",opts:["Heart","Kidney","Stomach","Liver"],correct:2},
+  {q:"Normal body temperature in Celsius:",opts:["35°C","37°C","39°C","41°C"],correct:1},
+  {q:"'Hemo-' or 'hema-' refers to:",opts:["Liver","Blood","Bone","Skin"],correct:1},
+  {q:"'Pulmo-' refers to:",opts:["Heart","Liver","Kidney","Lung"],correct:3},
+  {q:"'-logy' means:",opts:["Removal","Study of","Inflammation","Repair"],correct:1},
+  {q:"'Micro-' means:",opts:["Large","Small","Fast","Slow"],correct:1},
+  {q:"AED stands for:",opts:["Automated External Defibrillator","Airway Emergency Device","Advanced Electrolyte Dose","Arterial Extraction Device"],correct:0},
+  {q:"'Ortho-' means:",opts:["Curved","Straight/correct","Above","Below"],correct:1},
+  {q:"Vitamin D deficiency causes:",opts:["Scurvy","Anemia","Rickets","Pellagra"],correct:2},
+  {q:"'Neuro-' refers to:",opts:["Kidney","Nerve","Bone","Skin"],correct:1},
+  {q:"'Cardi-' refers to:",opts:["Liver","Lung","Heart","Kidney"],correct:2},
+  {q:"HOSA stands for:",opts:["Health Occupations Students of America","Health Operations Science Association","Healthcare Organization Students Alliance","Health Outcomes Science Academy"],correct:0},
+  {q:"'Sub-' prefix means:",opts:["Above","Below","Between","Around"],correct:1},
+  {q:"Normal respiratory rate for adults:",opts:["5-10 breaths/min","12-20 breaths/min","25-35 breaths/min","40-50 breaths/min"],correct:1},
 ];
 let ptState={idx:0,score:0,qs:[]};
 document.getElementById('startPT').addEventListener('click',()=>{

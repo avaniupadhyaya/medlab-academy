@@ -4,8 +4,12 @@ function COURSE_TERMINOLOGY(){
   {id:'u1',icon:'🔤',title:'Unit 1: Building Blocks',sub:'Roots, Prefixes & Suffixes',
    lessons:[
     {id:'u1l1',title:'What is Medical Terminology?',xp:20,sections:[
-      {type:'teach',heading:'Medical words are like puzzles 🧩',body:'Every medical word is built from small parts — <strong>prefix</strong> (start), <strong>root</strong> (middle), <strong>suffix</strong> (end). Once you know the parts, you can decode any medical word!'},
+      {type:'teach',heading:'Medical words are like puzzles 🧩',body:'Every medical word is built from small parts — <strong>prefix</strong> (start), <strong>root</strong> (middle), <strong>suffix</strong> (end). Once you know the parts, you can decode any medical word!<br><br>Think of it like LEGO blocks. Each piece has a meaning, and when you snap them together, you build a complete medical concept. A doctor who knows these parts can understand thousands of words they have never seen before.'},
+      {type:'tip',heading:'Why this matters for HOSA',body:'The Medical Terminology written test has 35 questions. About 70% test prefixes, roots, and suffixes directly. Master these building blocks and you can decode any word on the test — even ones you have never studied!'},
       {type:'example',breakdown:{term:'dermatitis',parts:[{text:'dermat-',type:'root',meaning:'skin'},{text:'-itis',type:'suffix',meaning:'inflammation'}],meaning:'Inflammation of the skin'}},
+      {type:'example',breakdown:{term:'cardiology',parts:[{text:'cardio-',type:'root',meaning:'heart'},{text:'-logy',type:'suffix',meaning:'study of'}],meaning:'The study of the heart'}},
+      {type:'example',breakdown:{term:'hyperglycemia',parts:[{text:'hyper-',type:'prefix',meaning:'above normal'},{text:'glyc-',type:'root',meaning:'sugar/glucose'},{text:'-emia',type:'suffix',meaning:'blood condition'}],meaning:'Above normal blood sugar level'}},
+      {type:'clinical',heading:'Real hospital example',body:'When a nurse documents <em>bradycardia</em>, they mean <strong>brady</strong> (slow) + <strong>cardia</strong> (heart) = slow heart rate below 60 bpm. Knowing this, you would immediately understand the patient needs monitoring — without memorizing the full word first.'},
       {type:'remember',heading:'Decode order 💡',body:'Always start with the <strong>suffix</strong> (what\'s happening), then the <strong>root</strong> (body part), then the <strong>prefix</strong> (modifier). Suffix → Root → Prefix.'},
     ],quiz:[
       {q:'What part of a medical word comes at the START?',opts:['Suffix','Root','Prefix','Combining vowel'],correct:2,explain:'A prefix comes at the START of a word and modifies the meaning. Example: hyper- in hypertension.'},
