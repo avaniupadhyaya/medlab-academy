@@ -2133,3 +2133,200 @@ EVENTS.hosa_bowl.getCourse = COURSE_HOSA_BOWL;
 EVENTS.veterinary.getCourse = COURSE_VETERINARY;
 EVENTS.public_health.getCourse = COURSE_PUBLIC_HEALTH;
 EVENTS.stop_bleed.getCourse = COURSE_STOP_BLEED;
+
+// ── COURSE: MEDICAL READING ────────────────────────────────────────────────
+function COURSE_MEDICAL_READING(){
+  return [
+  {id:'mr1',icon:'📚',title:'Unit 1: Gifted Hands — Ben Carson',sub:'From poverty to pediatric neurosurgery pioneer',
+   lessons:[
+    {id:'mr1l1',title:'Ben Carson\'s Early Life & Transformation',xp:25,sections:[
+      {type:'teach',heading:'From failing student to top of his class — the reading transformation',
+       body:'<strong>Gifted Hands</strong> is the autobiography of Dr. Ben Carson, who grew up in extreme poverty in Detroit and Boston. At age 13 he was failing school, had an explosive temper, and seemed headed nowhere. Then his mother Sonya made one rule that changed everything: two library books per week with written reports.'},
+      {type:'example',termGrid:[
+        {term:'Sonya Carson',meaning:'Single mother, worked 2-3 jobs, could barely read — required 2 library books/week',example:'She pretended to check the reports. Ben later discovered she could not read them.'},
+        {term:'Detroit and Boston',meaning:'Cities where Ben grew up in poverty — no indoor plumbing at times',example:'These experiences shaped his empathy for patients from disadvantaged backgrounds'},
+        {term:'The reading rule',meaning:'2 library books per week + written reports → Ben became top of class in 1.5 years',example:'First month: read about rocks → aced geology quiz → classmates thought he was brilliant'},
+        {term:'Violent temper',meaning:'Nearly stabbed a friend, almost attacked his mother — uncontrollable rage until age 14',example:'Hours of prayer in bathroom → permanent transformation. Never again had uncontrollable anger'},
+        {term:'Yale University',meaning:'Where Carson did his undergraduate degree after transforming academically',example:'Nearly dropped out for financial reasons but persisted — realized medicine was his calling'},
+        {term:'University of Michigan',meaning:'Where Carson attended medical school after Yale',example:'Worked part-time, borrowed money — first-generation medical student facing financial struggles'},
+      ]},
+      {type:'remember',heading:'Carson transformation timeline 💡',
+       body:'Age 8-13: Failing student, violent temper, poverty<br>Age 13: Mother institutes reading rule<br>Age 13-14: Goes from bottom to TOP of class in 1.5 years<br>Age 14: Violent incident → bathroom prayer → permanent change<br>Yale → U of Michigan Medical School → Johns Hopkins Hospital'},
+    ],quiz:[
+      {q:'What rule did Sonya Carson make that transformed Ben\'s academic life?',opts:['She moved to a better school district','She required 2 library books per week with written reports','She hired a private tutor','She enrolled him in a gifted program'],correct:1,explain:'Sonya required Ben and his brother to read two library books per week and submit written reports. She pretended to check them but could barely read herself. Ben went from bottom to top of his class within 1.5 years. The first month he read about rocks and aced a quiz that stunned his teacher.'},
+      {q:'What turning point ended Ben Carson\'s violent temper permanently?',opts:['He was arrested and scared straight','A teacher counseled him','He locked himself in the bathroom, prayed for hours, and emerged permanently transformed','His brother convinced him to change'],correct:2,explain:'After nearly stabbing a friend with a camping knife, Carson spent hours alone praying in the bathroom. He emerged permanently transformed — in 60 years since, he reports never again having uncontrollable rage. He credits this as a pivotal spiritual experience that made his career possible.'},
+    ]},
+    {id:'mr1l2',title:'Pediatric Neurosurgery — Carson\'s Career at Hopkins',xp:30,sections:[
+      {type:'teach',heading:'Becoming the youngest director of pediatric neurosurgery at Johns Hopkins',
+       body:'After medical school and residency, Ben Carson joined <strong>Johns Hopkins Hospital</strong> — one of the world\'s top hospitals. He became Director of Pediatric Neurosurgery, one of the youngest ever. He specialized in the most complex brain surgeries in children, taking on cases other surgeons refused. His most famous: the 1987 separation of <strong>craniopagus conjoined twins</strong>.'},
+      {type:'example',termGrid:[
+        {term:'Johns Hopkins Hospital',meaning:'Where Carson became Director of Pediatric Neurosurgery',example:'Ranked #1 children\'s hospital. Carson performed impossible-seeming surgeries there for decades'},
+        {term:'Pediatric neurosurgery',meaning:'Brain and nervous system surgery on children',example:'Neuro=nerve/brain. Pediatric=children. Smallest patients with highest risk surgeries'},
+        {term:'Hemispherectomy',meaning:'Removing one brain hemisphere to stop severe, uncontrollable seizures',example:'Used for Rasmussen encephalitis. Young brains compensate — the other half takes over'},
+        {term:'Craniopagus twins — 1987',meaning:'Twins joined at the back of their heads — Carson led 70-person team, 22 hours',example:'First successful separation where BOTH survived. Used hypothermia to stop heart and separate shared blood vessels'},
+        {term:'Selective attention',meaning:'Carson\'s ability to hyperfocus during surgery, blocking all distraction for hours',example:'Complete absorption in the task. Excludes all external noise and stress during critical moments'},
+        {term:'Racial barriers',meaning:'Some patients refused treatment from Carson as a Black surgeon — he responded with excellence',example:'Became the most celebrated pediatric neurosurgeon globally, changing perceptions through achievement'},
+      ]},
+      {type:'remember',heading:'Key medical concepts from Gifted Hands 💡',
+       body:'<strong>Hemispherectomy</strong>: Remove half a brain to stop seizures. Young brains compensate remarkably.<br><strong>Craniopagus</strong>: Twins joined at skull. Most complex conjoined twin surgery.<br><strong>Hypothermia</strong>: Lower body temperature to safely stop the heart during surgery.<br><strong>Carson\'s rule</strong>: Attempt the seemingly impossible — 1% chance means 100% to that patient.'},
+    ],quiz:[
+      {q:'What was significant about the 1987 Binder twins surgery that Ben Carson led?',opts:['It was the first open-heart surgery on a child','It was the first successful separation of craniopagus (head-joined) conjoined twins where both survived','It was the first brain transplant','It was the longest surgery ever performed'],correct:1,explain:'In 1987, Carson led a 70-person team for 22 hours to separate Patrick and Benjamin Binder — twin boys joined at the back of their heads (craniopagus). This was the first time this type of separation was successfully performed with both twins surviving. The team used hypothermia (cooling the body) to temporarily stop the heart and safely separate the shared blood vessels.'},
+      {q:'What is a hemispherectomy, and why did Carson become expert at it?',opts:['Removal of a brain tumor','Surgical removal of one half (hemisphere) of the brain to stop severe, uncontrollable seizures','A procedure to separate conjoined twins','Brain stimulation therapy for depression'],correct:1,explain:'Hemispherectomy is surgical removal of one brain hemisphere (half). Carson pioneered it for conditions like Rasmussen encephalitis where one hemisphere attacks itself causing progressive damage and uncontrollable seizures. Remarkably, the remaining hemisphere often takes over functions — especially in young children whose brains are still developing and highly adaptable.'},
+    ]},
+    {id:'mr1l3',title:'THINK BIG — Carson\'s Philosophy & Legacy',xp:20,sections:[
+      {type:'teach',heading:'THINK BIG: A framework for success regardless of background',
+       body:'Ben Carson developed his life philosophy into the acronym THINK BIG: <strong>T</strong>alent, <strong>H</strong>onesty, <strong>I</strong>nsight, being <strong>N</strong>ice, <strong>K</strong>nowledge, <strong>B</strong>ooks, <strong>I</strong>n-depth learning, <strong>G</strong>od. He wrote a book called THINK BIG arguing that anyone can succeed regardless of their starting point if they develop these qualities.'},
+      {type:'example',termGrid:[
+        {term:'THINK BIG',meaning:'Talent, Honesty, Insight, Nice, Knowledge, Books, In-depth learning, God',example:'Carson\'s framework for success that transcends socioeconomic background'},
+        {term:'Carson Scholars Fund',meaning:'Scholarship program Carson founded rewarding academic and humanitarian excellence',example:'Responds to overemphasis on athletics vs academics. Pizza parties for A students'},
+        {term:'Books as foundation',meaning:'Reading was the single change that transformed Carson\'s trajectory',example:'His mother\'s insight: before tutoring, programs, or schools — just READ'},
+        {term:'Gifted Hands message',meaning:'Poverty and disadvantage do not determine destiny — mindset and education do',example:'Carson went from bottom of class in poverty to director of neurosurgery at top hospital'},
+      ]},
+    ],quiz:[
+      {q:'What does the B in THINK BIG stand for in Carson\'s philosophy?',opts:['Bravery','Books','Biology','Brotherhood'],correct:1,explain:'The B stands for Books — reflecting how foundational reading was to Carson\'s transformation. From his mother\'s library rule at age 13, through his career, Carson credits reading as the single most important tool for intellectual development and success.'},
+      {q:'What is the central message of Gifted Hands for HOSA competitors?',opts:['Only people from wealthy backgrounds succeed in medicine','With determination, reading, and refusing to accept limitations, anyone can achieve in healthcare regardless of their starting point','Medicine requires superhuman intelligence that only a few possess','Success requires perfect grades from childhood'],correct:1,explain:'Gifted Hands shows that Ben Carson went from failing student in poverty to director of neurosurgery at Johns Hopkins. The central message: background, poverty, and early failure do not determine destiny. Education, persistence, and refusing to accept others\' low expectations can transform any trajectory.'},
+    ]},
+  ]},
+
+  {id:'mr2',icon:'⭐',title:'Unit 2: Wonder — RJ Palacio',sub:'Choosing kindness when it is hardest',
+   lessons:[
+    {id:'mr2l1',title:'Auggie\'s World — Understanding Difference',xp:25,sections:[
+      {type:'teach',heading:'August Pullman starts middle school — and nothing is simple',
+       body:'<strong>Wonder</strong> by R.J. Palacio follows 10-year-old August "Auggie" Pullman who has a severe craniofacial condition — he has had 27 surgeries by age 10. Homeschooled until now, he starts 5th grade at Beecher Prep. The book is told from multiple perspectives: Auggie, his sister Via, his friends Summer and Jack, and others — showing how the same events look completely different from different viewpoints.'},
+      {type:'example',termGrid:[
+        {term:'Auggie Pullman',meaning:'10-year-old with severe craniofacial condition; 27 surgeries by age 10; brilliant, kind',example:'Named August because he was born in August. His face causes stares and cruelty but his mind and heart are exceptional'},
+        {term:'Treacher Collins syndrome',meaning:'Genetic condition (TCOF1 mutation) affecting facial bone development — does NOT affect intelligence',example:'Underdeveloped cheekbones, jaw, ears. Hearing affected. Multiple surgeries needed. Auggie\'s condition is similar'},
+        {term:'Beecher Prep',meaning:'The school Auggie attends for the first time in 5th grade',example:'Previously homeschooled due to medical needs. Parents decide it is time — triggers the whole story'},
+        {term:'Jack Will',meaning:'Assigned to guide Auggie — becomes genuine friend after initial betrayal',example:'Said cruel things at Halloween not knowing Auggie heard. Made amends. Fought to defend Auggie'},
+        {term:'Summer Dawson',meaning:'Sat with Auggie on day 1 out of pure kindness — not assigned, no ulterior motive',example:'Represents genuine kindness vs performative niceness. Their friendship is simple and real'},
+        {term:'Julian Albans',meaning:'Primary bully — uses social exclusion, whisper campaigns, cruel notes',example:'Wealthy background. Cruelty is partly learned. Eventually consequences catch up with him'},
+      ]},
+      {type:'remember',heading:'The plague — middle school cruelty 💡',
+       body:'Students at Beecher invented a game called <strong>the plague</strong>: touching Auggie required elaborate decontamination rituals as if his condition were contagious. This shows how bullying can become <em>systematized</em> — turned into a game with rules that make cruelty seem normal or even fun. Adults who do not see it cannot stop it.'},
+    ],quiz:[
+      {q:'Why had Auggie never attended a regular school before 5th grade?',opts:['His family moved every year','He was homeschooled because of his many surgeries and medical needs','He did not want to go to school','He was in a special school for gifted students'],correct:1,explain:'Auggie has had 27 surgeries by age 10 for his craniofacial condition. His mother homeschooled him through elementary school. At the start of Wonder, his parents decide the time has come for him to attend Beecher Prep for 5th grade — a transition that forms the entire arc of the book.'},
+      {q:'What is Treacher Collins syndrome, similar to Auggie\'s condition?',opts:['An intellectual disability affecting learning','A genetic condition affecting facial bone and tissue development — does NOT affect intelligence','A form of autism spectrum disorder','A condition affecting only hearing and vision'],correct:1,explain:'Treacher Collins syndrome is caused by a mutation in the TCOF1 gene and affects the development of facial bones and tissues — causing underdeveloped cheekbones, jaw, and ears. It can affect hearing but does NOT affect intelligence. Auggie is academically gifted despite his distinctive appearance.'},
+    ]},
+    {id:'mr2l2',title:'Choose Kind — Themes and Moral Lessons',xp:25,sections:[
+      {type:'teach',heading:'When given the choice between being right and being kind — choose kind',
+       body:'Mr. Browne\'s precept — "When given the choice between being right or being kind, choose kind" — is the moral spine of the entire book. R.J. Palacio was inspired to write Wonder after an encounter at an ice cream shop where her son cried seeing a child with facial differences. Her own embarrassed reaction made her want to write a book about choosing kindness over fear and discomfort.'},
+      {type:'example',termGrid:[
+        {term:'Mr. Browne\'s precepts',meaning:'Monthly moral guidelines from Auggie\'s English teacher. Most famous: choose kind over right',example:'Students create their own precepts at year end. These structure the book\'s moral lessons throughout'},
+        {term:'Halloween betrayal',meaning:'Jack told others terrible things about Auggie not knowing Auggie was listening in a costume',example:'Lowest point of their friendship. Jack chose social acceptance over loyalty. Later made amends'},
+        {term:'Via\'s invisible struggle',meaning:'Auggie\'s sister\'s needs always secondary to his medical needs — she is overlooked but loving',example:'Represents millions of siblings of children with disabilities — real emotional burden rarely acknowledged'},
+        {term:'Multiple perspectives',meaning:'Book told from Auggie, Via, Summer, Jack, Justin, Miranda — same events seen differently',example:'This structure teaches empathy: how the same situation looks completely different from different positions'},
+        {term:'Choose Kind movement',meaning:'Wonder inspired worldwide anti-bullying movement — millions of books sold, film adaptation, school curricula',example:'Translated to 45+ languages. Natalie Merchant song "Kind and Brave" partly inspired the theme'},
+        {term:'Miranda\'s secret',meaning:'Via\'s friend who abandoned her — envied Via\'s warm family. Had told people Auggie was her brother at camp',example:'She craved the love she saw in the Pullman family because her own was broken'},
+      ]},
+      {type:'remember',heading:'Wonder\'s structure and why it matters 💡',
+       body:'Wonder has <strong>6 different narrators</strong>. Each perspective section is named after its narrator: Auggie, Via, Summer, Jack, Justin, Miranda.<br><br>The same Halloween party looks different from Auggie (devastated), Jack (ashamed), Via (worried about Auggie), and Summer (confused about why Jack acted that way).<br><br>This teaches: <em>before judging, consider what it looks like from where they are standing.</em>'},
+    ],quiz:[
+      {q:'What is the central moral lesson of Wonder?',opts:['Work hard and you will succeed regardless of circumstances','When given the choice between being right or being kind, choose kind','Appearance does not matter in modern society','Bullies always get what they deserve'],correct:1,explain:'The central moral of Wonder is Mr. Browne\'s precept: "When given the choice between being right or being kind, choose kind." This Choose Kind message has inspired a worldwide movement and is used in anti-bullying school curricula worldwide. Palacio was inspired by her own embarrassed reaction to a child with facial differences.'},
+      {q:'What does the Halloween scene reveal about the conflict between friendship and social pressure?',opts:['Jack never really liked Auggie','Jack genuinely cared about Auggie but said cruel things about him to seem cool, not knowing Auggie could hear','Auggie was too sensitive','Halloween is just a fun event with no deeper meaning'],correct:1,explain:'Jack told other students cruel things about Auggie while in costumes, not knowing Auggie was listening in a different costume. He chose social acceptance over loyalty in that moment. This reveals the tension between genuine caring and social pressure. Jack ultimately proved his character by publicly defending Auggie — even fighting a student who insulted him.'},
+    ]},
+    {id:'mr2l3',title:'Medical Perspectives in Wonder',xp:20,sections:[
+      {type:'teach',heading:'27 surgeries, genetics, and what Auggie\'s story teaches health students',
+       body:'Wonder is particularly relevant for HOSA because it puts students in the position of the patient — experiencing what it feels like to be treated as a diagnosis or a condition rather than a person. For future healthcare professionals, this is essential training in patient-centered care.'},
+      {type:'example',termGrid:[
+        {term:'27 surgeries by age 10',meaning:'The toll of craniofacial conditions on patients and families — physical, emotional, financial',example:'Each surgery means anesthesia, recovery, pain, missed school. Medical trauma accumulates'},
+        {term:'TCOF1 gene mutation',meaning:'Autosomal dominant gene causing Treacher Collins. One copy causes the condition',example:'Autosomal dominant = only one mutated copy needed. Each child of affected parent has 50% chance'},
+        {term:'Patient-centered care',meaning:'Treating the whole person, not just the diagnosis — what healthcare providers must do for patients like Auggie',example:'Auggie is brilliant, funny, kind — he is not defined by his face. Healthcare must see the full human'},
+        {term:'Craniofacial surgery',meaning:'Surgical procedures on the skull and face — bone grafts, jaw reconstruction, hearing implants',example:'Distraction osteogenesis slowly grows new bone to lengthen jaw. Cochlear implants restore hearing'},
+        {term:'Health equity',meaning:'All patients deserve compassionate, equal care regardless of appearance, ability, or background',example:'The cruelty Auggie faces from peers is a preview of biases healthcare providers must consciously overcome'},
+      ]},
+    ],quiz:[
+      {q:'What lesson does Wonder offer to future healthcare professionals about patient care?',opts:['Technical skill is all that matters in healthcare','Patients are their diagnoses and conditions first','Patients are full human beings whose dignity and personhood must be honored beyond their medical condition','Healthcare providers should not get emotionally involved with patients'],correct:2,explain:'Wonder shows Auggie as brilliant, funny, passionate, and kind — a full person who happens to have a craniofacial condition. For future healthcare professionals, this is essential: patients are not their diagnoses. The biases classmates show Auggie are previews of biases healthcare providers must consciously overcome to provide equitable, compassionate care.'},
+    ]},
+  ]},
+
+  {id:'mr3',icon:'🔬',title:'Unit 3: Chasing My Cure — David Fajgenbaum',sub:'Patient-turned-researcher who discovered his own treatment',
+   lessons:[
+    {id:'mr3l1',title:'The Diagnosis — Castleman Disease',xp:25,sections:[
+      {type:'teach',heading:'A medical student who nearly died five times — and became a researcher to save himself',
+       body:'<strong>Chasing My Cure</strong> by Dr. David Fajgenbaum is the true story of a UPenn medical student who was diagnosed with a rare, life-threatening disease called <strong>idiopathic multicentric Castleman disease (iMCD)</strong> while in medical school. He nearly died five times. When no existing treatment worked, he became a researcher and discovered his own treatment — sirolimus.'},
+      {type:'example',termGrid:[
+        {term:'Idiopathic multicentric Castleman disease (iMCD)',meaning:'Rare immune disorder — lymph nodes grow abnormally, cytokine storm damages organs',example:'Affects ~5,000 Americans. Average diagnosis time: 3 years. 35% mortality within 5 years before David\'s research'},
+        {term:'Cytokine storm',meaning:'Dangerous immune overreaction — floods body with inflammatory chemicals that damage organs',example:'IL-6 is the key cytokine in iMCD. Also seen in severe COVID-19. The immune system becomes the disease'},
+        {term:'IL-6 (Interleukin-6)',meaning:'Inflammatory cytokine elevated in Castleman disease — target of treatment',example:'Siltuximab blocks IL-6 and is FDA-approved. Did not work for David\'s specific form'},
+        {term:'Five near-deaths',meaning:'David collapsed into multi-organ failure five times — liver, kidney, respiratory',example:'Received last rites from a priest during one hospitalization. Each survival drove his determination'},
+        {term:'University of Pennsylvania',meaning:'Where David was in medical school when first diagnosed',example:'His medical training gave him language to understand his own disease — unusual advantage'},
+        {term:'Katelyn',meaning:'David\'s wife who stayed through his worst relapses — his anchor through the crisis',example:'Represents the caregiver experience — caregivers bear enormous emotional burden alongside patients'},
+      ]},
+    ],quiz:[
+      {q:'What is Castleman disease?',opts:['A type of leukemia (blood cancer)','A rare immune disorder where lymph nodes grow abnormally and a cytokine storm damages organs','A form of lupus affecting the kidneys','A genetic disorder affecting facial development'],correct:1,explain:'Castleman disease is a rare disorder where the immune system malfunctions — lymph nodes grow abnormally and a dangerous cytokine storm (flood of inflammatory chemicals) damages organs including the liver, kidneys, and lungs. It is not cancer but behaves similarly. David had iMCD — the most severe, rare form.'},
+      {q:'What is a cytokine storm, which is central to Castleman disease?',opts:['A bacterial infection overwhelming antibiotics','A dangerous immune system overreaction that floods the body with inflammatory chemicals, damaging organs','Rapid cancer cell division throughout the body','Severe allergic reaction to a medication'],correct:1,explain:'A cytokine storm is when the immune system overreacts and releases massive amounts of inflammatory chemicals (cytokines like IL-6). These damage multiple organs simultaneously. In Castleman disease, the immune system itself becomes the disease. Cytokine storms also occur in severe COVID-19 and other inflammatory conditions.'},
+    ]},
+    {id:'mr3l2',title:'The Discovery — Sirolimus and the mTOR Pathway',xp:30,sections:[
+      {type:'teach',heading:'Analyzing his own blood — the patient who discovered his own cure',
+       body:'When standard Castleman treatments failed, David did something unprecedented: he obsessively analyzed his own blood samples, biopsies, and lab results to find patterns. He noticed that the <strong>mTOR pathway</strong> was overactive in his blood work. Sirolimus (rapamycin) — a drug originally developed to prevent organ transplant rejection — inhibits mTOR. He has been in remission ever since starting it.'},
+      {type:'example',termGrid:[
+        {term:'mTOR pathway',meaning:'Mechanistic target of rapamycin — cellular signaling controlling growth; overactive in David\'s disease',example:'When overactive: excessive cell growth and inflammation. Sirolimus blocks it. Originally found in Easter Island soil bacteria'},
+        {term:'Sirolimus (rapamycin)',meaning:'Transplant drug that inhibits mTOR — David discovered it could treat his Castleman disease',example:'He analyzed his own lab data → noticed mTOR overactivation → tested sirolimus → achieved remission'},
+        {term:'N-of-1 research',meaning:'Studying one patient (yourself) to generate hypotheses — unconventional but high stakes for David',example:'His personal stake meant pursuing every lead. N-of-1 discovery requires clinical trial validation'},
+        {term:'CDCN (Castleman Disease Collaborative Network)',meaning:'Non-profit David founded — researchers share all data freely instead of competing',example:'Required data-sharing agreements. Dramatically accelerated research pace. Model for rare disease research'},
+        {term:'Translational research',meaning:'Moving from basic science (lab) to clinical treatment — bench to bedside',example:'David went from patient to researcher to make this translation happen for Castleman disease'},
+        {term:'ACCELERATE trial',meaning:'International clinical trial studying sirolimus in iMCD patients — designed after David\'s discovery',example:'N-of-1 discovery → hypothesis → international clinical trial. Proper scientific validation process'},
+      ]},
+      {type:'remember',heading:'David\'s discovery process 💡',
+       body:'<strong>Step 1:</strong> Standard treatments failed<br><strong>Step 2:</strong> Analyzed own blood/biopsies obsessively<br><strong>Step 3:</strong> Noticed mTOR pathway overactive in his data<br><strong>Step 4:</strong> Researched: sirolimus inhibits mTOR<br><strong>Step 5:</strong> Worked with doctors to try sirolimus<br><strong>Step 6:</strong> Achieved remission — has been in it since<br><strong>Step 7:</strong> Designed ACCELERATE trial to test in other patients<br><br>This is science: observation → hypothesis → test → validate → expand'},
+    ],quiz:[
+      {q:'How did David Fajgenbaum discover that sirolimus might treat his Castleman disease?',opts:['He found it in a medical textbook','A specialist recommended it as standard of care','He obsessively analyzed his own blood data and noticed the mTOR pathway was overactive, then researched drugs that block mTOR','He tried it randomly after standard treatments failed'],correct:2,explain:'David analyzed his own blood samples, biopsies, and lab results and noticed the mTOR cellular pathway was overactive. Sirolimus (rapamycin) inhibits mTOR. He worked with his doctors to try it and has been in remission ever since. This is an example of N-of-1 research: studying your own case to generate a hypothesis, then testing it.'},
+      {q:'What makes the CDCN (Castleman Disease Collaborative Network) different from traditional medical research?',opts:['It is funded by pharmaceutical companies','Researchers must share all data with each other freely rather than competing to publish first','It only studies a single patient at a time','It uses artificial intelligence exclusively'],correct:1,explain:'Traditional medical research is competitive — labs guard their data and race to publish first. The CDCN requires researchers to sign data-sharing agreements, pooling all findings into a shared database. For rare diseases with small patient populations, competitive siloing is disastrous. Collaboration dramatically accelerates discovery.'},
+    ]},
+    {id:'mr3l3',title:'Hope as Action — Lessons for Future Health Professionals',xp:20,sections:[
+      {type:'teach',heading:'Hope is not waiting — hope is doing',
+       body:'The subtitle of Chasing My Cure is <em>"A Doctor\'s Race to Turn Hope into Action."</em> David Fajgenbaum\'s central argument: hope is not passive wishing. It is active pursuit — researching, building networks, analyzing data, refusing to stop. He did not wait to be rescued. He became a doctor, a researcher, and a network builder to find his own cure and help others.'},
+      {type:'example',termGrid:[
+        {term:'Active hope',meaning:'Hope as a verb — actively pursuing solutions rather than passively waiting',example:'David founded CDCN, published research, designed clinical trials, analyzed own blood — all while sick'},
+        {term:'Patient advocacy',meaning:'Patients and caregivers actively working to accelerate research and change healthcare systems',example:'Fajgenbaum model: patients as partners in research, not just subjects. CDCN gives patients voice in priorities'},
+        {term:'Rare disease challenges',meaning:'Small patient population → less pharmaceutical investment → slower research',example:'Orphan Drug Act (1983) provides incentives. CDCN collaborative model bypasses need for pharma investment'},
+        {term:'Physician as patient',meaning:'Being a patient gives doctors irreplaceable insight into the experience they are treating',example:'David\'s empathy for patients comes from lived experience of powerlessness, fear, and dependence'},
+        {term:'Interdisciplinary collaboration',meaning:'Castleman research required immunologists, oncologists, hematologists, epidemiologists all working together',example:'No single specialty could solve it alone. Complex diseases require crossing traditional boundaries'},
+      ]},
+    ],quiz:[
+      {q:'What is the central message of Chasing My Cure for future healthcare professionals?',opts:['Patients should leave research to the doctors','Hope is passive — you wait for experts to find the answer','Hope is active — patients can and should participate in driving research and finding solutions','Only pharmaceutical companies can find cures for rare diseases'],correct:2,explain:'Fajgenbaum\'s message: hope is not passive waiting but active pursuit. He became a doctor and researcher while still a patient. He founded the CDCN to accelerate research. He analyzed his own data to discover his treatment. Future healthcare professionals should model this active engagement — not waiting for solutions but building them.'},
+      {q:'Why does Chasing My Cure matter specifically for HOSA competitors studying health sciences?',opts:['It teaches chemistry and pharmacology formulas','It shows how physician skill alone solves medical problems','It demonstrates how a patient\'s perspective, collaborative research, and active hope can advance medicine when traditional approaches fail','It is required reading for medical licensing exams'],correct:2,explain:'Chasing My Cure is directly relevant to HOSA because it shows healthcare from the patient\'s perspective (essential for empathy), demonstrates how collaborative research accelerates discovery (relevant to health science careers), and models active hope in the face of a life-threatening diagnosis. These themes align directly with HOSA\'s mission of developing future health professionals.'},
+    ]},
+  ]},
+
+  {id:'mr4',icon:'📝',title:'Unit 4: Exam Mastery — All Three Books',sub:'35 questions, 60 minutes, one tie-breaker essay',
+   lessons:[
+    {id:'mr4l1',title:'Competition Format & Test Strategy',xp:20,sections:[
+      {type:'teach',heading:'Foundations of Medical Reading: what to expect on test day',
+       body:'The HOSA Medical Reading test consists of <strong>35 multiple-choice questions</strong> (11-12 per book) to be completed in <strong>60 minutes</strong>. One essay question is included for tie-breaking. This is a solo event for Middle School competitors. Questions test not just plot recall but application, analysis, synthesis, and evaluation of reading material.'},
+      {type:'example',termGrid:[
+        {term:'35 questions, 60 minutes',meaning:'About 1.7 minutes per question — pace yourself, do not linger',example:'Mark questions you are unsure about and return to them. Never leave blank — guess if needed'},
+        {term:'11-12 questions per book',meaning:'Roughly equal weight for Gifted Hands, Wonder, and Chasing My Cure',example:'Know ALL THREE books equally well. A weak book costs 11-12 points'},
+        {term:'Application questions',meaning:'Not just "what happened" but "what does this mean" and "how does this connect to health science"',example:'Why does Carson\'s reading transformation matter for healthcare? What does Auggie teach patient care?'},
+        {term:'Essay tie-breaker',meaning:'One essay question administered with the test — only judged in case of tied scores',example:'Practice writing a well-organized paragraph connecting all three books to healthcare themes'},
+        {term:'Business attire required',meaning:'Proper business attire or official HOSA uniform. Bonus points for proper dress.',example:'Dress code is assessed. Prepare your outfit in advance. Bonus points matter in close competition'},
+        {term:'Two #2 pencils required',meaning:'Non-mechanical pencils with erasers — competitors must bring their own',example:'No mechanical pencils allowed. Bring two in case one breaks. Bring extra erasers'},
+      ]},
+      {type:'remember',heading:'Essay tie-breaker — be ready 💡',
+       body:'The essay question connects the books to each other or to healthcare themes. Practice these essay prompts:<br><br>1. How do all three books demonstrate that <strong>adversity can lead to purpose</strong>?<br>2. How do Carson, Auggie, and Fajgenbaum each show a different form of <strong>courage</strong>?<br>3. What do these three books teach about the <strong>human side of medicine</strong>?<br><br>Use specific examples from all three books. One paragraph, organized, specific.'},
+    ],quiz:[
+      {q:'The HOSA Medical Reading test consists of how many questions, and how much time is given?',opts:['25 questions in 45 minutes','35 questions in 60 minutes','50 questions in 90 minutes','20 questions in 30 minutes'],correct:1,explain:'The Foundations of Medical Reading test has 35 multiple-choice questions (approximately 11-12 per book) to be completed in 60 minutes. One essay tie-breaker is also administered. This gives you about 1 minute 45 seconds per question — pace yourself carefully and mark uncertain questions to revisit.'},
+      {q:'Why is it important to study all three books equally rather than focusing on one?',opts:['The test weights Gifted Hands most heavily','There are 11-12 questions per book — weakness in any book costs significant points','Only Chasing My Cure is tested in depth','The essay is about Wonder exclusively'],correct:1,explain:'Each book has approximately 11-12 questions on the 35-question test — roughly equal weight. A competitor who knows two books perfectly but barely read the third is giving up 11-12 points, which is likely the difference between placing and not placing. Know all three books thoroughly.'},
+    ]},
+    {id:'mr4l2',title:'Connections Across All Three Books',xp:25,sections:[
+      {type:'teach',heading:'The threads that connect Gifted Hands, Wonder, and Chasing My Cure',
+       body:'HOSA test questions often ask you to connect themes across books. Understanding how all three books relate to each other and to health science is the mark of a well-prepared competitor.'},
+      {type:'example',termGrid:[
+        {term:'Adversity → purpose',meaning:'All three protagonists transform suffering into mission',example:'Carson: poverty → neurosurgeon. Auggie: exclusion → teaches kindness. Fajgenbaum: disease → researcher'},
+        {term:'The patient perspective',meaning:'All three books show what it means to be a patient or to care for one',example:'Carson treats patients like Auggie. Fajgenbaum IS the patient. Wonder shows what Auggie experiences as a patient'},
+        {term:'Courage in different forms',meaning:'Physical courage (Carson\'s surgery risks), social courage (Auggie attending school), intellectual courage (Fajgenbaum\'s research)',example:'HOSA essay question favorite: compare types of courage across all three books'},
+        {term:'The power of human connection',meaning:'All three books show relationships as essential to survival and success',example:'Sonya Carson, Summer and Jack, Katelyn Fajgenbaum — human connection is the constant'},
+        {term:'Medicine as vocation',meaning:'All three books present healthcare not as a job but as a calling requiring full commitment',example:'Carson: spiritual calling. Auggie: inspires others to choose compassionate healthcare. Fajgenbaum: life-defining mission'},
+        {term:'Resilience',meaning:'All three protagonists face seemingly insurmountable obstacles and persist',example:'Carson: poverty and prejudice. Auggie: social exclusion and 27 surgeries. Fajgenbaum: five near-deaths'},
+      ]},
+      {type:'remember',heading:'Quick comparison table 💡',
+       body:'<strong>Gifted Hands (Carson):</strong> Poverty → perseverance → medical excellence → helping others<br><strong>Wonder (Palacio):</strong> Difference → exclusion → human connection → choosing kindness<br><strong>Chasing My Cure (Fajgenbaum):</strong> Disease → desperation → collaborative research → active hope<br><br>All three: <em>The hardest circumstances can produce the most meaningful lives.</em>'},
+    ],quiz:[
+      {q:'What theme connects ALL THREE books (Gifted Hands, Wonder, Chasing My Cure)?',opts:['All three are about becoming doctors','All three show that adversity and challenge can be transformed into purpose and meaning for others','All three are written by surgeons','All three take place in hospitals'],correct:1,explain:'All three books show protagonists transforming their greatest challenges into purpose. Ben Carson transforms poverty and academic failure into a mission to serve disadvantaged patients. Auggie Pullman transforms social exclusion into a lesson in choosing kindness that impacts everyone around him. David Fajgenbaum transforms near-fatal illness into research that helps thousands of Castleman patients globally.'},
+      {q:'What do all three books teach about the role of human relationships in healthcare and success?',opts:['Individual brilliance alone determines success','Human connection — from Sonya Carson\'s sacrifices to Auggie\'s friendships to Katelyn\'s support — is essential to survival and achievement','Healthcare is best practiced in isolation from emotion','Relationships distract from professional focus'],correct:1,explain:'Human connection is the constant across all three books: Sonya Carson\'s sacrificial support transformed Ben\'s trajectory. Summer and Jack\'s genuine friendship gave Auggie belonging that changed his experience of school. Katelyn\'s unwavering presence kept David fighting. The books collectively argue that human relationships are not peripheral to medicine and achievement — they are central.'},
+    ]},
+  ]},
+  ];
+}
+
+EVENTS.medical_reading.getCourse = COURSE_MEDICAL_READING;

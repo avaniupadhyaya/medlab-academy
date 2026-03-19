@@ -323,6 +323,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
       </div>
       <div class="ev-section-lbl">📚 Health Science Events</div>
       <div class="ev-grid">
+        <div class="ev-card purple" data-event="medical_reading"><div class="ev-ic">📖</div><div class="ev-name">Foundations of Medical Reading</div><div class="ev-desc">Gifted Hands · Wonder · Chasing My Cure</div><div class="ev-tag" style="background:var(--purple-l);color:var(--purple-d)">Solo · 35 Qs · 60 min</div></div>
         <div class="ev-card teal" data-event="terminology"><div class="ev-ic">🔬</div><div class="ev-name">Medical Terminology</div><div class="ev-desc">Prefixes, roots & suffixes for health</div><div class="ev-tag" style="background:var(--teal-l);color:var(--teal-d)">Written Test</div></div>
         <div class="ev-card blue" data-event="nutrition"><div class="ev-ic">🥗</div><div class="ev-name">Foundations of Nutrition</div><div class="ev-desc">Nutrients, diet, health, and disease</div><div class="ev-tag" style="background:var(--blue-l);color:var(--blue-d)">Written Test</div></div>
         <div class="ev-card amber" data-event="math"><div class="ev-ic">🔢</div><div class="ev-name">Math for Health Careers</div><div class="ev-desc">Dosage, conversions, vital signs</div><div class="ev-tag" style="background:var(--amber-l);color:var(--amber-d)">Written Test</div></div>
@@ -485,6 +486,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 <script src="/static/questions_emergency_healthy.js"></script>
 <script src="/static/questions_hosa_bowl.js"></script>
 <script src="/static/questions_new_events.js"></script>
+<script src="/static/questions_medical_reading.js"></script>
 <script src="/static/words_terminology.js"></script>
 <script>
 // ── STATE ──────────────────────────────────────────────
@@ -558,6 +560,12 @@ const EVENTS={
     id:'stop_bleed',name:'Stop the Bleed',icon:'🩸',color:'coral',
     getFlash:(d)=>(window.QB_STOP_BLEED?.flashcards||{})[d]||[],
     getQuiz:(d)=>(window.QB_STOP_BLEED?.quiz||{})[d]||[],
+    course:null,
+  },
+  medical_reading:{
+    id:'medical_reading',name:'Foundations of Medical Reading',icon:'📖',color:'purple',
+    getFlash:(d)=>(window.QB_MEDICAL_READING?.flashcards||{})[d]||[],
+    getQuiz:(d)=>(window.QB_MEDICAL_READING?.quiz||{})[d]||[],
     course:null,
   },
 };
@@ -655,6 +663,7 @@ function renderSidebarEvents(){
     {id:'veterinary',icon:'🐾',name:'Vet Science'},
     {id:'public_health',icon:'🌍',name:'Public Health'},
     {id:'stop_bleed',icon:'🩸',name:'Stop the Bleed'},
+    {id:'medical_reading',icon:'📖',name:'Med Reading'},
   ];
   container.innerHTML=allEvs.map(e=>`<div class="ev-mini${e.id===S.currentEvent?' active':''}" onclick="selectEvent('${e.id}')" style="${e.id===S.currentEvent?'background:var(--teal);color:white;':''}">
     ${e.icon} ${e.name}
