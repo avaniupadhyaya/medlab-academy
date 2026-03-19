@@ -2334,3 +2334,248 @@ function COURSE_MEDICAL_READING(){
 }
 
 EVENTS.medical_reading.getCourse = COURSE_MEDICAL_READING;
+
+// ── COURSE: HOSA HISTORY & ORGANIZATION ─────────────────────────────────────
+function COURSE_HOSA_HISTORY(){
+  return [
+  {id:'hh1',icon:'🏛️',title:'Unit 1: HOSA Founding & Origins',sub:'How HOSA began, evolved, and grew into 300,000 members',
+   lessons:[
+    {id:'hh1l1',title:'The Birth of HOSA — 1976',xp:25,sections:[
+      {type:'teach',heading:'Why HOSA was created',
+       body:'In the 1970s, health care was rapidly expanding as a career field. Vocational education teachers recognized that students in health occupations programs needed a student organization — just like FFA for agriculture or DECA for business. In <strong>1976</strong>, HOSA was officially founded as <strong>Health Occupations Students of America</strong>, giving health science students their own organization for leadership, competition, and career development.'},
+      {type:'example',termGrid:[
+        {term:'Founded',meaning:'1976 — Health Occupations Students of America',example:'Established to support health occupations CTE programs across the U.S.'},
+        {term:'Purpose',meaning:'Provide student organization for health science CTE programs',example:'Like FFA (agriculture), DECA (business), SkillsUSA (trade/tech) — HOSA is for health'},
+        {term:'Affiliation',meaning:'Co-curricular organization under Career and Technical Education (CTE)',example:'CTE = career-focused education programs in U.S. high schools and colleges'},
+        {term:'Federal tie',meaning:'Affiliated with U.S. Department of Education through CTE',example:'Not a government agency — but officially recognized and supported by DOE'},
+      ]},
+      {type:'tip',heading:'Test tip: Know the founding year cold',
+       body:'Questions about HOSA\'s founding year (1976) appear in almost every HOSA-related test. Pair it with the name change year (2004) and you have two guaranteed correct answers.'},
+    ],quiz:[
+      {q:'In what year was HOSA founded?',opts:['1968','1972','1976','1982'],correct:2,explain:'HOSA was founded in 1976 as Health Occupations Students of America, created to provide a student organization for health occupations Career and Technical Education programs.'},
+      {q:'What was HOSA\'s original full name?',opts:['Health Organization for Student Advancement','Health Occupations Students of America','Healthcare Operations Student Alliance','Health Outcomes Students Association'],correct:1,explain:'HOSA\'s original name was Health Occupations Students of America. It was established in 1976 and the name reflected the vocational health occupations education programs it served.'},
+    ]},
+    {id:'hh1l2',title:'The 2004 Name Change',xp:25,sections:[
+      {type:'teach',heading:'From Health Occupations to Future Health Professionals',
+       body:'By the early 2000s, "health occupations" felt outdated. The field had grown to include biotechnology, health informatics, research, administration, and dozens of careers that weren\'t traditional "occupations." In <strong>June 2004</strong>, at the annual <strong>Delegate Assembly</strong>, HOSA\'s voting members chose a new name: <strong>HOSA – Future Health Professionals</strong>. The change reflected the modern, broad scope of health careers HOSA now serves.'},
+      {type:'example',termGrid:[
+        {term:'New name (2004)',meaning:'HOSA – Future Health Professionals',example:'The dash and tagline signal the transition from vocational to professional identity'},
+        {term:'Delegate Assembly',meaning:'HOSA\'s governing body — state delegates vote on major decisions',example:'Name changes, bylaw amendments, policy decisions all go through Delegate Assembly'},
+        {term:'When changed',meaning:'June 2004 at the annual Delegate Assembly',example:'Meets annually at ILC (International Leadership Conference)'},
+        {term:'Why changed',meaning:'Health careers expanded far beyond traditional "occupations"',example:'Research, informatics, biotech, administration — all now under HOSA\'s umbrella'},
+      ]},
+      {type:'clinical',heading:'What changed — and what didn\'t',
+       body:'The name changed. The mission didn\'t. HOSA still serves health science CTE students, still holds the ILC competition, still has the same emblem and motto. The name update simply modernized the brand to match where health careers were heading.'},
+    ],quiz:[
+      {q:'In what year did HOSA officially change its name to HOSA – Future Health Professionals?',opts:['1999','2002','2004','2008'],correct:2,explain:'At the 2004 Delegate Assembly, HOSA changed its name from Health Occupations Students of America to HOSA – Future Health Professionals to better reflect the modern scope of health careers.'},
+      {q:'Which body voted to change HOSA\'s name in 2004?',opts:['U.S. Congress','HOSA National Board of Directors','The Delegate Assembly','State HOSA Advisors'],correct:2,explain:'The Delegate Assembly is HOSA\'s governing body where state delegates vote on major decisions. The name change from Health Occupations Students of America to HOSA – Future Health Professionals was voted on at the 2004 Delegate Assembly.'},
+    ]},
+    {id:'hh1l3',title:'HOSA\'s 50th Anniversary',xp:20,sections:[
+      {type:'teach',heading:'Celebrating 50 years — 2025-2026',
+       body:'The 2025-2026 school year marks HOSA\'s <strong>50th anniversary</strong>. To celebrate, HOSA has incorporated anniversary themes across competitive events. The <strong>Medical Reading</strong> event this year features books selected to commemorate the decades of HOSA — titles spanning the 1990s to present, representing HOSA\'s entire competitive history.'},
+      {type:'example',termGrid:[
+        {term:'50th anniversary year',meaning:'2025-2026 school year',example:'Founded 1976 + 50 years = 2026'},
+        {term:'Medical Reading books',meaning:'Chosen to commemorate 50 years — titles from across the decades',example:'Gifted Hands (Carson), Wonder (Palacio), Chasing My Cure (Fajgenbaum)'},
+        {term:'Anniversary significance',meaning:'Half a century of developing future health professionals',example:'~300,000 current members; millions of alumni across healthcare workforce'},
+      ]},
+      {type:'tip',heading:'Why the anniversary matters for your test',
+       body:'HOSA 2025-2026 guidelines specifically reference the 50th anniversary. Any question about "new for 2025-2026" or "this year\'s special theme" connects to the 50th anniversary celebration.'},
+    ],quiz:[
+      {q:'The 2025-2026 school year marks which HOSA anniversary?',opts:['25th','40th','50th','75th'],correct:2,explain:'2025-2026 marks HOSA\'s 50th anniversary since its founding in 1976. The Medical Reading event books this year were selected to commemorate this milestone, featuring titles spanning the decades.'},
+    ]},
+  ]},
+
+  {id:'hh2',icon:'📋',title:'Unit 2: HOSA Structure & Membership',sub:'How HOSA is organized from chapter to national level',
+   lessons:[
+    {id:'hh2l1',title:'HOSA Membership Divisions',xp:25,sections:[
+      {type:'teach',heading:'Three divisions — one mission',
+       body:'HOSA has three distinct membership divisions, each with competitive events appropriate for that education level. The divisions are <strong>Middle School</strong>, <strong>Secondary</strong> (high school), and <strong>Post-Secondary/Collegiate</strong>. The HOSA Academy app focuses on Middle School division events. Competitors only compete against others in their same division.'},
+      {type:'example',termGrid:[
+        {term:'Middle School',meaning:'Students in grades 6-8 in health science programs',example:'HOSA Academy is designed for Middle School division competitors'},
+        {term:'Secondary',meaning:'High school students (grades 9-12) in health science CTE',example:'Largest division; most competitive events available at this level'},
+        {term:'Post-Secondary/Collegiate',meaning:'Community college, university, and adult learners in health programs',example:'Compete in advanced clinical events; often allied health students'},
+        {term:'Division rule',meaning:'Competitors only compete against members in the same division',example:'A high school student cannot compete in Middle School events and vice versa'},
+      ]},
+    ],quiz:[
+      {q:'Which of the following is a HOSA membership division?',opts:['Elementary School','Middle School','Graduate School','Alumni'],correct:1,explain:'HOSA\'s three membership divisions are Middle School, Secondary (high school), and Post-Secondary/Collegiate. Each division has competitive events appropriate to that education level.'},
+      {q:'The HOSA Academy app is designed for which division?',opts:['Secondary (high school)','Post-Secondary/Collegiate','Middle School','All divisions equally'],correct:2,explain:'HOSA Academy focuses on Middle School division competitive events — Medical Terminology, Nutrition, Math for Health Careers, and others covered in the Middle School HOSA competitive event guidelines.'},
+    ]},
+    {id:'hh2l2',title:'Chapters, Regions, and States',xp:25,sections:[
+      {type:'teach',heading:'How HOSA is organized from school to national level',
+       body:'HOSA is organized in a hierarchy: <strong>Chapter → Region → State → National/International</strong>. A <strong>chapter</strong> is the local group at your school or college. Chapters belong to a regional grouping within their state. States organize their own <strong>State Leadership Conference (SLC)</strong>. SLC winners advance to the <strong>International Leadership Conference (ILC)</strong> — the national competition.'},
+      {type:'example',termGrid:[
+        {term:'Chapter',meaning:'Local HOSA group at a school or college — basic organizational unit',example:'Your school\'s HOSA club is a chapter. Chapters elect officers, pay dues, enter competitions'},
+        {term:'HOSA Advisor',meaning:'The teacher/faculty member who oversees a chapter',example:'Must be a health science CTE instructor. Responsible for chapter operations and competition entry'},
+        {term:'SLC',meaning:'State Leadership Conference — state-level HOSA competition',example:'Winners at SLC advance to ILC. Each state runs its own SLC format'},
+        {term:'ILC',meaning:'International Leadership Conference — HOSA\'s annual national competition',example:'Held each summer. Competitors from all 50 states + international affiliates'},
+        {term:'Delegate Assembly',meaning:'Governing body that meets at ILC — state delegates vote on HOSA policy',example:'Makes major decisions: name changes, bylaw amendments, constitutional updates'},
+      ]},
+      {type:'clinical',heading:'The path from your school to ILC',
+       body:'Your school chapter enters SLC → top performers advance to ILC → compete against the best from every state. National officers are elected by the Delegate Assembly at ILC. It\'s the highest level a HOSA student can reach.'},
+    ],quiz:[
+      {q:'What is the correct order of HOSA\'s organizational hierarchy?',opts:['National → State → Region → Chapter','Chapter → Region → State → National','State → Chapter → National → Region','Region → National → State → Chapter'],correct:1,explain:'HOSA\'s hierarchy goes: Chapter (local school) → Region → State → National/International. You compete at each level to advance — chapter events → SLC (state) → ILC (national).'},
+      {q:'What does SLC stand for in HOSA?',opts:['Student Leadership Competition','State Leadership Conference','Secondary Level Competition','Skills and Leadership Certification'],correct:1,explain:'SLC stands for State Leadership Conference — the state-level HOSA competition. SLC winners advance to ILC (International Leadership Conference), the national competition.'},
+    ]},
+    {id:'hh2l3',title:'HOSA Dues, Officers, and Governance',xp:20,sections:[
+      {type:'teach',heading:'Who runs HOSA — and how it stays funded',
+       body:'HOSA members pay annual <strong>dues</strong> that fund the chapter, state, and national organization. Each chapter elects <strong>student officers</strong> (president, vice president, secretary, treasurer, reporter, historian). State associations elect state officers. <strong>National officers</strong> are elected by the Delegate Assembly at ILC — the highest elected student positions in HOSA.'},
+      {type:'example',termGrid:[
+        {term:'Chapter officers',meaning:'President, VP, Secretary, Treasurer, Reporter, Historian',example:'Elected by chapter members. Lead meetings, organize events, represent chapter'},
+        {term:'HOSA dues',meaning:'Annual membership fees from each member to fund national, state, local HOSA',example:'Dues flow to chapter, state association, and national HOSA in set proportions'},
+        {term:'National officers',meaning:'Elected at ILC Delegate Assembly — highest student leadership in HOSA',example:'Serve one-year term representing all HOSA members nationally'},
+        {term:'Co-curricular',meaning:'HOSA is part of the health science curriculum, not just an after-school club',example:'HOSA events align directly with CTE Health Science learning standards'},
+      ]},
+    ],quiz:[
+      {q:'Where are HOSA national student officers elected?',opts:['At each state SLC','By online vote of all members','By the Delegate Assembly at ILC','By HOSA national staff'],correct:2,explain:'HOSA national officers are elected by the Delegate Assembly at the International Leadership Conference (ILC). They serve a one-year term representing all HOSA members nationally.'},
+    ]},
+  ]},
+
+  {id:'hh3',icon:'🏆',title:'Unit 3: HOSA Competitive Events',sub:'Categories, formats, and what to expect at competition',
+   lessons:[
+    {id:'hh3l1',title:'The Three Event Categories',xp:25,sections:[
+      {type:'teach',heading:'Health Science, Leadership, and Recognition',
+       body:'All HOSA competitive events fall into three categories: <strong>Health Science Events</strong>, <strong>Leadership Events</strong>, and <strong>Recognition Events</strong>. Health Science Events test clinical knowledge and skills. Leadership Events test communication and management abilities. Recognition Events acknowledge community service and character — they are non-competitive recognitions, not scored competitions.'},
+      {type:'example',groups:[
+        {label:'Health Science Events',items:[
+          {term:'Written Test events',meaning:'Multiple-choice exams — terminology, nutrition, math, careers',ex:'Medical Terminology, Foundations of Nutrition, Math for Health Careers'},
+          {term:'Skills Demo events',meaning:'Hands-on performance — CPR, Stop the Bleed, vet skills',ex:'Life Threatening Situations, Stop the Bleed, Veterinary Science'},
+          {term:'Team events',meaning:'Multiple members competing together',ex:'HOSA Bowl (4 members), Public Health (2-6 members)'},
+        ]},
+        {label:'Leadership Events',items:[
+          {term:'Prepared Speaking',meaning:'Memorized speech on health topic',ex:'5-7 min prepared speech judged on content, delivery, organization'},
+          {term:'Extemporaneous Writing',meaning:'Essay written in limited time on assigned health topic',ex:'30-minute timed writing; tests knowledge and communication'},
+          {term:'Parliamentary Procedure',meaning:'Team demonstrates formal meeting procedure (Robert\'s Rules)',ex:'Team of 5; chair conducts meeting following parliamentary rules'},
+        ]},
+        {label:'Recognition Events',items:[
+          {term:'Service Learning',meaning:'Recognition for community health service projects',ex:'Chapter completes health service project; submits portfolio for recognition'},
+          {term:'Healthy Lifestyle',meaning:'Recognition for personal health and wellness commitment',ex:'Individual documents healthy habits, fitness, nutrition choices'},
+          {term:'HOSA Chapter of Excellence',meaning:'Chapter-level recognition for outstanding HOSA program',ex:'Chapters submit evidence of activities, growth, community impact'},
+        ]},
+      ]},
+    ],quiz:[
+      {q:'Which of the following is a HOSA competitive event category?',opts:['Science Olympiad Events','Health Science Events','Athletic Competition','Academic Decathlon'],correct:1,explain:'HOSA competitive events are organized into three categories: Health Science Events, Leadership Events, and Recognition Events. Health Science Events include written tests and skills demonstrations.'},
+      {q:'Which HOSA event category is non-competitive (recognition only, not scored)?',opts:['Health Science Events','Leadership Events','Recognition Events','All HOSA events are competitive'],correct:2,explain:'Recognition Events are non-competitive — they acknowledge community service, healthy lifestyle, and chapter excellence. They are not scored head-to-head against other competitors.'},
+    ]},
+    {id:'hh3l2',title:'Competition Format & Rules',xp:25,sections:[
+      {type:'teach',heading:'What to expect on competition day',
+       body:'Every HOSA competitive event has an official <strong>guideline</strong> published annually. The guideline specifies the exact format, time limits, reference materials, scoring rubric, dress code, and required equipment. Competitors who don\'t follow guidelines can be disqualified. The guidelines are updated every summer — always use the <strong>current year\'s guidelines</strong>.'},
+      {type:'example',termGrid:[
+        {term:'Event guidelines',meaning:'Official rules document for each event — updated annually every summer',example:'Specifies format, references, scoring rubric, dress code, supplies needed'},
+        {term:'Business attire',meaning:'Professional dress required at most events — bonus points awarded',example:'Suit, dress, or official HOSA uniform. Dress code assessed by judges'},
+        {term:'Two #2 pencils',meaning:'Required for written test events — competitors must bring their own',example:'Non-mechanical pencils with erasers. Bring two in case one breaks'},
+        {term:'Tie-breaker essay',meaning:'One essay question administered with written tests for tie-breaking',example:'Only judged if two competitors have identical multiple-choice scores'},
+        {term:'Photo ID',meaning:'Required at most competitive events for identity verification',example:'Student ID, school ID, or government-issued photo identification'},
+      ]},
+      {type:'tip',heading:'Dress code = free points',
+       body:'Bonus points for business attire are awarded before you answer a single question. Always dress professionally at competitions — it\'s the easiest points you can earn.'},
+    ],quiz:[
+      {q:'How often are HOSA competitive event guidelines updated?',opts:['Every 5 years','Every 2 years','Annually each summer','Only when major changes occur'],correct:2,explain:'HOSA competitive event guidelines are updated annually every summer for the coming school year. Always use the current year\'s guidelines — formats, references, and rules can change year to year.'},
+      {q:'Why are bonus points awarded for business attire at HOSA events?',opts:['To fill time before the test begins','Business attire is part of professional development and the HOSA mission','It is required by federal law for all competitions','To make events look more impressive on camera'],correct:1,explain:'Awarding bonus points for professional dress reflects HOSA\'s mission of professional development. Healthcare is a professional field — HOSA trains students to present themselves as future health professionals from the start.'},
+    ]},
+    {id:'hh3l3',title:'Middle School Events Overview',xp:20,sections:[
+      {type:'teach',heading:'Events available at the Middle School division',
+       body:'Middle School HOSA members compete in a subset of events designed for grades 6-8. The events covered in HOSA Academy represent the most commonly tested Middle School written test events: Medical Terminology, Foundations of Nutrition, Math for Health Careers, Health Career Exploration, Life Threatening Situations, Healthy Living, HOSA Bowl, Stop the Bleed, Veterinary Science, Public Health, and Foundations of Medical Reading.'},
+      {type:'example',termGrid:[
+        {term:'Written Test (35 Qs)',meaning:'Multiple choice, 60 minutes — most Middle School academic events',example:'Medical Terminology, Nutrition, Math, Careers, HOSA Bowl, Medical Reading'},
+        {term:'Skills Demo',meaning:'Hands-on performance demonstration',example:'Stop the Bleed, Life Threatening Situations, Veterinary Science skills component'},
+        {term:'Team events',meaning:'Multiple members work together',example:'HOSA Bowl (4 members), Public Health/Food Wars (2-6 members)'},
+        {term:'Solo event',meaning:'One competitor per entry',example:'Medical Reading is a solo event — one competitor per school per division'},
+      ]},
+    ],quiz:[
+      {q:'How many multiple-choice questions are on most Middle School HOSA written test events?',opts:['20','25','35','50'],correct:2,explain:'Most Middle School HOSA written test events have 35 multiple-choice questions to be completed in 60 minutes. This applies to Medical Terminology, Nutrition, Math for Health Careers, Health Career Exploration, and others.'},
+    ]},
+  ]},
+
+  {id:'hh4',icon:'⭐',title:'Unit 4: HOSA Identity & Values',sub:'Motto, emblem, mission, and professional ethics',
+   lessons:[
+    {id:'hh4l1',title:'The HOSA Motto & Emblem',xp:25,sections:[
+      {type:'teach',heading:'The symbols that represent HOSA',
+       body:'HOSA\'s motto is <strong>"The Hands of HOSA Mold the Health of Tomorrow."</strong> Every word matters: <em>Hands</em> = the caring nature of HOSA members. <em>Mold</em> = actively shaping, not passively waiting. <em>Health of Tomorrow</em> = the future healthcare system these students will build. The HOSA emblem shows a <strong>caduceus surrounded by hands in a circle</strong>. The caduceus represents medicine, the hands represent caring, and the circle represents unity.'},
+      {type:'example',termGrid:[
+        {term:'HOSA motto',meaning:'"The Hands of HOSA Mold the Health of Tomorrow"',example:'Appears on HOSA materials, uniforms, and awards. Know every word.'},
+        {term:'Caduceus',meaning:'Winged staff with two intertwined snakes — symbol of medicine',example:'Featured in the HOSA emblem. Associated with the medical profession.'},
+        {term:'HOSA emblem',meaning:'Caduceus + hands + circle — unity, caring, medicine',example:'Hands = caring of each member toward the community'},
+        {term:'HOSA colors',meaning:'Maroon and gold — official HOSA colors',example:'Seen on official HOSA uniforms, pins, and merchandise'},
+      ]},
+      {type:'tip',heading:'Motto breakdown for test day',
+       body:'If asked what the "hands" represent in the HOSA emblem or motto, the answer is: <strong>the caring nature of each HOSA member toward the community</strong>. Not strength, not skill — caring.'},
+    ],quiz:[
+      {q:'What is HOSA\'s official motto?',opts:['"Health Leaders of Tomorrow"','"The Hands of HOSA Mold the Health of Tomorrow"','"Empowering Future Health Professionals"','"Caring for the Community"'],correct:1,explain:'HOSA\'s official motto is "The Hands of HOSA Mold the Health of Tomorrow." The hands in the emblem and motto represent the caring nature of each HOSA member toward the community.'},
+      {q:'In the HOSA emblem, what do the HANDS symbolize?',opts:['Physical strength of healthcare workers','The caring nature of each member toward the community','Surgical skill and precision','The number of HOSA member divisions'],correct:1,explain:'The hands in the HOSA emblem represent the caring nature of each HOSA member toward the community. This is the official HOSA interpretation of the hands symbol.'},
+    ]},
+    {id:'hh4l2',title:'HOSA Mission & Professional Ethics',xp:25,sections:[
+      {type:'teach',heading:'What HOSA is actually trying to accomplish',
+       body:'HOSA\'s mission is to <strong>empower HOSA members to become effective leaders in the global health community</strong> through education, collaboration, and experience. HOSA is not just about winning competitions — it\'s about developing the professional values, communication skills, ethical standards, and health knowledge that real healthcare requires. This is why dress codes, community service, and leadership events are part of HOSA competitions alongside clinical knowledge.'},
+      {type:'example',termGrid:[
+        {term:'HOSA mission',meaning:'Empower members to become effective leaders in the global health community',example:'Education + collaboration + experience = the three pillars of HOSA\'s approach'},
+        {term:'Professional development',meaning:'Building skills beyond clinical knowledge — communication, ethics, leadership',example:'Why leadership events (Prepared Speaking, Extemporaneous Writing) exist alongside clinical tests'},
+        {term:'Hippocratic tradition',meaning:'"First, do no harm" — core ethical principle embedded in health science education',example:'Primum non nocere. HOSA prepares students who will carry this principle into healthcare'},
+        {term:'Global health community',meaning:'Healthcare is an international profession — HOSA prepares globally aware leaders',example:'International affiliates at ILC; global health topics in events like Public Health'},
+      ]},
+      {type:'clinical',heading:'Why ethics matter in HOSA',
+       body:'Every healthcare career involves ethical decisions — patient privacy (HIPAA), informed consent, equitable treatment, professional boundaries. HOSA introduces these concepts early so that future health professionals internalize them as core identity, not just rules to follow.'},
+    ],quiz:[
+      {q:'What is HOSA\'s mission?',opts:['Win as many ILC gold medals as possible','Train students for immediate employment in hospitals','Empower HOSA members to become effective leaders in the global health community','Provide scholarships to medical school applicants'],correct:2,explain:'HOSA\'s mission is to empower HOSA members to become effective leaders in the global health community through education, collaboration, and experience. Competitions are a means to develop leadership — not the end goal itself.'},
+      {q:'Why does HOSA include leadership events (like Prepared Speaking) alongside clinical events?',opts:['To fill time at ILC','Because healthcare requires communication and leadership skills, not just clinical knowledge','Leadership events are optional and rarely attended','They are required by the Department of Education'],correct:1,explain:'Healthcare requires strong communication, leadership, and ethical decision-making alongside clinical skills. HOSA\'s leadership events develop the professional qualities that make a great health professional — not just a knowledgeable one.'},
+    ]},
+    {id:'hh4l3',title:'HOSA & the Healthcare Workforce',xp:20,sections:[
+      {type:'teach',heading:'HOSA\'s role in building tomorrow\'s healthcare',
+       body:'The U.S. healthcare workforce is facing a serious shortage. The Bureau of Labor Statistics projects that healthcare will be the <strong>fastest-growing employment sector</strong> through 2030. HOSA directly addresses this by creating a pipeline of passionate, prepared health science students. HOSA alumni work as nurses, physicians, researchers, pharmacists, health administrators, and in every other healthcare role.'},
+      {type:'example',termGrid:[
+        {term:'Healthcare workforce pipeline',meaning:'HOSA creates a pathway from student to health professional',example:'~300,000 current members → millions of HOSA alumni across U.S. healthcare'},
+        {term:'Fastest-growing sector',meaning:'Healthcare projected as #1 growth sector in U.S. employment through 2030',example:'BLS data: 1.8 million new healthcare jobs projected each year through 2030'},
+        {term:'HOSA alumni impact',meaning:'Former HOSA members now working across all healthcare professions',example:'Physicians, nurses, researchers, administrators, therapists, dentists, pharmacists'},
+        {term:'Health equity',meaning:'HOSA reaches students from all backgrounds, increasing diversity in healthcare',example:'HOSA chapters in rural, urban, suburban schools — building a diverse future workforce'},
+      ]},
+      {type:'tip',heading:'Connect HOSA to your future',
+       body:'When asked why you joined HOSA or why health careers matter, connect your answer to this pipeline. You\'re not just studying for a test — you\'re preparing to be part of solving a national healthcare workforce shortage.'},
+    ],quiz:[
+      {q:'What role does HOSA play in addressing the U.S. healthcare workforce shortage?',opts:['HOSA lobbies Congress for more hospital funding','HOSA creates a pipeline of prepared, passionate students entering health careers','HOSA trains current healthcare workers through continuing education','HOSA recruits international doctors to the United States'],correct:1,explain:'HOSA creates a pipeline from student to health professional. With ~300,000 members annually and millions of alumni, HOSA directly contributes to developing the healthcare workforce needed to address projected shortages.'},
+    ]},
+  ]},
+
+  {id:'hh5',icon:'📚',title:'Unit 5: ILC & Competition Mastery',sub:'Everything about the International Leadership Conference',
+   lessons:[
+    {id:'hh5l1',title:'The International Leadership Conference (ILC)',xp:25,sections:[
+      {type:'teach',heading:'HOSA\'s biggest stage',
+       body:'The <strong>International Leadership Conference (ILC)</strong> is HOSA\'s annual national competition, held each summer. Competitors from all 50 states and international affiliate countries attend. ILC includes competitive events, leadership workshops, the Delegate Assembly, national officer elections, and keynote speakers. It is the largest event in HOSA\'s year — the culmination of every chapter\'s work.'},
+      {type:'example',termGrid:[
+        {term:'ILC',meaning:'International Leadership Conference — HOSA\'s annual national competition',example:'Held every summer. Competitors qualify through state SLC first.'},
+        {term:'Qualification path',meaning:'Excel at chapter level → compete at SLC → top scores advance to ILC',example:'Not every state advances the same number — depends on state population and rules'},
+        {term:'ILC activities',meaning:'Competitive events + Delegate Assembly + officer elections + workshops',example:'Not just competition — leadership development, networking, voting on HOSA\'s future'},
+        {term:'International affiliates',meaning:'Countries outside U.S. with HOSA-affiliated programs who compete at ILC',example:'International members compete in the same events under same guidelines'},
+        {term:'National officers elected',meaning:'New HOSA national student officers elected by Delegate Assembly at ILC',example:'President, VP, Secretary, Treasurer, and other positions — serve one-year term'},
+      ]},
+    ],quiz:[
+      {q:'What does ILC stand for?',opts:['Individual Leadership Competition','International Leadership Conference','Integrated Learning Curriculum','Intercollegiate Leadership Challenge'],correct:1,explain:'ILC stands for International Leadership Conference — HOSA\'s annual national competition held each summer. Competitors qualify through their state\'s SLC (State Leadership Conference) first.'},
+      {q:'What happens at the ILC Delegate Assembly?',opts:['Competitors take additional written tests','State delegates vote on HOSA policy, bylaws, and elect national officers','Judges announce final placement scores','Advisors receive professional development training'],correct:1,explain:'The Delegate Assembly at ILC is HOSA\'s governing body in action. State delegates vote on major policy decisions, bylaw amendments, and elect national student officers. The 2004 name change was voted on at a Delegate Assembly.'},
+    ]},
+    {id:'hh5l2',title:'Preparing to Win at HOSA',xp:25,sections:[
+      {type:'teach',heading:'What separates medallists from the rest',
+       body:'HOSA competitors who medal consistently do four things: <strong>study the official guidelines</strong> (not outdated materials), <strong>practice under test conditions</strong> (timed, formal, dressed professionally), <strong>use all available references</strong>, and <strong>understand the content deeply</strong> — not just memorizing facts but understanding why things work. This app is built on that fourth principle: understanding, not memorizing.'},
+      {type:'example',termGrid:[
+        {term:'Use current guidelines',meaning:'Only study from the current year\'s official event guidelines',example:'References change year to year. Old books or websites may have wrong information.'},
+        {term:'Practice timed',meaning:'Simulate real test conditions: timed, formal setting, no help',example:'35 questions in 60 min = 1:42 per question. Practice with that constraint.'},
+        {term:'Dress rehearsal',meaning:'Wear business attire during practice so it feels natural at competition',example:'Being uncomfortable in formal clothes costs focus during the real event'},
+        {term:'Understand WHY',meaning:'Understanding beats memorization — you can reason through unfamiliar questions',example:'If you know cardio=heart and -itis=inflammation, you can decode cardiomegaly without ever seeing it'},
+      ]},
+      {type:'tip',heading:'The HOSA Academy advantage',
+       body:'This app is built on the same principle: understand concepts, don\'t just memorize lists. A student who understands medical word roots can decode words they\'ve never seen. A student who memorized a list cannot.'},
+    ],quiz:[
+      {q:'What is the most important difference between competitors who medal and those who don\'t?',opts:['Medal winners spend more money on preparation materials','Medal winners understand content deeply rather than just memorizing facts','Medal winners are older than other competitors','Medal winners have more natural intelligence'],correct:1,explain:'Deep understanding consistently outperforms memorization in HOSA competitions. Written tests include questions on unfamiliar scenarios and applications — students who understand the underlying concepts can reason through them; those who only memorized cannot.'},
+    ]},
+    {id:'hh5l3',title:'Complete HOSA History Review',xp:30,sections:[
+      {type:'remember',heading:'Master reference — every HOSA History fact you need',
+       body:'<strong>Founded:</strong> 1976<br><strong>Original name:</strong> Health Occupations Students of America<br><strong>Name changed:</strong> 2004 (Delegate Assembly) → HOSA – Future Health Professionals<br><strong>Motto:</strong> "The Hands of HOSA Mold the Health of Tomorrow"<br><strong>Emblem:</strong> Caduceus + hands + circle (unity)<br><strong>Hands symbolize:</strong> Caring of each member toward community<br><strong>Membership:</strong> ~300,000 members, 3 divisions (Middle School, Secondary, Post-Secondary/Collegiate)<br><strong>Structure:</strong> Chapter → Region → State → National<br><strong>State competition:</strong> SLC (State Leadership Conference)<br><strong>National competition:</strong> ILC (International Leadership Conference)<br><strong>Governing body:</strong> Delegate Assembly (meets at ILC)<br><strong>Event categories:</strong> Health Science Events, Leadership Events, Recognition Events<br><strong>Affiliation:</strong> CTE (Career and Technical Education), U.S. Dept of Education<br><strong>50th anniversary:</strong> 2025-2026 school year'},
+      {type:'tip',heading:'Quick recall drill — test yourself',
+       body:'Cover the right side and quiz yourself:<br>Founded year → <em>1976</em><br>Name changed → <em>2004</em><br>National competition → <em>ILC</em><br>State competition → <em>SLC</em><br>Governing body → <em>Delegate Assembly</em><br>Motto → <em>"The Hands of HOSA Mold the Health of Tomorrow"</em><br>Emblem hands = <em>caring of each member</em><br>Divisions → <em>Middle School, Secondary, Post-Secondary</em>'},
+    ],quiz:[
+      {q:'What is the correct sequence from local to national in HOSA competition?',opts:['ILC → SLC → Chapter','Chapter → SLC → ILC','SLC → Chapter → ILC','ILC → Chapter → SLC'],correct:1,explain:'The correct competition pathway is: Chapter (local) → SLC (State Leadership Conference) → ILC (International Leadership Conference). You must qualify at the state level before competing nationally.'},
+      {q:'Which of the following facts about HOSA is INCORRECT?',opts:['HOSA was founded in 1976','HOSA\'s motto mentions "hands"','HOSA changed its name in 2004','HOSA has five membership divisions'],correct:3,explain:'HOSA has THREE membership divisions (Middle School, Secondary, Post-Secondary/Collegiate) — not five. All other options are correct: founded 1976, motto includes "hands," name changed in 2004.'},
+      {q:'What does the circle in the HOSA emblem represent?',opts:['The globe of international healthcare','Unity among HOSA members','The cycle of healthcare education','A medical pill or capsule'],correct:1,explain:'The circle in the HOSA emblem represents unity among HOSA members. Combined with the caduceus (medicine) and hands (caring), the emblem visually represents HOSA\'s mission of unified, caring future health professionals.'},
+    ]},
+  ]},
+  ];
+}
+
+EVENTS.hosa_history.getCourse = COURSE_HOSA_HISTORY;
