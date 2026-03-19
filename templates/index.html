@@ -449,8 +449,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
       </div>
     </div>
 
-    <!-- PL
-
     <!-- PLACEMENT -->
     <div class="screen" id="screen-placement">
       <div class="gh">
@@ -1185,7 +1183,8 @@ var nrAiSpd = [0, 5.5, 4.8, 4.3, 3.8];
 
 // Called by showScreen('race')
 function renderRaceGame() {
-  var ev = window.EVENTS && window.S && window.EVENTS[window.S.currentEvent];
+  var curEv = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : null;
+  var ev = curEv && window.EVENTS ? window.EVENTS[curEv] : null;
   var lbl = document.getElementById('nrEvName');
   if (lbl) lbl.textContent = ev ? ev.name : 'Select an event first';
   // Reset to lobby view
@@ -1201,13 +1200,33 @@ function renderRaceGame() {
 
 
 function nrGetQ() {
-  var ev = window.EVENTS && window.S && window.EVENTS[window.S.currentEvent];
+  // Access S directly (it's a global var, not on window)
+  var curEvent = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : null;
+  var ev = curEvent && window.EVENTS ? window.EVENTS[curEvent] : null;
   if (!ev) return [];
   var pool = [];
+  // Try quiz questions first
   ['easy','medium','hard'].forEach(function(d) {
     var q = ev.getQuiz ? (ev.getQuiz(d) || []) : [];
     pool = pool.concat(q);
   });
+  // Fallback: build questions from flashcards if no quiz questions
+  if (!pool.length && ev.getFlash) {
+    ['easy','medium','hard'].forEach(function(d) {
+      var cards = ev.getFlash(d) || [];
+      cards.forEach(function(c) {
+        if (c.term && c.def) {
+          pool.push({
+            q: 'What does "' + c.term + '" mean?',
+            opts: [c.def, 'A condition causing inflammation', 'A prefix meaning above normal', 'The removal of an organ'],
+            correct: 0,
+            explain: c.breakdown || c.def
+          });
+        }
+      });
+    });
+  }
+  // Shuffle
   for (var i = pool.length-1; i > 0; i--) {
     var j = Math.floor(Math.random()*(i+1));
     var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
