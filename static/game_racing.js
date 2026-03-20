@@ -213,59 +213,72 @@
   }
 
   function getRaceQuestions(evId) {
-    var ev = getEvent(evId);
-    if (!ev) return [];
+  var ev = getEvent(evId);
+  if (!ev) return [];
 
-    var quizPool = [];
+  var quizPool = [];
 
-    ['easy', 'medium', 'hard'].forEach(function (d) {
-      var bucket = [];
-      try {
-        bucket = ev.getQuiz ? (ev.getQuiz(d) || []) : [];
-      } catch (e) {
-        bucket = [];
-      }
-
-      bucket.forEach(function (item) {
-        var normalized = normalizeQuestion(item, 'quiz');
-        if (normalized) quizPool.push(normalized);
-      });
-    });
-
-    if (!quizPool.length) {
-      quizPool = quizPool.concat(getDiagnosisDetectiveFallback());
+  // 1️⃣ STRICT: Only pull quiz from THIS event
+  ['easy', 'medium', 'hard'].forEach(function (d) {
+    var bucket = [];
+    try {
+      bucket = ev.getQuiz ? (ev.getQuiz(d) || []) : [];
+    } catch (e) {
+      bucket = [];
     }
 
-    var flashcards = [];
-    ['easy', 'medium', 'hard'].forEach(function (d) {
-      var cards = [];
-      try {
-        cards = ev.getFlash ? (ev.getFlash(d) || []) : [];
-      } catch (e) {
-        cards = [];
-      }
-      flashcards = flashcards.concat(cards);
+    bucket.forEach(function (item) {
+      var normalized = normalizeQuestion(item, 'quiz');
+      if (normalized) quizPool.push(normalized);
     });
+  });
 
-    flashcards = uniqBy(flashcards, function (c) {
-      return normKey(cardTerm(c) + '::' + cardDef(c));
-    });
+  // ❌ REMOVE GLOBAL FALLBACK (this was causing cross-event mixing)
+  // if (!quizPool.length) {
+  //   quizPool = quizPool.concat(getDiagnosisDetectiveFallback());
+  // }
 
-    var flashQuestions = [];
-    flashcards.forEach(function (card) {
-      var q = flashcardToQuestion(card, flashcards);
-      if (q) flashQuestions.push(q);
-    });
+  // 2️⃣ STRICT: Only pull flashcards from THIS event
+  var flashcards = [];
+  ['easy', 'medium', 'hard'].forEach(function (d) {
+    var cards = [];
+    try {
+      cards = ev.getFlash ? (ev.getFlash(d) || []) : [];
+    } catch (e) {
+      cards = [];
+    }
+    flashcards = flashcards.concat(cards);
+  });
 
-    var merged = uniqBy(
-      quizPool.concat(flashQuestions),
-      function (q) {
-        return normKey(q.prompt);
-      }
-    );
+  flashcards = uniqBy(flashcards, function (c) {
+    return normKey(cardTerm(c) + '::' + cardDef(c));
+  });
 
-    return shuffle(merged).slice(0, 20);
+  var flashQuestions = [];
+  flashcards.forEach(function (card) {
+    var q = flashcardToQuestion(card, flashcards);
+    if (q) flashQuestions.push(q);
+  });
+
+  // 3️⃣ Combine ONLY same-event data
+  var merged = uniqBy(
+    quizPool.concat(flashQuestions),
+    function (q) {
+      return normKey(q.prompt);
+    }
+  );
+
+  // 4️⃣ Safety: if event has very low content, repeat instead of mixing events
+  if (merged.length < 10 && merged.length > 0) {
+    var expanded = [];
+    while (expanded.length < 20) {
+      expanded = expanded.concat(shuffle(merged));
+    }
+    merged = expanded;
   }
+
+  return shuffle(merged).slice(0, 20);
+}
 
   function fitRaceCanvas() {
     var canvas = document.getElementById('raceCanvas');
