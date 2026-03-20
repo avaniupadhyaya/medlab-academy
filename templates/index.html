@@ -400,7 +400,30 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     </div>
 
     <!-- NITRO RACE GAME — content injected by game_racing.js -->
-    <div class="screen" id="screen-race" style="overflow-y:auto;height:100%;"></div>
+    <!-- NITRO RACE GAME -->
+    <div class="screen" id="screen-race" style="flex-direction:column;height:100%;overflow:hidden;">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:10px;flex-shrink:0;background:var(--surf);">
+        <button onclick="goBack()" style="background:var(--surf2);border:1px solid var(--bord);border-radius:7px;padding:7px 12px;font-size:13px;color:var(--muted);cursor:pointer;font-family:var(--font);">← Back</button>
+        <div style="font-size:20px;">🏎️</div>
+        <div><div style="font-weight:700;font-size:15px;">Nitro Race</div><div style="font-size:11px;color:var(--muted);">Event: <span id="raceEventName">—</span></div></div>
+        <div style="margin-left:auto;font-size:11px;color:var(--muted);">Answer correctly = speed boost!</div>
+      </div>
+      <canvas id="raceCanvas" width="700" height="160" style="width:100%;height:160px;flex-shrink:0;background:#0a1628;display:block;"></canvas>
+      <div style="padding:4px 14px;border-bottom:1px solid var(--bord);flex-shrink:0;">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">STREAK BONUS</div>
+        <div style="background:var(--surf2);height:6px;border-radius:3px;overflow:hidden;">
+          <div id="raceStreakBar" style="height:100%;background:linear-gradient(90deg,var(--teal),#f39c12);border-radius:3px;width:0%;transition:width .3s;"></div>
+        </div>
+      </div>
+      <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 14px;">
+        <div id="raceStatus" style="color:var(--muted);font-size:13px;text-align:center;padding:10px;"></div>
+        <button id="raceStartBtn" onclick="startRace()" style="display:none;width:100%;padding:16px;background:var(--teal);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;font-family:var(--font);letter-spacing:1px;">🚀 START RACE!</button>
+        <div id="raceQuestion" style="display:none;">
+          <div id="raceQArea"></div>
+        </div>
+        <div id="raceResult" style="display:none;"></div>
+      </div>
+    </div>
 
     <!-- PLACEMENT -->
     <div class="screen" id="screen-placement">
