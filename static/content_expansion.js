@@ -2005,3 +2005,47 @@
     {q:"Why is Stop the Bleed training considered a 'public health initiative'?",opts:["It is required for all U.S. high school students","It trains the general public as immediate responders — reducing preventable deaths from hemorrhage in the minutes before EMS arrives, just as CPR training reduced cardiac arrest mortality","It primarily trains healthcare workers on new techniques","It was developed by the U.S. Public Health Service"],correct:1,explain:"Stop the Bleed is a public health initiative because it addresses a population-level problem — preventable deaths from hemorrhage — by training the broadest possible public audience. The public health model: create a trained public who act as immediate responders closing the gap between injury and EMS arrival, similar to the CPR/AED public health movement."},
   ]);
 })();
+
+// ── LIFE THREATENING DEDUPLICATION ────────────────────────────────────────
+(function(){
+  if(!window.QB_EMERGENCY) return;
+  var seenF = {}, seenQ = {};
+  ['easy','medium','hard'].forEach(function(d){
+    var arr = window.QB_EMERGENCY.flashcards[d] || [];
+    window.QB_EMERGENCY.flashcards[d] = arr.filter(function(f){
+      var key = (f.term||f.front||'').toLowerCase().trim();
+      if(seenF[key]) return false;
+      seenF[key] = true;
+      return true;
+    });
+    var qArr = window.QB_EMERGENCY.quiz[d] || [];
+    window.QB_EMERGENCY.quiz[d] = qArr.filter(function(q){
+      var key = (q.q||q.question||'').toLowerCase().trim();
+      if(seenQ[key]) return false;
+      seenQ[key] = true;
+      return true;
+    });
+  });
+})();
+
+// ── HOSA HISTORY DEDUPLICATION ────────────────────────────────────────────
+(function(){
+  if(!window.QB_HOSA_HISTORY) return;
+  var seenF = {}, seenQ = {};
+  ['easy','medium','hard'].forEach(function(d){
+    var arr = window.QB_HOSA_HISTORY.flashcards[d] || [];
+    window.QB_HOSA_HISTORY.flashcards[d] = arr.filter(function(f){
+      var key = (f.term||f.front||'').toLowerCase().trim();
+      if(seenF[key]) return false;
+      seenF[key] = true;
+      return true;
+    });
+    var qArr = window.QB_HOSA_HISTORY.quiz[d] || [];
+    window.QB_HOSA_HISTORY.quiz[d] = qArr.filter(function(q){
+      var key = (q.q||q.question||'').toLowerCase().trim();
+      if(seenQ[key]) return false;
+      seenQ[key] = true;
+      return true;
+    });
+  });
+})();
