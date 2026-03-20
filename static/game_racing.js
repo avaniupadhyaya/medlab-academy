@@ -785,14 +785,14 @@
   }
 
   window.startRace = function () {
-    var evId = window.S && window.S.currentEvent ? window.S.currentEvent : 'terminology';
-    initRace(evId);
-  };
+  var evId = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : 'terminology';
+  initRace(evId);
+};
 
   window.renderRaceGame = function () {
-    var evId = window.S && window.S.currentEvent ? window.S.currentEvent : 'terminology';
-    var ev = getEvent(evId);
-    var evName = ev ? ev.name : 'Current Event';
+  var evId = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : 'terminology';
+  var ev = getEvent(evId);
+  var evName = ev ? ev.name : 'Current Event';
     var difficulty = getCurrentDifficulty();
 
     fitRaceCanvas();
