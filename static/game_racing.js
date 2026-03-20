@@ -1,4 +1,4 @@
-// ── NITRO RACE — responsive + event-specific + mobile-friendly ──────────────
+// ── NITRO RACE — responsive + event-specific + progress outside canvas ──────
 (function () {
   var RACE = {
     active: false,
@@ -206,9 +206,7 @@
   function setCurrentDifficulty(value) {
     var next = SUPPORTED_DIFFICULTIES.indexOf(value) !== -1 ? value : 'medium';
     RACE.difficulty = next;
-    if (window.S) {
-      window.S.difficulty = next;
-    }
+    if (window.S) window.S.difficulty = next;
   }
 
   function gatherQuizForDifficulty(ev, difficulty) {
@@ -258,11 +256,9 @@
     var ev = getEvent(evId);
     if (!ev) return [];
 
-    // Strictly selected event only
     var primaryPool = buildDifficultyPool(ev, difficulty);
     var merged = primaryPool.slice();
 
-    // Top up from same event only if chosen difficulty is sparse
     if (merged.length < 12) {
       SUPPORTED_DIFFICULTIES.forEach(function (d) {
         if (d === difficulty) return;
@@ -274,7 +270,6 @@
       });
     }
 
-    // Better to repeat same-event content than mix across events
     if (merged.length > 0 && merged.length < 20) {
       var expanded = [];
       while (expanded.length < 20) {
@@ -293,28 +288,27 @@
   }
 
   function fitRaceCanvas() {
-  var canvas = document.getElementById('raceCanvas');
-  if (!canvas) return;
+    var canvas = document.getElementById('raceCanvas');
+    if (!canvas) return;
 
-  var parent = canvas.parentElement;
-  var maxWidth = parent ? parent.clientWidth : window.innerWidth;
-  var cssWidth = Math.max(320, Math.min(maxWidth, window.innerWidth - 16));
-  var mobile = window.innerWidth <= 768;
-  var cssHeight = mobile
-    ? Math.max(150, Math.min(180, Math.round(cssWidth * 0.23)))
-    : Math.max(180, Math.min(220, Math.round(cssWidth * 0.24)));
+    var parent = canvas.parentElement;
+    var maxWidth = parent ? parent.clientWidth : window.innerWidth;
+    var cssWidth = Math.max(320, Math.min(maxWidth, window.innerWidth - 16));
+    var cssHeight = isMobileRace()
+      ? Math.max(135, Math.min(155, Math.round(cssWidth * 0.20)))
+      : Math.max(180, Math.min(220, Math.round(cssWidth * 0.24)));
 
-  var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+    var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
 
-  canvas.style.width = cssWidth + 'px';
-  canvas.style.height = cssHeight + 'px';
-  canvas.width = Math.round(cssWidth * dpr);
-  canvas.height = Math.round(cssHeight * dpr);
+    canvas.style.width = cssWidth + 'px';
+    canvas.style.height = cssHeight + 'px';
+    canvas.width = Math.round(cssWidth * dpr);
+    canvas.height = Math.round(cssHeight * dpr);
 
-  var ctx = canvas.getContext('2d');
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  RACE.canvasReady = true;
-}
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    RACE.canvasReady = true;
+  }
 
   function ensureDifficultyControls() {
     var container = document.getElementById('raceDifficultyWrap');
@@ -372,9 +366,36 @@
     }
 
     var selectEl = document.getElementById('raceDifficultySelect');
-    if (selectEl) {
-      selectEl.value = getCurrentDifficulty();
+    if (selectEl) selectEl.value = getCurrentDifficulty();
+  }
+
+  function ensureRaceMetaRow() {
+    var titleEl = document.getElementById('raceEventName');
+    if (!titleEl || !titleEl.parentNode) return null;
+
+    var meta = document.getElementById('raceProgressMeta');
+    if (!meta) {
+      meta = document.createElement('div');
+      meta.id = 'raceProgressMeta';
+      meta.style.marginTop = '4px';
+      meta.style.fontFamily = 'inherit';
+      meta.style.fontSize = '13px';
+      meta.style.fontWeight = '600';
+      meta.style.color = 'var(--muted, #94a3b8)';
+      meta.style.letterSpacing = '.02em';
+      titleEl.parentNode.appendChild(meta);
     }
+    return meta;
+  }
+
+  function updateRaceMeta() {
+    var meta = ensureRaceMetaRow();
+    if (!meta) return;
+
+    var total = RACE.questions && RACE.questions.length ? RACE.questions.length : 20;
+    var questionNumber = Math.min(RACE.qIdx + 1, total);
+    meta.textContent =
+      'Progress ' + Math.round(RACE.playerPos) + '% • Q ' + questionNumber + '/' + total + ' • ' + (RACE.difficulty || getCurrentDifficulty()).toUpperCase();
   }
 
   function optionButtonHtml(label, i, text) {
@@ -386,10 +407,8 @@
       'padding:' + (mobile ? '12px 14px' : '12px 16px') + ';' +
       'margin:' + (mobile ? '8px 0' : '10px 0') + ';' +
       'border:1.5px solid var(--bord);border-radius:16px;background:var(--surf2);' +
-      'color:var(--text);font-family:inherit;' +
-      'font-size:' + (mobile ? '15px' : '15px') + ';' +
-      'font-weight:600;line-height:1.35;cursor:pointer;' +
-      'transition:background .15s ease,border-color .15s ease;' +
+      'color:var(--text);font-family:inherit;font-size:15px;font-weight:600;' +
+      'line-height:1.35;cursor:pointer;transition:background .15s ease,border-color .15s ease;' +
       '">' +
       label + '. ' + text +
       '</button>'
@@ -402,9 +421,7 @@
 
     if (!RACE.questions.length) {
       var statusEl = document.getElementById('raceStatus');
-      if (statusEl) {
-        statusEl.textContent = 'No usable ' + difficulty + ' practice questions found for this event yet.';
-      }
+      if (statusEl) statusEl.textContent = 'No usable ' + difficulty + ' practice questions found for this event yet.';
       return;
     }
 
@@ -437,6 +454,7 @@
 
     renderRaceQ();
     drawTrack();
+    updateRaceMeta();
 
     if (RACE.frameId) cancelAnimationFrame(RACE.frameId);
     raceLoop();
@@ -462,6 +480,7 @@
     }
 
     drawTrack();
+    updateRaceMeta();
 
     if (RACE.finishOrder.length === 4 || (RACE.playerPos >= 100 && RACE.qIdx >= RACE.questions.length)) {
       endRace();
@@ -472,133 +491,99 @@
   }
 
   function drawTrack() {
-  var canvas = document.getElementById('raceCanvas');
-  if (!canvas || !RACE.canvasReady) return;
+    var canvas = document.getElementById('raceCanvas');
+    if (!canvas || !RACE.canvasReady) return;
 
-  var ctx = canvas.getContext('2d');
-  var W = parseFloat(canvas.style.width) || 560;
-  var H = parseFloat(canvas.style.height) || 180;
-  var mobile = window.innerWidth <= 768;
+    var ctx = canvas.getContext('2d');
+    var W = parseFloat(canvas.style.width) || 560;
+    var H = parseFloat(canvas.style.height) || 200;
+    var mobile = isMobileRace();
 
-  ctx.clearRect(0, 0, W, H);
+    ctx.clearRect(0, 0, W, H);
 
-  var hudH = mobile ? 26 : 22;          // bottom strip reserved for progress
-  var roadTop = H * 0.52;
-  var roadBottom = H - hudH;
+    var sky = ctx.createLinearGradient(0, 0, 0, H * 0.54);
+    sky.addColorStop(0, '#081221');
+    sky.addColorStop(1, '#17385c');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H * 0.56);
 
-  // sky
-  var sky = ctx.createLinearGradient(0, 0, 0, roadTop);
-  sky.addColorStop(0, '#081221');
-  sky.addColorStop(1, '#17385c');
-  ctx.fillStyle = sky;
-  ctx.fillRect(0, 0, W, roadTop);
+    var roadTop = H * 0.56;
+    var roadBottom = H;
+    var road = ctx.createLinearGradient(0, roadTop, 0, roadBottom);
+    road.addColorStop(0, '#2a2a2a');
+    road.addColorStop(1, '#181818');
+    ctx.fillStyle = road;
+    ctx.fillRect(0, roadTop, W, roadBottom - roadTop);
 
-  // road
-  var road = ctx.createLinearGradient(0, roadTop, 0, roadBottom);
-  road.addColorStop(0, '#2a2a2a');
-  road.addColorStop(1, '#181818');
-  ctx.fillStyle = road;
-  ctx.fillRect(0, roadTop, W, roadBottom - roadTop);
+    var finishW = mobile ? 14 : 18;
+    var finishX = W - finishW - (mobile ? 8 : 14);
+    for (var fi = 0; fi < 10; fi++) {
+      ctx.fillStyle = fi % 2 === 0 ? '#fff' : '#111';
+      ctx.fillRect(finishX, roadTop + 4 + fi * ((roadBottom - roadTop - 8) / 10), finishW, (roadBottom - roadTop - 8) / 10);
+    }
 
-  // finish line
-  var finishW = mobile ? 14 : 18;
-  var finishX = W - finishW - (mobile ? 8 : 14);
-  for (var fi = 0; fi < 10; fi++) {
-    ctx.fillStyle = fi % 2 === 0 ? '#fff' : '#111';
-    ctx.fillRect(finishX, roadTop + 4 + fi * ((roadBottom - roadTop - 8) / 10), finishW, (roadBottom - roadTop - 8) / 10);
-  }
+    var laneTop = roadTop + 20;
+    var laneGap = mobile ? 24 : 28;
+    var lanes = [laneTop, laneTop + laneGap, laneTop + laneGap * 2, laneTop + laneGap * 3];
 
-  // lane layout
-  var labelColW = mobile ? 58 : 70;
-  var startX = mobile ? 82 : 96;
-  var carW = mobile ? 24 : 28;
-  var carH = mobile ? 10 : 12;
-  var laneAreaTop = roadTop + 18;
-  var laneGap = mobile ? 24 : 26;
-  var lanes = [
-    laneAreaTop,
-    laneAreaTop + laneGap,
-    laneAreaTop + laneGap * 2,
-    laneAreaTop + laneGap * 3
-  ];
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.lineWidth = 1;
+    lanes.forEach(function (y) {
+      ctx.beginPath();
+      ctx.moveTo(mobile ? 64 : 76, y + 8);
+      ctx.lineTo(finishX - 8, y + 8);
+      ctx.stroke();
+    });
 
-  // lane guides
-  ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-  ctx.lineWidth = 1;
-  lanes.forEach(function (y) {
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = mobile ? 1.8 : 2;
+    ctx.setLineDash(mobile ? [16, 10] : [22, 14]);
     ctx.beginPath();
-    ctx.moveTo(labelColW, y + 8);
-    ctx.lineTo(finishX - 8, y + 8);
+    ctx.moveTo((mobile ? 86 : 98) - 8, lanes[1] + 8);
+    ctx.lineTo(finishX - 10, lanes[1] + 8);
     ctx.stroke();
-  });
+    ctx.setLineDash([]);
 
-  // dashed center line
-  ctx.strokeStyle = '#facc15';
-  ctx.lineWidth = mobile ? 1.8 : 2;
-  ctx.setLineDash(mobile ? [16, 10] : [22, 14]);
-  ctx.beginPath();
-  ctx.moveTo(startX - 8, lanes[1] + 8);
-  ctx.lineTo(finishX - 10, lanes[1] + 8);
-  ctx.stroke();
-  ctx.setLineDash([]);
+    var startX = mobile ? 86 : 98;
+    var carW = mobile ? 24 : 28;
+    var carH = mobile ? 10 : 12;
+    var travelW = finishX - startX - carW - 12;
 
-  var travelW = finishX - startX - carW - 12;
+    var carData = [
+      { pos: RACE.playerPos, color: PLAYER_COLOR, label: 'YOU', lane: lanes[0] },
+      { pos: RACE.aiPos[0], color: AI_COLORS[0], label: AI_NAMES[0], lane: lanes[1] },
+      { pos: RACE.aiPos[1], color: AI_COLORS[1], label: AI_NAMES[1], lane: lanes[2] },
+      { pos: RACE.aiPos[2], color: AI_COLORS[2], label: AI_NAMES[2], lane: lanes[3] }
+    ];
 
-  var carData = [
-    { pos: RACE.playerPos, color: PLAYER_COLOR, label: 'YOU', lane: lanes[0] },
-    { pos: RACE.aiPos[0], color: AI_COLORS[0], label: AI_NAMES[0], lane: lanes[1] },
-    { pos: RACE.aiPos[1], color: AI_COLORS[1], label: AI_NAMES[1], lane: lanes[2] },
-    { pos: RACE.aiPos[2], color: AI_COLORS[2], label: AI_NAMES[2], lane: lanes[3] }
-  ];
+    carData.forEach(function (car) {
+      var x = startX + (car.pos / 100) * travelW;
+      var y = car.lane;
 
-  carData.forEach(function (car) {
-    var x = startX + (car.pos / 100) * travelW;
-    var y = car.lane;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = (mobile ? '600 9px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(car.label, 8, y + 3);
 
-    // left-column labels instead of floating over cars
-    ctx.fillStyle = '#ffffff';
-    ctx.font = (mobile ? '600 9px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(car.label, 8, y + 3);
+      ctx.fillStyle = car.color;
+      ctx.beginPath();
+      ctx.roundRect(x - carW / 2, y - carH / 2, carW, carH, 4);
+      ctx.fill();
 
-    // car body
-    ctx.fillStyle = car.color;
-    ctx.beginPath();
-    ctx.roundRect(x - carW / 2, y - carH / 2, carW, carH, 4);
-    ctx.fill();
+      ctx.fillStyle = 'rgba(220,240,255,0.7)';
+      ctx.beginPath();
+      ctx.roundRect(x - 3, y - 5, 9, 5, 2);
+      ctx.fill();
 
-    // windshield
-    ctx.fillStyle = 'rgba(220,240,255,0.7)';
-    ctx.beginPath();
-    ctx.roundRect(x - 3, y - 5, 9, 5, 2);
-    ctx.fill();
-
-    // wheels
-    ctx.fillStyle = '#111';
-    ctx.beginPath();
-    ctx.arc(x - 8, y + 5, 2.2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(x + 8, y + 5, 2.2, 0, Math.PI * 2);
-    ctx.fill();
-  });
-
-  // dedicated HUD strip at bottom
-  ctx.fillStyle = 'rgba(0,0,0,0.58)';
-  ctx.fillRect(0, H - hudH, W, hudH);
-
-  ctx.fillStyle = PLAYER_COLOR;
-  ctx.fillRect(0, H - hudH, (RACE.playerPos / 100) * W, hudH);
-
-  ctx.fillStyle = '#fff';
-  ctx.font = (mobile ? '600 10px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText(
-    'Progress: ' + Math.round(RACE.playerPos) + '%   Q:' + (RACE.qIdx + 1) + '/' + RACE.questions.length + '   ' + (RACE.difficulty || 'medium').toUpperCase(),
-    10,
-    H - 8
-  );
-}
+      ctx.fillStyle = '#111';
+      ctx.beginPath();
+      ctx.arc(x - 8, y + 5, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(x + 8, y + 5, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
 
   function renderRaceQ() {
     var qArea = document.getElementById('raceQArea');
@@ -619,7 +604,7 @@
     html += 'Nitro Race • ' + ((RACE.difficulty || 'medium').toUpperCase());
     html += '</div>';
 
-    html += '<div style="font-family:inherit;font-size:' + (mobile ? '16px' : '16px') + ';font-weight:700;line-height:1.45;margin:' + (mobile ? '10px 0 12px 0' : '8px 0 14px 0') + ';color:var(--text);">';
+    html += '<div style="font-family:inherit;font-size:16px;font-weight:700;line-height:1.45;margin:' + (mobile ? '10px 0 12px 0' : '8px 0 14px 0') + ';color:var(--text);">';
     html += (q.prompt || 'Question unavailable');
     html += '</div>';
 
@@ -687,8 +672,7 @@
               'display:block;background:rgba(34,197,94,0.10);color:var(--text);' +
               'border:1px solid #22c55e;padding:10px 12px;border-radius:12px;margin-top:12px;' +
               'font-family:inherit;font-size:13px;';
-            feedbackEl.textContent =
-              '✅ Correct! +' + boost + ' speed' + (RACE.streak > 1 ? ' (' + RACE.streak + 'x streak!)' : '');
+            feedbackEl.textContent = '✅ Correct! +' + boost + ' speed' + (RACE.streak > 1 ? ' (' + RACE.streak + 'x streak!)' : '');
           }
 
           updateStreakBar();
@@ -743,6 +727,7 @@
 
   function nextRaceQ() {
     RACE.qIdx++;
+    updateRaceMeta();
 
     if (RACE.qIdx >= RACE.questions.length) {
       var qArea = document.getElementById('raceQArea');
@@ -812,6 +797,7 @@
 
     fitRaceCanvas();
     ensureDifficultyControls();
+    ensureRaceMetaRow();
 
     var lbl = document.getElementById('raceEventName');
     var startBtn = document.getElementById('raceStartBtn');
@@ -831,6 +817,7 @@
         : ('No usable ' + difficulty + ' practice questions found for ' + evName + ' yet.');
     }
 
+    updateRaceMeta();
     drawTrack();
   };
 
@@ -838,6 +825,7 @@
 
   window.addEventListener('resize', function () {
     fitRaceCanvas();
+    updateRaceMeta();
     drawTrack();
   });
 })();
