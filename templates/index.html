@@ -520,6 +520,43 @@ const S={
   lastQ:'',
 };
 
+// ── PERSISTENCE ───────────────────────────────────────────
+(function(){
+  try {
+    var saved = JSON.parse(localStorage.getItem('medlab_progress')||'null');
+    if(saved){
+      S.xp = saved.xp||0;
+      S.level = saved.level||1;
+      S.correct = saved.correct||0;
+      S.total = saved.total||0;
+      S.currentEvent = saved.currentEvent||'terminology';
+      S.difficulty = saved.difficulty||'medium';
+      S.courseProgress = saved.courseProgress||{};
+    }
+  } catch(e){}
+})();
+function saveState(){
+  try {
+    localStorage.setItem('medlab_progress', JSON.stringify({
+      xp: S.xp,
+      level: S.level,
+      correct: S.correct,
+      total: S.total,
+      currentEvent: S.currentEvent,
+      difficulty: S.difficulty,
+      courseProgress: S.courseProgress
+    }));
+  } catch(e){}
+}
+function resetProgress(){
+  if(!confirm('Reset all progress? This cannot be undone.')) return;
+  try { localStorage.removeItem('medlab_progress'); } catch(e){}
+  S.xp=0; S.level=1; S.correct=0; S.total=0;
+  S.currentEvent='terminology'; S.difficulty='medium'; S.courseProgress={};
+  saveState();
+  location.reload();
+}
+
 // ── EVENT CONFIG ─────────────────────────────────────────
 const EVENTS={
   terminology:{
@@ -612,6 +649,7 @@ function addXP(n){
   document.getElementById('xpBar').style.width=pct+'%';
   document.getElementById('lvBadge').textContent='Lv '+lv;
   updateStats();
+  saveState();
 }
 function updateStats(){
   document.getElementById('statMastered').textContent=S.correct;
@@ -661,6 +699,7 @@ function setDiff(d){
   addMsg('ai','Difficulty → '+(d==='easy'?'Easy 🌱':d==='medium'?'Medium 👍':'Hard 💪'),'both');
   const s=S.currentScreen;
   if(['flashcards','quiz'].includes(s))showScreen(s);
+  saveState();
 }
 document.getElementById('dE').addEventListener('click',()=>setDiff('easy'));
 document.getElementById('dM').addEventListener('click',()=>setDiff('medium'));
@@ -678,6 +717,7 @@ function selectEvent(evId){
   document.getElementById('courseTitle').textContent=ev.icon+' '+ev.name;
   renderCourse();
   addMsg('ai','Switched to '+ev.name+'! Let\'s go 🔬','both');
+  saveState();
 }
 
 function renderSidebarEvents(){
@@ -889,6 +929,7 @@ function finishLesson(){
   if(pct>=80||total===0){
     S.courseProgress[lesson.id]=true;
     addXP(lesson.xp);
+    saveState();
   }
   const wrap=document.querySelector('.lq');
   if(wrap){
@@ -918,7 +959,7 @@ function buildLessonComplete(score,total,lesson,unit,ui,li){
         <button class="lc-btn s" onclick="openUnit(${safeUi})">← Back to Unit</button>
       </div></div>`;
   }
-  if(total > 0){ S.courseProgress[lesson&&lesson.id?lesson.id:'done']=true; }
+  if(total > 0){ S.courseProgress[lesson&&lesson.id?lesson.id:'done']=true; saveState(); }
   return `<div class="lc">
     <div class="lc-ic">${pct>=90?'🏆':pct>=80?'⭐':'✅'}</div>
     <div class="lc-title">Lesson Complete! ${pct>=90?'🔥':''}</div>
