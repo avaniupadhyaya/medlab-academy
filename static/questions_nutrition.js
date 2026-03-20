@@ -1,139 +1,715 @@
-// ── questions_nutrition.js ──
-// HOSA Academy — Foundations of Nutrition — Complete Study Bible
 window.QB_NUTRITION = {
-flashcards: {
-easy: [
-  {term:"6 Essential Nutrients",def:"Carbohydrates, Proteins, Fats, Vitamins, Minerals, Water",breakdown:"Remember C-P-F-V-M-W. All 6 are required; body cannot make adequate amounts of essential ones"},
-  {term:"Carbohydrates",def:"Primary energy source; 4 calories per gram; simple (sugars) vs complex (starches, fiber)",breakdown:"45-65% of daily calories. Brain runs almost exclusively on glucose"},
-  {term:"Proteins",def:"Build and repair tissues; 4 calories per gram; made of amino acid chains",breakdown:"10-35% of daily calories. 9 essential amino acids must come from food"},
-  {term:"Fats (Lipids)",def:"Most concentrated energy source; 9 calories per gram; needed for fat-soluble vitamins",breakdown:"20-35% of daily calories. Saturated (solid), Unsaturated (liquid), Trans (artificial/harmful)"},
-  {term:"Vitamins",def:"Organic compounds needed in tiny amounts to regulate body processes",breakdown:"Fat-soluble (A,D,E,K) stored in body fat. Water-soluble (B vitamins, C) excreted daily"},
-  {term:"Minerals",def:"Inorganic elements from soil/water; cannot be made by the body",breakdown:"Major minerals: Ca, Na, K, Mg, P. Trace minerals: Fe, Zn, I, Se, Cu, Mn"},
-  {term:"Water",def:"6th essential nutrient; 60% of adult body weight; required for every chemical reaction",breakdown:"Need 8+ cups daily. First sign of dehydration: thirst. Dark urine = dehydrated"},
-  {term:"Calorie (kcal)",def:"Unit of energy in food. Carbs=4/g, Protein=4/g, Fat=9/g, Alcohol=7/g",breakdown:"2,000 calories/day is the standard reference for % Daily Values on food labels"},
-  {term:"MyPlate",def:"USDA 2011 food guidance tool replacing the Food Pyramid",breakdown:"Half plate = fruits + vegetables. Quarter = grains (half whole grain). Quarter = protein. Side = dairy"},
-  {term:"Macronutrients",def:"Carbohydrates, proteins, and fats — needed in LARGE gram amounts daily",breakdown:"Macro = large (Greek). Provide all calories. Fiber is a macronutrient but provides minimal calories"},
-  {term:"Micronutrients",def:"Vitamins and minerals — needed in SMALL milligram or microgram amounts",breakdown:"Micro = small (Greek). Do NOT provide calories. Deficiencies cause specific diseases"},
-  {term:"Fiber",def:"Indigestible carbohydrate; feeds gut bacteria; prevents constipation; slows glucose absorption",breakdown:"Soluble fiber (oats, beans, apples) lowers cholesterol. Insoluble fiber (wheat bran, vegetables) adds bulk"},
-  {term:"Glucose",def:"Simple sugar; the bodys primary fuel molecule; brain requires ~120g/day",breakdown:"Normal fasting blood glucose: 70-100 mg/dL. After meals: <140 mg/dL"},
-  {term:"Saturated fat",def:"Fat with no carbon double bonds; solid at room temp; raises LDL cholesterol",breakdown:"Sources: butter, lard, fatty meat, full-fat dairy, coconut oil, palm oil"},
-  {term:"Unsaturated fat",def:"Fat with one or more carbon double bonds; liquid at room temp; heart-healthy",breakdown:"Monounsaturated (olive oil, avocado). Polyunsaturated (fish, nuts, seeds)"},
-  {term:"Trans fat",def:"Artificially hydrogenated fat; MOST harmful — raises LDL AND lowers HDL simultaneously",breakdown:"Largely banned in US since 2018. Avoid labels saying 'partially hydrogenated oils'"},
-  {term:"Dehydration",def:"Insufficient water in body; impairs physical and mental performance",breakdown:"Symptoms: thirst → dark urine → fatigue → headache → dizziness → confusion → organ failure"},
-  {term:"Nutrient density",def:"Amount of beneficial nutrients per calorie in a food",breakdown:"High density: kale, salmon, eggs, berries. Low density (empty calories): soda, candy, chips"},
-  {term:"Malnutrition",def:"Both UNDER-nutrition (deficiencies) and OVER-nutrition (excess leading to obesity)",breakdown:"Not just starvation. Obesity from poor diet quality is also a form of malnutrition"},
-  {term:"Complete protein",def:"Contains all 9 essential amino acids in adequate amounts",breakdown:"Animal complete: meat, fish, eggs, dairy. Plant complete: soy, quinoa, hemp seeds"},
-  {term:"Incomplete protein",def:"Missing or low in one or more essential amino acids",breakdown:"Most plant proteins. Combine complementary proteins: rice+beans, peanut butter+bread"},
-  {term:"Antioxidants",def:"Compounds that neutralize free radicals and protect cells from oxidative damage",breakdown:"Vitamins C, E; beta-carotene; selenium; polyphenols. Found in colorful fruits and vegetables"},
-  {term:"Glycemic Index (GI)",def:"Ranks carbohydrates 0-100 by how fast they raise blood glucose",breakdown:"High GI >70: white bread, white rice, soda. Low GI <55: oats, legumes, most whole fruits"},
-  {term:"BMI",def:"Body Mass Index = weight(kg) ÷ height²(m²); screening tool for weight status",breakdown:"Underweight <18.5. Normal 18.5-24.9. Overweight 25-29.9. Obese ≥30. Not a diagnostic tool"},
-],
-medium: [
-  {term:"Essential amino acids (9)",def:"Histidine, Isoleucine, Leucine, Lysine, Methionine, Phenylalanine, Threonine, Tryptophan, Valine",breakdown:"Mnemonic: His Incredibly Lean Lady Met Pale Thin Tired Visitors. Cannot be made by the body"},
-  {term:"Vitamin A (Retinol)",def:"Fat-soluble; vision (rhodopsin in rods), immune function, skin and epithelial health, bone growth",breakdown:"Deficiency: night blindness → xerophthalmia (total blindness). Sources: liver, orange/yellow veg, dairy"},
-  {term:"Vitamin B1 (Thiamine)",def:"Water-soluble; energy metabolism from carbohydrates; nerve and heart function",breakdown:"Deficiency: Beriberi — Wet (heart failure) or Dry (peripheral neuropathy). Sources: pork, legumes, fortified grains"},
-  {term:"Vitamin B3 (Niacin)",def:"Water-soluble; energy production from carbs/fats/protein; DNA repair; skin health",breakdown:"Deficiency: Pellagra — 4 Ds: Dermatitis, Diarrhea, Dementia, Death. Sources: meat, fish, poultry, peanuts"},
-  {term:"Vitamin B9 (Folate)",def:"Water-soluble; DNA synthesis; red blood cell production; neural tube development in fetus",breakdown:"Critical before and during early pregnancy. Deficiency: neural tube defects (spina bifida). Sources: leafy greens, legumes, fortified grain"},
-  {term:"Vitamin B12 (Cobalamin)",def:"Water-soluble; red blood cell formation; nerve myelin sheath maintenance; DNA synthesis",breakdown:"ONLY naturally in animal foods. Vegans must supplement. Deficiency: pernicious anemia, irreversible nerve damage"},
-  {term:"Vitamin C (Ascorbic acid)",def:"Water-soluble antioxidant; collagen synthesis; iron absorption; immune support; wound healing",breakdown:"Deficiency: Scurvy — bleeding gums, poor wound healing, joint pain, fatigue. Sources: citrus, peppers, kiwi, strawberries"},
-  {term:"Vitamin D (Calciferol)",def:"Fat-soluble; calcium and phosphorus absorption; bone mineralization; immune function; mood regulation",breakdown:"Made by skin in sunlight. Deficiency: Rickets (children), Osteomalacia (adults), depression. Sources: fatty fish, fortified milk"},
-  {term:"Vitamin E (Tocopherol)",def:"Fat-soluble antioxidant; protects polyunsaturated fats in cell membranes from oxidation",breakdown:"Deficiency: rare but causes neurological problems and hemolytic anemia. Sources: nuts, seeds, vegetable oils"},
-  {term:"Vitamin K",def:"Fat-soluble; blood coagulation (clotting factors II, VII, IX, X); bone metabolism (osteocalcin)",breakdown:"K1 from green vegetables; K2 from fermented foods and gut bacteria. Deficiency: bleeding disorders"},
-  {term:"Calcium",def:"Most abundant mineral in body (99% in bones/teeth); muscle contraction; nerve signaling; blood clotting",breakdown:"Deficiency: Osteoporosis (adults), Rickets (children). Sources: dairy, sardines, leafy greens, fortified foods"},
-  {term:"Iron",def:"Component of hemoglobin (carries O2 in blood) and myoglobin (stores O2 in muscle)",breakdown:"Deficiency: iron-deficiency anemia. Heme iron (meat) absorbs 15-35%. Non-heme (plants) 2-20%. Vitamin C enhances absorption"},
-  {term:"Potassium",def:"Intracellular electrolyte; muscle contractions; heart rhythm; blood pressure regulation; nerve impulses",breakdown:"Deficiency: hypokalemia — muscle weakness, cramping, irregular heartbeat. Sources: bananas, potatoes, avocados, beans"},
-  {term:"Sodium",def:"Extracellular electrolyte; fluid balance; nerve impulses; muscle contraction",breakdown:"Excess raises blood pressure (hypertension). RDA <2,300 mg/day. Average American eats ~3,400 mg/day"},
-  {term:"Magnesium",def:"Cofactor for 300+ enzymes; energy production; protein synthesis; muscle/nerve function; blood glucose",breakdown:"Deficiency: muscle cramps, irregular heartbeat, constipation. Sources: nuts, seeds, whole grains, leafy greens"},
-  {term:"Iodine",def:"Essential for thyroid hormone (T3 and T4) synthesis; metabolism regulation; brain development",breakdown:"Deficiency: Goiter (enlarged thyroid), hypothyroidism, cretinism in infants. Main source: iodized salt, seafood"},
-  {term:"Zinc",def:"Immune function; wound healing; taste and smell; DNA synthesis; growth; insulin storage",breakdown:"Deficiency: impaired immunity, slow wound healing, loss of taste/smell, growth retardation. Sources: meat, shellfish, legumes"},
-  {term:"Omega-3 fatty acids",def:"Essential polyunsaturated fats; anti-inflammatory; heart health; brain development",breakdown:"EPA and DHA in fatty fish (salmon, sardines, mackerel). ALA in flaxseed, chia, walnuts. ALA is poorly converted"},
-  {term:"HDL cholesterol",def:"High-Density Lipoprotein — reverse cholesterol transport; removes plaque from arteries to liver",breakdown:"Want HIGH. Raised by: aerobic exercise, unsaturated fats, quitting smoking, moderate alcohol. Goal >60 mg/dL"},
-  {term:"LDL cholesterol",def:"Low-Density Lipoprotein — deposits cholesterol in artery walls; causes atherosclerosis",breakdown:"Want LOW. Raised by: saturated fat, trans fat, obesity, inactivity. Goal <100 mg/dL (optimal)"},
-  {term:"BMR (Basal Metabolic Rate)",def:"Calories burned at complete rest to maintain basic body functions",breakdown:"Accounts for 60-70% of total daily energy expenditure. Influenced by muscle mass, age, sex, genetics"},
-  {term:"Kwashiorkor",def:"Severe PROTEIN deficiency; adequate calories; causes edema (fluid retention), swollen abdomen, fatty liver",breakdown:"Occurs in children fed starchy foods after weaning without adequate protein. Pitting edema, skin lesions, hair changes"},
-  {term:"Marasmus",def:"Severe calorie AND protein deficiency; extreme wasting, muscle loss, no edema",breakdown:"Greek: marasmos = wasting. Sunken eyes, all ribs visible, extreme thinness. Requires very slow, careful refeeding"},
-  {term:"Celiac disease",def:"Autoimmune; gluten triggers immune attack on small intestine villi causing malabsorption",breakdown:"Gluten in wheat, barley, rye. Causes malabsorption of all nutrients. Only treatment: strict lifelong gluten-free diet"},
-  {term:"Metabolic syndrome",def:"Cluster: abdominal obesity + high triglycerides + low HDL + high BP + high fasting glucose (3 of 5)",breakdown:"5x increased Type 2 diabetes risk; 2x cardiovascular disease risk. Treated with diet, exercise, weight loss"},
-,
-  {term:"Kwashiorkor",def:"Severe PROTEIN deficiency; adequate calories; edema, swollen abdomen, fatty liver",breakdown:"Seen in children fed starchy weaning foods without adequate protein"},
-  {term:"Marasmus",def:"Severe CALORIE + protein deficiency; extreme wasting, no edema",breakdown:"Greek: marasmos = wasting away. Requires very slow careful refeeding"},
-  {term:"Refeeding syndrome",def:"Life-threatening electrolyte drops when starved patient fed too fast",breakdown:"Phosphate, K, Mg crash as cells take up nutrients — cardiac arrest risk"},
-  {term:"Nitrogen balance",def:"Protein intake (N in) minus protein breakdown/excretion (N out)",breakdown:"Positive = building tissue. Negative = illness/starvation. Neutral = maintenance"},
-  {term:"Thermic effect of food",def:"Calories burned digesting food. Protein=20-30%, Carbs=5-10%, Fat=0-3%",breakdown:"High-protein diets burn more calories in digestion — metabolic advantage"},
-  {term:"Glycogen",def:"Storage form of glucose. Liver ~100g (blood sugar). Muscle ~400g (exercise fuel)",breakdown:"Depleted after ~90-120 min intense exercise — the athletic bonk/hitting the wall"},
-  {term:"Ketosis",def:"Metabolic state where ketone bodies replace glucose as primary brain fuel",breakdown:"Occurs at <50g carbs/day. Used medically for epilepsy treatment"},
-  {term:"Insulin resistance",def:"Cells fail to respond normally to insulin; precursor to Type 2 diabetes",breakdown:"Causes: obesity, inactivity, refined carbs. Fixes: weight loss, exercise, diet quality"},
-  {term:"Celiac disease",def:"Autoimmune; gluten triggers immune attack on small intestine villi, causing malabsorption",breakdown:"Gluten in wheat, barley, rye. Only treatment: strict lifelong gluten-free diet"},
-  {term:"Lactose intolerance",def:"Insufficient lactase enzyme to digest lactose (milk sugar); GI symptoms",breakdown:"65% of world adults have reduced lactase. Different from milk allergy (immune response)"},
-  {term:"Food allergy vs intolerance",def:"Allergy = immune response (anaphylaxis possible). Intolerance = digestive/metabolic",breakdown:"Top 9 US allergens: milk, eggs, fish, shellfish, tree nuts, peanuts, wheat, soy, sesame"},
-  {term:"Vitamin A toxicity",def:"Liver damage, bone pain, hair loss, birth defects; from excessive supplement use",breakdown:"Only from preformed Vitamin A (retinol) supplements — NOT from beta-carotene in vegetables"},
-  {term:"Folate and neural tube defects",def:"Folic acid critical BEFORE pregnancy — neural tube closes at 28 days after conception",breakdown:"All women of childbearing age: 400 mcg folic acid daily. Prevents spina bifida and anencephaly"},
-  {term:"Pernicious anemia",def:"B12 deficiency from lack of intrinsic factor (needed for B12 absorption in small intestine)",breakdown:"Most common B12 deficiency cause. Treated with B12 injections — oral B12 cannot be absorbed"},
-  {term:"Iron absorption enhancement",def:"Heme iron (meat) absorbs 15-35%. Non-heme (plants) 2-20%. Vitamin C increases non-heme 2-3x",breakdown:"Tea, coffee, calcium, and phytates INHIBIT iron absorption — avoid with iron-rich meals"},
-  {term:"Zinc deficiency signs",def:"Impaired immunity, poor wound healing, growth retardation, loss of taste and smell",breakdown:"Common in vegetarians/vegans. Oysters are richest food source — 5-6x RDA per oyster"},
-  {term:"Iodine and thyroid function",def:"Iodine required for T3 and T4 thyroid hormones which regulate metabolism rate",breakdown:"Goiter = enlarged thyroid from iodine deficiency. Iodized salt introduced 1920s to prevent this"},
-  {term:"Sodium and blood pressure",def:"Every 500 mg sodium reduction — about 2-3 mmHg reduction in systolic BP",breakdown:"Average American consumes 3,400 mg/day. Recommended limit: 2,300 mg/day"},
-  {term:"Potassium and hypertension",def:"High potassium counteracts sodium BP-raising effects; reduces cardiovascular risk",breakdown:"DASH diet high in potassium lowers blood pressure. Sources: banana, potato, avocado, beans"},
-  {term:"Calcium absorption factors",def:"Vitamin D essential for calcium absorption. Caffeine and excess sodium reduce calcium retention",breakdown:"Peak bone mass built by age 30 — calcium intake during teen years is critically important"},
-  {term:"Prebiotics vs probiotics",def:"Prebiotics (feed bacteria): garlic, onions, oats, bananas, asparagus",breakdown:"Probiotics (live bacteria): yogurt, kefir, kimchi, sauerkraut, miso, kombucha"},
-  {term:"Short-chain fatty acids",def:"Butyrate, propionate, acetate — produced when gut bacteria ferment dietary fiber",breakdown:"Butyrate fuels colon cells, reduces inflammation, may prevent colon cancer"},
-  {term:"Visceral vs subcutaneous fat",def:"Visceral: fat around organs — dangerous, inflammatory. Subcutaneous: under skin — less dangerous",breakdown:"Visceral fat secretes inflammatory cytokines. Linked to insulin resistance, T2DM, CVD"},
-  {term:"Antioxidant mechanisms",def:"Neutralize free radicals (unstable molecules) that damage DNA, proteins, and cell membranes",breakdown:"Vitamins C and E, beta-carotene, selenium, polyphenols — found in colorful produce"},
-  {term:"Complementary proteins",def:"Two incomplete proteins combined to provide all 9 essential amino acids",breakdown:"Rice + beans, peanut butter + wheat bread, corn tortilla + black beans — classic combos"}
-],
-hard: [
-  {term:"Nitrogen balance",def:"Protein intake (nitrogen in) minus protein breakdown/excretion (nitrogen out)",breakdown:"Positive = growing, building muscle, healing. Negative = illness, starvation, inadequate protein. Neutral = maintenance"},
-  {term:"Thermic effect of food (TEF)",def:"Calories burned digesting, absorbing, and metabolizing food",breakdown:"Protein burns 20-30% of its calories in digestion. Carbs 5-10%. Fat 0-3%. High-protein diets have metabolic advantage"},
-  {term:"Glycogen",def:"Storage form of glucose; liver stores ~100g (blood sugar regulation); muscle stores ~300-500g (exercise fuel)",breakdown:"Muscle glycogen cannot raise blood sugar. Liver glycogen can. Depleted after ~90-120 min intense exercise"},
-  {term:"Ketosis",def:"Metabolic state where fat (ketone bodies) replaces glucose as primary brain/body fuel",breakdown:"Occurs at <50g carbs/day. Ketones (acetoacetate, beta-hydroxybutyrate, acetone) cross blood-brain barrier"},
-  {term:"Refeeding syndrome",def:"Life-threatening electrolyte drops (phosphate, potassium, magnesium) when malnourished patients are fed too fast",breakdown:"As cells take up nutrients, serum electrolytes crash. Cardiac arrest risk. Must refeed very slowly!"},
-  {term:"Prebiotics vs Probiotics",def:"Prebiotics: non-digestible fiber that feeds beneficial gut bacteria. Probiotics: live beneficial bacteria themselves",breakdown:"Prebiotics: garlic, onions, oats, bananas. Probiotics: yogurt, kefir, kimchi, sauerkraut, miso"},
-  {term:"Short-chain fatty acids",def:"Butyrate, propionate, acetate — produced when gut bacteria ferment dietary fiber",breakdown:"Butyrate fuels colonocytes, reduces inflammation, may prevent colon cancer. Key benefit of high-fiber diets"},
-  {term:"AMDR",def:"Acceptable Macronutrient Distribution Range: Carbs 45-65%, Fat 20-35%, Protein 10-35% of calories",breakdown:"Set by National Academies. Ranges rather than single values because healthy diets can vary widely"},
-  {term:"DRI components",def:"RDA (meets 97.5% needs), AI (adequate intake when RDA unknown), UL (max safe level), EAR (average needs)",breakdown:"RDA is what most people should aim for. UL is the maximum before toxicity risk. Fat-soluble vitamins have low ULs"},
-  {term:"Visceral vs subcutaneous fat",def:"Visceral: fat around organs (dangerous, inflammatory). Subcutaneous: fat under skin (less dangerous)",breakdown:"Visceral fat releases inflammatory cytokines and free fatty acids. Associated with insulin resistance, T2DM, CVD"},
-,
-  {term:"AMDR for all macronutrients",def:"Acceptable Macronutrient Distribution Range: Carbs 45-65%, Fat 20-35%, Protein 10-35%",breakdown:"Set by National Academies. Protein max: 35% of 2,000 cal = 700 cal / 4 = 175g/day"},
-  {term:"Protein synthesis requirement",def:"Minimum 0.8 g/kg for sedentary adults. Athletes: 1.2-2.0 g/kg body weight",breakdown:"Positive nitrogen balance requires adequate calories AND protein — either alone is insufficient"},
-  {term:"BMR calculation factors",def:"BMR determined by: lean body mass (most important), age (decreases 2%/decade after 30), sex, genetics",breakdown:"BMR x activity factor (1.2-1.9) = Total Daily Energy Expenditure (TDEE)"},
-  {term:"Vitamin D synthesis factors",def:"Fair skin: 10-15 min midday sun on arms/face works. Dark skin: 30-60 min needed",breakdown:"UV-B blocked by: sunscreen (99%), window glass (100%), clouds (50%), northern winter latitude"},
-  {term:"Metabolic syndrome full criteria",def:"3 of 5: waist >35in(F)/40in(M), TG >=150, HDL <50(F)/<40(M), BP >=130/85, fasting glucose >=100",breakdown:"34% of US adults have metabolic syndrome. 5x T2DM risk. 2x cardiovascular risk"},
-  {term:"DRI components distinguished",def:"EAR: meets 50% needs. RDA: meets 97.5%. AI: estimate when RDA unknown. UL: max safe level",breakdown:"Tolerable Upper Limits: Vitamin A 3,000 mcg, Vitamin D 4,000 IU, Calcium 2,500 mg"},
-  {term:"Energy density vs nutrient density",def:"Energy density: calories per gram of food. Nutrient density: nutrients per calorie",breakdown:"Fat highest energy density (9 cal/g). Water = 0 cal/g. Leafy greens = highest nutrient density"},
-  {term:"Diet-cancer connections",def:"Processed/red meat: Group 1/2A carcinogens (colorectal cancer). Fruits/vegetables: protective",breakdown:"Obesity is the 2nd leading preventable cause of cancer after smoking — linked to 13 cancer types"},
-  {term:"Peak bone mass timing",def:"Peak bone mass reached by age 30. After 30, bone is gradually lost through life",breakdown:"Prevention of osteoporosis must START in childhood/adolescence — you cannot build bone after 30"},
-  {term:"Mediterranean diet evidence",def:"PREDIMED trial: 30% reduction in cardiovascular events vs low-fat diet",breakdown:"High: olive oil, fish, vegetables, legumes, whole grains, nuts. Low: red meat, processed foods"}
-]
-},
-quiz: {
-easy: [
-  {q:"Which macronutrient provides the MOST calories per gram?",opts:["Carbohydrates (4 cal/g)","Protein (4 cal/g)","Fat (9 cal/g)","Fiber (2 cal/g)"],correct:2,explain:"Fat provides 9 calories per gram — more than double carbohydrates or protein (4 cal/g each). This is why high-fat foods are so calorie-dense."},
-  {q:"MyPlate recommends that HALF your plate should be:",opts:["Grains and protein","Fruits and vegetables","Dairy and grains","Protein and fat"],correct:1,explain:"MyPlate (2011) recommends half the plate be fruits and vegetables at every meal. This ensures adequate vitamins, minerals, fiber, and phytochemicals throughout the day."},
-  {q:"Vitamin C deficiency causes which disease?",opts:["Rickets","Beriberi","Scurvy","Pellagra"],correct:2,explain:"Scurvy results from Vitamin C deficiency. Symptoms: bleeding gums, slow wound healing, bruising, joint pain, fatigue. Sailors on long voyages without fresh produce commonly developed scurvy."},
-  {q:"Iron deficiency most commonly causes:",opts:["Scurvy","Rickets","Anemia","Osteoporosis"],correct:2,explain:"Iron-deficiency anemia is the most common nutritional deficiency worldwide. Iron makes hemoglobin which carries oxygen in red blood cells. Symptoms: fatigue, pale skin, weakness, shortness of breath."},
-  {q:"Vitamin D deficiency in children causes:",opts:["Scurvy","Pellagra","Beriberi","Rickets"],correct:3,explain:"Rickets occurs when children lack sufficient Vitamin D. Bones fail to mineralize properly, causing soft bones, bowed legs, growth delays. Adults develop osteomalacia from the same deficiency."},
-  {q:"Which type of fat is considered MOST harmful?",opts:["Monounsaturated","Saturated","Trans fat","Omega-3"],correct:2,explain:"Trans fats (partially hydrogenated oils) are the most harmful fat — they raise LDL ('bad') AND lower HDL ('good') cholesterol simultaneously, maximizing cardiovascular disease risk."},
-  {q:"What is the PRIMARY function of carbohydrates?",opts:["Build muscle tissue","Store vitamins","Provide energy for brain and body","Regulate hormones"],correct:2,explain:"Carbohydrates are the bodys primary fuel source. The brain runs almost exclusively on glucose, requiring about 120 grams daily. Muscles rely on glycogen (stored glucose) during exercise."},
-  {q:"How many essential nutrients does the body require?",opts:["4","5","6","8"],correct:2,explain:"There are 6 essential nutrients: Carbohydrates, Proteins, Fats, Vitamins, Minerals, and Water. 'Essential' means the body cannot make adequate amounts on its own — they must come from food."},
-  {q:"HDL cholesterol is 'good' because it:",opts:["Builds artery walls","Carries cholesterol FROM arteries back to liver for removal","Raises blood pressure","Provides brain energy"],correct:1,explain:"HDL (High-Density Lipoprotein) performs reverse cholesterol transport — picking up excess cholesterol from artery walls and delivering it to the liver for elimination. Higher HDL = lower heart disease risk."},
-  {q:"Which vitamin is produced when skin is exposed to sunlight?",opts:["Vitamin A","Vitamin B12","Vitamin C","Vitamin D"],correct:3,explain:"Vitamin D is synthesized in skin when UV-B rays convert 7-dehydrocholesterol to vitamin D3. About 10-30 minutes of midday sun exposure several times weekly may be sufficient depending on skin tone and latitude."},
-],
-medium: [
-  {q:"A child who eats mostly cassava (starchy root) develops edema, a swollen belly, and skin lesions. This is most likely:",opts:["Marasmus","Kwashiorkor","Pellagra","Rickets"],correct:1,explain:"Kwashiorkor = severe protein deficiency with adequate (starchy) calories. The edema and swollen belly result from hypoalbuminemia (low blood proteins) that fail to maintain fluid balance. Skin lesions and hair changes are also characteristic."},
-  {q:"The 4 Ds (Dermatitis, Diarrhea, Dementia, Death) characterize deficiency of:",opts:["Vitamin C","Vitamin B3 (Niacin)","Vitamin B12","Iron"],correct:1,explain:"Pellagra is caused by Niacin (Vitamin B3) deficiency, traditionally from corn-based diets without proper processing. The 4 Ds progress from skin rash to GI symptoms to neurological deterioration to death if untreated."},
-  {q:"Folic acid supplementation in early pregnancy prevents:",opts:["Gestational diabetes","Pre-eclampsia","Neural tube defects (spina bifida)","Premature labor"],correct:2,explain:"Folic acid is essential for neural tube closure in the first 28 days of pregnancy — often before a woman knows she is pregnant. All women of childbearing age should supplement 400mcg daily to prevent spina bifida and anencephaly."},
-  {q:"Which vitamin is found ONLY naturally in animal-based foods?",opts:["Vitamin C","Vitamin D","Vitamin B12","Vitamin K"],correct:2,explain:"Vitamin B12 (cobalamin) is found only naturally in animal products (meat, fish, eggs, dairy). Strict vegans must supplement or eat B12-fortified foods. Prolonged deficiency causes pernicious anemia and irreversible neurological damage."},
-  {q:"Celiac disease is triggered by:",opts:["Lactose in dairy","Casein in milk","Gluten in wheat, barley, and rye","Fructose in fruit"],correct:2,explain:"Celiac disease is an autoimmune disorder where gluten triggers an immune attack on small intestinal villi. This damages the absorptive surface, causing malabsorption of essentially all nutrients. Only treatment is strict lifelong gluten avoidance."},
-  {q:"The Glycemic Index measures:",opts:["Total calories in a food","Fat content","How quickly a carbohydrate raises blood glucose","Protein content"],correct:2,explain:"The GI ranks carbohydrates 0-100 based on how quickly they raise blood sugar vs. pure glucose (100). High GI >70: white bread, rice cakes, most breakfast cereals. Low GI <55: oats, legumes, most whole fruits."},
-  {q:"A food label says Serving Size: 1 cup, Servings per container: 3. If you eat the whole package, you consumed:",opts:["1 serving worth of nutrients","2 servings","3 servings — all values must be tripled","The label is for the whole package"],correct:2,explain:"The entire container has 3 servings. All nutrient values on the label must be multiplied by 3 for your actual intake. This is the #1 cause of calorie underestimation — people read the per-serving values but eat multiple servings."},
-  {q:"Metabolic syndrome requires 3 or more of these 5 criteria — which set is CORRECT?",opts:["High blood pressure, high LDL, obesity, diabetes, smoking","Abdominal obesity, high triglycerides, low HDL, high BP, high fasting glucose","High protein intake, low carbs, obesity, high sodium, low fiber","Anemia, low vitamin D, obesity, high cholesterol, inactivity"],correct:1,explain:"Metabolic syndrome = 3+ of: large waistline, triglycerides ≥150 mg/dL, HDL <50(F)/<40(M), BP ≥130/85, fasting glucose ≥100. Dramatically increases risk for Type 2 diabetes (5x) and cardiovascular disease (2x)."},
-],
-hard: [
-  {q:"A malnourished patient starts receiving nutrition. After 48 hours, their phosphate, potassium, and magnesium drop dangerously. This is:",opts:["Hyperkalemia","Refeeding syndrome","Anorexia complication","Malabsorption syndrome"],correct:1,explain:"Refeeding syndrome — when malnourished patients receive nutrition too quickly, cells begin actively taking up glucose and electrolytes for metabolism, crashing serum electrolyte levels. Phosphate drop is most dangerous; can cause cardiac arrest. Must refeed very slowly."},
-  {q:"The AMDR for protein is 10-35% of calories. For a 2,000-calorie diet, the MAXIMUM recommended protein is:",opts:["50g","100g","175g","250g"],correct:2,explain:"35% of 2,000 calories = 700 protein calories. 700 ÷ 4 cal/g = 175g protein. The minimum (10%) = 50g (0.8g/kg for average adult). Most athletes need 1.2-2.0g/kg."},
-  {q:"Short-chain fatty acids produced by gut bacteria fermenting fiber include:",opts:["Butyrate, propionate, and acetate","EPA, DHA, and ALA","Cholesterol, triglycerides, and phospholipids","Arachidonic acid and linoleic acid"],correct:0,explain:"SCFAs (butyrate, propionate, acetate) are produced when colonic bacteria ferment dietary fiber. Butyrate is the primary fuel for colon cells, reduces inflammation, and may protect against colon cancer — a key mechanism explaining fibers health benefits."},
-  {q:"Positive nitrogen balance indicates the body is:",opts:["Losing muscle mass due to illness","In starvation mode","Building tissue (growth, pregnancy, muscle building, healing)","In ketosis"],correct:2,explain:"Positive nitrogen balance = protein intake exceeds protein breakdown. This occurs during growth, pregnancy, muscle building with resistance exercise, and tissue repair after illness. Adequate protein intake and caloric surplus are required."},
-]
-}
-}; // end QB_NUTRITION
-
+  "flashcards": {
+    "easy": [
+      {
+        "term": "6 Essential Nutrients",
+        "def": "Carbohydrates, Proteins, Fats, Vitamins, Minerals, Water",
+        "breakdown": "Remember C-P-F-V-M-W. All 6 are required; body cannot make adequate amounts of essential ones"
+      },
+      {
+        "term": "Carbohydrates",
+        "def": "Primary energy source; 4 calories per gram; simple (sugars) vs complex (starches, fiber)",
+        "breakdown": "45-65% of daily calories. Brain runs almost exclusively on glucose"
+      },
+      {
+        "term": "Proteins",
+        "def": "Build and repair tissues; 4 calories per gram; made of amino acid chains",
+        "breakdown": "10-35% of daily calories. 9 essential amino acids must come from food"
+      },
+      {
+        "term": "Fats (Lipids)",
+        "def": "Most concentrated energy source; 9 calories per gram; needed for fat-soluble vitamins",
+        "breakdown": "20-35% of daily calories. Saturated (solid), Unsaturated (liquid), Trans (artificial/harmful)"
+      },
+      {
+        "term": "Vitamins",
+        "def": "Organic compounds needed in tiny amounts to regulate body processes",
+        "breakdown": "Fat-soluble (A,D,E,K) stored in body fat. Water-soluble (B vitamins, C) excreted daily"
+      },
+      {
+        "term": "Minerals",
+        "def": "Inorganic elements from soil/water; cannot be made by the body",
+        "breakdown": "Major minerals: Ca, Na, K, Mg, P. Trace minerals: Fe, Zn, I, Se, Cu, Mn"
+      },
+      {
+        "term": "Water",
+        "def": "6th essential nutrient; 60% of adult body weight; required for every chemical reaction",
+        "breakdown": "Need 8+ cups daily. First sign of dehydration: thirst. Dark urine = dehydrated"
+      },
+      {
+        "term": "Calorie (kcal)",
+        "def": "Unit of energy in food. Carbs=4/g, Protein=4/g, Fat=9/g, Alcohol=7/g",
+        "breakdown": "2,000 calories/day is the standard reference for % Daily Values on food labels"
+      },
+      {
+        "term": "MyPlate",
+        "def": "USDA 2011 food guidance tool replacing the Food Pyramid",
+        "breakdown": "Half plate = fruits + vegetables. Quarter = grains (half whole grain). Quarter = protein. Side = dairy"
+      },
+      {
+        "term": "Macronutrients",
+        "def": "Carbohydrates, proteins, and fats — needed in LARGE gram amounts daily",
+        "breakdown": "Macro = large (Greek). Provide all calories. Fiber is a macronutrient but provides minimal calories"
+      },
+      {
+        "term": "Micronutrients",
+        "def": "Vitamins and minerals — needed in SMALL milligram or microgram amounts",
+        "breakdown": "Micro = small (Greek). Do NOT provide calories. Deficiencies cause specific diseases"
+      },
+      {
+        "term": "Fiber",
+        "def": "Indigestible carbohydrate; feeds gut bacteria; prevents constipation; slows glucose absorption",
+        "breakdown": "Soluble fiber (oats, beans, apples) lowers cholesterol. Insoluble fiber (wheat bran, vegetables) adds bulk"
+      },
+      {
+        "term": "Glucose",
+        "def": "Simple sugar; the bodys primary fuel molecule; brain requires ~120g/day",
+        "breakdown": "Normal fasting blood glucose: 70-100 mg/dL. After meals: <140 mg/dL"
+      },
+      {
+        "term": "Saturated fat",
+        "def": "Fat with no carbon double bonds; solid at room temp; raises LDL cholesterol",
+        "breakdown": "Sources: butter, lard, fatty meat, full-fat dairy, coconut oil, palm oil"
+      },
+      {
+        "term": "Unsaturated fat",
+        "def": "Fat with one or more carbon double bonds; liquid at room temp; heart-healthy",
+        "breakdown": "Monounsaturated (olive oil, avocado). Polyunsaturated (fish, nuts, seeds)"
+      },
+      {
+        "term": "Trans fat",
+        "def": "Artificially hydrogenated fat; MOST harmful — raises LDL AND lowers HDL simultaneously",
+        "breakdown": "Largely banned in US since 2018. Avoid labels saying 'partially hydrogenated oils'"
+      },
+      {
+        "term": "Dehydration",
+        "def": "Insufficient water in body; impairs physical and mental performance",
+        "breakdown": "Symptoms: thirst → dark urine → fatigue → headache → dizziness → confusion → organ failure"
+      },
+      {
+        "term": "Nutrient density",
+        "def": "Amount of beneficial nutrients per calorie in a food",
+        "breakdown": "High density: kale, salmon, eggs, berries. Low density (empty calories): soda, candy, chips"
+      },
+      {
+        "term": "Malnutrition",
+        "def": "Both UNDER-nutrition (deficiencies) and OVER-nutrition (excess leading to obesity)",
+        "breakdown": "Not just starvation. Obesity from poor diet quality is also a form of malnutrition"
+      },
+      {
+        "term": "Complete protein",
+        "def": "Contains all 9 essential amino acids in adequate amounts",
+        "breakdown": "Animal complete: meat, fish, eggs, dairy. Plant complete: soy, quinoa, hemp seeds"
+      },
+      {
+        "term": "Incomplete protein",
+        "def": "Missing or low in one or more essential amino acids",
+        "breakdown": "Most plant proteins. Combine complementary proteins: rice+beans, peanut butter+bread"
+      },
+      {
+        "term": "Antioxidants",
+        "def": "Compounds that neutralize free radicals and protect cells from oxidative damage",
+        "breakdown": "Vitamins C, E; beta-carotene; selenium; polyphenols. Found in colorful fruits and vegetables"
+      },
+      {
+        "term": "Glycemic Index (GI)",
+        "def": "Ranks carbohydrates 0-100 by how fast they raise blood glucose",
+        "breakdown": "High GI >70: white bread, white rice, soda. Low GI <55: oats, legumes, most whole fruits"
+      },
+      {
+        "term": "BMI",
+        "def": "Body Mass Index = weight(kg) ÷ height²(m²); screening tool for weight status",
+        "breakdown": "Underweight <18.5. Normal 18.5-24.9. Overweight 25-29.9. Obese ≥30. Not a diagnostic tool"
+      }
+    ],
+    "medium": [
+      {
+        "term": "Essential amino acids (9)",
+        "def": "Histidine, Isoleucine, Leucine, Lysine, Methionine, Phenylalanine, Threonine, Tryptophan, Valine",
+        "breakdown": "Mnemonic: His Incredibly Lean Lady Met Pale Thin Tired Visitors. Cannot be made by the body"
+      },
+      {
+        "term": "Vitamin A (Retinol)",
+        "def": "Fat-soluble; vision (rhodopsin in rods), immune function, skin and epithelial health, bone growth",
+        "breakdown": "Deficiency: night blindness → xerophthalmia (total blindness). Sources: liver, orange/yellow veg, dairy"
+      },
+      {
+        "term": "Vitamin B1 (Thiamine)",
+        "def": "Water-soluble; energy metabolism from carbohydrates; nerve and heart function",
+        "breakdown": "Deficiency: Beriberi — Wet (heart failure) or Dry (peripheral neuropathy). Sources: pork, legumes, fortified grains"
+      },
+      {
+        "term": "Vitamin B3 (Niacin)",
+        "def": "Water-soluble; energy production from carbs/fats/protein; DNA repair; skin health",
+        "breakdown": "Deficiency: Pellagra — 4 Ds: Dermatitis, Diarrhea, Dementia, Death. Sources: meat, fish, poultry, peanuts"
+      },
+      {
+        "term": "Vitamin B9 (Folate)",
+        "def": "Water-soluble; DNA synthesis; red blood cell production; neural tube development in fetus",
+        "breakdown": "Critical before and during early pregnancy. Deficiency: neural tube defects (spina bifida). Sources: leafy greens, legumes, fortified grain"
+      },
+      {
+        "term": "Vitamin B12 (Cobalamin)",
+        "def": "Water-soluble; red blood cell formation; nerve myelin sheath maintenance; DNA synthesis",
+        "breakdown": "ONLY naturally in animal foods. Vegans must supplement. Deficiency: pernicious anemia, irreversible nerve damage"
+      },
+      {
+        "term": "Vitamin C (Ascorbic acid)",
+        "def": "Water-soluble antioxidant; collagen synthesis; iron absorption; immune support; wound healing",
+        "breakdown": "Deficiency: Scurvy — bleeding gums, poor wound healing, joint pain, fatigue. Sources: citrus, peppers, kiwi, strawberries"
+      },
+      {
+        "term": "Vitamin D (Calciferol)",
+        "def": "Fat-soluble; calcium and phosphorus absorption; bone mineralization; immune function; mood regulation",
+        "breakdown": "Made by skin in sunlight. Deficiency: Rickets (children), Osteomalacia (adults), depression. Sources: fatty fish, fortified milk"
+      },
+      {
+        "term": "Vitamin E (Tocopherol)",
+        "def": "Fat-soluble antioxidant; protects polyunsaturated fats in cell membranes from oxidation",
+        "breakdown": "Deficiency: rare but causes neurological problems and hemolytic anemia. Sources: nuts, seeds, vegetable oils"
+      },
+      {
+        "term": "Vitamin K",
+        "def": "Fat-soluble; blood coagulation (clotting factors II, VII, IX, X); bone metabolism (osteocalcin)",
+        "breakdown": "K1 from green vegetables; K2 from fermented foods and gut bacteria. Deficiency: bleeding disorders"
+      },
+      {
+        "term": "Calcium",
+        "def": "Most abundant mineral in body (99% in bones/teeth); muscle contraction; nerve signaling; blood clotting",
+        "breakdown": "Deficiency: Osteoporosis (adults), Rickets (children). Sources: dairy, sardines, leafy greens, fortified foods"
+      },
+      {
+        "term": "Iron",
+        "def": "Component of hemoglobin (carries O2 in blood) and myoglobin (stores O2 in muscle)",
+        "breakdown": "Deficiency: iron-deficiency anemia. Heme iron (meat) absorbs 15-35%. Non-heme (plants) 2-20%. Vitamin C enhances absorption"
+      },
+      {
+        "term": "Potassium",
+        "def": "Intracellular electrolyte; muscle contractions; heart rhythm; blood pressure regulation; nerve impulses",
+        "breakdown": "Deficiency: hypokalemia — muscle weakness, cramping, irregular heartbeat. Sources: bananas, potatoes, avocados, beans"
+      },
+      {
+        "term": "Sodium",
+        "def": "Extracellular electrolyte; fluid balance; nerve impulses; muscle contraction",
+        "breakdown": "Excess raises blood pressure (hypertension). RDA <2,300 mg/day. Average American eats ~3,400 mg/day"
+      },
+      {
+        "term": "Magnesium",
+        "def": "Cofactor for 300+ enzymes; energy production; protein synthesis; muscle/nerve function; blood glucose",
+        "breakdown": "Deficiency: muscle cramps, irregular heartbeat, constipation. Sources: nuts, seeds, whole grains, leafy greens"
+      },
+      {
+        "term": "Iodine",
+        "def": "Essential for thyroid hormone (T3 and T4) synthesis; metabolism regulation; brain development",
+        "breakdown": "Deficiency: Goiter (enlarged thyroid), hypothyroidism, cretinism in infants. Main source: iodized salt, seafood"
+      },
+      {
+        "term": "Zinc",
+        "def": "Immune function; wound healing; taste and smell; DNA synthesis; growth; insulin storage",
+        "breakdown": "Deficiency: impaired immunity, slow wound healing, loss of taste/smell, growth retardation. Sources: meat, shellfish, legumes"
+      },
+      {
+        "term": "Omega-3 fatty acids",
+        "def": "Essential polyunsaturated fats; anti-inflammatory; heart health; brain development",
+        "breakdown": "EPA and DHA in fatty fish (salmon, sardines, mackerel). ALA in flaxseed, chia, walnuts. ALA is poorly converted"
+      },
+      {
+        "term": "HDL cholesterol",
+        "def": "High-Density Lipoprotein — reverse cholesterol transport; removes plaque from arteries to liver",
+        "breakdown": "Want HIGH. Raised by: aerobic exercise, unsaturated fats, quitting smoking, moderate alcohol. Goal >60 mg/dL"
+      },
+      {
+        "term": "LDL cholesterol",
+        "def": "Low-Density Lipoprotein — deposits cholesterol in artery walls; causes atherosclerosis",
+        "breakdown": "Want LOW. Raised by: saturated fat, trans fat, obesity, inactivity. Goal <100 mg/dL (optimal)"
+      },
+      {
+        "term": "BMR (Basal Metabolic Rate)",
+        "def": "Calories burned at complete rest to maintain basic body functions",
+        "breakdown": "Accounts for 60-70% of total daily energy expenditure. Influenced by muscle mass, age, sex, genetics"
+      },
+      {
+        "term": "Kwashiorkor",
+        "def": "Severe PROTEIN deficiency; adequate calories; causes edema (fluid retention), swollen abdomen, fatty liver",
+        "breakdown": "Occurs in children fed starchy foods after weaning without adequate protein. Pitting edema, skin lesions, hair changes"
+      },
+      {
+        "term": "Marasmus",
+        "def": "Severe calorie AND protein deficiency; extreme wasting, muscle loss, no edema",
+        "breakdown": "Greek: marasmos = wasting. Sunken eyes, all ribs visible, extreme thinness. Requires very slow, careful refeeding"
+      },
+      {
+        "term": "Celiac disease",
+        "def": "Autoimmune; gluten triggers immune attack on small intestine villi causing malabsorption",
+        "breakdown": "Gluten in wheat, barley, rye. Causes malabsorption of all nutrients. Only treatment: strict lifelong gluten-free diet"
+      },
+      {
+        "term": "Metabolic syndrome",
+        "def": "Cluster: abdominal obesity + high triglycerides + low HDL + high BP + high fasting glucose (3 of 5)",
+        "breakdown": "5x increased Type 2 diabetes risk; 2x cardiovascular disease risk. Treated with diet, exercise, weight loss"
+      },
+      {
+        "term": "Refeeding syndrome",
+        "def": "Life-threatening electrolyte drops when starved patient fed too fast",
+        "breakdown": "Phosphate, K, Mg crash as cells take up nutrients — cardiac arrest risk"
+      },
+      {
+        "term": "Nitrogen balance",
+        "def": "Protein intake (N in) minus protein breakdown/excretion (N out)",
+        "breakdown": "Positive = building tissue. Negative = illness/starvation. Neutral = maintenance"
+      },
+      {
+        "term": "Thermic effect of food",
+        "def": "Calories burned digesting food. Protein=20-30%, Carbs=5-10%, Fat=0-3%",
+        "breakdown": "High-protein diets burn more calories in digestion — metabolic advantage"
+      },
+      {
+        "term": "Glycogen",
+        "def": "Storage form of glucose. Liver ~100g (blood sugar). Muscle ~400g (exercise fuel)",
+        "breakdown": "Depleted after ~90-120 min intense exercise — the athletic bonk/hitting the wall"
+      },
+      {
+        "term": "Ketosis",
+        "def": "Metabolic state where ketone bodies replace glucose as primary brain fuel",
+        "breakdown": "Occurs at <50g carbs/day. Used medically for epilepsy treatment"
+      },
+      {
+        "term": "Insulin resistance",
+        "def": "Cells fail to respond normally to insulin; precursor to Type 2 diabetes",
+        "breakdown": "Causes: obesity, inactivity, refined carbs. Fixes: weight loss, exercise, diet quality"
+      },
+      {
+        "term": "Lactose intolerance",
+        "def": "Insufficient lactase enzyme to digest lactose (milk sugar); GI symptoms",
+        "breakdown": "65% of world adults have reduced lactase. Different from milk allergy (immune response)"
+      },
+      {
+        "term": "Food allergy vs intolerance",
+        "def": "Allergy = immune response (anaphylaxis possible). Intolerance = digestive/metabolic",
+        "breakdown": "Top 9 US allergens: milk, eggs, fish, shellfish, tree nuts, peanuts, wheat, soy, sesame"
+      },
+      {
+        "term": "Vitamin A toxicity",
+        "def": "Liver damage, bone pain, hair loss, birth defects; from excessive supplement use",
+        "breakdown": "Only from preformed Vitamin A (retinol) supplements — NOT from beta-carotene in vegetables"
+      },
+      {
+        "term": "Folate and neural tube defects",
+        "def": "Folic acid critical BEFORE pregnancy — neural tube closes at 28 days after conception",
+        "breakdown": "All women of childbearing age: 400 mcg folic acid daily. Prevents spina bifida and anencephaly"
+      },
+      {
+        "term": "Pernicious anemia",
+        "def": "B12 deficiency from lack of intrinsic factor (needed for B12 absorption in small intestine)",
+        "breakdown": "Most common B12 deficiency cause. Treated with B12 injections — oral B12 cannot be absorbed"
+      },
+      {
+        "term": "Iron absorption enhancement",
+        "def": "Heme iron (meat) absorbs 15-35%. Non-heme (plants) 2-20%. Vitamin C increases non-heme 2-3x",
+        "breakdown": "Tea, coffee, calcium, and phytates INHIBIT iron absorption — avoid with iron-rich meals"
+      },
+      {
+        "term": "Zinc deficiency signs",
+        "def": "Impaired immunity, poor wound healing, growth retardation, loss of taste and smell",
+        "breakdown": "Common in vegetarians/vegans. Oysters are richest food source — 5-6x RDA per oyster"
+      },
+      {
+        "term": "Iodine and thyroid function",
+        "def": "Iodine required for T3 and T4 thyroid hormones which regulate metabolism rate",
+        "breakdown": "Goiter = enlarged thyroid from iodine deficiency. Iodized salt introduced 1920s to prevent this"
+      },
+      {
+        "term": "Sodium and blood pressure",
+        "def": "Every 500 mg sodium reduction — about 2-3 mmHg reduction in systolic BP",
+        "breakdown": "Average American consumes 3,400 mg/day. Recommended limit: 2,300 mg/day"
+      },
+      {
+        "term": "Potassium and hypertension",
+        "def": "High potassium counteracts sodium BP-raising effects; reduces cardiovascular risk",
+        "breakdown": "DASH diet high in potassium lowers blood pressure. Sources: banana, potato, avocado, beans"
+      },
+      {
+        "term": "Calcium absorption factors",
+        "def": "Vitamin D essential for calcium absorption. Caffeine and excess sodium reduce calcium retention",
+        "breakdown": "Peak bone mass built by age 30 — calcium intake during teen years is critically important"
+      },
+      {
+        "term": "Prebiotics vs probiotics",
+        "def": "Prebiotics (feed bacteria): garlic, onions, oats, bananas, asparagus",
+        "breakdown": "Probiotics (live bacteria): yogurt, kefir, kimchi, sauerkraut, miso, kombucha"
+      },
+      {
+        "term": "Short-chain fatty acids",
+        "def": "Butyrate, propionate, acetate — produced when gut bacteria ferment dietary fiber",
+        "breakdown": "Butyrate fuels colon cells, reduces inflammation, may prevent colon cancer"
+      },
+      {
+        "term": "Visceral vs subcutaneous fat",
+        "def": "Visceral: fat around organs — dangerous, inflammatory. Subcutaneous: under skin — less dangerous",
+        "breakdown": "Visceral fat secretes inflammatory cytokines. Linked to insulin resistance, T2DM, CVD"
+      },
+      {
+        "term": "Antioxidant mechanisms",
+        "def": "Neutralize free radicals (unstable molecules) that damage DNA, proteins, and cell membranes",
+        "breakdown": "Vitamins C and E, beta-carotene, selenium, polyphenols — found in colorful produce"
+      },
+      {
+        "term": "Complementary proteins",
+        "def": "Two incomplete proteins combined to provide all 9 essential amino acids",
+        "breakdown": "Rice + beans, peanut butter + wheat bread, corn tortilla + black beans — classic combos"
+      }
+    ],
+    "hard": [
+      {
+        "term": "Nitrogen balance",
+        "def": "Protein intake (nitrogen in) minus protein breakdown/excretion (nitrogen out)",
+        "breakdown": "Positive = growing, building muscle, healing. Negative = illness, starvation, inadequate protein. Neutral = maintenance"
+      },
+      {
+        "term": "Thermic effect of food (TEF)",
+        "def": "Calories burned digesting, absorbing, and metabolizing food",
+        "breakdown": "Protein burns 20-30% of its calories in digestion. Carbs 5-10%. Fat 0-3%. High-protein diets have metabolic advantage"
+      },
+      {
+        "term": "Glycogen",
+        "def": "Storage form of glucose; liver stores ~100g (blood sugar regulation); muscle stores ~300-500g (exercise fuel)",
+        "breakdown": "Muscle glycogen cannot raise blood sugar. Liver glycogen can. Depleted after ~90-120 min intense exercise"
+      },
+      {
+        "term": "Ketosis",
+        "def": "Metabolic state where fat (ketone bodies) replaces glucose as primary brain/body fuel",
+        "breakdown": "Occurs at <50g carbs/day. Ketones (acetoacetate, beta-hydroxybutyrate, acetone) cross blood-brain barrier"
+      },
+      {
+        "term": "Refeeding syndrome",
+        "def": "Life-threatening electrolyte drops (phosphate, potassium, magnesium) when malnourished patients are fed too fast",
+        "breakdown": "As cells take up nutrients, serum electrolytes crash. Cardiac arrest risk. Must refeed very slowly!"
+      },
+      {
+        "term": "Prebiotics vs Probiotics",
+        "def": "Prebiotics: non-digestible fiber that feeds beneficial gut bacteria. Probiotics: live beneficial bacteria themselves",
+        "breakdown": "Prebiotics: garlic, onions, oats, bananas. Probiotics: yogurt, kefir, kimchi, sauerkraut, miso"
+      },
+      {
+        "term": "Short-chain fatty acids",
+        "def": "Butyrate, propionate, acetate — produced when gut bacteria ferment dietary fiber",
+        "breakdown": "Butyrate fuels colonocytes, reduces inflammation, may prevent colon cancer. Key benefit of high-fiber diets"
+      },
+      {
+        "term": "AMDR",
+        "def": "Acceptable Macronutrient Distribution Range: Carbs 45-65%, Fat 20-35%, Protein 10-35% of calories",
+        "breakdown": "Set by National Academies. Ranges rather than single values because healthy diets can vary widely"
+      },
+      {
+        "term": "DRI components",
+        "def": "RDA (meets 97.5% needs), AI (adequate intake when RDA unknown), UL (max safe level), EAR (average needs)",
+        "breakdown": "RDA is what most people should aim for. UL is the maximum before toxicity risk. Fat-soluble vitamins have low ULs"
+      },
+      {
+        "term": "Visceral vs subcutaneous fat",
+        "def": "Visceral: fat around organs (dangerous, inflammatory). Subcutaneous: fat under skin (less dangerous)",
+        "breakdown": "Visceral fat releases inflammatory cytokines and free fatty acids. Associated with insulin resistance, T2DM, CVD"
+      },
+      {
+        "term": "AMDR for all macronutrients",
+        "def": "Acceptable Macronutrient Distribution Range: Carbs 45-65%, Fat 20-35%, Protein 10-35%",
+        "breakdown": "Set by National Academies. Protein max: 35% of 2,000 cal = 700 cal / 4 = 175g/day"
+      },
+      {
+        "term": "Protein synthesis requirement",
+        "def": "Minimum 0.8 g/kg for sedentary adults. Athletes: 1.2-2.0 g/kg body weight",
+        "breakdown": "Positive nitrogen balance requires adequate calories AND protein — either alone is insufficient"
+      },
+      {
+        "term": "BMR calculation factors",
+        "def": "BMR determined by: lean body mass (most important), age (decreases 2%/decade after 30), sex, genetics",
+        "breakdown": "BMR x activity factor (1.2-1.9) = Total Daily Energy Expenditure (TDEE)"
+      },
+      {
+        "term": "Vitamin D synthesis factors",
+        "def": "Fair skin: 10-15 min midday sun on arms/face works. Dark skin: 30-60 min needed",
+        "breakdown": "UV-B blocked by: sunscreen (99%), window glass (100%), clouds (50%), northern winter latitude"
+      },
+      {
+        "term": "Metabolic syndrome full criteria",
+        "def": "3 of 5: waist >35in(F)/40in(M), TG >=150, HDL <50(F)/<40(M), BP >=130/85, fasting glucose >=100",
+        "breakdown": "34% of US adults have metabolic syndrome. 5x T2DM risk. 2x cardiovascular risk"
+      },
+      {
+        "term": "DRI components distinguished",
+        "def": "EAR: meets 50% needs. RDA: meets 97.5%. AI: estimate when RDA unknown. UL: max safe level",
+        "breakdown": "Tolerable Upper Limits: Vitamin A 3,000 mcg, Vitamin D 4,000 IU, Calcium 2,500 mg"
+      },
+      {
+        "term": "Energy density vs nutrient density",
+        "def": "Energy density: calories per gram of food. Nutrient density: nutrients per calorie",
+        "breakdown": "Fat highest energy density (9 cal/g). Water = 0 cal/g. Leafy greens = highest nutrient density"
+      },
+      {
+        "term": "Diet-cancer connections",
+        "def": "Processed/red meat: Group 1/2A carcinogens (colorectal cancer). Fruits/vegetables: protective",
+        "breakdown": "Obesity is the 2nd leading preventable cause of cancer after smoking — linked to 13 cancer types"
+      },
+      {
+        "term": "Peak bone mass timing",
+        "def": "Peak bone mass reached by age 30. After 30, bone is gradually lost through life",
+        "breakdown": "Prevention of osteoporosis must START in childhood/adolescence — you cannot build bone after 30"
+      },
+      {
+        "term": "Mediterranean diet evidence",
+        "def": "PREDIMED trial: 30% reduction in cardiovascular events vs low-fat diet",
+        "breakdown": "High: olive oil, fish, vegetables, legumes, whole grains, nuts. Low: red meat, processed foods"
+      }
+    ]
+  },
+  "quiz": {
+    "easy": [
+      {
+        "q": "Which macronutrient provides the MOST calories per gram?",
+        "opts": [
+          "Carbohydrates (4 cal/g)",
+          "Protein (4 cal/g)",
+          "Fat (9 cal/g)",
+          "Fiber (2 cal/g)"
+        ],
+        "correct": 2,
+        "explain": "Fat provides 9 calories per gram — more than double carbohydrates or protein (4 cal/g each). This is why high-fat foods are so calorie-dense."
+      },
+      {
+        "q": "MyPlate recommends that HALF your plate should be:",
+        "opts": [
+          "Grains and protein",
+          "Fruits and vegetables",
+          "Dairy and grains",
+          "Protein and fat"
+        ],
+        "correct": 1,
+        "explain": "MyPlate (2011) recommends half the plate be fruits and vegetables at every meal. This ensures adequate vitamins, minerals, fiber, and phytochemicals throughout the day."
+      },
+      {
+        "q": "Vitamin C deficiency causes which disease?",
+        "opts": [
+          "Rickets",
+          "Beriberi",
+          "Scurvy",
+          "Pellagra"
+        ],
+        "correct": 2,
+        "explain": "Scurvy results from Vitamin C deficiency. Symptoms: bleeding gums, slow wound healing, bruising, joint pain, fatigue. Sailors on long voyages without fresh produce commonly developed scurvy."
+      },
+      {
+        "q": "Iron deficiency most commonly causes:",
+        "opts": [
+          "Scurvy",
+          "Rickets",
+          "Anemia",
+          "Osteoporosis"
+        ],
+        "correct": 2,
+        "explain": "Iron-deficiency anemia is the most common nutritional deficiency worldwide. Iron makes hemoglobin which carries oxygen in red blood cells. Symptoms: fatigue, pale skin, weakness, shortness of breath."
+      },
+      {
+        "q": "Vitamin D deficiency in children causes:",
+        "opts": [
+          "Scurvy",
+          "Pellagra",
+          "Beriberi",
+          "Rickets"
+        ],
+        "correct": 3,
+        "explain": "Rickets occurs when children lack sufficient Vitamin D. Bones fail to mineralize properly, causing soft bones, bowed legs, growth delays. Adults develop osteomalacia from the same deficiency."
+      },
+      {
+        "q": "Which type of fat is considered MOST harmful?",
+        "opts": [
+          "Monounsaturated",
+          "Saturated",
+          "Trans fat",
+          "Omega-3"
+        ],
+        "correct": 2,
+        "explain": "Trans fats (partially hydrogenated oils) are the most harmful fat — they raise LDL ('bad') AND lower HDL ('good') cholesterol simultaneously, maximizing cardiovascular disease risk."
+      },
+      {
+        "q": "What is the PRIMARY function of carbohydrates?",
+        "opts": [
+          "Build muscle tissue",
+          "Store vitamins",
+          "Provide energy for brain and body",
+          "Regulate hormones"
+        ],
+        "correct": 2,
+        "explain": "Carbohydrates are the bodys primary fuel source. The brain runs almost exclusively on glucose, requiring about 120 grams daily. Muscles rely on glycogen (stored glucose) during exercise."
+      },
+      {
+        "q": "How many essential nutrients does the body require?",
+        "opts": [
+          "4",
+          "5",
+          "6",
+          "8"
+        ],
+        "correct": 2,
+        "explain": "There are 6 essential nutrients: Carbohydrates, Proteins, Fats, Vitamins, Minerals, and Water. 'Essential' means the body cannot make adequate amounts on its own — they must come from food."
+      },
+      {
+        "q": "HDL cholesterol is 'good' because it:",
+        "opts": [
+          "Builds artery walls",
+          "Carries cholesterol FROM arteries back to liver for removal",
+          "Raises blood pressure",
+          "Provides brain energy"
+        ],
+        "correct": 1,
+        "explain": "HDL (High-Density Lipoprotein) performs reverse cholesterol transport — picking up excess cholesterol from artery walls and delivering it to the liver for elimination. Higher HDL = lower heart disease risk."
+      },
+      {
+        "q": "Which vitamin is produced when skin is exposed to sunlight?",
+        "opts": [
+          "Vitamin A",
+          "Vitamin B12",
+          "Vitamin C",
+          "Vitamin D"
+        ],
+        "correct": 3,
+        "explain": "Vitamin D is synthesized in skin when UV-B rays convert 7-dehydrocholesterol to vitamin D3. About 10-30 minutes of midday sun exposure several times weekly may be sufficient depending on skin tone and latitude."
+      }
+    ],
+    "medium": [
+      {
+        "q": "A child who eats mostly cassava (starchy root) develops edema, a swollen belly, and skin lesions. This is most likely:",
+        "opts": [
+          "Marasmus",
+          "Kwashiorkor",
+          "Pellagra",
+          "Rickets"
+        ],
+        "correct": 1,
+        "explain": "Kwashiorkor = severe protein deficiency with adequate (starchy) calories. The edema and swollen belly result from hypoalbuminemia (low blood proteins) that fail to maintain fluid balance. Skin lesions and hair changes are also characteristic."
+      },
+      {
+        "q": "The 4 Ds (Dermatitis, Diarrhea, Dementia, Death) characterize deficiency of:",
+        "opts": [
+          "Vitamin C",
+          "Vitamin B3 (Niacin)",
+          "Vitamin B12",
+          "Iron"
+        ],
+        "correct": 1,
+        "explain": "Pellagra is caused by Niacin (Vitamin B3) deficiency, traditionally from corn-based diets without proper processing. The 4 Ds progress from skin rash to GI symptoms to neurological deterioration to death if untreated."
+      },
+      {
+        "q": "Folic acid supplementation in early pregnancy prevents:",
+        "opts": [
+          "Gestational diabetes",
+          "Pre-eclampsia",
+          "Neural tube defects (spina bifida)",
+          "Premature labor"
+        ],
+        "correct": 2,
+        "explain": "Folic acid is essential for neural tube closure in the first 28 days of pregnancy — often before a woman knows she is pregnant. All women of childbearing age should supplement 400mcg daily to prevent spina bifida and anencephaly."
+      },
+      {
+        "q": "Which vitamin is found ONLY naturally in animal-based foods?",
+        "opts": [
+          "Vitamin C",
+          "Vitamin D",
+          "Vitamin B12",
+          "Vitamin K"
+        ],
+        "correct": 2,
+        "explain": "Vitamin B12 (cobalamin) is found only naturally in animal products (meat, fish, eggs, dairy). Strict vegans must supplement or eat B12-fortified foods. Prolonged deficiency causes pernicious anemia and irreversible neurological damage."
+      },
+      {
+        "q": "Celiac disease is triggered by:",
+        "opts": [
+          "Lactose in dairy",
+          "Casein in milk",
+          "Gluten in wheat, barley, and rye",
+          "Fructose in fruit"
+        ],
+        "correct": 2,
+        "explain": "Celiac disease is an autoimmune disorder where gluten triggers an immune attack on small intestinal villi. This damages the absorptive surface, causing malabsorption of essentially all nutrients. Only treatment is strict lifelong gluten avoidance."
+      },
+      {
+        "q": "The Glycemic Index measures:",
+        "opts": [
+          "Total calories in a food",
+          "Fat content",
+          "How quickly a carbohydrate raises blood glucose",
+          "Protein content"
+        ],
+        "correct": 2,
+        "explain": "The GI ranks carbohydrates 0-100 based on how quickly they raise blood sugar vs. pure glucose (100). High GI >70: white bread, rice cakes, most breakfast cereals. Low GI <55: oats, legumes, most whole fruits."
+      },
+      {
+        "q": "A food label says Serving Size: 1 cup, Servings per container: 3. If you eat the whole package, you consumed:",
+        "opts": [
+          "1 serving worth of nutrients",
+          "2 servings",
+          "3 servings — all values must be tripled",
+          "The label is for the whole package"
+        ],
+        "correct": 2,
+        "explain": "The entire container has 3 servings. All nutrient values on the label must be multiplied by 3 for your actual intake. This is the #1 cause of calorie underestimation — people read the per-serving values but eat multiple servings."
+      },
+      {
+        "q": "Metabolic syndrome requires 3 or more of these 5 criteria — which set is CORRECT?",
+        "opts": [
+          "High blood pressure, high LDL, obesity, diabetes, smoking",
+          "Abdominal obesity, high triglycerides, low HDL, high BP, high fasting glucose",
+          "High protein intake, low carbs, obesity, high sodium, low fiber",
+          "Anemia, low vitamin D, obesity, high cholesterol, inactivity"
+        ],
+        "correct": 1,
+        "explain": "Metabolic syndrome = 3+ of: large waistline, triglycerides ≥150 mg/dL, HDL <50(F)/<40(M), BP ≥130/85, fasting glucose ≥100. Dramatically increases risk for Type 2 diabetes (5x) and cardiovascular disease (2x)."
+      }
+    ],
+    "hard": [
+      {
+        "q": "A malnourished patient starts receiving nutrition. After 48 hours, their phosphate, potassium, and magnesium drop dangerously. This is:",
+        "opts": [
+          "Hyperkalemia",
+          "Refeeding syndrome",
+          "Anorexia complication",
+          "Malabsorption syndrome"
+        ],
+        "correct": 1,
+        "explain": "Refeeding syndrome — when malnourished patients receive nutrition too quickly, cells begin actively taking up glucose and electrolytes for metabolism, crashing serum electrolyte levels. Phosphate drop is most dangerous; can cause cardiac arrest. Must refeed very slowly."
+      },
+      {
+        "q": "The AMDR for protein is 10-35% of calories. For a 2,000-calorie diet, the MAXIMUM recommended protein is:",
+        "opts": [
+          "50g",
+          "100g",
+          "175g",
+          "250g"
+        ],
+        "correct": 2,
+        "explain": "35% of 2,000 calories = 700 protein calories. 700 ÷ 4 cal/g = 175g protein. The minimum (10%) = 50g (0.8g/kg for average adult). Most athletes need 1.2-2.0g/kg."
+      },
+      {
+        "q": "Short-chain fatty acids produced by gut bacteria fermenting fiber include:",
+        "opts": [
+          "Butyrate, propionate, and acetate",
+          "EPA, DHA, and ALA",
+          "Cholesterol, triglycerides, and phospholipids",
+          "Arachidonic acid and linoleic acid"
+        ],
+        "correct": 0,
+        "explain": "SCFAs (butyrate, propionate, acetate) are produced when colonic bacteria ferment dietary fiber. Butyrate is the primary fuel for colon cells, reduces inflammation, and may protect against colon cancer — a key mechanism explaining fibers health benefits."
+      },
+      {
+        "q": "Positive nitrogen balance indicates the body is:",
+        "opts": [
+          "Losing muscle mass due to illness",
+          "In starvation mode",
+          "Building tissue (growth, pregnancy, muscle building, healing)",
+          "In ketosis"
+        ],
+        "correct": 2,
+        "explain": "Positive nitrogen balance = protein intake exceeds protein breakdown. This occurs during growth, pregnancy, muscle building with resistance exercise, and tissue repair after illness. Adequate protein intake and caloric surplus are required."
+      }
+    ]
+  }
+};

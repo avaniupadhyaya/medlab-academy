@@ -188,3 +188,24 @@ medium: [
 }
 }; // end QB_HEALTHY_LIVING
 
+
+// ── Dedup patch ────────────────────────────────────────────────────────────
+(function(){
+  ['QB_EMERGENCY','QB_HEALTHY_LIVING'].forEach(function(v){
+    var qb=window[v]; if(!qb) return;
+    ['flashcards','quiz'].forEach(function(sec){
+      if(!qb[sec]) return;
+      ['easy','medium','hard'].forEach(function(d){
+        if(!qb[sec][d]) return;
+        var seen=new Set();
+        qb[sec][d]=qb[sec][d].filter(function(item){
+          if(!item) return false;
+          var key=(item.term||item.q||item.scenario||'').toLowerCase().trim();
+          if(!key) return true;
+          if(seen.has(key)) return false;
+          seen.add(key); return true;
+        });
+      });
+    });
+  });
+})();

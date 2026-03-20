@@ -1,814 +1,1435 @@
-// ── questions_hosa_bowl.js ──
-// HOSA Academy — Foundations of HOSA Bowl
-// Draws from ALL health science topics
 window.QB_HOSA_BOWL = {
-flashcards: {
-easy: [
-  {term:"HOSA founding year",def:"1976, originally Health Occupations Students of America",breakdown:"Name officially changed to HOSA in June 2004 at the Delegate Assembly"},
-  {term:"HOSA motto",def:"The Hands of HOSA Mold the Health of Tomorrow",breakdown:"The hands in the HOSA emblem represent the caring of each member"},
-  {term:"HOSA tagline",def:"HOSA — Future Health Professionals",breakdown:"Adopted 2004. Reflects inclusion of students in any health-related program"},
-  {term:"HOSA competitive event categories (6)",def:"Health Science, Health Professions, Emergency Preparedness, Leadership, Teamwork, Recognition",breakdown:"Middle school division has its own subset of events from each category"},
-  {term:"Normal adult body temperature",def:"98.6 degrees F (37 degrees C). Fever above 100.4F (38C). Hypothermia below 95F (35C)",breakdown:"Formula F to C: subtract 32, multiply by 5/9. C to F: multiply by 9/5, add 32"},
-  {term:"Normal adult heart rate",def:"60-100 beats per minute. Brady under 60. Tachy over 100",breakdown:"Assess for full 60 seconds for accuracy, especially if irregular rhythm"},
-  {term:"Normal adult blood pressure",def:"Under 120 systolic AND under 80 diastolic mmHg",breakdown:"Stage 1 hypertension: 130-139/80-89. Stage 2: at or above 140/90. Crisis: above 180/120"},
-  {term:"Normal SpO2",def:"95-100 percent. Below 90 percent requires supplemental oxygen intervention",breakdown:"Pulse oximeter measures. COPD patients may normally run 88-92 percent"},
-  {term:"CPR compression to breath ratio (adult)",def:"30 compressions to 2 breaths. Rate 100-120 per minute. Depth 2 to 2.4 inches",breakdown:"CAB sequence: Compressions first. Changed from ABC in 2010 AHA guidelines"},
-  {term:"Fat calories per gram",def:"Fat = 9 calories per gram. Carbs and protein = 4 calories per gram each",breakdown:"Fat has more than double the calories of carbohydrates or protein"},
-  {term:"Iron deficiency causes",def:"Iron-deficiency anemia — most common nutritional deficiency worldwide",breakdown:"Hemoglobin requires iron. Symptoms: fatigue, pale skin, weakness, shortness of breath"},
-  {term:"Vitamin C deficiency disease",def:"Scurvy — bleeding gums, poor wound healing, joint pain, fatigue",breakdown:"Citrus fruits, bell peppers, kiwi, strawberries are top sources"},
-  {term:"Vitamin D deficiency in children",def:"Rickets — soft bones, bowed legs, growth failure",breakdown:"Adult equivalent is osteomalacia. Both prevented with adequate Vitamin D and calcium"},
-  {term:"1 kilogram equals",def:"2.2 pounds. Divide lbs by 2.2 to get kg. Multiply kg by 2.2 to get lbs",breakdown:"154 lbs = 70 kg. 110 lbs = 50 kg. Essential for weight-based drug dosing"},
-  {term:"Cardio- root meaning",def:"Heart. From Greek kardia = heart",breakdown:"Cardiology, cardiomegaly, myocarditis, pericarditis, tachycardia, bradycardia"},
-  {term:"-itis suffix meaning",def:"Inflammation of. Most common medical suffix",breakdown:"Hepatitis, arthritis, appendicitis, meningitis, encephalitis, bronchitis, colitis"},
-  {term:"-ectomy suffix meaning",def:"Surgical removal of",breakdown:"Appendectomy, cholecystectomy, mastectomy, nephrectomy, tonsillectomy, thyroidectomy"},
-  {term:"-ology suffix meaning",def:"Study of (a medical specialty)",breakdown:"Cardiology, dermatology, neurology, gastroenterology, hematology, oncology"},
-  {term:"Hyper- prefix meaning",def:"Above normal or excessive",breakdown:"Hypertension, hyperglycemia, hyperthyroidism, hypernatremia, hyperlipidemia"},
-  {term:"Hypo- prefix meaning",def:"Below normal or deficient",breakdown:"Hypotension, hypoglycemia, hypothyroidism, hyponatremia, hypocalcemia"},
-  {term:"Tachy- prefix meaning",def:"Fast or rapid",breakdown:"Tachycardia (fast heart over 100 bpm), tachypnea (fast breathing over 20 per min)"},
-  {term:"Brady- prefix meaning",def:"Slow",breakdown:"Bradycardia (slow heart under 60 bpm), bradypnea (slow breathing under 12 per min)"},
-  {term:"Hepat- root meaning",def:"Liver. From Greek hepar = liver",breakdown:"Hepatitis, hepatomegaly, hepatectomy, hepatotoxicity, hepatocellular carcinoma"},
-  {term:"Nephr- root meaning",def:"Kidney. From Greek nephros = kidney",breakdown:"Nephritis, nephrectomy, nephrology, nephrotic syndrome, nephropathy"},
-  {term:"FAST stroke acronym",def:"Face drooping, Arm weakness, Speech difficulty, Time to call 911",breakdown:"Time is brain: 1.9 million neurons die per minute without treatment"}
-],
-medium: [
-  {term:"Therapeutic services pathway",def:"Careers that change patient health status: nurses, physicians, pharmacists, physical and occupational therapists",breakdown:"Largest of the 5 health science pathways. Includes all direct patient treatment professions"},
-  {term:"Diagnostic services pathway",def:"Test and identify conditions: lab techs, radiologists, phlebotomists, sonographers, EKG techs",breakdown:"Results guide treatment decisions. Lab medicine and imaging are the diagnostic backbone of healthcare"},
-  {term:"Health informatics pathway",def:"Manage health data: medical coders, health information managers, health IT specialists, data analysts",breakdown:"ICD-10 diagnosis codes and CPT procedure codes used for all insurance billing and records"},
-  {term:"HIPAA basics",def:"Protects patient Protected Health Information (PHI). Civil and criminal penalties for violations",breakdown:"PHI includes: name, address, DOB, SSN, diagnosis, photos — anything that could identify patient"},
-  {term:"Informed consent requirements",def:"Patient must be: competent, informed of risks/benefits/alternatives, voluntary, able to understand",breakdown:"Exceptions: emergency (implied consent), minors (parent/guardian consent), incompetent patients"},
-  {term:"Medicare vs Medicaid comparison",def:"Medicare: federal program, age 65+, disabled. Medicaid: state+federal, low-income. CHIP: uninsured children",breakdown:"Both created 1965. Together cover over 130 million Americans — largest health insurance programs in US"},
-  {term:"Herd immunity threshold",def:"Percent of population that must be immune to prevent epidemic spread",breakdown:"Measles: 95 percent. Polio: 80-85 percent. Flu: 40-50 percent. Falls with vaccine hesitancy"},
-  {term:"3 levels of prevention",def:"Primary: prevent disease (vaccines). Secondary: early detection (screening). Tertiary: manage disease (rehab)",breakdown:"Primary = sunscreen. Secondary = colonoscopy. Tertiary = physical therapy after stroke or joint replacement"},
-  {term:"Metabolic syndrome criteria",def:"3 of 5: abdominal obesity, high triglycerides, low HDL, high BP, high fasting glucose",breakdown:"34 percent of US adults have metabolic syndrome. Dramatically increases T2DM and CVD risk"},
-  {term:"Glycemic Index range",def:"Low GI under 55: oats, legumes, most fruits. High GI over 70: white bread, soda, white rice",breakdown:"Low GI foods cause gradual glucose rise. High GI causes rapid spike and crash in blood sugar"},
-  {term:"Omega-3 sources",def:"EPA and DHA (most active long-chain): fatty fish like salmon, sardines, mackerel",breakdown:"ALA (short-chain): flaxseed, chia seeds, walnuts. Body inefficiently converts ALA to EPA/DHA"},
-  {term:"Adult CPR compression depth",def:"2 to 2.4 inches (5 to 6 cm) in adults. Full chest recoil required between compressions",breakdown:"Rate 100-120 per minute for all ages. Insufficient depth is the most common CPR error"},
-  {term:"AED pad placement",def:"Right upper chest near collarbone. Left lower chest near armpit (apex of heart)",breakdown:"Use pediatric pads for children under 8 years or under 55 pounds if available"},
-  {term:"Anaphylaxis first-line treatment",def:"Epinephrine IM injection into outer thigh — ONLY first-line treatment",breakdown:"Antihistamines (Benadryl) are adjunct only — too slow to treat anaphylaxis. Call 911 even after Epi"},
-  {term:"Shock cardinal signs",def:"Tachycardia + hypotension + pale/cool/clammy skin + altered mental status",breakdown:"Compensated shock: BP maintained by tachycardia. Decompensated: BP falls. Irreversible: organ failure"},
-  {term:"Heat stroke vs heat exhaustion",def:"Heat stroke: temp over 104F, hot DRY skin, confusion — life-threatening emergency",breakdown:"Heat exhaustion: sweating, cool pale skin, nausea — serious but manageable with rest and fluids"},
-  {term:"Seizure first aid",def:"Protect from injury, time the seizure, turn on side after convulsions, stay until conscious",breakdown:"NEVER restrain or put anything in mouth. Call 911 if over 5 minutes or status epilepticus"},
-  {term:"Mental health crisis line",def:"988 Suicide and Crisis Lifeline — call or text 988. Free, confidential, 24/7",breakdown:"Available nationwide. Also: Crisis Text Line (text HOME to 741741). Not just for suicidal crisis"},
-  {term:"Carbon monoxide danger",def:"Colorless, odorless gas. Binds hemoglobin 240x stronger than oxygen. Pulse ox reads falsely normal",breakdown:"Symptoms: headache, nausea, confusion in enclosed space. Treatment: 100 percent oxygen immediately"},
-  {term:"Osmotic pressure concept",def:"Water moves from low solute concentration (high water) to high solute concentration (low water)",breakdown:"Basis of IV fluid tonicity. Isotonic stays in vessels. Hypotonic goes into cells. Hypertonic pulls from cells"}
-],
-hard: []
-},
-
-
-rounds: [
-  // ROUND 1 — HOSA Organization
-  {category:"HOSA Organization",q:"What does HOSA stand for?",opts:["Health Occupations Students of America (original name)","Hospital Organizations Supporting America","Health Operations and Sciences Academy","Health Outcomes Support Association"],correct:0,explain:"HOSAs original name was Health Occupations Students of America, founded in 1976. In 2004 the name officially changed to just 'HOSA — Future Health Professionals.'"},
-  {category:"HOSA Organization",q:"What year was HOSA founded?",opts:["1966","1971","1976","1982"],correct:2,explain:"HOSA was founded in 1976. It now has over 200,000 members in the US and internationally."},
-  {category:"HOSA Organization",q:"How many categories are in the HOSA Competitive Events Program?",opts:["4","5","6","7"],correct:2,explain:"There are 6 categories: Health Science, Health Professions, Emergency Preparedness, Leadership, Teamwork, and Recognition."},
-  {category:"HOSA Organization",q:"What is the HOSA motto?",opts:["Health is Our Future","The Hands of HOSA Mold the Health of Tomorrow","Future Health Professionals Lead the Way","Together for Better Health"],correct:1,explain:"HOSAs motto is 'The Hands of HOSA Mold the Health of Tomorrow.' The hands in the HOSA emblem represent the caring of each member."},
-  {category:"HOSA Organization",q:"HOSAs tagline is:",opts:["Health Leaders of America","Future Health Professionals","Students for Healthcare","Tomorrows Healthcare Today"],correct:1,explain:"HOSAs official tagline is 'HOSA — Future Health Professionals,' adopted when the organization rebranded in 2004."},
-
-  // ROUND 2 — Medical Terminology
-  {category:"Medical Terminology",q:"What does the prefix 'tachy-' mean?",opts:["Slow","Fast","Large","Painful"],correct:1,explain:"Tachy- means fast/rapid. Tachycardia = fast heart rate (>100 bpm). Tachypnea = fast breathing rate."},
-  {category:"Medical Terminology",q:"The suffix '-ectomy' means:",opts:["Inflammation","Surgical removal","Visual examination","Incision"],correct:1,explain:"-ectomy = surgical removal. Appendectomy = remove appendix. Cholecystectomy = remove gallbladder."},
-  {category:"Medical Terminology",q:"'Hepatitis' means inflammation of the:",opts:["Heart","Stomach","Liver","Kidney"],correct:2,explain:"Hepat- = liver, -itis = inflammation. Hepatitis = liver inflammation, often caused by viruses (Hep A, B, C)."},
-  {category:"Medical Terminology",q:"The prefix 'hypo-' means:",opts:["Above normal","Below normal","Without","Against"],correct:1,explain:"Hypo- = below normal/deficient. Hypoglycemia = low blood sugar. Hypotension = low blood pressure. Hypothermia = low body temperature."},
-  {category:"Medical Terminology",q:"'Cardiology' is the study of the:",opts:["Lungs","Skin","Kidneys","Heart"],correct:3,explain:"Cardio- = heart, -ology = study of. Cardiology is the medical specialty focused on the heart and cardiovascular system."},
-  {category:"Medical Terminology",q:"What does '-plasty' mean?",opts:["Removal","Inflammation","Surgical repair","Visual exam"],correct:2,explain:"-plasty = surgical repair/reconstruction. Rhinoplasty = nose repair. Arthroplasty = joint repair. Angioplasty = vessel repair."},
-  {category:"Medical Terminology",q:"The root 'nephr-' refers to the:",opts:["Lung","Brain","Kidney","Nerve"],correct:2,explain:"Nephr- (Greek: nephros) = kidney. Nephritis = kidney inflammation. Nephrology = study of kidneys. Nephrectomy = kidney removal."},
-
-  // ROUND 3 — Nutrition
-  {category:"Nutrition",q:"Which macronutrient provides 9 calories per gram?",opts:["Carbohydrates","Protein","Fat","Fiber"],correct:2,explain:"Fat provides 9 cal/g — more than double carbs and protein (4 cal/g each). This is why fat-rich foods are calorie-dense."},
-  {category:"Nutrition",q:"Vitamin C deficiency causes:",opts:["Rickets","Scurvy","Pellagra","Beriberi"],correct:1,explain:"Scurvy results from Vitamin C deficiency. Symptoms: bleeding gums, joint pain, fatigue, slow wound healing. Citrus fruits, peppers, and strawberries prevent it."},
-  {category:"Nutrition",q:"The USDAs current food guidance tool is called:",opts:["Food Pyramid","MyPlate","Food Circle","Health Wheel"],correct:1,explain:"MyPlate (2011) replaced the old Food Pyramid. It shows 5 food groups proportioned on a dinner plate: fruits, vegetables, grains, protein, and dairy."},
-  {category:"Nutrition",q:"Iron deficiency most commonly causes:",opts:["Scurvy","Rickets","Anemia","Osteoporosis"],correct:2,explain:"Iron-deficiency anemia — the most common nutritional deficiency worldwide. Iron is needed for hemoglobin, which carries oxygen in red blood cells."},
-  {category:"Nutrition",q:"How many essential nutrients are there?",opts:["4","5","6","7"],correct:2,explain:"The 6 essential nutrients: Carbohydrates, Proteins, Fats, Vitamins, Minerals, and Water. The body cannot function without all 6."},
-
-  // ROUND 4 — Health Careers
-  {category:"Health Careers",q:"Which career pathway includes nurses, physicians, and physical therapists?",opts:["Diagnostic","Therapeutic","Health Informatics","Support Services"],correct:1,explain:"The Therapeutic pathway covers careers that change a patients health status — treating, caring for, and rehabilitating patients."},
-  {category:"Health Careers",q:"A phlebotomists main job is:",opts:["Dispensing medications","Drawing blood samples","Reading X-rays","Physical therapy"],correct:1,explain:"Phlebotomists draw blood from patients for laboratory testing. It is an entry-level clinical career requiring a short certificate program."},
-  {category:"Health Careers",q:"What does HIPAA protect?",opts:["Hospitals from lawsuits","Patient private health information","Healthcare worker wages","Insurance company profits"],correct:1,explain:"HIPAA (1996) protects the privacy and security of patients' protected health information (PHI). Violations carry significant fines."},
-  {category:"Health Careers",q:"An MD and DO are both:",opts:["Identical with no differences","Fully licensed physicians who can diagnose, treat, and prescribe","Medical students still in training","Physician assistants"],correct:1,explain:"Both MDs and DOs are fully licensed physicians. DOs have additional training in osteopathic manipulative medicine but practice in all the same areas as MDs."},
-
-  // ROUND 5 — Emergency/Safety
-  {category:"Emergency Preparedness",q:"Adult CPR compression-to-breath ratio is:",opts:["15:2","20:2","25:2","30:2"],correct:3,explain:"30:2 is the standard adult CPR ratio — 30 compressions at 100-120/min (2-2.4 inches deep), then 2 rescue breaths."},
-  {category:"Emergency Preparedness",q:"FAST stands for stroke warning signs. The 'S' stands for:",opts:["Sweating","Sensitivity","Speech (slurred or strange)","Stomach pain"],correct:2,explain:"FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 911. Slurred or strange speech is a key stroke warning sign."},
-  {category:"Emergency Preparedness",q:"Anaphylaxis is treated immediately with:",opts:["Benadryl","Ice and elevation","Epinephrine (EpiPen)","Aspirin"],correct:2,explain:"Epinephrine is the ONLY first-line treatment for anaphylaxis. It rapidly reverses the allergic reaction. Call 911 even after using an EpiPen."},
-  {category:"Emergency Preparedness",q:"For a severe burn, you should first:",opts:["Apply butter","Break blisters","Cool with cool running water 10-20 min","Apply ice directly"],correct:2,explain:"Cool running water (NOT ice) for 10-20 minutes is first aid for burns. Ice causes additional tissue damage."},
-
-  // ROUND 6 — Healthy Living
-  {category:"Healthy Living",q:"Daily physical activity recommendation for youth is:",opts:["20 minutes","30 minutes","45 minutes","60 minutes"],correct:3,explain:"60 minutes of moderate-to-vigorous activity daily is recommended for children and teens ages 6-17 by the Physical Activity Guidelines for Americans."},
-  {category:"Healthy Living",q:"Teenagers need how many hours of sleep per night?",opts:["5-6","6-7","8-10","11-12"],correct:2,explain:"8-10 hours per night is recommended for teenagers. Sleep is essential for brain development, immunity, mental health, and academic performance."},
-  {category:"Healthy Living",q:"Social determinants of health are best described as:",opts:["Genetic risk factors","Non-medical factors like income and education affecting health","Individual lifestyle choices only","Healthcare quality measures"],correct:1,explain:"Social determinants of health are conditions in environments where people live, work, and learn that affect health — income, education, housing, neighborhood, social support."},
-  {category:"Healthy Living",q:"Which is a MODIFIABLE risk factor for chronic disease?",opts:["Age","Genetics","Smoking","Sex"],correct:2,explain:"Modifiable risk factors can be changed through choices and interventions — smoking, diet, physical activity, weight. Non-modifiable: age, genetics, sex, family history."},
-
-  // ROUND 7 — Math/Measurements
-  {category:"Math for Health",q:"Normal body temperature in Celsius is:",opts:["35°C","36°C","37°C","38°C"],correct:2,explain:"Normal body temperature is 37°C (98.6°F). Fever is defined as >38°C (100.4°F). Hypothermia is <35°C (95°F)."},
-  {category:"Math for Health",q:"How many milligrams are in 1 gram?",opts:["10","100","1,000","10,000"],correct:2,explain:"1 gram = 1,000 milligrams. The prefix 'milli-' means 1/1,000. Most drug doses are measured in mg."},
-  {category:"Math for Health",q:"Normal adult blood pressure is approximately:",opts:["100/60 mmHg","120/80 mmHg","140/90 mmHg","160/100 mmHg"],correct:1,explain:"120/80 mmHg is normal. 120 = systolic (heart pumping), 80 = diastolic (heart resting). Hypertension ≥ 130/80."},
-  {category:"Math for Health",q:"1 kilogram equals approximately:",opts:["1.5 pounds","2.2 pounds","3.3 pounds","4.4 pounds"],correct:1,explain:"1 kg ≈ 2.2 lbs. To convert pounds to kg, divide by 2.2. Critical for weight-based drug dosing."},
-  {category:"Math for Health",q:"Military time 1500 equals:",opts:["1:00 AM","3:00 AM","1:00 PM","3:00 PM"],correct:3,explain:"1500 military time = 3:00 PM. Subtract 1200 from times 1300-2359 to get PM. 1500 - 1200 = 3:00 PM."},
-]
-}; // end QB_HOSA_BOWL
-
-
-
-
-// HOSA Academy — Medical Terminology Complete Word Bank
-// 479+ complete medical terms organized by body system
-// Each term has: word, breakdown (prefix+root+suffix decoded), definition
-
-window.QB_TERM_WORDS = {
-  "cardiovascular": {
-    label: "Cardiovascular",
-    terms: [
-      {term:"Tachycardia",def:"tachy (fast) + card (heart) + ia (condition)",breakdown:"Heart rate above 100 beats per minute"},
-      {term:"Bradycardia",def:"brady (slow) + card (heart) + ia (condition)",breakdown:"Heart rate below 60 beats per minute"},
-      {term:"Myocarditis",def:"myo (muscle) + card (heart) + itis (inflammation)",breakdown:"Inflammation of the heart muscle"},
-      {term:"Pericarditis",def:"peri (around) + card (heart) + itis (inflammation)",breakdown:"Inflammation of the sac surrounding the heart"},
-      {term:"Endocarditis",def:"endo (within) + card (heart) + itis (inflammation)",breakdown:"Inflammation of the inner lining of the heart"},
-      {term:"Cardiomegaly",def:"cardio (heart) + megaly (enlargement)",breakdown:"Abnormal enlargement of the heart"},
-      {term:"Cardiomyopathy",def:"cardio (heart) + myo (muscle) + pathy (disease)",breakdown:"Disease of the heart muscle"},
-      {term:"Atherosclerosis",def:"athero (fatty plaque) + sclerosis (hardening)",breakdown:"Hardening of arteries from fatty plaque buildup"},
-      {term:"Arteriosclerosis",def:"arterio (artery) + sclerosis (hardening)",breakdown:"General hardening and thickening of artery walls"},
-      {term:"Hypertension",def:"hyper (above normal) + tension (pressure)",breakdown:"Persistently elevated blood pressure above 130/80"},
-      {term:"Hypotension",def:"hypo (below normal) + tension (pressure)",breakdown:"Abnormally low blood pressure below 90/60"},
-      {term:"Arrhythmia",def:"a (without) + rhythmia (rhythm)",breakdown:"Any abnormal heart rate or rhythm"},
-      {term:"Fibrillation",def:"fibrill (small fiber) + ation (process)",breakdown:"Rapid chaotic uncoordinated heart contractions"},
-      {term:"Thrombosis",def:"thromb (clot) + osis (abnormal condition)",breakdown:"Formation of a blood clot inside a blood vessel"},
-      {term:"Thrombophlebitis",def:"thromb (clot) + phleb (vein) + itis (inflammation)",breakdown:"Inflammation of a vein with clot formation"},
-      {term:"Phlebitis",def:"phleb (vein) + itis (inflammation)",breakdown:"Inflammation of a vein"},
-      {term:"Embolism",def:"embol (plug) + ism (condition)",breakdown:"Obstruction of a blood vessel by a traveling clot"},
-      {term:"Aneurysm",def:"aneurysma (dilation)",breakdown:"Bulging or ballooning of a weakened blood vessel wall"},
-      {term:"Angioplasty",def:"angio (vessel) + plasty (surgical repair)",breakdown:"Surgical repair or unblocking of a blood vessel"},
-      {term:"Endarterectomy",def:"end (within) + arteri (artery) + ectomy (removal)",breakdown:"Surgical removal of plaque from inside an artery"},
-      {term:"Myocardial infarction",def:"myo (muscle) + card (heart) + al + infarct (tissue death)",breakdown:"Heart attack — death of heart muscle from blocked blood supply"},
-      {term:"Palpitation",def:"palpitat (flutter) + ion",breakdown:"Rapid strong or irregular heartbeat felt by the patient"},
-      {term:"Aortic stenosis",def:"aort (aorta) + ic + sten (narrowing) + osis",breakdown:"Narrowing of the aortic valve opening"},
-      {term:"Congestive heart failure",def:"congest (accumulate) + ive + heart + failure",breakdown:"Heart cannot pump enough blood causing fluid buildup"},
-      {term:"Electrocardiogram",def:"electro (electrical) + cardio (heart) + gram (record)",breakdown:"Recording of the electrical activity of the heart"},
-      {term:"Echocardiography",def:"echo (sound wave) + cardio (heart) + graphy (recording)",breakdown:"Ultrasound imaging of heart structure and function"},
-      {term:"Angiography",def:"angio (vessel) + graphy (recording)",breakdown:"X-ray imaging of blood vessels using contrast dye"},
-      {term:"Cardioversion",def:"cardio (heart) + version (turning)",breakdown:"Restoring normal heart rhythm using electricity or drugs"},
-      {term:"Valvuloplasty",def:"valvulo (valve) + plasty (repair)",breakdown:"Surgical repair of a heart valve"},
-      {term:"Coronary artery disease",def:"coron (crown) + ary + artery + disease",breakdown:"Narrowing of arteries supplying the heart muscle"},
-    ]
+  "flashcards": {
+    "easy": [
+      {
+        "term": "HOSA founding year",
+        "def": "1976, originally Health Occupations Students of America",
+        "breakdown": "Name officially changed to HOSA in June 2004 at the Delegate Assembly"
+      },
+      {
+        "term": "HOSA motto",
+        "def": "The Hands of HOSA Mold the Health of Tomorrow",
+        "breakdown": "The hands in the HOSA emblem represent the caring of each member"
+      },
+      {
+        "term": "HOSA tagline",
+        "def": "HOSA — Future Health Professionals",
+        "breakdown": "Adopted 2004. Reflects inclusion of students in any health-related program"
+      },
+      {
+        "term": "HOSA competitive event categories (6)",
+        "def": "Health Science, Health Professions, Emergency Preparedness, Leadership, Teamwork, Recognition",
+        "breakdown": "Middle school division has its own subset of events from each category"
+      },
+      {
+        "term": "Normal adult body temperature",
+        "def": "98.6 degrees F (37 degrees C). Fever above 100.4F (38C). Hypothermia below 95F (35C)",
+        "breakdown": "Formula F to C: subtract 32, multiply by 5/9. C to F: multiply by 9/5, add 32"
+      },
+      {
+        "term": "Normal adult heart rate",
+        "def": "60-100 beats per minute. Brady under 60. Tachy over 100",
+        "breakdown": "Assess for full 60 seconds for accuracy, especially if irregular rhythm"
+      },
+      {
+        "term": "Normal adult blood pressure",
+        "def": "Under 120 systolic AND under 80 diastolic mmHg",
+        "breakdown": "Stage 1 hypertension: 130-139/80-89. Stage 2: at or above 140/90. Crisis: above 180/120"
+      },
+      {
+        "term": "Normal SpO2",
+        "def": "95-100 percent. Below 90 percent requires supplemental oxygen intervention",
+        "breakdown": "Pulse oximeter measures. COPD patients may normally run 88-92 percent"
+      },
+      {
+        "term": "CPR compression to breath ratio (adult)",
+        "def": "30 compressions to 2 breaths. Rate 100-120 per minute. Depth 2 to 2.4 inches",
+        "breakdown": "CAB sequence: Compressions first. Changed from ABC in 2010 AHA guidelines"
+      },
+      {
+        "term": "Fat calories per gram",
+        "def": "Fat = 9 calories per gram. Carbs and protein = 4 calories per gram each",
+        "breakdown": "Fat has more than double the calories of carbohydrates or protein"
+      },
+      {
+        "term": "Iron deficiency causes",
+        "def": "Iron-deficiency anemia — most common nutritional deficiency worldwide",
+        "breakdown": "Hemoglobin requires iron. Symptoms: fatigue, pale skin, weakness, shortness of breath"
+      },
+      {
+        "term": "Vitamin C deficiency disease",
+        "def": "Scurvy — bleeding gums, poor wound healing, joint pain, fatigue",
+        "breakdown": "Citrus fruits, bell peppers, kiwi, strawberries are top sources"
+      },
+      {
+        "term": "Vitamin D deficiency in children",
+        "def": "Rickets — soft bones, bowed legs, growth failure",
+        "breakdown": "Adult equivalent is osteomalacia. Both prevented with adequate Vitamin D and calcium"
+      },
+      {
+        "term": "1 kilogram equals",
+        "def": "2.2 pounds. Divide lbs by 2.2 to get kg. Multiply kg by 2.2 to get lbs",
+        "breakdown": "154 lbs = 70 kg. 110 lbs = 50 kg. Essential for weight-based drug dosing"
+      },
+      {
+        "term": "Cardio- root meaning",
+        "def": "Heart. From Greek kardia = heart",
+        "breakdown": "Cardiology, cardiomegaly, myocarditis, pericarditis, tachycardia, bradycardia"
+      },
+      {
+        "term": "-itis suffix meaning",
+        "def": "Inflammation of. Most common medical suffix",
+        "breakdown": "Hepatitis, arthritis, appendicitis, meningitis, encephalitis, bronchitis, colitis"
+      },
+      {
+        "term": "-ectomy suffix meaning",
+        "def": "Surgical removal of",
+        "breakdown": "Appendectomy, cholecystectomy, mastectomy, nephrectomy, tonsillectomy, thyroidectomy"
+      },
+      {
+        "term": "-ology suffix meaning",
+        "def": "Study of (a medical specialty)",
+        "breakdown": "Cardiology, dermatology, neurology, gastroenterology, hematology, oncology"
+      },
+      {
+        "term": "Hyper- prefix meaning",
+        "def": "Above normal or excessive",
+        "breakdown": "Hypertension, hyperglycemia, hyperthyroidism, hypernatremia, hyperlipidemia"
+      },
+      {
+        "term": "Hypo- prefix meaning",
+        "def": "Below normal or deficient",
+        "breakdown": "Hypotension, hypoglycemia, hypothyroidism, hyponatremia, hypocalcemia"
+      },
+      {
+        "term": "Tachy- prefix meaning",
+        "def": "Fast or rapid",
+        "breakdown": "Tachycardia (fast heart over 100 bpm), tachypnea (fast breathing over 20 per min)"
+      },
+      {
+        "term": "Brady- prefix meaning",
+        "def": "Slow",
+        "breakdown": "Bradycardia (slow heart under 60 bpm), bradypnea (slow breathing under 12 per min)"
+      },
+      {
+        "term": "Hepat- root meaning",
+        "def": "Liver. From Greek hepar = liver",
+        "breakdown": "Hepatitis, hepatomegaly, hepatectomy, hepatotoxicity, hepatocellular carcinoma"
+      },
+      {
+        "term": "Nephr- root meaning",
+        "def": "Kidney. From Greek nephros = kidney",
+        "breakdown": "Nephritis, nephrectomy, nephrology, nephrotic syndrome, nephropathy"
+      },
+      {
+        "term": "FAST stroke acronym",
+        "def": "Face drooping, Arm weakness, Speech difficulty, Time to call 911",
+        "breakdown": "Time is brain: 1.9 million neurons die per minute without treatment"
+      },
+      {
+        "term": "ILC",
+        "def": "International Leadership Conference — HOSA's annual national competitive event",
+        "breakdown": "Largest HOSA event; brings together competitors from all 50 states and international affiliates"
+      },
+      {
+        "term": "HOSA membership divisions",
+        "def": "Middle School, Secondary (high school), and Post-Secondary/Collegiate",
+        "breakdown": "Each division has its own competitive events appropriate to that education level"
+      },
+      {
+        "term": "HOSA – Future Health Professionals",
+        "def": "Current official name of HOSA since 2004, replacing Health Occupations Students of America",
+        "breakdown": "Name change reflected the broader scope of health careers beyond traditional 'health occupations'"
+      },
+      {
+        "term": "HOSA affiliation",
+        "def": "Official co-curricular organization for Career and Technical Education (CTE) Health Science programs",
+        "breakdown": "Affiliated with U.S. Department of Education; provides student organization for health science CTE students"
+      },
+      {
+        "term": "HOSA membership size",
+        "def": "Approximately 300,000 members across the United States",
+        "breakdown": "One of the largest student career/technical organizations in the country"
+      },
+      {
+        "term": "HOSA emblem",
+        "def": "Caduceus (winged staff with two snakes) surrounded by hands in a circle",
+        "breakdown": "Caduceus = medicine; hands = caring; circle = unity. Represents HOSA's mission of health and community"
+      },
+      {
+        "term": "HOSA competitive event categories",
+        "def": "Health Science Events, Leadership Events, and Recognition Events",
+        "breakdown": "Health Science = clinical/technical skills. Leadership = public speaking/management. Recognition = community service"
+      },
+      {
+        "term": "HOSA chapter",
+        "def": "A local group of HOSA members at a school or college, the basic organizational unit",
+        "breakdown": "Chapters → Regional → State → National/International. Each chapter pays dues and participates in events"
+      },
+      {
+        "term": "HOSA Hippocratic Oath connection",
+        "def": "HOSA members pledge to uphold ethical standards in healthcare similar to the physician's Hippocratic Oath",
+        "breakdown": "Primum non nocere = First, do no harm. Core ethical principle that HOSA embeds in all health science education"
+      },
+      {
+        "term": "HOSA 50th anniversary",
+        "def": "2025-2026 school year marks HOSA's 50th anniversary — celebrated with special events and book selections",
+        "breakdown": "Medical Reading event books for 2025-26 commemorate the 50th anniversary with selections spanning the decades"
+      }
+    ],
+    "medium": [
+      {
+        "term": "Therapeutic services pathway",
+        "def": "Careers that change patient health status: nurses, physicians, pharmacists, physical and occupational therapists",
+        "breakdown": "Largest of the 5 health science pathways. Includes all direct patient treatment professions"
+      },
+      {
+        "term": "Diagnostic services pathway",
+        "def": "Test and identify conditions: lab techs, radiologists, phlebotomists, sonographers, EKG techs",
+        "breakdown": "Results guide treatment decisions. Lab medicine and imaging are the diagnostic backbone of healthcare"
+      },
+      {
+        "term": "Health informatics pathway",
+        "def": "Manage health data: medical coders, health information managers, health IT specialists, data analysts",
+        "breakdown": "ICD-10 diagnosis codes and CPT procedure codes used for all insurance billing and records"
+      },
+      {
+        "term": "HIPAA basics",
+        "def": "Protects patient Protected Health Information (PHI). Civil and criminal penalties for violations",
+        "breakdown": "PHI includes: name, address, DOB, SSN, diagnosis, photos — anything that could identify patient"
+      },
+      {
+        "term": "Informed consent requirements",
+        "def": "Patient must be: competent, informed of risks/benefits/alternatives, voluntary, able to understand",
+        "breakdown": "Exceptions: emergency (implied consent), minors (parent/guardian consent), incompetent patients"
+      },
+      {
+        "term": "Medicare vs Medicaid comparison",
+        "def": "Medicare: federal program, age 65+, disabled. Medicaid: state+federal, low-income. CHIP: uninsured children",
+        "breakdown": "Both created 1965. Together cover over 130 million Americans — largest health insurance programs in US"
+      },
+      {
+        "term": "Herd immunity threshold",
+        "def": "Percent of population that must be immune to prevent epidemic spread",
+        "breakdown": "Measles: 95 percent. Polio: 80-85 percent. Flu: 40-50 percent. Falls with vaccine hesitancy"
+      },
+      {
+        "term": "3 levels of prevention",
+        "def": "Primary: prevent disease (vaccines). Secondary: early detection (screening). Tertiary: manage disease (rehab)",
+        "breakdown": "Primary = sunscreen. Secondary = colonoscopy. Tertiary = physical therapy after stroke or joint replacement"
+      },
+      {
+        "term": "Metabolic syndrome criteria",
+        "def": "3 of 5: abdominal obesity, high triglycerides, low HDL, high BP, high fasting glucose",
+        "breakdown": "34 percent of US adults have metabolic syndrome. Dramatically increases T2DM and CVD risk"
+      },
+      {
+        "term": "Glycemic Index range",
+        "def": "Low GI under 55: oats, legumes, most fruits. High GI over 70: white bread, soda, white rice",
+        "breakdown": "Low GI foods cause gradual glucose rise. High GI causes rapid spike and crash in blood sugar"
+      },
+      {
+        "term": "Omega-3 sources",
+        "def": "EPA and DHA (most active long-chain): fatty fish like salmon, sardines, mackerel",
+        "breakdown": "ALA (short-chain): flaxseed, chia seeds, walnuts. Body inefficiently converts ALA to EPA/DHA"
+      },
+      {
+        "term": "Adult CPR compression depth",
+        "def": "2 to 2.4 inches (5 to 6 cm) in adults. Full chest recoil required between compressions",
+        "breakdown": "Rate 100-120 per minute for all ages. Insufficient depth is the most common CPR error"
+      },
+      {
+        "term": "AED pad placement",
+        "def": "Right upper chest near collarbone. Left lower chest near armpit (apex of heart)",
+        "breakdown": "Use pediatric pads for children under 8 years or under 55 pounds if available"
+      },
+      {
+        "term": "Anaphylaxis first-line treatment",
+        "def": "Epinephrine IM injection into outer thigh — ONLY first-line treatment",
+        "breakdown": "Antihistamines (Benadryl) are adjunct only — too slow to treat anaphylaxis. Call 911 even after Epi"
+      },
+      {
+        "term": "Shock cardinal signs",
+        "def": "Tachycardia + hypotension + pale/cool/clammy skin + altered mental status",
+        "breakdown": "Compensated shock: BP maintained by tachycardia. Decompensated: BP falls. Irreversible: organ failure"
+      },
+      {
+        "term": "Heat stroke vs heat exhaustion",
+        "def": "Heat stroke: temp over 104F, hot DRY skin, confusion — life-threatening emergency",
+        "breakdown": "Heat exhaustion: sweating, cool pale skin, nausea — serious but manageable with rest and fluids"
+      },
+      {
+        "term": "Seizure first aid",
+        "def": "Protect from injury, time the seizure, turn on side after convulsions, stay until conscious",
+        "breakdown": "NEVER restrain or put anything in mouth. Call 911 if over 5 minutes or status epilepticus"
+      },
+      {
+        "term": "Mental health crisis line",
+        "def": "988 Suicide and Crisis Lifeline — call or text 988. Free, confidential, 24/7",
+        "breakdown": "Available nationwide. Also: Crisis Text Line (text HOME to 741741). Not just for suicidal crisis"
+      },
+      {
+        "term": "Carbon monoxide danger",
+        "def": "Colorless, odorless gas. Binds hemoglobin 240x stronger than oxygen. Pulse ox reads falsely normal",
+        "breakdown": "Symptoms: headache, nausea, confusion in enclosed space. Treatment: 100 percent oxygen immediately"
+      },
+      {
+        "term": "Osmotic pressure concept",
+        "def": "Water moves from low solute concentration (high water) to high solute concentration (low water)",
+        "breakdown": "Basis of IV fluid tonicity. Isotonic stays in vessels. Hypotonic goes into cells. Hypertonic pulls from cells"
+      }
+    ],
+    "hard": []
   },
-  "respiratory": {
-    label: "Respiratory",
-    terms: [
-      {term:"Pneumonia",def:"pneumon (lung) + ia (condition)",breakdown:"Lung infection causing inflammation and fluid accumulation"},
-      {term:"Pneumothorax",def:"pneumo (air) + thorax (chest)",breakdown:"Air in the pleural space causing lung collapse"},
-      {term:"Pleuritis",def:"pleur (pleura) + itis (inflammation)",breakdown:"Inflammation of the pleural membrane around the lungs"},
-      {term:"Bronchitis",def:"bronch (bronchial tubes) + itis (inflammation)",breakdown:"Inflammation of the bronchial airways"},
-      {term:"Bronchospasm",def:"broncho (bronchi) + spasm (sudden contraction)",breakdown:"Sudden contraction of bronchial muscle narrowing airways"},
-      {term:"Bronchiectasis",def:"bronchi (airways) + ectasis (dilation)",breakdown:"Permanent widening and scarring of the bronchial airways"},
-      {term:"Rhinitis",def:"rhin (nose) + itis (inflammation)",breakdown:"Inflammation of the nasal mucous membranes"},
-      {term:"Sinusitis",def:"sinus + itis (inflammation)",breakdown:"Inflammation of the paranasal sinuses"},
-      {term:"Laryngitis",def:"laryng (larynx) + itis (inflammation)",breakdown:"Inflammation of the larynx causing hoarseness"},
-      {term:"Pharyngitis",def:"pharyng (pharynx) + itis (inflammation)",breakdown:"Inflammation of the pharynx — sore throat"},
-      {term:"Tracheitis",def:"trache (trachea) + itis (inflammation)",breakdown:"Inflammation of the trachea or windpipe"},
-      {term:"Epiglottitis",def:"epiglott (epiglottis) + itis (inflammation)",breakdown:"Dangerous swelling of the epiglottis blocking the airway"},
-      {term:"Tonsillitis",def:"tonsill (tonsils) + itis (inflammation)",breakdown:"Inflammation and infection of the tonsils"},
-      {term:"Dyspnea",def:"dys (difficult) + pnea (breathing)",breakdown:"Difficult or labored breathing — shortness of breath"},
-      {term:"Apnea",def:"a (without) + pnea (breathing)",breakdown:"Complete cessation of breathing"},
-      {term:"Tachypnea",def:"tachy (fast) + pnea (breathing)",breakdown:"Abnormally fast breathing rate above 20 per minute"},
-      {term:"Bradypnea",def:"brady (slow) + pnea (breathing)",breakdown:"Abnormally slow breathing rate below 12 per minute"},
-      {term:"Orthopnea",def:"ortho (straight) + pnea (breathing)",breakdown:"Inability to breathe comfortably except when upright"},
-      {term:"Hemoptysis",def:"hemo (blood) + ptysis (spitting)",breakdown:"Coughing up blood from the respiratory tract"},
-      {term:"Atelectasis",def:"atele (incomplete) + ectasis (expansion)",breakdown:"Collapse or incomplete expansion of lung tissue"},
-      {term:"Emphysema",def:"em (in) + physema (blowing)",breakdown:"Destruction of alveolar walls causing air trapping in lungs"},
-      {term:"Pulmonary embolism",def:"pulmon (lung) + ary + embol (plug) + ism",breakdown:"Blood clot blocking a pulmonary artery"},
-      {term:"Pulmonary edema",def:"pulmon (lung) + ary + edema (fluid)",breakdown:"Fluid accumulation in the lung tissue and air spaces"},
-      {term:"Cyanosis",def:"cyan (blue) + osis (condition)",breakdown:"Bluish skin discoloration from low blood oxygen"},
-      {term:"Spirometry",def:"spiro (breathing) + metry (measurement)",breakdown:"Test measuring lung volume and airflow capacity"},
-      {term:"Bronchoscopy",def:"broncho (bronchi) + scopy (visual exam)",breakdown:"Visual examination of bronchial tubes with a scope"},
-      {term:"Thoracentesis",def:"thorac (chest) + centesis (puncture)",breakdown:"Needle puncture of the chest to drain pleural fluid"},
-      {term:"Tracheotomy",def:"trache (trachea) + otomy (incision)",breakdown:"Surgical incision into the trachea for airway access"},
-      {term:"Tracheostomy",def:"trache (trachea) + ostomy (creating opening)",breakdown:"Creating a permanent opening in the trachea"},
-      {term:"Lobectomy",def:"lob (lobe) + ectomy (removal)",breakdown:"Surgical removal of a lobe of the lung"},
-      {term:"Pneumonectomy",def:"pneumon (lung) + ectomy (removal)",breakdown:"Surgical removal of an entire lung"},
+  "rounds": [
+    {
+      "category": "HOSA Organization",
+      "q": "What does HOSA stand for?",
+      "opts": [
+        "Health Occupations Students of America (original name)",
+        "Hospital Organizations Supporting America",
+        "Health Operations and Sciences Academy",
+        "Health Outcomes Support Association"
+      ],
+      "correct": 0,
+      "explain": "HOSAs original name was Health Occupations Students of America, founded in 1976. In 2004 the name officially changed to just 'HOSA — Future Health Professionals.'"
+    },
+    {
+      "category": "HOSA Organization",
+      "q": "What year was HOSA founded?",
+      "opts": [
+        "1966",
+        "1971",
+        "1976",
+        "1982"
+      ],
+      "correct": 2,
+      "explain": "HOSA was founded in 1976. It now has over 200,000 members in the US and internationally."
+    },
+    {
+      "category": "HOSA Organization",
+      "q": "How many categories are in the HOSA Competitive Events Program?",
+      "opts": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correct": 2,
+      "explain": "There are 6 categories: Health Science, Health Professions, Emergency Preparedness, Leadership, Teamwork, and Recognition."
+    },
+    {
+      "category": "HOSA Organization",
+      "q": "What is the HOSA motto?",
+      "opts": [
+        "Health is Our Future",
+        "The Hands of HOSA Mold the Health of Tomorrow",
+        "Future Health Professionals Lead the Way",
+        "Together for Better Health"
+      ],
+      "correct": 1,
+      "explain": "HOSAs motto is 'The Hands of HOSA Mold the Health of Tomorrow.' The hands in the HOSA emblem represent the caring of each member."
+    },
+    {
+      "category": "HOSA Organization",
+      "q": "HOSAs tagline is:",
+      "opts": [
+        "Health Leaders of America",
+        "Future Health Professionals",
+        "Students for Healthcare",
+        "Tomorrows Healthcare Today"
+      ],
+      "correct": 1,
+      "explain": "HOSAs official tagline is 'HOSA — Future Health Professionals,' adopted when the organization rebranded in 2004."
+    },
+    {
+      "category": "Medical Terminology",
+      "q": "What does the prefix 'tachy-' mean?",
+      "opts": [
+        "Slow",
+        "Fast",
+        "Large",
+        "Painful"
+      ],
+      "correct": 1,
+      "explain": "Tachy- means fast/rapid. Tachycardia = fast heart rate (>100 bpm). Tachypnea = fast breathing rate."
+    },
+    {
+      "category": "Medical Terminology",
+      "q": "The suffix '-ectomy' means:",
+      "opts": [
+        "Inflammation",
+        "Surgical removal",
+        "Visual examination",
+        "Incision"
+      ],
+      "correct": 1,
+      "explain": "-ectomy = surgical removal. Appendectomy = remove appendix. Cholecystectomy = remove gallbladder."
+    },
+    {
+      "category": "Medical Terminology",
+      "q": "'Hepatitis' means inflammation of the:",
+      "opts": [
+        "Heart",
+        "Stomach",
+        "Liver",
+        "Kidney"
+      ],
+      "correct": 2,
+      "explain": "Hepat- = liver, -itis = inflammation. Hepatitis = liver inflammation, often caused by viruses (Hep A, B, C)."
+    },
+    {
+      "category": "Medical Terminology",
+      "q": "The prefix 'hypo-' means:",
+      "opts": [
+        "Above normal",
+        "Below normal",
+        "Without",
+        "Against"
+      ],
+      "correct": 1,
+      "explain": "Hypo- = below normal/deficient. Hypoglycemia = low blood sugar. Hypotension = low blood pressure. Hypothermia = low body temperature."
+    },
+    {
+      "category": "Medical Terminology",
+      "q": "'Cardiology' is the study of the:",
+      "opts": [
+        "Lungs",
+        "Skin",
+        "Kidneys",
+        "Heart"
+      ],
+      "correct": 3,
+      "explain": "Cardio- = heart, -ology = study of. Cardiology is the medical specialty focused on the heart and cardiovascular system."
+    },
+    {
+      "category": "Medical Terminology",
+      "q": "What does '-plasty' mean?",
+      "opts": [
+        "Removal",
+        "Inflammation",
+        "Surgical repair",
+        "Visual exam"
+      ],
+      "correct": 2,
+      "explain": "-plasty = surgical repair/reconstruction. Rhinoplasty = nose repair. Arthroplasty = joint repair. Angioplasty = vessel repair."
+    },
+    {
+      "category": "Medical Terminology",
+      "q": "The root 'nephr-' refers to the:",
+      "opts": [
+        "Lung",
+        "Brain",
+        "Kidney",
+        "Nerve"
+      ],
+      "correct": 2,
+      "explain": "Nephr- (Greek: nephros) = kidney. Nephritis = kidney inflammation. Nephrology = study of kidneys. Nephrectomy = kidney removal."
+    },
+    {
+      "category": "Nutrition",
+      "q": "Which macronutrient provides 9 calories per gram?",
+      "opts": [
+        "Carbohydrates",
+        "Protein",
+        "Fat",
+        "Fiber"
+      ],
+      "correct": 2,
+      "explain": "Fat provides 9 cal/g — more than double carbs and protein (4 cal/g each). This is why fat-rich foods are calorie-dense."
+    },
+    {
+      "category": "Nutrition",
+      "q": "Vitamin C deficiency causes:",
+      "opts": [
+        "Rickets",
+        "Scurvy",
+        "Pellagra",
+        "Beriberi"
+      ],
+      "correct": 1,
+      "explain": "Scurvy results from Vitamin C deficiency. Symptoms: bleeding gums, joint pain, fatigue, slow wound healing. Citrus fruits, peppers, and strawberries prevent it."
+    },
+    {
+      "category": "Nutrition",
+      "q": "The USDAs current food guidance tool is called:",
+      "opts": [
+        "Food Pyramid",
+        "MyPlate",
+        "Food Circle",
+        "Health Wheel"
+      ],
+      "correct": 1,
+      "explain": "MyPlate (2011) replaced the old Food Pyramid. It shows 5 food groups proportioned on a dinner plate: fruits, vegetables, grains, protein, and dairy."
+    },
+    {
+      "category": "Nutrition",
+      "q": "Iron deficiency most commonly causes:",
+      "opts": [
+        "Scurvy",
+        "Rickets",
+        "Anemia",
+        "Osteoporosis"
+      ],
+      "correct": 2,
+      "explain": "Iron-deficiency anemia — the most common nutritional deficiency worldwide. Iron is needed for hemoglobin, which carries oxygen in red blood cells."
+    },
+    {
+      "category": "Nutrition",
+      "q": "How many essential nutrients are there?",
+      "opts": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correct": 2,
+      "explain": "The 6 essential nutrients: Carbohydrates, Proteins, Fats, Vitamins, Minerals, and Water. The body cannot function without all 6."
+    },
+    {
+      "category": "Health Careers",
+      "q": "Which career pathway includes nurses, physicians, and physical therapists?",
+      "opts": [
+        "Diagnostic",
+        "Therapeutic",
+        "Health Informatics",
+        "Support Services"
+      ],
+      "correct": 1,
+      "explain": "The Therapeutic pathway covers careers that change a patients health status — treating, caring for, and rehabilitating patients."
+    },
+    {
+      "category": "Health Careers",
+      "q": "A phlebotomists main job is:",
+      "opts": [
+        "Dispensing medications",
+        "Drawing blood samples",
+        "Reading X-rays",
+        "Physical therapy"
+      ],
+      "correct": 1,
+      "explain": "Phlebotomists draw blood from patients for laboratory testing. It is an entry-level clinical career requiring a short certificate program."
+    },
+    {
+      "category": "Health Careers",
+      "q": "What does HIPAA protect?",
+      "opts": [
+        "Hospitals from lawsuits",
+        "Patient private health information",
+        "Healthcare worker wages",
+        "Insurance company profits"
+      ],
+      "correct": 1,
+      "explain": "HIPAA (1996) protects the privacy and security of patients' protected health information (PHI). Violations carry significant fines."
+    },
+    {
+      "category": "Health Careers",
+      "q": "An MD and DO are both:",
+      "opts": [
+        "Identical with no differences",
+        "Fully licensed physicians who can diagnose, treat, and prescribe",
+        "Medical students still in training",
+        "Physician assistants"
+      ],
+      "correct": 1,
+      "explain": "Both MDs and DOs are fully licensed physicians. DOs have additional training in osteopathic manipulative medicine but practice in all the same areas as MDs."
+    },
+    {
+      "category": "Emergency Preparedness",
+      "q": "Adult CPR compression-to-breath ratio is:",
+      "opts": [
+        "15:2",
+        "20:2",
+        "25:2",
+        "30:2"
+      ],
+      "correct": 3,
+      "explain": "30:2 is the standard adult CPR ratio — 30 compressions at 100-120/min (2-2.4 inches deep), then 2 rescue breaths."
+    },
+    {
+      "category": "Emergency Preparedness",
+      "q": "FAST stands for stroke warning signs. The 'S' stands for:",
+      "opts": [
+        "Sweating",
+        "Sensitivity",
+        "Speech (slurred or strange)",
+        "Stomach pain"
+      ],
+      "correct": 2,
+      "explain": "FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 911. Slurred or strange speech is a key stroke warning sign."
+    },
+    {
+      "category": "Emergency Preparedness",
+      "q": "Anaphylaxis is treated immediately with:",
+      "opts": [
+        "Benadryl",
+        "Ice and elevation",
+        "Epinephrine (EpiPen)",
+        "Aspirin"
+      ],
+      "correct": 2,
+      "explain": "Epinephrine is the ONLY first-line treatment for anaphylaxis. It rapidly reverses the allergic reaction. Call 911 even after using an EpiPen."
+    },
+    {
+      "category": "Emergency Preparedness",
+      "q": "For a severe burn, you should first:",
+      "opts": [
+        "Apply butter",
+        "Break blisters",
+        "Cool with cool running water 10-20 min",
+        "Apply ice directly"
+      ],
+      "correct": 2,
+      "explain": "Cool running water (NOT ice) for 10-20 minutes is first aid for burns. Ice causes additional tissue damage."
+    },
+    {
+      "category": "Healthy Living",
+      "q": "Daily physical activity recommendation for youth is:",
+      "opts": [
+        "20 minutes",
+        "30 minutes",
+        "45 minutes",
+        "60 minutes"
+      ],
+      "correct": 3,
+      "explain": "60 minutes of moderate-to-vigorous activity daily is recommended for children and teens ages 6-17 by the Physical Activity Guidelines for Americans."
+    },
+    {
+      "category": "Healthy Living",
+      "q": "Teenagers need how many hours of sleep per night?",
+      "opts": [
+        "5-6",
+        "6-7",
+        "8-10",
+        "11-12"
+      ],
+      "correct": 2,
+      "explain": "8-10 hours per night is recommended for teenagers. Sleep is essential for brain development, immunity, mental health, and academic performance."
+    },
+    {
+      "category": "Healthy Living",
+      "q": "Social determinants of health are best described as:",
+      "opts": [
+        "Genetic risk factors",
+        "Non-medical factors like income and education affecting health",
+        "Individual lifestyle choices only",
+        "Healthcare quality measures"
+      ],
+      "correct": 1,
+      "explain": "Social determinants of health are conditions in environments where people live, work, and learn that affect health — income, education, housing, neighborhood, social support."
+    },
+    {
+      "category": "Healthy Living",
+      "q": "Which is a MODIFIABLE risk factor for chronic disease?",
+      "opts": [
+        "Age",
+        "Genetics",
+        "Smoking",
+        "Sex"
+      ],
+      "correct": 2,
+      "explain": "Modifiable risk factors can be changed through choices and interventions — smoking, diet, physical activity, weight. Non-modifiable: age, genetics, sex, family history."
+    },
+    {
+      "category": "Math for Health",
+      "q": "Normal body temperature in Celsius is:",
+      "opts": [
+        "35°C",
+        "36°C",
+        "37°C",
+        "38°C"
+      ],
+      "correct": 2,
+      "explain": "Normal body temperature is 37°C (98.6°F). Fever is defined as >38°C (100.4°F). Hypothermia is <35°C (95°F)."
+    },
+    {
+      "category": "Math for Health",
+      "q": "How many milligrams are in 1 gram?",
+      "opts": [
+        "10",
+        "100",
+        "1,000",
+        "10,000"
+      ],
+      "correct": 2,
+      "explain": "1 gram = 1,000 milligrams. The prefix 'milli-' means 1/1,000. Most drug doses are measured in mg."
+    },
+    {
+      "category": "Math for Health",
+      "q": "Normal adult blood pressure is approximately:",
+      "opts": [
+        "100/60 mmHg",
+        "120/80 mmHg",
+        "140/90 mmHg",
+        "160/100 mmHg"
+      ],
+      "correct": 1,
+      "explain": "120/80 mmHg is normal. 120 = systolic (heart pumping), 80 = diastolic (heart resting). Hypertension ≥ 130/80."
+    },
+    {
+      "category": "Math for Health",
+      "q": "1 kilogram equals approximately:",
+      "opts": [
+        "1.5 pounds",
+        "2.2 pounds",
+        "3.3 pounds",
+        "4.4 pounds"
+      ],
+      "correct": 1,
+      "explain": "1 kg ≈ 2.2 lbs. To convert pounds to kg, divide by 2.2. Critical for weight-based drug dosing."
+    },
+    {
+      "category": "Math for Health",
+      "q": "Military time 1500 equals:",
+      "opts": [
+        "1:00 AM",
+        "3:00 AM",
+        "1:00 PM",
+        "3:00 PM"
+      ],
+      "correct": 3,
+      "explain": "1500 military time = 3:00 PM. Subtract 1200 from times 1300-2359 to get PM. 1500 - 1200 = 3:00 PM."
+    },
+    {
+      "category": "HOSA History",
+      "q": "In what year was HOSA founded?",
+      "opts": [
+        "1972",
+        "1976",
+        "1980",
+        "1984"
+      ],
+      "correct": 1,
+      "explain": "HOSA was founded in 1976 as Health Occupations Students of America. It was established to provide a student organization for health occupations education programs."
+    },
+    {
+      "category": "HOSA History",
+      "q": "What was HOSA's original full name?",
+      "opts": [
+        "Health Operations Students of America",
+        "Health Occupations Students of America",
+        "Health Organization for Student Advancement",
+        "Healthcare Occupations Student Alliance"
+      ],
+      "correct": 1,
+      "explain": "HOSA's original full name was Health Occupations Students of America. In 2004 at the Delegate Assembly the name was officially changed to simply HOSA – Future Health Professionals."
+    },
+    {
+      "category": "HOSA History",
+      "q": "In what year did HOSA officially change its name to HOSA – Future Health Professionals?",
+      "opts": [
+        "1999",
+        "2001",
+        "2004",
+        "2008"
+      ],
+      "correct": 2,
+      "explain": "At the 2004 Delegate Assembly, HOSA officially changed its name from Health Occupations Students of America to HOSA – Future Health Professionals to better reflect the modern scope of the organization."
+    },
+    {
+      "category": "HOSA History",
+      "q": "What is HOSA's current tagline/motto?",
+      "opts": [
+        "The Hands of HOSA Mold the Health of Tomorrow",
+        "Empowering Future Health Professionals",
+        "Health Leaders of Tomorrow",
+        "Caring for the Community"
+      ],
+      "correct": 0,
+      "explain": "HOSA's motto is 'The Hands of HOSA Mold the Health of Tomorrow.' The hands in the HOSA emblem represent the caring nature of each member toward the community."
+    },
+    {
+      "category": "HOSA History",
+      "q": "HOSA is a national student organization affiliated with which federal program?",
+      "opts": [
+        "National Health Service Corps",
+        "Health Resources and Services Administration",
+        "Career and Technical Education (CTE) Health Science programs",
+        "Centers for Disease Control"
+      ],
+      "correct": 2,
+      "explain": "HOSA is an official co-curricular student organization affiliated with Career and Technical Education (CTE) Health Science programs, working with the U.S. Department of Education."
+    },
+    {
+      "category": "HOSA History",
+      "q": "Approximately how many HOSA members are there in the United States?",
+      "opts": [
+        "50,000",
+        "150,000",
+        "300,000",
+        "500,000"
+      ],
+      "correct": 2,
+      "explain": "HOSA has approximately 300,000 members across the United States, making it one of the largest student organizations in health science education."
+    },
+    {
+      "category": "HOSA History",
+      "q": "What is the name of HOSA's annual national competition event?",
+      "opts": [
+        "HOSA National Championship",
+        "HOSA International Leadership Conference (ILC)",
+        "HOSA National Finals",
+        "HOSA World Health Summit"
+      ],
+      "correct": 1,
+      "explain": "HOSA's annual national competition is called the International Leadership Conference (ILC). It brings together hundreds of thousands of competitors from across the country and internationally affiliated programs."
+    },
+    {
+      "category": "HOSA History",
+      "q": "What are the three divisions of HOSA membership?",
+      "opts": [
+        "Junior, Senior, Alumni",
+        "Middle School, Secondary, Post-Secondary/Collegiate",
+        "Elementary, Middle, High School",
+        "Regional, State, National"
+      ],
+      "correct": 1,
+      "explain": "HOSA has three membership divisions: Middle School, Secondary (high school), and Post-Secondary/Collegiate. Each division has its own competitive events appropriate for that level."
+    },
+    {
+      "category": "HOSA History",
+      "q": "What does the caduceus symbol represent in healthcare?",
+      "opts": [
+        "The medical profession and healing",
+        "Emergency medical services only",
+        "Nursing care",
+        "Pharmacy"
+      ],
+      "correct": 0,
+      "explain": "The caduceus (staff with two intertwined snakes and wings) is associated with the medical profession. The Rod of Asclepius (single snake) is the more precise symbol of medicine and healing, used by the AMA."
+    },
+    {
+      "category": "HOSA History",
+      "q": "Which U.S. Department oversees Career and Technical Education that HOSA is affiliated with?",
+      "opts": [
+        "Department of Health and Human Services",
+        "Department of Education",
+        "Department of Labor",
+        "Department of Commerce"
+      ],
+      "correct": 1,
+      "explain": "Career and Technical Education (CTE), with which HOSA is affiliated, falls under the U.S. Department of Education. CTE programs prepare students for careers including those in health science."
+    },
+    {
+      "category": "HOSA History",
+      "q": "What is the HOSA emblem's primary symbol?",
+      "opts": [
+        "A stethoscope",
+        "A caduceus with hands",
+        "A red cross",
+        "A heart"
+      ],
+      "correct": 1,
+      "explain": "The HOSA emblem features a caduceus (medical symbol) surrounded by hands, representing the caring of HOSA members. The emblem is circular, symbolizing unity and community."
+    },
+    {
+      "category": "HOSA History",
+      "q": "HOSA competitive events are organized into which categories?",
+      "opts": [
+        "Written tests and demonstrations only",
+        "Health Science Events, Leadership Events, and Recognition Events",
+        "Academic, Vocational, and Community",
+        "Team and Individual only"
+      ],
+      "correct": 1,
+      "explain": "HOSA competitive events are organized into Health Science Events, Leadership Events, and Recognition Events. Each category has numerous specific events that competitors can enter based on their interest and skill area."
+    }
+  ],
+  "quiz": {
+    "easy": [
+      {
+        "q": "What does HOSA stand for (current name)?",
+        "opts": [
+          "Health Occupations Students of America",
+          "HOSA – Future Health Professionals",
+          "Health Organization for Student Advancement",
+          "Health Outcomes Student Alliance"
+        ],
+        "correct": 1,
+        "explain": "HOSA's current name is HOSA – Future Health Professionals, changed in 2004. The original name was Health Occupations Students of America (founded 1976)."
+      },
+      {
+        "q": "What does 'cardio-' mean?",
+        "opts": [
+          "Lung",
+          "Heart",
+          "Kidney",
+          "Liver"
+        ],
+        "correct": 1,
+        "explain": "Cardio = heart. Cardiology = study of the heart. Cardiorespiratory = relating to the heart and lungs."
+      },
+      {
+        "q": "Normal adult heart rate is:",
+        "opts": [
+          "40-60 bpm",
+          "60-100 bpm",
+          "100-120 bpm",
+          "120-140 bpm"
+        ],
+        "correct": 1,
+        "explain": "Normal resting heart rate for adults is 60-100 beats per minute. Below 60 = bradycardia; above 100 = tachycardia."
+      },
+      {
+        "q": "CPR stands for:",
+        "opts": [
+          "Cardiac Pressure Relief",
+          "Cardiopulmonary Resuscitation",
+          "Cardiac Pulse Regulation",
+          "Cardiopulmonary Restoration"
+        ],
+        "correct": 1,
+        "explain": "CPR = Cardiopulmonary Resuscitation. Cardio=heart, pulmonary=lungs, resuscitation=reviving. The technique combines chest compressions and rescue breaths."
+      },
+      {
+        "q": "'-itis' suffix means:",
+        "opts": [
+          "Study of",
+          "Removal",
+          "Inflammation",
+          "Pain"
+        ],
+        "correct": 2,
+        "explain": "'-itis' means inflammation. Appendicitis = inflamed appendix. Arthritis = inflamed joints. Dermatitis = inflamed skin."
+      },
+      {
+        "q": "Which macronutrient provides 9 calories per gram?",
+        "opts": [
+          "Carbohydrates",
+          "Protein",
+          "Fat",
+          "Fiber"
+        ],
+        "correct": 2,
+        "explain": "Fat provides 9 calories per gram — more than double carbohydrates (4 cal/g) or protein (4 cal/g). This is why high-fat foods are calorie-dense."
+      },
+      {
+        "q": "Normal body temperature in Fahrenheit:",
+        "opts": [
+          "97.6°F",
+          "98.6°F",
+          "99.6°F",
+          "100.4°F"
+        ],
+        "correct": 1,
+        "explain": "Normal body temperature is 98.6°F (37°C). Fever is generally defined as temperature above 100.4°F (38°C)."
+      },
+      {
+        "q": "Which vitamin is produced when skin is exposed to sunlight?",
+        "opts": [
+          "Vitamin A",
+          "Vitamin B12",
+          "Vitamin C",
+          "Vitamin D"
+        ],
+        "correct": 3,
+        "explain": "Vitamin D is synthesized in the skin when exposed to UV sunlight. Deficiency causes rickets in children and osteomalacia in adults."
+      },
+      {
+        "q": "The HOSA Bowl team consists of how many members?",
+        "opts": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct": 2,
+        "explain": "HOSA Bowl is a team event with 4 members competing together, answering rapid-fire questions across all health science topics."
+      },
+      {
+        "q": "'Brady-' prefix means:",
+        "opts": [
+          "Fast",
+          "Slow",
+          "Large",
+          "Small"
+        ],
+        "correct": 1,
+        "explain": "Brady = slow. Bradycardia = slow heart rate (below 60 bpm). Bradypnea = slow breathing rate. Opposite: tachy = fast."
+      },
+      {
+        "q": "AED stands for:",
+        "opts": [
+          "Automated External Defibrillator",
+          "Airway Emergency Device",
+          "Advanced Electrolyte Dose",
+          "Acute Emergency Diagnosis"
+        ],
+        "correct": 0,
+        "explain": "AED = Automated External Defibrillator. Used to deliver a shock to restore normal heart rhythm during ventricular fibrillation or ventricular tachycardia."
+      },
+      {
+        "q": "Which body system fights infection and disease?",
+        "opts": [
+          "Digestive system",
+          "Immune system",
+          "Endocrine system",
+          "Skeletal system"
+        ],
+        "correct": 1,
+        "explain": "The immune system defends the body against pathogens (bacteria, viruses, parasites). It includes white blood cells, antibodies, lymph nodes, and the spleen."
+      }
+    ],
+    "medium": [
+      {
+        "q": "The Heimlich maneuver is used to treat:",
+        "opts": [
+          "Heart attack",
+          "Choking (airway obstruction)",
+          "Stroke",
+          "Allergic reaction"
+        ],
+        "correct": 1,
+        "explain": "The Heimlich maneuver (abdominal thrusts) is used to dislodge a foreign object causing airway obstruction (choking). Named after Dr. Henry Heimlich."
+      },
+      {
+        "q": "Which organ produces insulin?",
+        "opts": [
+          "Liver",
+          "Kidney",
+          "Pancreas",
+          "Stomach"
+        ],
+        "correct": 2,
+        "explain": "The pancreas produces insulin (and glucagon). Insulin lowers blood glucose. Type 1 diabetes = pancreas doesn't produce insulin; Type 2 = body doesn't respond properly to insulin."
+      },
+      {
+        "q": "What does 'hema-' or 'hemo-' refer to?",
+        "opts": [
+          "Heart",
+          "Bone",
+          "Blood",
+          "Skin"
+        ],
+        "correct": 2,
+        "explain": "Hema-/hemo- = blood. Hematology = study of blood. Hemoglobin = oxygen-carrying protein in red blood cells. Hemorrhage = excessive bleeding."
+      },
+      {
+        "q": "Normal blood pressure reading is:",
+        "opts": [
+          "100/60 mmHg",
+          "120/80 mmHg",
+          "140/90 mmHg",
+          "160/100 mmHg"
+        ],
+        "correct": 1,
+        "explain": "120/80 mmHg is considered normal blood pressure. 120 = systolic (heart contracting); 80 = diastolic (heart relaxing). Stage 1 hypertension begins at 130/80."
+      },
+      {
+        "q": "The RACE acronym in fire safety stands for:",
+        "opts": [
+          "Run Away Carefully Everywhere",
+          "Rescue, Alarm, Contain, Extinguish",
+          "React, Alert, Call, Evacuate",
+          "Remove, Assess, Contain, Exit"
+        ],
+        "correct": 1,
+        "explain": "RACE = Rescue, Alarm, Contain, Extinguish. Standard fire response protocol in healthcare settings. Always rescue patients in immediate danger first, then activate the alarm."
+      }
     ]
-  },
-  "gastrointestinal": {
-    label: "Gastrointestinal",
-    terms: [
-      {term:"Gastritis",def:"gastr (stomach) + itis (inflammation)",breakdown:"Inflammation of the stomach lining"},
-      {term:"Gastroenteritis",def:"gastro (stomach) + enter (intestine) + itis",breakdown:"Inflammation of the stomach and intestines"},
-      {term:"Esophagitis",def:"esophag (esophagus) + itis (inflammation)",breakdown:"Inflammation of the esophagus"},
-      {term:"Dysphagia",def:"dys (difficult) + phagia (swallowing)",breakdown:"Difficulty swallowing"},
-      {term:"Odynophagia",def:"odyn (pain) + phagia (swallowing)",breakdown:"Painful swallowing"},
-      {term:"Hematemesis",def:"hemat (blood) + emesis (vomiting)",breakdown:"Vomiting blood from the upper GI tract"},
-      {term:"Melena",def:"melan (black) + a",breakdown:"Black tarry stool from digested blood in upper GI"},
-      {term:"Hematochezia",def:"hemat (blood) + chezia (passing stool)",breakdown:"Bright red blood in stool from lower GI bleeding"},
-      {term:"Hepatitis",def:"hepat (liver) + itis (inflammation)",breakdown:"Inflammation of the liver often from viral infection"},
-      {term:"Hepatomegaly",def:"hepato (liver) + megaly (enlargement)",breakdown:"Abnormal enlargement of the liver"},
-      {term:"Cirrhosis",def:"cirrh (scarred) + osis (condition)",breakdown:"Chronic liver scarring replacing normal liver tissue"},
-      {term:"Jaundice",def:"jaundice (yellow)",breakdown:"Yellow discoloration of skin and eyes from excess bilirubin"},
-      {term:"Cholecystitis",def:"cholecyst (gallbladder) + itis (inflammation)",breakdown:"Inflammation of the gallbladder usually from gallstones"},
-      {term:"Cholelithiasis",def:"chole (bile) + lith (stone) + iasis (presence of)",breakdown:"Presence of gallstones in the gallbladder"},
-      {term:"Cholecystectomy",def:"cholecyst (gallbladder) + ectomy (removal)",breakdown:"Surgical removal of the gallbladder"},
-      {term:"Pancreatitis",def:"pancreat (pancreas) + itis (inflammation)",breakdown:"Inflammation of the pancreas"},
-      {term:"Appendicitis",def:"appendic (appendix) + itis (inflammation)",breakdown:"Inflammation and infection of the appendix"},
-      {term:"Appendectomy",def:"appendic (appendix) + ectomy (removal)",breakdown:"Surgical removal of the appendix"},
-      {term:"Colitis",def:"col (colon) + itis (inflammation)",breakdown:"Inflammation of the large intestine"},
-      {term:"Diverticulitis",def:"diverticul (pouch) + itis (inflammation)",breakdown:"Inflammation of small pouches in the colon wall"},
-      {term:"Diverticulosis",def:"diverticul (pouch) + osis (condition)",breakdown:"Presence of pouches in the colon wall without inflammation"},
-      {term:"Colostomy",def:"colo (colon) + stomy (creating opening)",breakdown:"Creating a surgical opening from the colon to body surface"},
-      {term:"Ileostomy",def:"ileo (ileum) + stomy (creating opening)",breakdown:"Creating a surgical opening from the ileum to body surface"},
-      {term:"Colonoscopy",def:"colon + scopy (visual examination)",breakdown:"Visual examination of the entire colon with a scope"},
-      {term:"Gastroscopy",def:"gastro (stomach) + scopy (visual exam)",breakdown:"Visual examination of the stomach with a scope"},
-      {term:"Laparoscopy",def:"laparo (abdomen) + scopy (visual exam)",breakdown:"Minimally invasive visualization of the abdominal cavity"},
-      {term:"Laparotomy",def:"laparo (abdomen) + tomy (surgical incision)",breakdown:"Surgical incision into the abdominal cavity"},
-      {term:"Herniorrhaphy",def:"hernio (hernia) + rrhaphy (suturing)",breakdown:"Surgical repair of a hernia by suturing"},
-      {term:"Gastrectomy",def:"gastr (stomach) + ectomy (removal)",breakdown:"Surgical removal of all or part of the stomach"},
-      {term:"Anastomosis",def:"anastom (opening into) + osis",breakdown:"Surgical connection between two hollow organs or vessels"},
-    ]
-  },
-  "musculoskeletal": {
-    label: "Musculoskeletal",
-    terms: [
-      {term:"Arthritis",def:"arthr (joint) + itis (inflammation)",breakdown:"Inflammation of one or more joints"},
-      {term:"Osteoarthritis",def:"osteo (bone) + arthr (joint) + itis",breakdown:"Degenerative joint disease from cartilage breakdown"},
-      {term:"Rheumatoid arthritis",def:"rheumat (flowing) + oid + arthr + itis",breakdown:"Autoimmune inflammatory disease attacking joints"},
-      {term:"Arthralgia",def:"arthr (joint) + algia (pain)",breakdown:"Joint pain without inflammation"},
-      {term:"Arthroscopy",def:"arthr (joint) + scopy (visual exam)",breakdown:"Visual examination inside a joint with a scope"},
-      {term:"Arthroplasty",def:"arthr (joint) + plasty (repair)",breakdown:"Surgical reconstruction or replacement of a joint"},
-      {term:"Arthrocentesis",def:"arthr (joint) + centesis (puncture)",breakdown:"Needle puncture of a joint to remove fluid"},
-      {term:"Arthrodesis",def:"arthr (joint) + desis (fusion)",breakdown:"Surgical fusion of a joint to eliminate movement"},
-      {term:"Osteoporosis",def:"osteo (bone) + por (porous) + osis (condition)",breakdown:"Decreased bone density causing brittle fracture-prone bones"},
-      {term:"Osteomalacia",def:"osteo (bone) + malacia (softening)",breakdown:"Softening of bones from Vitamin D deficiency in adults"},
-      {term:"Osteomyelitis",def:"osteo (bone) + myel (marrow) + itis",breakdown:"Infection and inflammation of bone and bone marrow"},
-      {term:"Osteosarcoma",def:"osteo (bone) + sarc (flesh) + oma (tumor)",breakdown:"Malignant tumor arising from bone tissue"},
-      {term:"Bursitis",def:"burs (bursa sac) + itis (inflammation)",breakdown:"Inflammation of a fluid-filled sac near a joint"},
-      {term:"Tendinitis",def:"tendin (tendon) + itis (inflammation)",breakdown:"Inflammation of a tendon from overuse or injury"},
-      {term:"Myalgia",def:"my (muscle) + algia (pain)",breakdown:"Muscle pain"},
-      {term:"Myositis",def:"myo (muscle) + itis (inflammation)",breakdown:"Inflammation of muscle tissue"},
-      {term:"Myopathy",def:"myo (muscle) + pathy (disease)",breakdown:"General term for any disease of muscle tissue"},
-      {term:"Fibromyalgia",def:"fibro (fibrous tissue) + my (muscle) + algia (pain)",breakdown:"Chronic widespread muscle pain and tenderness"},
-      {term:"Kyphosis",def:"kypho (humpback) + osis (condition)",breakdown:"Excessive forward curvature of the upper spine"},
-      {term:"Lordosis",def:"lord (bent backward) + osis (condition)",breakdown:"Excessive inward curvature of the lower spine"},
-      {term:"Scoliosis",def:"scoli (crooked) + osis (condition)",breakdown:"Lateral sideways curvature of the spine"},
-      {term:"Laminectomy",def:"lamin (lamina) + ectomy (removal)",breakdown:"Surgical removal of vertebral lamina to relieve spinal pressure"},
-      {term:"Spinal stenosis",def:"spin (spine) + al + sten (narrowing) + osis",breakdown:"Narrowing of the spinal canal causing nerve compression"},
-      {term:"Chondromalacia",def:"chondro (cartilage) + malacia (softening)",breakdown:"Softening and breakdown of cartilage tissue"},
-      {term:"Fracture",def:"fract (broken) + ure",breakdown:"Break in the continuity of a bone"},
-      {term:"Dislocation",def:"dis (apart) + locat (place) + ion",breakdown:"Displacement of a bone from its normal joint position"},
-      {term:"Sprain",def:"sprain (wrench)",breakdown:"Stretching or tearing of ligaments around a joint"},
-      {term:"Strain",def:"strain (overexertion)",breakdown:"Stretching or tearing of a muscle or tendon"},
-      {term:"Muscular dystrophy",def:"muscul + ar + dys (bad) + trophy (development)",breakdown:"Inherited disease causing progressive muscle weakness and wasting"},
-      {term:"Periosteum",def:"peri (around) + oste (bone) + um",breakdown:"Fibrous membrane covering the outer surface of all bones"},
-    ]
-  },
-  "nervous_system": {
-    label: "Nervous System",
-    terms: [
-      {term:"Encephalitis",def:"encephal (brain) + itis (inflammation)",breakdown:"Inflammation of the brain usually from viral infection"},
-      {term:"Encephalopathy",def:"encephalo (brain) + pathy (disease)",breakdown:"Any disease or disorder of the brain"},
-      {term:"Meningitis",def:"mening (meninges) + itis (inflammation)",breakdown:"Inflammation of the membranes surrounding brain and spinal cord"},
-      {term:"Neuropathy",def:"neuro (nerve) + pathy (disease)",breakdown:"Disease or dysfunction of the peripheral nerves"},
-      {term:"Neuralgia",def:"neuro (nerve) + algia (pain)",breakdown:"Intense nerve pain along a nerve pathway"},
-      {term:"Neuritis",def:"neur (nerve) + itis (inflammation)",breakdown:"Inflammation of a nerve"},
-      {term:"Multiple sclerosis",def:"multi (many) + sclero (hardening) + sis",breakdown:"Autoimmune demyelinating disease of the central nervous system"},
-      {term:"Radiculopathy",def:"radicul (nerve root) + pathy (disease)",breakdown:"Disease of a spinal nerve root causing radiating pain"},
-      {term:"Hemiplegia",def:"hemi (half) + plegia (paralysis)",breakdown:"Paralysis of one entire side of the body"},
-      {term:"Paraplegia",def:"para (beside) + plegia (paralysis)",breakdown:"Paralysis of both legs and lower body"},
-      {term:"Quadriplegia",def:"quadri (four) + plegia (paralysis)",breakdown:"Paralysis of all four limbs"},
-      {term:"Paresthesia",def:"para (abnormal) + esthesia (sensation)",breakdown:"Abnormal sensations such as tingling numbness or burning"},
-      {term:"Aphasia",def:"a (without) + phasia (speech)",breakdown:"Loss or impairment of the ability to speak or understand language"},
-      {term:"Dysphasia",def:"dys (difficult) + phasia (speech)",breakdown:"Difficulty with language production or comprehension"},
-      {term:"Dysarthria",def:"dys (difficult) + arthr (joint) + ia",breakdown:"Difficulty speaking due to muscle weakness or paralysis"},
-      {term:"Ataxia",def:"a (without) + tax (order) + ia",breakdown:"Loss of muscle coordination and balance"},
-      {term:"Vertigo",def:"vertigo (spinning)",breakdown:"Sensation that the environment or self is spinning"},
-      {term:"Syncope",def:"syncop (cut short)",breakdown:"Temporary loss of consciousness from reduced brain blood flow"},
-      {term:"Epilepsy",def:"epilep (to seize) + sy",breakdown:"Chronic neurological disorder with recurrent seizures"},
-      {term:"Stroke (CVA)",def:"cerebro (brain) + vascul (vessel) + ar + accident",breakdown:"Sudden brain damage from blocked or ruptured blood vessel"},
-      {term:"Transient ischemic attack",def:"transient + ischem (blood stoppage) + ic",breakdown:"Temporary stroke-like symptoms resolving within 24 hours"},
-      {term:"Alzheimer disease",def:"Alzheimer (discoverer) + disease",breakdown:"Progressive dementia from amyloid plaques destroying brain tissue"},
-      {term:"Parkinson disease",def:"Parkinson (discoverer) + disease",breakdown:"Progressive movement disorder from dopamine cell loss"},
-      {term:"Concussion",def:"con (together) + cuss (shake)",breakdown:"Traumatic brain injury causing temporary brain dysfunction"},
-      {term:"Craniotomy",def:"cranio (skull) + tomy (incision)",breakdown:"Surgical opening of the skull to access the brain"},
-      {term:"Myelitis",def:"myel (spinal cord) + itis (inflammation)",breakdown:"Inflammation of the spinal cord"},
-      {term:"Hydrocephalus",def:"hydro (water) + cephal (head) + us",breakdown:"Excess cerebrospinal fluid accumulating in the brain ventricles"},
-      {term:"Neurosclerosis",def:"neuro (nerve) + sclerosis (hardening)",breakdown:"Hardening of nervous tissue from degeneration"},
-      {term:"Cerebrovascular accident",def:"cerebro (brain) + vascul (vessel) + ar",breakdown:"Medical term for stroke — brain blood vessel accident"},
-      {term:"Amyotrophic lateral sclerosis",def:"a (without) + myo (muscle) + troph (nourishment)",breakdown:"ALS — progressive motor neuron disease causing paralysis"},
-    ]
-  },
-  "urinary": {
-    label: "Urinary",
-    terms: [
-      {term:"Nephritis",def:"nephr (kidney) + itis (inflammation)",breakdown:"Inflammation of the kidneys"},
-      {term:"Pyelonephritis",def:"pyelo (renal pelvis) + nephr (kidney) + itis",breakdown:"Bacterial infection of the kidney and renal pelvis"},
-      {term:"Glomerulonephritis",def:"glomerul (filter ball) + nephr (kidney) + itis",breakdown:"Inflammation of the kidney filtering units"},
-      {term:"Nephropathy",def:"nephro (kidney) + pathy (disease)",breakdown:"General term for any chronic kidney disease"},
-      {term:"Nephrolithiasis",def:"nephro (kidney) + lith (stone) + iasis",breakdown:"Kidney stones — calculi in the kidney"},
-      {term:"Nephrectomy",def:"nephr (kidney) + ectomy (removal)",breakdown:"Surgical removal of a kidney"},
-      {term:"Cystitis",def:"cyst (bladder) + itis (inflammation)",breakdown:"Inflammation and infection of the urinary bladder"},
-      {term:"Cystoscopy",def:"cysto (bladder) + scopy (visual exam)",breakdown:"Visual examination inside the urinary bladder"},
-      {term:"Cystectomy",def:"cyst (bladder) + ectomy (removal)",breakdown:"Surgical removal of the urinary bladder"},
-      {term:"Urethritis",def:"urethr (urethra) + itis (inflammation)",breakdown:"Inflammation and infection of the urethra"},
-      {term:"Hematuria",def:"hemat (blood) + uria (urine condition)",breakdown:"Blood in the urine"},
-      {term:"Proteinuria",def:"protein + uria (urine condition)",breakdown:"Abnormal amount of protein in the urine"},
-      {term:"Glycosuria",def:"glycos (sugar) + uria (urine condition)",breakdown:"Glucose in the urine — sign of uncontrolled diabetes"},
-      {term:"Pyuria",def:"py (pus) + uria (urine condition)",breakdown:"Pus or white blood cells in the urine — sign of infection"},
-      {term:"Oliguria",def:"olig (little) + uria (urine condition)",breakdown:"Decreased urine output below 400 mL per day"},
-      {term:"Polyuria",def:"poly (many) + uria (urine condition)",breakdown:"Excessive urine output above 2.5 liters per day"},
-      {term:"Dysuria",def:"dys (difficult) + uria (urine condition)",breakdown:"Painful or difficult urination"},
-      {term:"Anuria",def:"an (without) + uria (urine condition)",breakdown:"No urine production — below 100 mL per day — renal failure sign"},
-      {term:"Nocturia",def:"noct (night) + uria (urine condition)",breakdown:"Excessive nighttime urination disrupting sleep"},
-      {term:"Urinary incontinence",def:"urin + ary + in (not) + continent (holding)",breakdown:"Inability to control urination"},
-      {term:"Dialysis",def:"dia (through) + lysis (separation)",breakdown:"Artificial filtration of blood when kidneys fail"},
-      {term:"Hemodialysis",def:"hemo (blood) + dia + lysis",breakdown:"Blood filtration through an external machine"},
-      {term:"Lithotripsy",def:"lith (stone) + tripsy (crushing)",breakdown:"Crushing kidney or bladder stones with shock waves"},
-      {term:"Ureterolithiasis",def:"ureter + lith (stone) + iasis",breakdown:"Stones trapped in the ureter"},
-      {term:"Nephrotic syndrome",def:"nephro (kidney) + tic + syndrome",breakdown:"Massive protein loss in urine from glomerular damage"},
-      {term:"Renal calculus",def:"ren (kidney) + al + calculus (stone)",breakdown:"Kidney stone — crystallized mineral deposit in the kidney"},
-      {term:"Vesicoureteral reflux",def:"vesico (bladder) + ureter + al + reflux",breakdown:"Backward flow of urine from bladder into ureter and kidney"},
-      {term:"Ureteroscopy",def:"ureter + scopy (visual exam)",breakdown:"Visual examination of the ureter with a scope"},
-      {term:"Nephrostomy",def:"nephro (kidney) + stomy (opening)",breakdown:"Creating a surgical opening into the kidney for drainage"},
-      {term:"Urodynamics",def:"uro (urine) + dynamics (forces)",breakdown:"Testing of urinary tract function and pressure"},
-    ]
-  },
-  "endocrine": {
-    label: "Endocrine",
-    terms: [
-      {term:"Diabetes mellitus",def:"diabet (passing through) + mellitus (honey-sweet)",breakdown:"Metabolic disorder with insufficient insulin or insulin resistance"},
-      {term:"Diabetes insipidus",def:"diabet (passing through) + insipidus (tasteless)",breakdown:"ADH disorder causing excessive dilute urine output"},
-      {term:"Hyperglycemia",def:"hyper (above normal) + glyc (sugar) + emia (blood)",breakdown:"Abnormally high blood glucose above 180 mg/dL"},
-      {term:"Hypoglycemia",def:"hypo (below normal) + glyc (sugar) + emia (blood)",breakdown:"Abnormally low blood glucose below 70 mg/dL — brain emergency"},
-      {term:"Diabetic ketoacidosis",def:"diabetic + keton (ketone) + acid + osis",breakdown:"Life-threatening Type 1 complication with ketone buildup"},
-      {term:"Hypothyroidism",def:"hypo (below normal) + thyroid + ism",breakdown:"Underactive thyroid producing insufficient hormones"},
-      {term:"Hyperthyroidism",def:"hyper (above normal) + thyroid + ism",breakdown:"Overactive thyroid producing excessive hormones"},
-      {term:"Thyroiditis",def:"thyroid + itis (inflammation)",breakdown:"Inflammation of the thyroid gland"},
-      {term:"Thyroidectomy",def:"thyroid + ectomy (removal)",breakdown:"Surgical removal of all or part of the thyroid gland"},
-      {term:"Goiter",def:"goiter (enlarged throat)",breakdown:"Visible enlargement of the thyroid gland"},
-      {term:"Acromegaly",def:"acro (extremity) + megaly (enlargement)",breakdown:"Excess growth hormone in adults causing enlarged extremities"},
-      {term:"Gigantism",def:"gigant (giant) + ism",breakdown:"Excess growth hormone in children causing abnormal height"},
-      {term:"Cushing syndrome",def:"Cushing (discoverer) + syndrome",breakdown:"Excess cortisol causing moon face central obesity and hypertension"},
-      {term:"Addison disease",def:"Addison (discoverer) + disease",breakdown:"Adrenal insufficiency causing low BP fatigue and bronze skin"},
-      {term:"Hyperparathyroidism",def:"hyper + parathyroid + ism",breakdown:"Excess parathyroid hormone causing high blood calcium"},
-      {term:"Hypoparathyroidism",def:"hypo + parathyroid + ism",breakdown:"Insufficient parathyroid hormone causing low blood calcium"},
-      {term:"Tetany",def:"tetan (rigid) + y",breakdown:"Muscle spasms and cramps from critically low blood calcium"},
-      {term:"Pheochromocytoma",def:"pheo (dark) + chromo (color) + cyt (cell) + oma",breakdown:"Adrenal medulla tumor secreting excess adrenaline"},
-      {term:"Adrenalectomy",def:"adrenal + ectomy (removal)",breakdown:"Surgical removal of one or both adrenal glands"},
-      {term:"Pancreatitis",def:"pancreat (pancreas) + itis (inflammation)",breakdown:"Inflammation of the pancreas"},
-      {term:"Insulinoma",def:"insulin + oma (tumor)",breakdown:"Insulin-secreting pancreatic tumor causing hypoglycemia"},
-      {term:"Hypercalcemia",def:"hyper + calc (calcium) + emia (blood)",breakdown:"Abnormally high blood calcium level"},
-      {term:"Hypocalcemia",def:"hypo + calc (calcium) + emia (blood)",breakdown:"Abnormally low blood calcium level"},
-      {term:"Hyponatremia",def:"hypo + natr (sodium) + emia (blood)",breakdown:"Critically low sodium in the blood"},
-      {term:"Hypernatremia",def:"hyper + natr (sodium) + emia (blood)",breakdown:"Critically high sodium in the blood"},
-      {term:"Hypokalemia",def:"hypo + kal (potassium) + emia (blood)",breakdown:"Dangerously low potassium causing muscle weakness and arrhythmia"},
-      {term:"Hyperkalemia",def:"hyper + kal (potassium) + emia (blood)",breakdown:"Dangerously high potassium causing cardiac arrest risk"},
-      {term:"Polycystic ovary syndrome",def:"poly (many) + cyst + ic + ovary",breakdown:"Hormonal disorder causing ovarian cysts and androgen excess"},
-      {term:"Hyperpituitarism",def:"hyper + pituitar (pituitary) + ism",breakdown:"Overactive pituitary gland causing excess hormone production"},
-      {term:"Hypopituitarism",def:"hypo + pituitar (pituitary) + ism",breakdown:"Underactive pituitary failing to produce enough hormones"},
-    ]
-  },
-  "blood_immune": {
-    label: "Blood Immune",
-    terms: [
-      {term:"Anemia",def:"an (without) + emia (blood condition)",breakdown:"Deficiency of red blood cells or hemoglobin"},
-      {term:"Leukopenia",def:"leuko (white) + penia (deficiency)",breakdown:"Abnormally low white blood cell count"},
-      {term:"Leukocytosis",def:"leuko (white) + cyt (cell) + osis (increase)",breakdown:"Abnormally high white blood cell count"},
-      {term:"Leukemia",def:"leuk (white) + emia (blood)",breakdown:"Cancer of blood-forming cells with excess abnormal WBCs"},
-      {term:"Thrombocytopenia",def:"thrombocyt (platelet) + penia (deficiency)",breakdown:"Low platelet count causing dangerous bleeding tendency"},
-      {term:"Thrombocytosis",def:"thrombocyt (platelet) + osis (increase)",breakdown:"Abnormally elevated platelet count"},
-      {term:"Polycythemia",def:"poly (many) + cyt (cell) + emia (blood)",breakdown:"Abnormally increased number of red blood cells"},
-      {term:"Hemophilia",def:"hemo (blood) + philia (affinity)",breakdown:"Inherited bleeding disorder from clotting factor deficiency"},
-      {term:"Hemolysis",def:"hemo (blood) + lysis (destruction)",breakdown:"Destruction or rupture of red blood cells"},
-      {term:"Hemolytic anemia",def:"hemolyt (destroying blood) + ic + anemia",breakdown:"Anemia caused by premature destruction of red blood cells"},
-      {term:"Sickle cell anemia",def:"sickle (crescent shape) + cell + anemia",breakdown:"Inherited disorder with abnormally shaped sickle-shaped RBCs"},
-      {term:"Thalassemia",def:"thalass (sea) + emia (blood)",breakdown:"Inherited disorder with abnormal hemoglobin chain production"},
-      {term:"Pernicious anemia",def:"pernicious (destructive) + anemia",breakdown:"B12 deficiency anemia from lack of intrinsic factor"},
-      {term:"Lymphoma",def:"lymph + oma (tumor)",breakdown:"Cancer of lymphatic system — Hodgkin and Non-Hodgkin types"},
-      {term:"Lymphadenopathy",def:"lymph + adeno (gland) + pathy (disease)",breakdown:"Disease or enlargement of lymph nodes"},
-      {term:"Lymphadenitis",def:"lymph + aden (gland) + itis (inflammation)",breakdown:"Inflammation of lymph nodes"},
-      {term:"Splenomegaly",def:"spleno (spleen) + megaly (enlargement)",breakdown:"Abnormal enlargement of the spleen"},
-      {term:"Splenectomy",def:"splen (spleen) + ectomy (removal)",breakdown:"Surgical removal of the spleen"},
-      {term:"Septicemia",def:"septic (infected) + emia (blood)",breakdown:"Presence of bacteria or toxins in the bloodstream"},
-      {term:"Bacteremia",def:"bacter (bacteria) + emia (blood)",breakdown:"Presence of bacteria circulating in the bloodstream"},
-      {term:"Anaphylaxis",def:"ana (against) + phylaxis (protection)",breakdown:"Severe life-threatening systemic allergic reaction"},
-      {term:"Autoimmune disease",def:"auto (self) + immune + disease",breakdown:"Immune system attacks the bodys own healthy tissues"},
-      {term:"Immunodeficiency",def:"immuno (immune) + deficiency",breakdown:"Inadequate immune response leaving body vulnerable to infection"},
-      {term:"Phlebotomy",def:"phlebo (vein) + tomy (incision/cutting)",breakdown:"Drawing blood from a vein for testing or donation"},
-      {term:"Hematology",def:"hemato (blood) + logy (study of)",breakdown:"Medical specialty studying blood and blood disorders"},
-      {term:"Anticoagulation",def:"anti (against) + coagul (clotting) + ation",breakdown:"Prevention of blood clot formation using medication"},
-      {term:"Erythrocytosis",def:"erythro (red) + cyt (cell) + osis (increase)",breakdown:"Increased number of red blood cells in circulation"},
-      {term:"Coagulopathy",def:"coagul (clotting) + pathy (disease)",breakdown:"Any disorder affecting the blood clotting process"},
-      {term:"Myeloma",def:"myelo (marrow) + oma (tumor)",breakdown:"Cancer of plasma cells in bone marrow — multiple myeloma"},
-      {term:"Bone marrow transplant",def:"bone + marrow + transplant",breakdown:"Replacing diseased marrow with healthy donor stem cells"},
-    ]
-  },
-  "skin": {
-    label: "Skin",
-    terms: [
-      {term:"Dermatitis",def:"dermat (skin) + itis (inflammation)",breakdown:"Inflammation of the skin"},
-      {term:"Dermatology",def:"dermat (skin) + ology (study of)",breakdown:"Medical specialty focused on skin hair and nail disorders"},
-      {term:"Psoriasis",def:"psori (itch) + asis (condition)",breakdown:"Autoimmune skin disease causing scaly red plaques"},
-      {term:"Eczema",def:"ekzema (to boil over)",breakdown:"Chronic inflammatory skin condition causing itchy rashes"},
-      {term:"Urticaria",def:"urtic (nettle rash) + aria",breakdown:"Hives — itchy raised welts from allergic reaction"},
-      {term:"Cellulitis",def:"cellul (small cells) + itis (inflammation)",breakdown:"Bacterial skin and soft tissue infection"},
-      {term:"Impetigo",def:"impetigo (to attack)",breakdown:"Highly contagious bacterial skin infection with honey-crusted sores"},
-      {term:"Melanoma",def:"melan (black pigment) + oma (tumor)",breakdown:"Malignant cancer of melanocytes — deadliest skin cancer"},
-      {term:"Basal cell carcinoma",def:"basal (base) + cell + carcin (cancer) + oma",breakdown:"Most common skin cancer from basal epithelial cells"},
-      {term:"Squamous cell carcinoma",def:"squam (scale) + ous + cell + carcin + oma",breakdown:"Skin cancer from squamous epithelial cells"},
-      {term:"Seborrhea",def:"sebo (oil) + rrhea (discharge)",breakdown:"Excessive secretion of sebum causing oily scaly patches"},
-      {term:"Acne vulgaris",def:"acne (point) + vulgar (common) + is",breakdown:"Common inflammatory condition of hair follicles and oil glands"},
-      {term:"Pruritus",def:"prurit (itch) + us",breakdown:"Severe persistent itching of the skin"},
-      {term:"Alopecia",def:"alop (fox mange) + ecia",breakdown:"Hair loss or baldness from various causes"},
-      {term:"Onychomycosis",def:"onycho (nail) + myc (fungus) + osis",breakdown:"Fungal infection of the fingernails or toenails"},
-      {term:"Vitiligo",def:"vitiligo (skin spots)",breakdown:"Loss of skin pigmentation creating white patches"},
-      {term:"Erythema",def:"erythem (redness) + a",breakdown:"Superficial reddening of the skin from inflammation"},
-      {term:"Petechiae",def:"petechi (small spots)",breakdown:"Tiny pinpoint hemorrhages in the skin"},
-      {term:"Ecchymosis",def:"ecchym (pour out) + osis",breakdown:"Bruise — discoloration from blood leaking under skin"},
-      {term:"Abscess",def:"ab (away) + scess (to go)",breakdown:"Pocket of pus surrounded by inflamed tissue"},
-      {term:"Laceration",def:"lacerat (to tear) + ion",breakdown:"Jagged irregular wound or cut through skin"},
-      {term:"Abrasion",def:"abras (to scrape off) + ion",breakdown:"Superficial scrape or wearing away of skin surface"},
-      {term:"Contusion",def:"contus (to bruise) + ion",breakdown:"Bruise — injury without breaking the skin"},
-      {term:"Subcutaneous",def:"sub (under) + cutane (skin) + ous",breakdown:"Pertaining to beneath the skin layer"},
-      {term:"Intradermal",def:"intra (within) + dermal (skin)",breakdown:"Within the skin layers — ID injections"},
-      {term:"Biopsy",def:"bio (life) + opsy (view)",breakdown:"Removal of tissue sample for microscopic examination"},
-      {term:"Nevus",def:"nevus (birthmark/mole)",breakdown:"Mole or birthmark — benign skin lesion"},
-      {term:"Vesicle",def:"vesicul (small bladder) + e",breakdown:"Small fluid-filled blister on the skin"},
-      {term:"Pustule",def:"pustul (pimple) + e",breakdown:"Small pus-filled blister or pimple on the skin"},
-      {term:"Macule",def:"macul (spot) + e",breakdown:"Flat discolored skin spot — freckle or flat mole"},
-    ]
-  },
-  "eye_ear": {
-    label: "Eye Ear",
-    terms: [
-      {term:"Ophthalmology",def:"ophthalmo (eye) + logy (study of)",breakdown:"Medical specialty focused on the eye and vision"},
-      {term:"Conjunctivitis",def:"conjunctiv (connecting membrane) + itis",breakdown:"Inflammation of the conjunctiva — pink eye"},
-      {term:"Keratitis",def:"kerat (cornea) + itis (inflammation)",breakdown:"Inflammation of the cornea"},
-      {term:"Iritis",def:"ir (iris) + itis (inflammation)",breakdown:"Inflammation of the iris"},
-      {term:"Retinopathy",def:"retino (retina) + pathy (disease)",breakdown:"Disease of the retina often from diabetes or hypertension"},
-      {term:"Glaucoma",def:"glaucom (gray-green opacity) + a",breakdown:"Increased intraocular pressure damaging the optic nerve"},
-      {term:"Cataract",def:"cataract (waterfall) + a",breakdown:"Clouding of the eye lens causing blurred vision"},
-      {term:"Blepharitis",def:"blephar (eyelid) + itis (inflammation)",breakdown:"Inflammation of the eyelid margins"},
-      {term:"Strabismus",def:"strabism (squinting)",breakdown:"Misalignment of the eyes — crossed eyes"},
-      {term:"Amblyopia",def:"ambly (dull) + opia (vision)",breakdown:"Lazy eye — reduced vision in one eye from disuse in childhood"},
-      {term:"Myopia",def:"my (to close) + opia (vision)",breakdown:"Nearsightedness — clear close vision blurry distance"},
-      {term:"Hyperopia",def:"hyper (over/far) + opia (vision)",breakdown:"Farsightedness — clear distance vision difficulty with close"},
-      {term:"Presbyopia",def:"presby (old man) + opia (vision)",breakdown:"Age-related loss of close focusing ability"},
-      {term:"Astigmatism",def:"a (without) + stigmat (point) + ism",breakdown:"Irregular corneal curvature causing blurred vision at all distances"},
-      {term:"Enucleation",def:"e (out) + nucleat (kernel) + ion",breakdown:"Surgical removal of the entire eyeball"},
-      {term:"Otitis media",def:"ot (ear) + itis + media (middle)",breakdown:"Infection of the middle ear — most common in children"},
-      {term:"Otitis externa",def:"ot (ear) + itis + externa (outer)",breakdown:"Infection of the outer ear canal — swimmers ear"},
-      {term:"Tinnitus",def:"tinnit (ringing) + us",breakdown:"Ringing buzzing or other phantom sounds in the ear"},
-      {term:"Otosclerosis",def:"oto (ear) + sclerosis (hardening)",breakdown:"Abnormal bone growth in the middle ear causing hearing loss"},
-      {term:"Myringotomy",def:"myringo (eardrum) + tomy (incision)",breakdown:"Surgical incision into the eardrum to drain fluid"},
-      {term:"Tympanoplasty",def:"tympano (eardrum) + plasty (repair)",breakdown:"Surgical repair of the eardrum"},
-      {term:"Audiometry",def:"audio (hearing) + metry (measurement)",breakdown:"Testing and measurement of hearing ability"},
-      {term:"Mastoiditis",def:"mastoid (bone behind ear) + itis",breakdown:"Infection of the mastoid bone behind the ear"},
-      {term:"Labyrinthitis",def:"labyrinth (inner ear) + itis",breakdown:"Inflammation of the inner ear causing vertigo and hearing loss"},
-      {term:"Presbycusis",def:"presby (old) + cusis (hearing)",breakdown:"Age-related progressive hearing loss"},
-      {term:"Sensorineural hearing loss",def:"sensori (sensory) + neural (nerve)",breakdown:"Hearing loss from damage to inner ear or auditory nerve"},
-      {term:"Conductive hearing loss",def:"conduct (carry) + ive + hearing + loss",breakdown:"Hearing loss from problem in outer or middle ear transmission"},
-      {term:"Nystagmus",def:"nystagm (nodding) + us",breakdown:"Involuntary rapid rhythmic eye movement"},
-      {term:"Ptosis",def:"ptosis (falling/drooping)",breakdown:"Drooping of the upper eyelid"},
-      {term:"Diplopia",def:"diplo (double) + opia (vision)",breakdown:"Double vision — seeing two images of one object"},
-    ]
-  },
-  "oncology": {
-    label: "Oncology",
-    terms: [
-      {term:"Neoplasm",def:"neo (new) + plasm (growth)",breakdown:"Any new abnormal tissue growth — benign or malignant"},
-      {term:"Benign tumor",def:"benignus (well-born) + tumor",breakdown:"Non-cancerous growth — does not invade or spread"},
-      {term:"Malignant tumor",def:"malignus (evil-born) + tumor",breakdown:"Cancerous growth — invades tissue and can spread"},
-      {term:"Metastasis",def:"meta (beyond) + stasis (standing still)",breakdown:"Spread of cancer from primary site to distant locations"},
-      {term:"Carcinoma",def:"carcino (crab/cancer) + oma (tumor)",breakdown:"Cancer arising from epithelial tissue — most common type"},
-      {term:"Sarcoma",def:"sarco (flesh) + oma (tumor)",breakdown:"Cancer arising from connective tissue — bone muscle fat"},
-      {term:"Lymphoma",def:"lymph + oma (tumor)",breakdown:"Cancer of lymphatic system cells"},
-      {term:"Melanoma",def:"melan (black) + oma (tumor)",breakdown:"Malignant cancer of melanocytes — deadliest skin cancer"},
-      {term:"Glioma",def:"gli (glue/glia cells) + oma",breakdown:"Brain tumor arising from glial support cells"},
-      {term:"Adenocarcinoma",def:"adeno (gland) + carcin (cancer) + oma",breakdown:"Cancer arising from glandular epithelial tissue"},
-      {term:"Adenoma",def:"adeno (gland) + oma (tumor)",breakdown:"Benign tumor of glandular epithelial origin"},
-      {term:"Fibroma",def:"fibro (fiber) + oma (tumor)",breakdown:"Benign tumor of fibrous connective tissue"},
-      {term:"Lipoma",def:"lip (fat) + oma (tumor)",breakdown:"Benign soft movable fatty tissue tumor"},
-      {term:"Osteosarcoma",def:"osteo (bone) + sarc (flesh) + oma",breakdown:"Primary bone cancer — most common in adolescents"},
-      {term:"Leukemia",def:"leuk (white) + emia (blood)",breakdown:"Blood cancer with excessive abnormal white blood cells"},
-      {term:"Myeloma",def:"myelo (marrow) + oma (tumor)",breakdown:"Cancer of plasma cells in bone marrow"},
-      {term:"Chemotherapy",def:"chemo (chemical) + therapy",breakdown:"Use of chemical drugs to kill rapidly dividing cancer cells"},
-      {term:"Radiation therapy",def:"radiat (radiation) + therapy",breakdown:"Use of high-energy radiation to destroy cancer cells"},
-      {term:"Immunotherapy",def:"immuno (immune) + therapy",breakdown:"Harnessing the immune system to recognize and fight cancer"},
-      {term:"Biopsy",def:"bio (life) + opsy (view)",breakdown:"Removal of tissue sample for pathological examination"},
-      {term:"Oncology",def:"onco (tumor) + logy (study of)",breakdown:"Medical specialty focused on cancer diagnosis and treatment"},
-      {term:"Staging",def:"staging (determining extent)",breakdown:"Classifying cancer by size and spread using Roman numerals I-IV"},
-      {term:"Remission",def:"re (back) + miss (send) + ion",breakdown:"Reduction or disappearance of cancer signs and symptoms"},
-      {term:"Prognosis",def:"pro (before) + gnosis (knowledge)",breakdown:"Predicted course and outcome of a disease"},
-      {term:"Brachytherapy",def:"brachy (short distance) + therapy",breakdown:"Internal radiation therapy with radioactive seeds placed in tumor"},
-      {term:"Carcinogenesis",def:"carcino (cancer) + genesis (origin)",breakdown:"Process by which normal cells become cancerous"},
-      {term:"Oncogene",def:"onco (tumor) + gene",breakdown:"Gene that promotes cell division and can cause cancer when mutated"},
-      {term:"Tumor suppressor gene",def:"tumor + suppressor + gene",breakdown:"Gene that inhibits cell division — loss causes cancer"},
-      {term:"Palliative care",def:"palliat (cloak/relieve) + ive + care",breakdown:"Care focused on relief of symptoms and quality of life"},
-      {term:"Cytology",def:"cyto (cell) + logy (study of)",breakdown:"Study of cells — used in cancer screening like Pap smear"},
-    ]
-  },
-  "pharmacology": {
-    label: "Pharmacology",
-    terms: [
-      {term:"Analgesic",def:"an (without) + alges (pain) + ic",breakdown:"Pain-relieving medication — aspirin ibuprofen acetaminophen"},
-      {term:"Antibiotic",def:"anti (against) + bio (life) + tic",breakdown:"Drug that kills or inhibits bacteria — amoxicillin azithromycin"},
-      {term:"Antipyretic",def:"anti (against) + pyret (fever) + ic",breakdown:"Fever-reducing medication — acetaminophen ibuprofen"},
-      {term:"Anticoagulant",def:"anti (against) + coagulant (clotting)",breakdown:"Drug preventing blood clot formation — warfarin heparin"},
-      {term:"Antihypertensive",def:"anti + hyper + tens (pressure) + ive",breakdown:"Drug lowering elevated blood pressure"},
-      {term:"Antiarrhythmic",def:"anti + arrhythm (rhythm) + ic",breakdown:"Drug correcting abnormal heart rhythms"},
-      {term:"Antiemetic",def:"anti (against) + emet (vomiting) + ic",breakdown:"Drug preventing or treating nausea and vomiting"},
-      {term:"Antifungal",def:"anti + fungal",breakdown:"Drug killing or inhibiting fungal infections — fluconazole"},
-      {term:"Antiviral",def:"anti + viral",breakdown:"Drug targeting viruses — oseltamivir acyclovir"},
-      {term:"Diuretic",def:"diuret (passing urine) + ic",breakdown:"Drug increasing urine output to reduce fluid retention"},
-      {term:"Bronchodilator",def:"broncho (bronchi) + dilat (widen) + or",breakdown:"Drug widening the bronchial airways — albuterol"},
-      {term:"Vasodilator",def:"vaso (vessel) + dilat (widen) + or",breakdown:"Drug widening blood vessels to lower blood pressure"},
-      {term:"Vasoconstrictor",def:"vaso (vessel) + constrict + or",breakdown:"Drug narrowing blood vessels to raise blood pressure"},
-      {term:"Immunosuppressant",def:"immuno + suppress + ant",breakdown:"Drug reducing immune system activity — used in transplants"},
-      {term:"Corticosteroid",def:"cortico (cortex) + steroid",breakdown:"Anti-inflammatory steroid hormone drug — prednisone"},
-      {term:"Antihistamine",def:"anti + histamine",breakdown:"Drug blocking histamine to treat allergies — diphenhydramine"},
-      {term:"Beta-blocker",def:"beta + block + er",breakdown:"Drug blocking beta receptors to slow heart rate — metoprolol"},
-      {term:"ACE inhibitor",def:"angiotensin converting enzyme + inhibitor",breakdown:"Drug lowering blood pressure by blocking ACE — lisinopril"},
-      {term:"Statin",def:"statin (standing still)",breakdown:"Drug lowering cholesterol by blocking its synthesis — atorvastatin"},
-      {term:"Insulin",def:"insul (island) + in",breakdown:"Pancreatic hormone used to lower blood glucose in diabetes"},
-      {term:"Narcotic analgesic",def:"narcotic (numbing) + analgesic",breakdown:"Opioid pain reliever — morphine oxycodone hydrocodone"},
-      {term:"Sedative",def:"sedat (to calm) + ive",breakdown:"Drug inducing calm or sleep — benzodiazepines barbiturates"},
-      {term:"Antipsy chotic",def:"anti + psycho (mind) + tic",breakdown:"Drug treating psychosis and schizophrenia — haloperidol"},
-      {term:"Antidepressant",def:"anti + depress + ant",breakdown:"Drug treating depression — SSRIs SNRIs tricyclics"},
-      {term:"Prophylaxis",def:"pro (before) + phylax (guard) + is",breakdown:"Preventive treatment to stop a disease from occurring"},
-      {term:"Contraindication",def:"contra (against) + indicat (point out)",breakdown:"Condition making a particular drug or treatment inadvisable"},
-      {term:"Side effect",def:"side + effect",breakdown:"Unintended but expected effect of a medication at normal doses"},
-      {term:"Adverse reaction",def:"adverse (turned against) + reaction",breakdown:"Harmful unexpected response to a medication"},
-      {term:"Bioavailability",def:"bio (life) + availabil + ity",breakdown:"Fraction of drug dose that reaches systemic circulation"},
-      {term:"Half-life",def:"half + life",breakdown:"Time for drug concentration in blood to decrease by 50 percent"},
-    ]
-  },
-  "diagnostic_procedures": {
-    label: "Diagnostic Procedures",
-    terms: [
-      {term:"Electrocardiogram",def:"electro (electrical) + cardio (heart) + gram (record)",breakdown:"Recording of the hearts electrical activity — ECG/EKG"},
-      {term:"Electroencephalogram",def:"electro + encephalo (brain) + gram",breakdown:"Recording of the brains electrical activity — EEG"},
-      {term:"Electromyogram",def:"electro + myo (muscle) + gram",breakdown:"Recording of electrical activity in muscles — EMG"},
-      {term:"Radiograph",def:"radio (radiation) + graph (record)",breakdown:"X-ray image of internal body structures"},
-      {term:"Computed tomography",def:"comput + ed + tomo (slice) + graphy",breakdown:"CT scan — cross-sectional X-ray images of body"},
-      {term:"Magnetic resonance imaging",def:"magnetic + resonance + imaging",breakdown:"MRI — detailed soft tissue imaging using magnetic fields"},
-      {term:"Ultrasonography",def:"ultra (beyond) + sono (sound) + graphy",breakdown:"Ultrasound imaging using high-frequency sound waves"},
-      {term:"Echocardiography",def:"echo + cardio (heart) + graphy",breakdown:"Ultrasound imaging of heart structure and function"},
-      {term:"Scintigraphy",def:"scinti (spark) + graphy",breakdown:"Nuclear medicine imaging using radioactive tracers — bone scan"},
-      {term:"Positron emission tomography",def:"positron + emission + tomo + graphy",breakdown:"PET scan showing metabolic activity — cancer staging"},
-      {term:"Angiography",def:"angio (vessel) + graphy (recording)",breakdown:"X-ray imaging of blood vessels with contrast dye"},
-      {term:"Mammography",def:"mammo (breast) + graphy",breakdown:"X-ray imaging of breast tissue for cancer screening"},
-      {term:"Biopsy",def:"bio (life) + opsy (view)",breakdown:"Removal of living tissue for microscopic examination"},
-      {term:"Endoscopy",def:"endo (within) + scopy (visual exam)",breakdown:"Visual examination of internal body cavity with a scope"},
-      {term:"Laparoscopy",def:"laparo (abdomen) + scopy",breakdown:"Minimally invasive examination of the abdominal cavity"},
-      {term:"Bronchoscopy",def:"broncho + scopy",breakdown:"Visual examination of the bronchial airways"},
-      {term:"Colonoscopy",def:"colon + scopy",breakdown:"Visual examination of the entire large intestine"},
-      {term:"Cystoscopy",def:"cysto (bladder) + scopy",breakdown:"Visual examination inside the urinary bladder"},
-      {term:"Arthroscopy",def:"arthr (joint) + scopy",breakdown:"Visual examination inside a joint"},
-      {term:"Urinalysis",def:"urin (urine) + analysis",breakdown:"Laboratory analysis of urine composition and characteristics"},
-      {term:"Complete blood count",def:"complete + blood + count",breakdown:"CBC — laboratory test counting all blood cell types"},
-      {term:"Blood culture",def:"blood + culture",breakdown:"Laboratory test growing microorganisms from blood sample"},
-      {term:"Lumbar puncture",def:"lumbar (lower back) + puncture",breakdown:"Spinal tap — withdrawing cerebrospinal fluid for analysis"},
-      {term:"Amniocentesis",def:"amnio (amniotic sac) + centesis (puncture)",breakdown:"Sampling amniotic fluid for prenatal genetic diagnosis"},
-      {term:"Thoracentesis",def:"thorac (chest) + centesis (puncture)",breakdown:"Needle drainage of fluid from the pleural chest cavity"},
-      {term:"Paracentesis",def:"para (beside) + centesis (puncture)",breakdown:"Needle drainage of fluid from the abdominal cavity"},
-      {term:"Pericardiocentesis",def:"pericardio (pericardium) + centesis",breakdown:"Needle drainage of fluid from the pericardial sac"},
-      {term:"Spirometry",def:"spiro (breathing) + metry (measurement)",breakdown:"Pulmonary function test measuring airflow and lung volumes"},
-      {term:"Audiometry",def:"audio (hearing) + metry (measurement)",breakdown:"Hearing test measuring auditory threshold across frequencies"},
-      {term:"Urodynamics",def:"uro (urine) + dynamics (forces)",breakdown:"Testing urinary tract pressure and flow"},
-    ]
-  },
-  "prefixes_suffixes": {
-    label: "Prefixes Suffixes",
-    terms: [
-      {term:"Macro-",def:"macro (large)",breakdown:"Prefix: large or long. Macrocyte = abnormally large cell"},
-      {term:"Micro-",def:"micro (small)",breakdown:"Prefix: small. Microscopic = only visible with microscope"},
-      {term:"Mega-",def:"mega (great)",breakdown:"Prefix: very large. Megacolon = grossly enlarged colon"},
-      {term:"Brady-",def:"brady (slow)",breakdown:"Prefix: slow. Bradycardia = slow heart. Bradypnea = slow breathing"},
-      {term:"Tachy-",def:"tachy (fast)",breakdown:"Prefix: rapid. Tachycardia = fast heart. Tachypnea = fast breathing"},
-      {term:"Hyper-",def:"hyper (over)",breakdown:"Prefix: above normal. Hypertension = high BP. Hyperglycemia = high sugar"},
-      {term:"Hypo-",def:"hypo (under)",breakdown:"Prefix: below normal. Hypoglycemia = low sugar. Hypothyroidism = low thyroid"},
-      {term:"A- / An-",def:"a or an (without)",breakdown:"Prefix: without or absence of. Apnea = no breathing. Anemia = no/low blood"},
-      {term:"Dys-",def:"dys (bad/difficult)",breakdown:"Prefix: abnormal or difficult. Dyspnea = hard breathing. Dysuria = painful urination"},
-      {term:"Poly-",def:"poly (many)",breakdown:"Prefix: many or excessive. Polyuria = excess urine. Polycythemia = excess RBCs"},
-      {term:"Mono-",def:"mono (one)",breakdown:"Prefix: one or single. Monocyte = one-lobed WBC. Mononucleosis"},
-      {term:"Bi-",def:"bi (two)",breakdown:"Prefix: two. Bilateral = both sides. Bicuspid = two cusps"},
-      {term:"Hemi-",def:"hemi (half)",breakdown:"Prefix: half. Hemiplegia = half-body paralysis. Hemisphere = half sphere"},
-      {term:"Peri-",def:"peri (around)",breakdown:"Prefix: around or surrounding. Pericarditis = around heart. Periosteum = around bone"},
-      {term:"Endo-",def:"endo (within)",breakdown:"Prefix: within or inside. Endocarditis = inside heart. Endoscopy = looking inside"},
-      {term:"Exo- / Extra-",def:"exo/extra (outside)",breakdown:"Prefix: outside. Extracellular = outside cells. Exocrine = secreting outward"},
-      {term:"Intra-",def:"intra (within)",breakdown:"Prefix: within. Intravenous = within a vein. Intradermal = within skin"},
-      {term:"Sub-",def:"sub (under/below)",breakdown:"Prefix: beneath. Subcutaneous = under skin. Sublingual = under tongue"},
-      {term:"Supra-",def:"supra (above)",breakdown:"Prefix: above. Suprarenal = above kidney. Supraclavicular = above clavicle"},
-      {term:"Pre-",def:"pre (before)",breakdown:"Prefix: before. Prenatal = before birth. Preoperative = before surgery"},
-      {term:"Post-",def:"post (after)",breakdown:"Prefix: after. Postoperative = after surgery. Postpartum = after birth"},
-      {term:"Neo-",def:"neo (new)",breakdown:"Prefix: new. Neoplasm = new growth. Neonatal = newborn. Neovascularization"},
-      {term:"Anti-",def:"anti (against)",breakdown:"Prefix: against. Antibiotic = against life (bacteria). Antiviral = against viruses"},
-      {term:"-itis",def:"-itis (inflammation)",breakdown:"Suffix: inflammation. Hepatitis, arthritis, appendicitis, meningitis"},
-      {term:"-osis",def:"-osis (abnormal condition)",breakdown:"Suffix: condition or process. Scoliosis, thrombosis, neurosis"},
-      {term:"-oma",def:"-oma (tumor or swelling)",breakdown:"Suffix: tumor or mass. Carcinoma, adenoma, melanoma, hematoma"},
-      {term:"-ectomy",def:"-ectomy (surgical removal)",breakdown:"Suffix: surgical excision. Appendectomy, cholecystectomy, mastectomy"},
-      {term:"-plasty",def:"-plasty (surgical repair)",breakdown:"Suffix: reconstruction. Rhinoplasty, arthroplasty, angioplasty"},
-      {term:"-scopy",def:"-scopy (visual examination)",breakdown:"Suffix: looking inside. Colonoscopy, arthroscopy, bronchoscopy"},
-      {term:"-ostomy",def:"-ostomy (creating opening)",breakdown:"Suffix: new opening. Colostomy, tracheostomy, ileostomy"},
-      {term:"-otomy / -tomy",def:"-otomy (surgical incision)",breakdown:"Suffix: cutting into. Craniotomy, tracheotomy, laparotomy"},
-      {term:"-graphy",def:"-graphy (recording process)",breakdown:"Suffix: making an image. Radiography, mammography, echocardiography"},
-      {term:"-gram",def:"-gram (record/image)",breakdown:"Suffix: the recorded image. Electrocardiogram, mammogram"},
-      {term:"-logy",def:"-logy (study of)",breakdown:"Suffix: medical specialty. Cardiology, neurology, oncology"},
-      {term:"-pathy",def:"-pathy (disease)",breakdown:"Suffix: disease or disorder. Neuropathy, cardiomyopathy, nephropathy"},
-      {term:"-algia",def:"-algia (pain)",breakdown:"Suffix: pain. Myalgia, arthralgia, neuralgia, fibromyalgia"},
-      {term:"-plegia",def:"-plegia (paralysis)",breakdown:"Suffix: complete paralysis. Hemiplegia, paraplegia, quadriplegia"},
-      {term:"-emia",def:"-emia (blood condition)",breakdown:"Suffix: blood state. Anemia, leukemia, bacteremia, hyperglycemia"},
-      {term:"-uria",def:"-uria (urine condition)",breakdown:"Suffix: urine state. Hematuria, glycosuria, pyuria, oliguria"},
-      {term:"-pnea",def:"-pnea (breathing)",breakdown:"Suffix: breathing. Apnea, dyspnea, tachypnea, orthopnea"},
-      {term:"-phasia",def:"-phasia (speech)",breakdown:"Suffix: speech. Aphasia, dysphasia — language disorders"},
-      {term:"-megaly",def:"-megaly (enlargement)",breakdown:"Suffix: abnormal enlargement. Cardiomegaly, hepatomegaly, splenomegaly"},
-      {term:"-stenosis",def:"-stenosis (narrowing)",breakdown:"Suffix: narrowing. Aortic stenosis, spinal stenosis, pyloric stenosis"},
-      {term:"-rrhea",def:"-rrhea (flow or discharge)",breakdown:"Suffix: discharge. Rhinorrhea, diarrhea, seborrhea, gonorrhea"},
-      {term:"-rrhagia",def:"-rrhagia (excessive flow)",breakdown:"Suffix: hemorrhage. Menorrhagia, metrorrhagia, hemorrhage"},
-      {term:"-malacia",def:"-malacia (softening)",breakdown:"Suffix: softening. Osteomalacia, chondromalacia, tracheomalacia"},
-      {term:"-sclerosis",def:"-sclerosis (hardening)",breakdown:"Suffix: hardening. Atherosclerosis, multiple sclerosis, otosclerosis"},
-      {term:"-centesis",def:"-centesis (surgical puncture)",breakdown:"Suffix: aspirating fluid. Thoracentesis, amniocentesis, arthrocentesis"},
-      {term:"-desis",def:"-desis (surgical fusion)",breakdown:"Suffix: fusing together. Arthrodesis, pleurodesis, spondylodesis"},
-      {term:"-rrhaphy",def:"-rrhaphy (surgical suturing)",breakdown:"Suffix: stitching. Herniorrhaphy, cardiorrhaphy, blepharorrhaphy"},
-      {term:"-pexy",def:"-pexy (surgical fixation)",breakdown:"Suffix: anchoring in place. Nephropexy, orchiopexy, gastropexy"},
-      {term:"-tripsy",def:"-tripsy (crushing)",breakdown:"Suffix: crushing. Lithotripsy, cholecystolithotripsy"},
-      {term:"-lysis",def:"-lysis (destruction)",breakdown:"Suffix: breaking down. Hemolysis, dialysis, thrombolysis"},
-      {term:"-penia",def:"-penia (deficiency)",breakdown:"Suffix: deficiency. Leukopenia, thrombocytopenia, neutropenia"},
-      {term:"-trophy",def:"-trophy (development)",breakdown:"Suffix: growth or nourishment. Hypertrophy, atrophy, dystrophy"},
-      {term:"-kinesia",def:"-kinesia (movement)",breakdown:"Suffix: movement. Bradykinesia = slow movement. Hyperkinesia"},
-      {term:"cardio-",def:"cardio (heart)",breakdown:"Root: heart. Cardiology, cardiomegaly, cardiomyopathy"},
-      {term:"hepat-",def:"hepat (liver)",breakdown:"Root: liver. Hepatitis, hepatomegaly, hepatectomy"},
-      {term:"nephr-",def:"nephr (kidney)",breakdown:"Root: kidney. Nephritis, nephrectomy, nephrology"},
-      {term:"neuro-",def:"neuro (nerve)",breakdown:"Root: nerve or nervous system. Neurology, neuropathy, neuritis"},
-      {term:"oste-",def:"oste (bone)",breakdown:"Root: bone. Osteoporosis, osteomyelitis, osteosarcoma"},
-      {term:"dermat-",def:"dermat (skin)",breakdown:"Root: skin. Dermatology, dermatitis, dermatosis"},
-      {term:"gastr-",def:"gastr (stomach)",breakdown:"Root: stomach. Gastritis, gastrectomy, gastroscopy"},
-      {term:"pulmon-",def:"pulmon (lung)",breakdown:"Root: lung. Pulmonology, pulmonary, pulmonectomy"},
-      {term:"hem-/hemat-",def:"hem or hemat (blood)",breakdown:"Root: blood. Hemoglobin, hematology, hematuria, hemophilia"},
-      {term:"arthr-",def:"arthr (joint)",breakdown:"Root: joint. Arthritis, arthroscopy, arthroplasty, arthralgia"},
-    ]
-  },
-  "reproductive_obstetric": {
-    label: "Reproductive Obstetric",
-    terms: [
-      {term:"Hysterectomy",def:"hyster (uterus) + ectomy (removal)",breakdown:"Surgical removal of the uterus"},
-      {term:"Oophorectomy",def:"oophor (ovary) + ectomy (removal)",breakdown:"Surgical removal of one or both ovaries"},
-      {term:"Salpingectomy",def:"salping (fallopian tube) + ectomy (removal)",breakdown:"Surgical removal of a fallopian tube"},
-      {term:"Mastectomy",def:"mast (breast) + ectomy (removal)",breakdown:"Surgical removal of the breast tissue"},
-      {term:"Mammography",def:"mammo (breast) + graphy (recording)",breakdown:"X-ray imaging of breast tissue for cancer screening"},
-      {term:"Episiotomy",def:"episi (vulva) + otomy (incision)",breakdown:"Surgical incision of the perineum during childbirth"},
-      {term:"Cesarean section",def:"Caes (Caesar legend) + arean + section",breakdown:"Surgical delivery of a baby through the abdominal wall"},
-      {term:"Amniocentesis",def:"amnio (amniotic sac) + centesis (puncture)",breakdown:"Sampling of amniotic fluid for prenatal diagnosis"},
-      {term:"Eclampsia",def:"ec (out) + lampsia (seizure)",breakdown:"Seizures in pregnancy from severe preeclampsia"},
-      {term:"Preeclampsia",def:"pre (before) + ec + lampsia",breakdown:"Hypertension and proteinuria developing during pregnancy"},
-      {term:"Placenta previa",def:"placenta + previa (going before)",breakdown:"Placenta covering or near the cervical opening"},
-      {term:"Ectopic pregnancy",def:"ec (out of) + top (place) + ic",breakdown:"Pregnancy implanted outside the uterus — usually fallopian tube"},
-      {term:"Endometriosis",def:"endo + metr (uterus) + osis",breakdown:"Growth of uterine tissue outside the uterus"},
-      {term:"Dysmenorrhea",def:"dys (painful) + men (month) + rrhea (flow)",breakdown:"Painful menstruation"},
-      {term:"Amenorrhea",def:"a (without) + men (month) + rrhea (flow)",breakdown:"Absence of menstruation"},
-      {term:"Menorrhagia",def:"meno (menstruation) + rrhagia (excessive flow)",breakdown:"Abnormally heavy or prolonged menstrual bleeding"},
-      {term:"Cervicitis",def:"cervic (cervix) + itis (inflammation)",breakdown:"Inflammation of the cervix"},
-      {term:"Vaginitis",def:"vagin (vagina) + itis (inflammation)",breakdown:"Inflammation of the vagina"},
-      {term:"Prostatitis",def:"prostat (prostate) + itis (inflammation)",breakdown:"Inflammation of the prostate gland"},
-      {term:"Orchitis",def:"orch (testicle) + itis (inflammation)",breakdown:"Inflammation of one or both testicles"},
-      {term:"Cryptorchidism",def:"crypt (hidden) + orch (testicle) + ism",breakdown:"Failure of testes to descend into the scrotum"},
-      {term:"Colposcopy",def:"colpo (vagina) + scopy (visual exam)",breakdown:"Visual examination of the cervix and vagina"},
-    ]
-  },
+  }
 };
 
-
-
-// ── HOSA HISTORY ADDITIONS ─────────────────────────────────────────────────
-// Added to QB_HOSA_BOWL.rounds and as standalone flashcards
-// Also creates QB_HOSA_HISTORY for dedicated event
-
-// Extend HOSA Bowl rounds with HOSA History questions
-window.QB_HOSA_BOWL.rounds = window.QB_HOSA_BOWL.rounds.concat([
-  // ── HOSA HISTORY ROUNDS ──────────────────────────────────────────────────
-  {category:"HOSA History",q:"In what year was HOSA founded?",opts:["1972","1976","1980","1984"],correct:1,explain:"HOSA was founded in 1976 as Health Occupations Students of America. It was established to provide a student organization for health occupations education programs."},
-  {category:"HOSA History",q:"What was HOSA's original full name?",opts:["Health Operations Students of America","Health Occupations Students of America","Health Organization for Student Advancement","Healthcare Occupations Student Alliance"],correct:1,explain:"HOSA's original full name was Health Occupations Students of America. In 2004 at the Delegate Assembly the name was officially changed to simply HOSA – Future Health Professionals."},
-  {category:"HOSA History",q:"In what year did HOSA officially change its name to HOSA – Future Health Professionals?",opts:["1999","2001","2004","2008"],correct:2,explain:"At the 2004 Delegate Assembly, HOSA officially changed its name from Health Occupations Students of America to HOSA – Future Health Professionals to better reflect the modern scope of the organization."},
-  {category:"HOSA History",q:"What is HOSA's current tagline/motto?",opts:["The Hands of HOSA Mold the Health of Tomorrow","Empowering Future Health Professionals","Health Leaders of Tomorrow","Caring for the Community"],correct:0,explain:"HOSA's motto is 'The Hands of HOSA Mold the Health of Tomorrow.' The hands in the HOSA emblem represent the caring nature of each member toward the community."},
-  {category:"HOSA History",q:"HOSA is a national student organization affiliated with which federal program?",opts:["National Health Service Corps","Health Resources and Services Administration","Career and Technical Education (CTE) Health Science programs","Centers for Disease Control"],correct:2,explain:"HOSA is an official co-curricular student organization affiliated with Career and Technical Education (CTE) Health Science programs, working with the U.S. Department of Education."},
-  {category:"HOSA History",q:"Approximately how many HOSA members are there in the United States?",opts:["50,000","150,000","300,000","500,000"],correct:2,explain:"HOSA has approximately 300,000 members across the United States, making it one of the largest student organizations in health science education."},
-  {category:"HOSA History",q:"What is the name of HOSA's annual national competition event?",opts:["HOSA National Championship","HOSA International Leadership Conference (ILC)","HOSA National Finals","HOSA World Health Summit"],correct:1,explain:"HOSA's annual national competition is called the International Leadership Conference (ILC). It brings together hundreds of thousands of competitors from across the country and internationally affiliated programs."},
-  {category:"HOSA History",q:"What are the three divisions of HOSA membership?",opts:["Junior, Senior, Alumni","Middle School, Secondary, Post-Secondary/Collegiate","Elementary, Middle, High School","Regional, State, National"],correct:1,explain:"HOSA has three membership divisions: Middle School, Secondary (high school), and Post-Secondary/Collegiate. Each division has its own competitive events appropriate for that level."},
-  {category:"HOSA History",q:"What does the caduceus symbol represent in healthcare?",opts:["The medical profession and healing","Emergency medical services only","Nursing care","Pharmacy"],correct:0,explain:"The caduceus (staff with two intertwined snakes and wings) is associated with the medical profession. The Rod of Asclepius (single snake) is the more precise symbol of medicine and healing, used by the AMA."},
-  {category:"HOSA History",q:"Which U.S. Department oversees Career and Technical Education that HOSA is affiliated with?",opts:["Department of Health and Human Services","Department of Education","Department of Labor","Department of Commerce"],correct:1,explain:"Career and Technical Education (CTE), with which HOSA is affiliated, falls under the U.S. Department of Education. CTE programs prepare students for careers including those in health science."},
-  {category:"HOSA History",q:"What is the HOSA emblem's primary symbol?",opts:["A stethoscope","A caduceus with hands","A red cross","A heart"],correct:1,explain:"The HOSA emblem features a caduceus (medical symbol) surrounded by hands, representing the caring of HOSA members. The emblem is circular, symbolizing unity and community."},
-  {category:"HOSA History",q:"HOSA competitive events are organized into which categories?",opts:["Written tests and demonstrations only","Health Science Events, Leadership Events, and Recognition Events","Academic, Vocational, and Community","Team and Individual only"],correct:1,explain:"HOSA competitive events are organized into Health Science Events, Leadership Events, and Recognition Events. Each category has numerous specific events that competitors can enter based on their interest and skill area."},
-]);
-
-// Extend HOSA Bowl flashcards with HOSA History terms
-window.QB_HOSA_BOWL.flashcards.easy = window.QB_HOSA_BOWL.flashcards.easy.concat([
-  {term:"HOSA founding year",def:"1976 — originally founded as Health Occupations Students of America",breakdown:"Name changed to HOSA – Future Health Professionals in 2004 at the Delegate Assembly"},
-  {term:"HOSA motto",def:"The Hands of HOSA Mold the Health of Tomorrow",breakdown:"Hands in the HOSA emblem represent each member's caring toward the community"},
-  {term:"ILC",def:"International Leadership Conference — HOSA's annual national competitive event",breakdown:"Largest HOSA event; brings together competitors from all 50 states and international affiliates"},
-  {term:"HOSA membership divisions",def:"Middle School, Secondary (high school), and Post-Secondary/Collegiate",breakdown:"Each division has its own competitive events appropriate to that education level"},
-  {term:"HOSA – Future Health Professionals",def:"Current official name of HOSA since 2004, replacing Health Occupations Students of America",breakdown:"Name change reflected the broader scope of health careers beyond traditional 'health occupations'"},
-  {term:"HOSA affiliation",def:"Official co-curricular organization for Career and Technical Education (CTE) Health Science programs",breakdown:"Affiliated with U.S. Department of Education; provides student organization for health science CTE students"},
-  {term:"HOSA membership size",def:"Approximately 300,000 members across the United States",breakdown:"One of the largest student career/technical organizations in the country"},
-  {term:"HOSA emblem",def:"Caduceus (winged staff with two snakes) surrounded by hands in a circle",breakdown:"Caduceus = medicine; hands = caring; circle = unity. Represents HOSA's mission of health and community"},
-  {term:"HOSA competitive event categories",def:"Health Science Events, Leadership Events, and Recognition Events",breakdown:"Health Science = clinical/technical skills. Leadership = public speaking/management. Recognition = community service"},
-  {term:"HOSA chapter",def:"A local group of HOSA members at a school or college, the basic organizational unit",breakdown:"Chapters → Regional → State → National/International. Each chapter pays dues and participates in events"},
-  {term:"HOSA Hippocratic Oath connection",def:"HOSA members pledge to uphold ethical standards in healthcare similar to the physician's Hippocratic Oath",breakdown:"Primum non nocere = First, do no harm. Core ethical principle that HOSA embeds in all health science education"},
-  {term:"HOSA 50th anniversary",def:"2025-2026 school year marks HOSA's 50th anniversary — celebrated with special events and book selections",breakdown:"Medical Reading event books for 2025-26 commemorate the 50th anniversary with selections spanning the decades"},
-]);
-
-// ── STANDALONE HOSA HISTORY EVENT ─────────────────────────────────────────
 window.QB_HOSA_HISTORY = {
-  flashcards: {
-    easy: [
-      {term:"HOSA founding year",def:"1976 — Health Occupations Students of America",breakdown:"Founded to support health occupations education programs in U.S. schools"},
-      {term:"HOSA name change year",def:"2004 — became HOSA – Future Health Professionals",breakdown:"Delegate Assembly voted to modernize the name to reflect broader health career scope"},
-      {term:"HOSA motto",def:"The Hands of HOSA Mold the Health of Tomorrow",breakdown:"Hands = caring members; mold = shaping; health of tomorrow = future healthcare workforce"},
-      {term:"ILC",def:"International Leadership Conference — annual national HOSA competition",breakdown:"Held each summer; competitors from all 50 states; thousands of events across all divisions"},
-      {term:"HOSA divisions",def:"Middle School, Secondary, Post-Secondary/Collegiate",breakdown:"Competitive events differ by division; this app focuses on Middle School division"},
-      {term:"HOSA affiliation",def:"Co-curricular organization for CTE (Career and Technical Education) Health Science",breakdown:"U.S. Dept of Education oversees CTE; HOSA provides the student organization component"},
-      {term:"HOSA emblem",def:"Caduceus + hands in a circle",breakdown:"Medical symbol + caring hands + unity circle = HOSA's visual identity"},
-      {term:"HOSA membership",def:"~300,000 members in the U.S.",breakdown:"One of the largest student CTE organizations nationally"},
-      {term:"HOSA chapters",def:"Local groups at schools/colleges — basic unit of HOSA organization",breakdown:"Chapter → Region → State → National/International organizational structure"},
-      {term:"HOSA competitive categories",def:"Health Science Events, Leadership Events, Recognition Events",breakdown:"Three main buckets covering clinical skills, leadership, and community service recognition"},
-      {term:"HOSA 50th anniversary",def:"2025-2026 school year — 50 years since 1976 founding",breakdown:"Medical Reading books this year celebrate the anniversary with titles spanning the decades"},
-      {term:"SLC",def:"State Leadership Conference — HOSA competition at state level before ILC",breakdown:"Winners at SLC advance to ILC. Each state runs its own SLC format and schedule"},
-      {term:"HOSA Health Science Events",def:"Competitive events testing clinical knowledge and skills — written tests, skills demos, team events",breakdown:"Examples: Medical Terminology, Nutrition, Stop the Bleed, HOSA Bowl, Veterinary Science"},
-      {term:"HOSA Leadership Events",def:"Competitive events testing communication, management, and leadership skills",breakdown:"Examples: Prepared Speaking, Extemporaneous Writing, Community Awareness, Parliamentary Procedure"},
-      {term:"HOSA Recognition Events",def:"Non-competitive recognition for community service, academic excellence, and HOSA involvement",breakdown:"Examples: Service Learning, Healthy Lifestyle, HOSA Chapter of Excellence"},
+  "flashcards": {
+    "easy": [
+      {
+        "term": "HOSA founding year",
+        "def": "1976 — Health Occupations Students of America",
+        "breakdown": "Founded to support health occupations education programs in U.S. schools"
+      },
+      {
+        "term": "HOSA name change year",
+        "def": "2004 — became HOSA – Future Health Professionals",
+        "breakdown": "Delegate Assembly voted to modernize the name to reflect broader health career scope"
+      },
+      {
+        "term": "HOSA motto",
+        "def": "The Hands of HOSA Mold the Health of Tomorrow",
+        "breakdown": "Hands = caring members; mold = shaping; health of tomorrow = future healthcare workforce"
+      },
+      {
+        "term": "ILC",
+        "def": "International Leadership Conference — annual national HOSA competition",
+        "breakdown": "Held each summer; competitors from all 50 states; thousands of events across all divisions"
+      },
+      {
+        "term": "HOSA divisions",
+        "def": "Middle School, Secondary, Post-Secondary/Collegiate",
+        "breakdown": "Competitive events differ by division; this app focuses on Middle School division"
+      },
+      {
+        "term": "HOSA affiliation",
+        "def": "Co-curricular organization for CTE (Career and Technical Education) Health Science",
+        "breakdown": "U.S. Dept of Education oversees CTE; HOSA provides the student organization component"
+      },
+      {
+        "term": "HOSA emblem",
+        "def": "Caduceus + hands in a circle",
+        "breakdown": "Medical symbol + caring hands + unity circle = HOSA's visual identity"
+      },
+      {
+        "term": "HOSA membership",
+        "def": "~300,000 members in the U.S.",
+        "breakdown": "One of the largest student CTE organizations nationally"
+      },
+      {
+        "term": "HOSA chapters",
+        "def": "Local groups at schools/colleges — basic unit of HOSA organization",
+        "breakdown": "Chapter → Region → State → National/International organizational structure"
+      },
+      {
+        "term": "HOSA competitive categories",
+        "def": "Health Science Events, Leadership Events, Recognition Events",
+        "breakdown": "Three main buckets covering clinical skills, leadership, and community service recognition"
+      },
+      {
+        "term": "HOSA 50th anniversary",
+        "def": "2025-2026 school year — 50 years since 1976 founding",
+        "breakdown": "Medical Reading books this year celebrate the anniversary with titles spanning the decades"
+      },
+      {
+        "term": "SLC",
+        "def": "State Leadership Conference — HOSA competition at state level before ILC",
+        "breakdown": "Winners at SLC advance to ILC. Each state runs its own SLC format and schedule"
+      },
+      {
+        "term": "HOSA Health Science Events",
+        "def": "Competitive events testing clinical knowledge and skills — written tests, skills demos, team events",
+        "breakdown": "Examples: Medical Terminology, Nutrition, Stop the Bleed, HOSA Bowl, Veterinary Science"
+      },
+      {
+        "term": "HOSA Leadership Events",
+        "def": "Competitive events testing communication, management, and leadership skills",
+        "breakdown": "Examples: Prepared Speaking, Extemporaneous Writing, Community Awareness, Parliamentary Procedure"
+      },
+      {
+        "term": "HOSA Recognition Events",
+        "def": "Non-competitive recognition for community service, academic excellence, and HOSA involvement",
+        "breakdown": "Examples: Service Learning, Healthy Lifestyle, HOSA Chapter of Excellence"
+      }
     ],
-    medium: [
-      {term:"Delegate Assembly",def:"HOSA's governing body — state delegates vote on bylaws, name changes, policy",breakdown:"The 2004 name change was made by Delegate Assembly vote. Meets annually at ILC"},
-      {term:"HOSA national officers",def:"Elected student leaders who represent HOSA nationally — president, VP, secretary, etc.",breakdown:"National officers are elected at ILC by the Delegate Assembly from Secondary and Post-Secondary divisions"},
-      {term:"HOSA advisor",def:"Teacher or faculty member who oversees a HOSA chapter and guides members",breakdown:"Must be a health science CTE instructor. Responsible for chapter operations, dues, and competition entry"},
-      {term:"HOSA dues",def:"Annual membership fees paid by each member to support local chapter and national organization",breakdown:"Dues go to: national HOSA, state association, and local chapter in set proportions"},
-      {term:"HOSA competitive event guidelines",def:"Official rules published annually for each competitive event — updated each summer",breakdown:"Guidelines specify: format, reference materials, scoring rubrics, dress code, required materials"},
-      {term:"HOSA Region",def:"Geographic grouping of state HOSA associations for administrative purposes",breakdown:"HOSA is divided into regions (e.g., Southwest, Southeast, Northeast, Central) for leadership structure"},
-      {term:"HOSA co-curricular",def:"Meaning HOSA is part of the curriculum, not just an after-school club",breakdown:"Co-curricular = integrated with classroom learning. HOSA events directly align with CTE Health Science standards"},
-      {term:"HOSA international affiliates",def:"Countries outside the U.S. that have HOSA-affiliated programs",breakdown:"International members compete at ILC in the same events as U.S. members"},
-      {term:"HOSA business attire",def:"Competitive events require professional dress — suit, dress, or official HOSA uniform",breakdown:"Bonus points awarded at most events for proper business attire. Part of professional development mission"},
-      {term:"Competitive Events Leadership",def:"HOSA staff and volunteer committee that develops and approves competitive event guidelines",breakdown:"Books for Medical Reading are selected by HOSA Competitive Events Leadership each June for next year"},
+    "medium": [
+      {
+        "term": "Delegate Assembly",
+        "def": "HOSA's governing body — state delegates vote on bylaws, name changes, policy",
+        "breakdown": "The 2004 name change was made by Delegate Assembly vote. Meets annually at ILC"
+      },
+      {
+        "term": "HOSA national officers",
+        "def": "Elected student leaders who represent HOSA nationally — president, VP, secretary, etc.",
+        "breakdown": "National officers are elected at ILC by the Delegate Assembly from Secondary and Post-Secondary divisions"
+      },
+      {
+        "term": "HOSA advisor",
+        "def": "Teacher or faculty member who oversees a HOSA chapter and guides members",
+        "breakdown": "Must be a health science CTE instructor. Responsible for chapter operations, dues, and competition entry"
+      },
+      {
+        "term": "HOSA dues",
+        "def": "Annual membership fees paid by each member to support local chapter and national organization",
+        "breakdown": "Dues go to: national HOSA, state association, and local chapter in set proportions"
+      },
+      {
+        "term": "HOSA competitive event guidelines",
+        "def": "Official rules published annually for each competitive event — updated each summer",
+        "breakdown": "Guidelines specify: format, reference materials, scoring rubrics, dress code, required materials"
+      },
+      {
+        "term": "HOSA Region",
+        "def": "Geographic grouping of state HOSA associations for administrative purposes",
+        "breakdown": "HOSA is divided into regions (e.g., Southwest, Southeast, Northeast, Central) for leadership structure"
+      },
+      {
+        "term": "HOSA co-curricular",
+        "def": "Meaning HOSA is part of the curriculum, not just an after-school club",
+        "breakdown": "Co-curricular = integrated with classroom learning. HOSA events directly align with CTE Health Science standards"
+      },
+      {
+        "term": "HOSA international affiliates",
+        "def": "Countries outside the U.S. that have HOSA-affiliated programs",
+        "breakdown": "International members compete at ILC in the same events as U.S. members"
+      },
+      {
+        "term": "HOSA business attire",
+        "def": "Competitive events require professional dress — suit, dress, or official HOSA uniform",
+        "breakdown": "Bonus points awarded at most events for proper business attire. Part of professional development mission"
+      },
+      {
+        "term": "Competitive Events Leadership",
+        "def": "HOSA staff and volunteer committee that develops and approves competitive event guidelines",
+        "breakdown": "Books for Medical Reading are selected by HOSA Competitive Events Leadership each June for next year"
+      }
     ],
+    "hard": [
+      {
+        "term": "Robert's Rules of Order",
+        "def": "Parliamentary procedure used at HOSA Delegate Assembly and chapter meetings",
+        "breakdown": "Governs how meetings are conducted — motions, voting, debate. HOSA Parliamentary Procedure is a competitive event testing these rules"
+      },
+      {
+        "term": "HOSA competitive event guidelines update cycle",
+        "def": "Updated annually every summer — always use current year's version",
+        "breakdown": "References, formats, point values, and rules can change year to year. Using outdated guidelines is a common mistake"
+      },
+      {
+        "term": "ILC Delegate Assembly composition",
+        "def": "One delegate per state/affiliate, voting on bylaws and policy — meets annually at ILC",
+        "breakdown": "Voting members: one delegate per chartered state association. They elect national officers and amend the HOSA constitution"
+      },
+      {
+        "term": "HOSA national officer term",
+        "def": "One-year term; elected at ILC Delegate Assembly; serve as ambassadors for HOSA nationally",
+        "breakdown": "Officers travel, speak at events, represent HOSA. Secondary and Post-Secondary divisions each elect officers"
+      },
+      {
+        "term": "HOSA chapter of excellence",
+        "def": "Recognition program for outstanding chapter performance — submitted as portfolio",
+        "breakdown": "Chapters earn recognition (not competitive medal) based on membership growth, activities, community service, and HOSA involvement"
+      },
+      {
+        "term": "Health Science Technology Education (HSTE)",
+        "def": "The CTE pathway that HOSA directly supports — health science career technical education",
+        "breakdown": "HSTE programs prepare students for health careers. HOSA is the co-curricular student organization for HSTE programs"
+      },
+      {
+        "term": "HOSA international affiliates",
+        "def": "Countries outside U.S. with HOSA-affiliated programs — compete at ILC under same guidelines",
+        "breakdown": "International presence reflects healthcare as a global profession. HOSA prepares globally aware future health leaders"
+      },
+      {
+        "term": "Competitive Events Leadership (HOSA)",
+        "def": "HOSA staff and volunteer committee that selects books, develops event guidelines annually",
+        "breakdown": "Medical Reading books chosen by Competitive Events Leadership each June for the next school year"
+      }
+    ]
   },
-  quiz: {
-    easy: [
-      {q:"In what year was HOSA founded?",opts:["1968","1972","1976","1980"],correct:2,explain:"HOSA was founded in 1976 as Health Occupations Students of America."},
-      {q:"What does ILC stand for in HOSA?",opts:["Individual Leadership Competition","International Leadership Conference","Integrated Learning Curriculum","Intercollegiate Leadership Challenge"],correct:1,explain:"ILC stands for International Leadership Conference — HOSA's annual national competitive event held each summer."},
-      {q:"In what year did HOSA officially become HOSA – Future Health Professionals?",opts:["1999","2002","2004","2010"],correct:2,explain:"In 2004 at the Delegate Assembly, HOSA changed its name from Health Occupations Students of America to HOSA – Future Health Professionals."},
-      {q:"What is HOSA's motto?",opts:["Health Leaders of Tomorrow","The Hands of HOSA Mold the Health of Tomorrow","Empowering Future Health Professionals","Caring for the Community"],correct:1,explain:"HOSA's motto is 'The Hands of HOSA Mold the Health of Tomorrow.' The hands represent each member's caring toward the community."},
-      {q:"Which of the following is a HOSA membership division?",opts:["Elementary School","Middle School","Graduate School","Professional"],correct:1,explain:"HOSA's three divisions are Middle School, Secondary (high school), and Post-Secondary/Collegiate."},
-      {q:"HOSA is affiliated with which type of education program?",opts:["Fine Arts","Career and Technical Education (CTE) Health Science","STEM Research","Liberal Arts"],correct:1,explain:"HOSA is an official co-curricular organization for Career and Technical Education (CTE) Health Science programs, overseen by the U.S. Department of Education."},
-      {q:"Approximately how many members does HOSA have in the United States?",opts:["50,000","100,000","300,000","1,000,000"],correct:2,explain:"HOSA has approximately 300,000 members across the United States, making it one of the largest student CTE organizations."},
-      {q:"What is the HOSA emblem's main symbol?",opts:["A stethoscope and heart","A caduceus surrounded by hands","A red cross","An EKG waveform"],correct:1,explain:"The HOSA emblem features a caduceus (winged staff with two snakes) surrounded by hands in a circle. The caduceus represents medicine, the hands represent caring, and the circle represents unity."},
-      {q:"Which of the following is a HOSA competitive event category?",opts:["Science Olympiad","Health Science Events","Athletic Competition","Academic Decathlon"],correct:1,explain:"HOSA competitive events are organized into three categories: Health Science Events, Leadership Events, and Recognition Events."},
-      {q:"What is the state-level HOSA competition called before ILC?",opts:["Regional Leadership Conference","State Leadership Conference (SLC)","District Championships","State Finals"],correct:1,explain:"SLC stands for State Leadership Conference. Winners at SLC advance to ILC (International Leadership Conference) at the national level."},
-      {q:"The 2025-2026 school year marks which HOSA anniversary?",opts:["25th","40th","50th","75th"],correct:2,explain:"2025-2026 marks HOSA's 50th anniversary since its founding in 1976. The Medical Reading event books this year were selected to commemorate this milestone."},
-      {q:"What is a HOSA chapter?",opts:["A competitive event","A regional office","A local group of HOSA members at a school or college","A national award"],correct:2,explain:"A HOSA chapter is a local group of members at a school or college — the basic organizational unit of HOSA. Chapters compete at regional, state, and national levels."},
+  "quiz": {
+    "easy": [
+      {
+        "q": "In what year was HOSA founded?",
+        "opts": [
+          "1968",
+          "1972",
+          "1976",
+          "1980"
+        ],
+        "correct": 2,
+        "explain": "HOSA was founded in 1976 as Health Occupations Students of America."
+      },
+      {
+        "q": "What does ILC stand for in HOSA?",
+        "opts": [
+          "Individual Leadership Competition",
+          "International Leadership Conference",
+          "Integrated Learning Curriculum",
+          "Intercollegiate Leadership Challenge"
+        ],
+        "correct": 1,
+        "explain": "ILC stands for International Leadership Conference — HOSA's annual national competitive event held each summer."
+      },
+      {
+        "q": "In what year did HOSA officially become HOSA – Future Health Professionals?",
+        "opts": [
+          "1999",
+          "2002",
+          "2004",
+          "2010"
+        ],
+        "correct": 2,
+        "explain": "In 2004 at the Delegate Assembly, HOSA changed its name from Health Occupations Students of America to HOSA – Future Health Professionals."
+      },
+      {
+        "q": "What is HOSA's motto?",
+        "opts": [
+          "Health Leaders of Tomorrow",
+          "The Hands of HOSA Mold the Health of Tomorrow",
+          "Empowering Future Health Professionals",
+          "Caring for the Community"
+        ],
+        "correct": 1,
+        "explain": "HOSA's motto is 'The Hands of HOSA Mold the Health of Tomorrow.' The hands represent each member's caring toward the community."
+      },
+      {
+        "q": "Which of the following is a HOSA membership division?",
+        "opts": [
+          "Elementary School",
+          "Middle School",
+          "Graduate School",
+          "Professional"
+        ],
+        "correct": 1,
+        "explain": "HOSA's three divisions are Middle School, Secondary (high school), and Post-Secondary/Collegiate."
+      },
+      {
+        "q": "HOSA is affiliated with which type of education program?",
+        "opts": [
+          "Fine Arts",
+          "Career and Technical Education (CTE) Health Science",
+          "STEM Research",
+          "Liberal Arts"
+        ],
+        "correct": 1,
+        "explain": "HOSA is an official co-curricular organization for Career and Technical Education (CTE) Health Science programs, overseen by the U.S. Department of Education."
+      },
+      {
+        "q": "Approximately how many members does HOSA have in the United States?",
+        "opts": [
+          "50,000",
+          "100,000",
+          "300,000",
+          "1,000,000"
+        ],
+        "correct": 2,
+        "explain": "HOSA has approximately 300,000 members across the United States, making it one of the largest student CTE organizations."
+      },
+      {
+        "q": "What is the HOSA emblem's main symbol?",
+        "opts": [
+          "A stethoscope and heart",
+          "A caduceus surrounded by hands",
+          "A red cross",
+          "An EKG waveform"
+        ],
+        "correct": 1,
+        "explain": "The HOSA emblem features a caduceus (winged staff with two snakes) surrounded by hands in a circle. The caduceus represents medicine, the hands represent caring, and the circle represents unity."
+      },
+      {
+        "q": "Which of the following is a HOSA competitive event category?",
+        "opts": [
+          "Science Olympiad",
+          "Health Science Events",
+          "Athletic Competition",
+          "Academic Decathlon"
+        ],
+        "correct": 1,
+        "explain": "HOSA competitive events are organized into three categories: Health Science Events, Leadership Events, and Recognition Events."
+      },
+      {
+        "q": "What is the state-level HOSA competition called before ILC?",
+        "opts": [
+          "Regional Leadership Conference",
+          "State Leadership Conference (SLC)",
+          "District Championships",
+          "State Finals"
+        ],
+        "correct": 1,
+        "explain": "SLC stands for State Leadership Conference. Winners at SLC advance to ILC (International Leadership Conference) at the national level."
+      },
+      {
+        "q": "The 2025-2026 school year marks which HOSA anniversary?",
+        "opts": [
+          "25th",
+          "40th",
+          "50th",
+          "75th"
+        ],
+        "correct": 2,
+        "explain": "2025-2026 marks HOSA's 50th anniversary since its founding in 1976. The Medical Reading event books this year were selected to commemorate this milestone."
+      },
+      {
+        "q": "What is a HOSA chapter?",
+        "opts": [
+          "A competitive event",
+          "A regional office",
+          "A local group of HOSA members at a school or college",
+          "A national award"
+        ],
+        "correct": 2,
+        "explain": "A HOSA chapter is a local group of members at a school or college — the basic organizational unit of HOSA. Chapters compete at regional, state, and national levels."
+      }
     ],
-    medium: [
-      {q:"What body governs HOSA and votes on major decisions like name changes?",opts:["National Board of Directors","The Delegate Assembly","Congress of HOSA Advisors","Student Executive Council"],correct:1,explain:"The Delegate Assembly is HOSA's governing body where state delegates vote on bylaws, name changes, and policy. The 2004 name change was made by Delegate Assembly vote at ILC."},
-      {q:"What does 'co-curricular' mean in the context of HOSA?",opts:["HOSA is only an after-school club","HOSA is integrated with classroom curriculum, not separate from it","HOSA is a college-only organization","HOSA events replace regular classes"],correct:1,explain:"Co-curricular means HOSA is part of the curriculum itself, not just an extracurricular. HOSA events directly align with CTE Health Science learning standards."},
-      {q:"HOSA competitive event guidelines are updated when?",opts:["Every 5 years","Monthly","Annually each summer","Only when major changes occur"],correct:2,explain:"HOSA competitive event guidelines are updated annually each summer for the coming school year. Competitors must use the current year's guidelines — rules, references, and formats can change year to year."},
-      {q:"What happens to winners at the State Leadership Conference (SLC)?",opts:["They receive a diploma","They advance to the International Leadership Conference (ILC)","They become HOSA advisors","They earn college credit"],correct:1,explain:"Winners at SLC (State Leadership Conference) advance to ILC (International Leadership Conference) — HOSA's national competition held each summer."},
-      {q:"Why was HOSA's name changed from Health Occupations Students of America in 2004?",opts:["The original name was trademarked by another organization","To better reflect the broader scope of modern health careers beyond traditional health occupations","The government required the change","To make the acronym work internationally"],correct:1,explain:"The name was changed to HOSA – Future Health Professionals to better reflect the modern scope of health careers, which extends far beyond traditional health occupations to include technology, research, administration, and more."},
+    "medium": [
+      {
+        "q": "What body governs HOSA and votes on major decisions like name changes?",
+        "opts": [
+          "National Board of Directors",
+          "The Delegate Assembly",
+          "Congress of HOSA Advisors",
+          "Student Executive Council"
+        ],
+        "correct": 1,
+        "explain": "The Delegate Assembly is HOSA's governing body where state delegates vote on bylaws, name changes, and policy. The 2004 name change was made by Delegate Assembly vote at ILC."
+      },
+      {
+        "q": "What does 'co-curricular' mean in the context of HOSA?",
+        "opts": [
+          "HOSA is only an after-school club",
+          "HOSA is integrated with classroom curriculum, not separate from it",
+          "HOSA is a college-only organization",
+          "HOSA events replace regular classes"
+        ],
+        "correct": 1,
+        "explain": "Co-curricular means HOSA is part of the curriculum itself, not just an extracurricular. HOSA events directly align with CTE Health Science learning standards."
+      },
+      {
+        "q": "HOSA competitive event guidelines are updated when?",
+        "opts": [
+          "Every 5 years",
+          "Monthly",
+          "Annually each summer",
+          "Only when major changes occur"
+        ],
+        "correct": 2,
+        "explain": "HOSA competitive event guidelines are updated annually each summer for the coming school year. Competitors must use the current year's guidelines — rules, references, and formats can change year to year."
+      },
+      {
+        "q": "What happens to winners at the State Leadership Conference (SLC)?",
+        "opts": [
+          "They receive a diploma",
+          "They advance to the International Leadership Conference (ILC)",
+          "They become HOSA advisors",
+          "They earn college credit"
+        ],
+        "correct": 1,
+        "explain": "Winners at SLC (State Leadership Conference) advance to ILC (International Leadership Conference) — HOSA's national competition held each summer."
+      },
+      {
+        "q": "Why was HOSA's name changed from Health Occupations Students of America in 2004?",
+        "opts": [
+          "The original name was trademarked by another organization",
+          "To better reflect the broader scope of modern health careers beyond traditional health occupations",
+          "The government required the change",
+          "To make the acronym work internationally"
+        ],
+        "correct": 1,
+        "explain": "The name was changed to HOSA – Future Health Professionals to better reflect the modern scope of health careers, which extends far beyond traditional health occupations to include technology, research, administration, and more."
+      }
     ],
-  },
+    "hard": [
+      {
+        "q": "Which document governs parliamentary procedure at HOSA Delegate Assembly meetings?",
+        "opts": [
+          "The U.S. Constitution",
+          "HOSA's own constitution only",
+          "Robert's Rules of Order",
+          "Parliamentary Procedure for Health Students"
+        ],
+        "correct": 2,
+        "explain": "Robert's Rules of Order governs parliamentary procedure at HOSA Delegate Assembly meetings and chapter meetings. HOSA Parliamentary Procedure is also a competitive Leadership Event that tests these rules."
+      },
+      {
+        "q": "What is the primary purpose of the HOSA Delegate Assembly?",
+        "opts": [
+          "To run competitive events at ILC",
+          "To elect national officers and vote on HOSA bylaws and policy",
+          "To certify health science CTE programs",
+          "To distribute scholarships to HOSA members"
+        ],
+        "correct": 1,
+        "explain": "The Delegate Assembly is HOSA's governing body. It meets annually at ILC to elect national student officers, vote on bylaw amendments, and make major policy decisions. The 2004 name change was voted on at a Delegate Assembly."
+      },
+      {
+        "q": "HOSA is described as 'co-curricular' rather than 'extracurricular.' What is the key distinction?",
+        "opts": [
+          "Co-curricular means HOSA is mandatory; extracurricular is optional",
+          "Co-curricular means HOSA is integrated with CTE classroom curriculum; extracurricular means separate from coursework",
+          "Co-curricular refers to national activities; extracurricular is local only",
+          "There is no meaningful difference between the two terms"
+        ],
+        "correct": 1,
+        "explain": "Co-curricular means HOSA activities directly reinforce and extend classroom learning — HOSA events align with CTE Health Science curriculum standards. Extracurricular (like a sports team) is separate from the academic program."
+      }
+    ]
+  }
 };
-
-// ── HOSA BOWL: Add quiz questions (currently 0) ────────────────────────────
-// HOSA Bowl uses rounds for the buzzer game, but needs quiz for Quiz Mode + Race
-window.QB_HOSA_BOWL.quiz = {
-  easy: [
-    {q:"What does HOSA stand for (current name)?",opts:["Health Occupations Students of America","HOSA – Future Health Professionals","Health Organization for Student Advancement","Health Outcomes Student Alliance"],correct:1,explain:"HOSA's current name is HOSA – Future Health Professionals, changed in 2004. The original name was Health Occupations Students of America (founded 1976)."},
-    {q:"What does 'cardio-' mean?",opts:["Lung","Heart","Kidney","Liver"],correct:1,explain:"Cardio = heart. Cardiology = study of the heart. Cardiorespiratory = relating to the heart and lungs."},
-    {q:"Normal adult heart rate is:",opts:["40-60 bpm","60-100 bpm","100-120 bpm","120-140 bpm"],correct:1,explain:"Normal resting heart rate for adults is 60-100 beats per minute. Below 60 = bradycardia; above 100 = tachycardia."},
-    {q:"CPR stands for:",opts:["Cardiac Pressure Relief","Cardiopulmonary Resuscitation","Cardiac Pulse Regulation","Cardiopulmonary Restoration"],correct:1,explain:"CPR = Cardiopulmonary Resuscitation. Cardio=heart, pulmonary=lungs, resuscitation=reviving. The technique combines chest compressions and rescue breaths."},
-    {q:"'-itis' suffix means:",opts:["Study of","Removal","Inflammation","Pain"],correct:2,explain:"'-itis' means inflammation. Appendicitis = inflamed appendix. Arthritis = inflamed joints. Dermatitis = inflamed skin."},
-    {q:"Which macronutrient provides 9 calories per gram?",opts:["Carbohydrates","Protein","Fat","Fiber"],correct:2,explain:"Fat provides 9 calories per gram — more than double carbohydrates (4 cal/g) or protein (4 cal/g). This is why high-fat foods are calorie-dense."},
-    {q:"Normal body temperature in Fahrenheit:",opts:["97.6°F","98.6°F","99.6°F","100.4°F"],correct:1,explain:"Normal body temperature is 98.6°F (37°C). Fever is generally defined as temperature above 100.4°F (38°C)."},
-    {q:"Which vitamin is produced when skin is exposed to sunlight?",opts:["Vitamin A","Vitamin B12","Vitamin C","Vitamin D"],correct:3,explain:"Vitamin D is synthesized in the skin when exposed to UV sunlight. Deficiency causes rickets in children and osteomalacia in adults."},
-    {q:"The HOSA Bowl team consists of how many members?",opts:["2","3","4","5"],correct:2,explain:"HOSA Bowl is a team event with 4 members competing together, answering rapid-fire questions across all health science topics."},
-    {q:"'Brady-' prefix means:",opts:["Fast","Slow","Large","Small"],correct:1,explain:"Brady = slow. Bradycardia = slow heart rate (below 60 bpm). Bradypnea = slow breathing rate. Opposite: tachy = fast."},
-    {q:"AED stands for:",opts:["Automated External Defibrillator","Airway Emergency Device","Advanced Electrolyte Dose","Acute Emergency Diagnosis"],correct:0,explain:"AED = Automated External Defibrillator. Used to deliver a shock to restore normal heart rhythm during ventricular fibrillation or ventricular tachycardia."},
-    {q:"Which body system fights infection and disease?",opts:["Digestive system","Immune system","Endocrine system","Skeletal system"],correct:1,explain:"The immune system defends the body against pathogens (bacteria, viruses, parasites). It includes white blood cells, antibodies, lymph nodes, and the spleen."},
-  ],
-  medium: [
-    {q:"The Heimlich maneuver is used to treat:",opts:["Heart attack","Choking (airway obstruction)","Stroke","Allergic reaction"],correct:1,explain:"The Heimlich maneuver (abdominal thrusts) is used to dislodge a foreign object causing airway obstruction (choking). Named after Dr. Henry Heimlich."},
-    {q:"Which organ produces insulin?",opts:["Liver","Kidney","Pancreas","Stomach"],correct:2,explain:"The pancreas produces insulin (and glucagon). Insulin lowers blood glucose. Type 1 diabetes = pancreas doesn't produce insulin; Type 2 = body doesn't respond properly to insulin."},
-    {q:"What does 'hema-' or 'hemo-' refer to?",opts:["Heart","Bone","Blood","Skin"],correct:2,explain:"Hema-/hemo- = blood. Hematology = study of blood. Hemoglobin = oxygen-carrying protein in red blood cells. Hemorrhage = excessive bleeding."},
-    {q:"Normal blood pressure reading is:",opts:["100/60 mmHg","120/80 mmHg","140/90 mmHg","160/100 mmHg"],correct:1,explain:"120/80 mmHg is considered normal blood pressure. 120 = systolic (heart contracting); 80 = diastolic (heart relaxing). Stage 1 hypertension begins at 130/80."},
-    {q:"The RACE acronym in fire safety stands for:",opts:["Run Away Carefully Everywhere","Rescue, Alarm, Contain, Extinguish","React, Alert, Call, Evacuate","Remove, Assess, Contain, Exit"],correct:1,explain:"RACE = Rescue, Alarm, Contain, Extinguish. Standard fire response protocol in healthcare settings. Always rescue patients in immediate danger first, then activate the alarm."},
-  ],
-};
-
-// ── HOSA HISTORY: Add hard flashcards ─────────────────────────────────────
-window.QB_HOSA_HISTORY.flashcards.hard = [
-  {term:"Robert's Rules of Order",def:"Parliamentary procedure used at HOSA Delegate Assembly and chapter meetings",breakdown:"Governs how meetings are conducted — motions, voting, debate. HOSA Parliamentary Procedure is a competitive event testing these rules"},
-  {term:"HOSA competitive event guidelines update cycle",def:"Updated annually every summer — always use current year's version",breakdown:"References, formats, point values, and rules can change year to year. Using outdated guidelines is a common mistake"},
-  {term:"ILC Delegate Assembly composition",def:"One delegate per state/affiliate, voting on bylaws and policy — meets annually at ILC",breakdown:"Voting members: one delegate per chartered state association. They elect national officers and amend the HOSA constitution"},
-  {term:"HOSA national officer term",def:"One-year term; elected at ILC Delegate Assembly; serve as ambassadors for HOSA nationally",breakdown:"Officers travel, speak at events, represent HOSA. Secondary and Post-Secondary divisions each elect officers"},
-  {term:"HOSA chapter of excellence",def:"Recognition program for outstanding chapter performance — submitted as portfolio",breakdown:"Chapters earn recognition (not competitive medal) based on membership growth, activities, community service, and HOSA involvement"},
-  {term:"Health Science Technology Education (HSTE)",def:"The CTE pathway that HOSA directly supports — health science career technical education",breakdown:"HSTE programs prepare students for health careers. HOSA is the co-curricular student organization for HSTE programs"},
-  {term:"HOSA international affiliates",def:"Countries outside U.S. with HOSA-affiliated programs — compete at ILC under same guidelines",breakdown:"International presence reflects healthcare as a global profession. HOSA prepares globally aware future health leaders"},
-  {term:"Competitive Events Leadership (HOSA)",def:"HOSA staff and volunteer committee that selects books, develops event guidelines annually",breakdown:"Medical Reading books chosen by Competitive Events Leadership each June for the next school year"},
-];
-
-// ── HOSA HISTORY: Add hard quiz questions ──────────────────────────────────
-window.QB_HOSA_HISTORY.quiz.hard = [
-  {q:"Which document governs parliamentary procedure at HOSA Delegate Assembly meetings?",opts:["The U.S. Constitution","HOSA's own constitution only","Robert's Rules of Order","Parliamentary Procedure for Health Students"],correct:2,explain:"Robert's Rules of Order governs parliamentary procedure at HOSA Delegate Assembly meetings and chapter meetings. HOSA Parliamentary Procedure is also a competitive Leadership Event that tests these rules."},
-  {q:"What is the primary purpose of the HOSA Delegate Assembly?",opts:["To run competitive events at ILC","To elect national officers and vote on HOSA bylaws and policy","To certify health science CTE programs","To distribute scholarships to HOSA members"],correct:1,explain:"The Delegate Assembly is HOSA's governing body. It meets annually at ILC to elect national student officers, vote on bylaw amendments, and make major policy decisions. The 2004 name change was voted on at a Delegate Assembly."},
-  {q:"HOSA is described as 'co-curricular' rather than 'extracurricular.' What is the key distinction?",opts:["Co-curricular means HOSA is mandatory; extracurricular is optional","Co-curricular means HOSA is integrated with CTE classroom curriculum; extracurricular means separate from coursework","Co-curricular refers to national activities; extracurricular is local only","There is no meaningful difference between the two terms"],correct:1,explain:"Co-curricular means HOSA activities directly reinforce and extend classroom learning — HOSA events align with CTE Health Science curriculum standards. Extracurricular (like a sports team) is separate from the academic program."},
-];
