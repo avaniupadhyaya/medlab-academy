@@ -293,31 +293,28 @@
   }
 
   function fitRaceCanvas() {
-    var canvas = document.getElementById('raceCanvas');
-    if (!canvas) return;
+  var canvas = document.getElementById('raceCanvas');
+  if (!canvas) return;
 
-    var parent = canvas.parentElement;
-    var maxWidth = parent ? parent.clientWidth : window.innerWidth;
-    var cssWidth = Math.max(320, Math.min(maxWidth, window.innerWidth - 16));
-    var cssHeight;
+  var parent = canvas.parentElement;
+  var maxWidth = parent ? parent.clientWidth : window.innerWidth;
+  var cssWidth = Math.max(320, Math.min(maxWidth, window.innerWidth - 16));
+  var mobile = window.innerWidth <= 768;
+  var cssHeight = mobile
+    ? Math.max(150, Math.min(180, Math.round(cssWidth * 0.23)))
+    : Math.max(180, Math.min(220, Math.round(cssWidth * 0.24)));
 
-    if (isMobileRace()) {
-      cssHeight = Math.max(110, Math.min(140, Math.round(cssWidth * 0.18)));
-    } else {
-      cssHeight = Math.max(170, Math.min(220, Math.round(cssWidth * 0.24)));
-    }
+  var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
 
-    var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+  canvas.style.width = cssWidth + 'px';
+  canvas.style.height = cssHeight + 'px';
+  canvas.width = Math.round(cssWidth * dpr);
+  canvas.height = Math.round(cssHeight * dpr);
 
-    canvas.style.width = cssWidth + 'px';
-    canvas.style.height = cssHeight + 'px';
-    canvas.width = Math.round(cssWidth * dpr);
-    canvas.height = Math.round(cssHeight * dpr);
-
-    var ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    RACE.canvasReady = true;
-  }
+  var ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  RACE.canvasReady = true;
+}
 
   function ensureDifficultyControls() {
     var container = document.getElementById('raceDifficultyWrap');
@@ -475,113 +472,133 @@
   }
 
   function drawTrack() {
-    var canvas = document.getElementById('raceCanvas');
-    if (!canvas || !RACE.canvasReady) return;
+  var canvas = document.getElementById('raceCanvas');
+  if (!canvas || !RACE.canvasReady) return;
 
-    var ctx = canvas.getContext('2d');
-    var W = parseFloat(canvas.style.width) || 560;
-    var H = parseFloat(canvas.style.height) || 200;
-    var mobile = isMobileRace();
+  var ctx = canvas.getContext('2d');
+  var W = parseFloat(canvas.style.width) || 560;
+  var H = parseFloat(canvas.style.height) || 180;
+  var mobile = window.innerWidth <= 768;
 
-    ctx.clearRect(0, 0, W, H);
+  ctx.clearRect(0, 0, W, H);
 
-    var sky = ctx.createLinearGradient(0, 0, 0, H * 0.54);
-    sky.addColorStop(0, '#081221');
-    sky.addColorStop(1, '#17385c');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H * 0.56);
+  var hudH = mobile ? 26 : 22;          // bottom strip reserved for progress
+  var roadTop = H * 0.52;
+  var roadBottom = H - hudH;
 
-    var road = ctx.createLinearGradient(0, H * 0.54, 0, H);
-    road.addColorStop(0, '#2a2a2a');
-    road.addColorStop(1, '#181818');
-    ctx.fillStyle = road;
-    ctx.fillRect(0, H * 0.56, W, H * 0.44);
+  // sky
+  var sky = ctx.createLinearGradient(0, 0, 0, roadTop);
+  sky.addColorStop(0, '#081221');
+  sky.addColorStop(1, '#17385c');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, roadTop);
 
-    var finishW = mobile ? 14 : 18;
-    var finishX = W - finishW - (mobile ? 8 : 14);
-    for (var fi = 0; fi < 10; fi++) {
-      ctx.fillStyle = fi % 2 === 0 ? '#fff' : '#111';
-      ctx.fillRect(finishX, H * 0.57 + fi * (H * 0.04), finishW, H * 0.04);
-    }
+  // road
+  var road = ctx.createLinearGradient(0, roadTop, 0, roadBottom);
+  road.addColorStop(0, '#2a2a2a');
+  road.addColorStop(1, '#181818');
+  ctx.fillStyle = road;
+  ctx.fillRect(0, roadTop, W, roadBottom - roadTop);
 
-    var laneTop = H * 0.60;
-    var laneGap = mobile ? H * 0.10 : H * 0.095;
-    var lanes = [laneTop, laneTop + laneGap, laneTop + laneGap * 2, laneTop + laneGap * 3];
-
-    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-    ctx.lineWidth = 1;
-    for (var li = 0; li < lanes.length; li++) {
-      ctx.beginPath();
-      ctx.moveTo(mobile ? 64 : 70, lanes[li] + 10);
-      ctx.lineTo(finishX - 10, lanes[li] + 10);
-      ctx.stroke();
-    }
-
-    var leftLabelX = 8;
-    var startX = mobile ? 76 : 96;
-    var carW = mobile ? 24 : 28;
-    var carH = mobile ? 10 : 12;
-    var travelW = finishX - startX - carW - 14;
-
-    var carData = [
-      { pos: RACE.playerPos, color: PLAYER_COLOR, label: 'YOU', lane: lanes[0] },
-      { pos: RACE.aiPos[0], color: AI_COLORS[0], label: AI_NAMES[0], lane: lanes[1] },
-      { pos: RACE.aiPos[1], color: AI_COLORS[1], label: AI_NAMES[1], lane: lanes[2] },
-      { pos: RACE.aiPos[2], color: AI_COLORS[2], label: AI_NAMES[2], lane: lanes[3] }
-    ];
-
-    carData.forEach(function (car) {
-      var x = startX + (car.pos / 100) * travelW;
-      var y = car.lane;
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = (mobile ? '600 9px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(car.label, leftLabelX, y + 3);
-
-      ctx.fillStyle = car.color;
-      ctx.beginPath();
-      ctx.roundRect(x - carW / 2, y - carH / 2, carW, carH, 4);
-      ctx.fill();
-
-      ctx.fillStyle = 'rgba(220,240,255,0.7)';
-      ctx.beginPath();
-      ctx.roundRect(x - 3, y - 5, 9, 5, 2);
-      ctx.fill();
-
-      ctx.fillStyle = '#111';
-      ctx.beginPath();
-      ctx.arc(x - 8, y + 5, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(x + 8, y + 5, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    ctx.strokeStyle = '#facc15';
-    ctx.lineWidth = mobile ? 1.8 : 2;
-    ctx.setLineDash(mobile ? [16, 10] : [22, 14]);
-    ctx.beginPath();
-    ctx.moveTo(startX - 10, H * 0.75);
-    ctx.lineTo(finishX - 12, H * 0.75);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    ctx.fillStyle = 'rgba(0,0,0,0.52)';
-    ctx.fillRect(0, H - 18, W, 18);
-
-    ctx.fillStyle = PLAYER_COLOR;
-    ctx.fillRect(0, H - 18, (RACE.playerPos / 100) * W, 18);
-
-    ctx.fillStyle = '#fff';
-    ctx.font = (mobile ? '600 10px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(
-      'Progress: ' + Math.round(RACE.playerPos) + '%   Q:' + (RACE.qIdx + 1) + '/' + RACE.questions.length + '   ' + RACE.difficulty.toUpperCase(),
-      10,
-      H - 5
-    );
+  // finish line
+  var finishW = mobile ? 14 : 18;
+  var finishX = W - finishW - (mobile ? 8 : 14);
+  for (var fi = 0; fi < 10; fi++) {
+    ctx.fillStyle = fi % 2 === 0 ? '#fff' : '#111';
+    ctx.fillRect(finishX, roadTop + 4 + fi * ((roadBottom - roadTop - 8) / 10), finishW, (roadBottom - roadTop - 8) / 10);
   }
+
+  // lane layout
+  var labelColW = mobile ? 58 : 70;
+  var startX = mobile ? 82 : 96;
+  var carW = mobile ? 24 : 28;
+  var carH = mobile ? 10 : 12;
+  var laneAreaTop = roadTop + 18;
+  var laneGap = mobile ? 24 : 26;
+  var lanes = [
+    laneAreaTop,
+    laneAreaTop + laneGap,
+    laneAreaTop + laneGap * 2,
+    laneAreaTop + laneGap * 3
+  ];
+
+  // lane guides
+  ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+  ctx.lineWidth = 1;
+  lanes.forEach(function (y) {
+    ctx.beginPath();
+    ctx.moveTo(labelColW, y + 8);
+    ctx.lineTo(finishX - 8, y + 8);
+    ctx.stroke();
+  });
+
+  // dashed center line
+  ctx.strokeStyle = '#facc15';
+  ctx.lineWidth = mobile ? 1.8 : 2;
+  ctx.setLineDash(mobile ? [16, 10] : [22, 14]);
+  ctx.beginPath();
+  ctx.moveTo(startX - 8, lanes[1] + 8);
+  ctx.lineTo(finishX - 10, lanes[1] + 8);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  var travelW = finishX - startX - carW - 12;
+
+  var carData = [
+    { pos: RACE.playerPos, color: PLAYER_COLOR, label: 'YOU', lane: lanes[0] },
+    { pos: RACE.aiPos[0], color: AI_COLORS[0], label: AI_NAMES[0], lane: lanes[1] },
+    { pos: RACE.aiPos[1], color: AI_COLORS[1], label: AI_NAMES[1], lane: lanes[2] },
+    { pos: RACE.aiPos[2], color: AI_COLORS[2], label: AI_NAMES[2], lane: lanes[3] }
+  ];
+
+  carData.forEach(function (car) {
+    var x = startX + (car.pos / 100) * travelW;
+    var y = car.lane;
+
+    // left-column labels instead of floating over cars
+    ctx.fillStyle = '#ffffff';
+    ctx.font = (mobile ? '600 9px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(car.label, 8, y + 3);
+
+    // car body
+    ctx.fillStyle = car.color;
+    ctx.beginPath();
+    ctx.roundRect(x - carW / 2, y - carH / 2, carW, carH, 4);
+    ctx.fill();
+
+    // windshield
+    ctx.fillStyle = 'rgba(220,240,255,0.7)';
+    ctx.beginPath();
+    ctx.roundRect(x - 3, y - 5, 9, 5, 2);
+    ctx.fill();
+
+    // wheels
+    ctx.fillStyle = '#111';
+    ctx.beginPath();
+    ctx.arc(x - 8, y + 5, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x + 8, y + 5, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // dedicated HUD strip at bottom
+  ctx.fillStyle = 'rgba(0,0,0,0.58)';
+  ctx.fillRect(0, H - hudH, W, hudH);
+
+  ctx.fillStyle = PLAYER_COLOR;
+  ctx.fillRect(0, H - hudH, (RACE.playerPos / 100) * W, hudH);
+
+  ctx.fillStyle = '#fff';
+  ctx.font = (mobile ? '600 10px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(
+    'Progress: ' + Math.round(RACE.playerPos) + '%   Q:' + (RACE.qIdx + 1) + '/' + RACE.questions.length + '   ' + (RACE.difficulty || 'medium').toUpperCase(),
+    10,
+    H - 8
+  );
+}
 
   function renderRaceQ() {
     var qArea = document.getElementById('raceQArea');
