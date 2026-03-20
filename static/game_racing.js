@@ -616,7 +616,7 @@
 
     html += '<div id="raceFeedback" style="display:none;font-family:inherit;"></div>';
     html += '<div style="margin-top:14px;">';
-    html += '<button id="raceSubmit" class="' + submitClass + '" style="display:none;min-width:220px;">Submit ⚡</button>';
+    html += '<button id="raceSubmit" class="' + submitClass + '" style="display:none;min-width:220px;background:#22c55e;color:white;border:none;border-radius:14px;padding:14px 20px;font-family:inherit;font-size:16px;font-weight:700;box-shadow:none;">Submit ⚡</button>';
     html += '</div>';
 
     qArea.innerHTML = html;
