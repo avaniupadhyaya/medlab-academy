@@ -1,4 +1,4 @@
-// ── NITRO RACE — responsive + resilient question loading ────────────────────
+// ── NITRO RACE — responsive + app-styled UI ────────────────────────────────
 (function () {
   var RACE = {
     active: false,
@@ -285,6 +285,24 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  function buttonClass() {
+    return 'btn primary';
+  }
+
+  function raceOptionButtonHtml(label, i, text) {
+    return (
+      '<button class="race-opt" data-i="' + i + '" ' +
+      'style="' +
+      'display:block;width:100%;text-align:left;padding:18px 20px;margin:12px 0;' +
+      'border:2px solid var(--bord);border-radius:20px;background:var(--surf2);' +
+      'color:var(--text);font:inherit;font-size:clamp(18px,2vw,22px);font-weight:700;' +
+      'line-height:1.35;cursor:pointer;box-shadow:0 1px 0 rgba(255,255,255,0.04) inset;' +
+      '">' +
+      label + '. ' + text +
+      '</button>'
+    );
+  }
+
   function initRace(evId) {
     RACE.questions = getRaceQuestions(evId);
 
@@ -442,24 +460,24 @@
       ctx.fill();
 
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold ' + Math.max(8, Math.round(W * 0.022)) + 'px monospace';
+      ctx.font = '600 ' + Math.max(10, Math.round(W * 0.022)) + 'px Inter, system-ui, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(car.label, x, y - carH * 0.9);
     });
 
     ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    ctx.fillRect(0, H - 14, W, 14);
+    ctx.fillRect(0, H - 18, W, 18);
 
     ctx.fillStyle = PLAYER_COLOR;
-    ctx.fillRect(0, H - 14, (RACE.playerPos / 100) * W, 14);
+    ctx.fillRect(0, H - 18, (RACE.playerPos / 100) * W, 18);
 
     ctx.fillStyle = '#fff';
-    ctx.font = Math.max(8, Math.round(W * 0.022)) + 'px monospace';
+    ctx.font = Math.max(10, Math.round(W * 0.022)) + 'px Inter, system-ui, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(
-      'Progress: ' + Math.round(RACE.playerPos) + '%  Q:' + (RACE.qIdx + 1) + '/' + RACE.questions.length,
-      6,
-      H - 3
+      'Progress: ' + Math.round(RACE.playerPos) + '%   Q:' + (RACE.qIdx + 1) + '/' + RACE.questions.length,
+      8,
+      H - 5
     );
   }
 
@@ -468,7 +486,7 @@
     if (!qArea) return;
 
     if (RACE.qIdx >= RACE.questions.length) {
-      qArea.innerHTML = '<div style="padding:10px;font-weight:700;">All questions answered! Finishing race...</div>';
+      qArea.innerHTML = '<div style="padding:14px 4px;font:inherit;font-size:20px;font-weight:700;">All questions answered! Finishing race...</div>';
       return;
     }
 
@@ -476,22 +494,21 @@
     var opts = q.opts || [];
 
     var html = '';
-    html += '<div style="font-size:clamp(20px, 5vw, 26px);font-weight:800;margin:8px 0 14px 0;line-height:1.25;">'
-      + (q.prompt || q.q || q.question || 'Question unavailable')
-      + '</div>';
+    html += '<div style="font:inherit;font-size:clamp(28px,2.5vw,42px);font-weight:800;line-height:1.2;margin:18px 0 18px 0;color:var(--text);">';
+    html += (q.prompt || q.q || q.question || 'Question unavailable');
+    html += '</div>';
+
     html += '<div>';
     opts.forEach(function (o, i) {
-      html += ''
-        + '<button class="race-opt" data-i="' + i + '" '
-        + 'style="display:block;width:100%;text-align:left;padding:16px 18px;margin:10px 0;'
-        + 'border:2px solid var(--bord);border-radius:16px;background:var(--surf2);color:var(--text);'
-        + 'font-size:clamp(16px, 4vw, 18px);font-weight:600;cursor:pointer;">'
-        + String.fromCharCode(65 + i) + '. ' + o
-        + '</button>';
+      html += raceOptionButtonHtml(String.fromCharCode(65 + i), i, o);
     });
     html += '</div>';
-    html += '<div id="raceFeedback" style="display:none;"></div>';
-    html += '<button id="raceSubmit" style="display:none;margin-top:12px;" class="btn primary">Submit ⚡</button>';
+
+    html += '<div id="raceFeedback" style="display:none;font:inherit;"></div>';
+
+    html += '<div style="margin-top:18px;">';
+    html += '<button id="raceSubmit" class="' + buttonClass() + '" style="display:none;min-width:190px;padding:14px 22px;font:inherit;font-size:18px;font-weight:700;border-radius:14px;">Submit ⚡</button>';
+    html += '</div>';
 
     qArea.innerHTML = html;
 
@@ -507,15 +524,14 @@
         optEls.forEach(function (o) {
           o.style.borderColor = 'var(--bord)';
           o.style.background = 'var(--surf2)';
-          o.style.fontWeight = '';
+          o.style.fontWeight = '700';
         });
 
         el.style.borderColor = 'var(--teal)';
         el.style.background = 'rgba(0,188,212,0.12)';
-        el.style.fontWeight = '700';
         selected = parseInt(el.dataset.i, 10);
 
-        if (submitEl) submitEl.style.display = 'block';
+        if (submitEl) submitEl.style.display = 'inline-flex';
       };
     });
 
@@ -524,7 +540,7 @@
         if (selected === null) return;
 
         var correct = q.correctIndex;
-        if (submitEl) submitEl.style.display = 'none';
+        submitEl.style.display = 'none';
 
         optEls.forEach(function (o) {
           o.style.pointerEvents = 'none';
@@ -540,7 +556,7 @@
           optEls[selected].style.borderColor = 'var(--green)';
 
           if (feedbackEl) {
-            feedbackEl.style.cssText = 'display:block;background:var(--green-l);color:var(--green-d);border:1px solid var(--green);padding:8px;border-radius:7px;margin-top:7px;font-size:12px;';
+            feedbackEl.style.cssText = 'display:block;background:var(--green-l);color:var(--green-d);border:1px solid var(--green);padding:12px 14px;border-radius:12px;margin-top:14px;font:inherit;font-size:16px;';
             feedbackEl.textContent = '✅ Correct! +' + boost + ' speed' + (RACE.streak > 1 ? ' (' + RACE.streak + 'x streak!)' : '');
           }
 
@@ -561,7 +577,7 @@
           }
 
           if (feedbackEl) {
-            feedbackEl.style.cssText = 'display:block;background:rgba(231,76,60,0.1);color:#c0392b;border:1px solid #e74c3c;padding:8px;border-radius:7px;margin-top:7px;font-size:12px;';
+            feedbackEl.style.cssText = 'display:block;background:rgba(231,76,60,0.1);color:#c0392b;border:1px solid #e74c3c;padding:12px 14px;border-radius:12px;margin-top:14px;font:inherit;font-size:16px;';
             feedbackEl.textContent = '❌ ' + (q.explain || 'Wrong answer — no speed boost');
           }
 
@@ -585,7 +601,7 @@
     var qArea = document.getElementById('raceQArea');
 
     if (RACE.qIdx >= RACE.questions.length) {
-      if (qArea) qArea.innerHTML = '<div style="padding:10px;font-weight:700;">All questions answered! 🏁</div>';
+      if (qArea) qArea.innerHTML = '<div style="padding:14px 4px;font:inherit;font-size:20px;font-weight:700;">All questions answered! 🏁</div>';
       return;
     }
 
@@ -618,19 +634,19 @@
     if (raceResult) {
       raceResult.style.display = 'block';
       raceResult.innerHTML =
-        '<div style="text-align:center;padding:18px;">'
+        '<div style="text-align:center;padding:18px;font:inherit;color:var(--text);">'
         + '<div style="font-size:54px;">' + medal + '</div>'
-        + '<div style="font-size:28px;font-weight:800;margin-top:8px;">' + placeStr + ' Place!</div>'
-        + '<div style="margin-top:10px;font-size:18px;">Score: ' + RACE.score + ' pts</div>'
-        + '<div style="margin-top:6px;">Answered ' + RACE.qIdx + '/' + RACE.questions.length + ' questions</div>'
-        + '<div style="margin-top:12px;font-size:14px;">FINISH ORDER: '
+        + '<div style="font-size:32px;font-weight:800;margin-top:8px;">' + placeStr + ' Place!</div>'
+        + '<div style="margin-top:10px;font-size:20px;">Score: ' + RACE.score + ' pts</div>'
+        + '<div style="margin-top:6px;font-size:18px;">Answered ' + RACE.qIdx + '/' + RACE.questions.length + ' questions</div>'
+        + '<div style="margin-top:12px;font-size:15px;">FINISH ORDER: '
         + RACE.finishOrder.map(function (f) {
           return f === 'player' ? 'YOU' : AI_NAMES[parseInt(f.slice(2), 10)];
         }).join(' → ')
         + '</div>'
         + '<div style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">'
-        + '<button class="btn primary" onclick="startRace()">Race Again 🚀</button>'
-        + '<button class="btn" onclick="showScreen(\'home\')">Back to Home</button>'
+        + '<button class="btn primary" style="padding:14px 22px;font:inherit;font-size:18px;font-weight:700;border-radius:14px;" onclick="startRace()">Race Again 🚀</button>'
+        + '<button class="btn" style="padding:14px 22px;font:inherit;font-size:18px;font-weight:700;border-radius:14px;" onclick="showScreen(\'home\')">Back to Home</button>'
         + '</div>'
         + '</div>';
     }
