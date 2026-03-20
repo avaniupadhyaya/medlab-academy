@@ -1,4 +1,4 @@
-// ── NITRO RACE — responsive + app-styled UI ────────────────────────────────
+// ── NITRO RACE — stable UI + event-specific questions + difficulty selector ──
 (function () {
   var RACE = {
     active: false,
@@ -13,12 +13,15 @@
     streak: 0,
     finished: false,
     finishOrder: [],
-    event: null
+    event: null,
+    difficulty: 'medium',
+    canvasReady: false
   };
 
   var AI_NAMES = ['Alex', 'Sam', 'Jordan'];
-  var AI_COLORS = ['#e74c3c', '#f39c12', '#9b59b6'];
-  var PLAYER_COLOR = '#00bcd4';
+  var AI_COLORS = ['#ef4444', '#f59e0b', '#8b5cf6'];
+  var PLAYER_COLOR = '#14b8a6';
+  var SUPPORTED_DIFFICULTIES = ['easy', 'medium', 'hard'];
 
   function normText(v) {
     return String(v == null ? '' : v).trim();
@@ -85,7 +88,7 @@
     );
   }
 
-  function normalizeQuestion(raw, sourceTag) {
+  function normalizeQuestion(raw, sourceTag, difficultyTag) {
     if (!raw) return null;
 
     var prompt = questionStem(raw);
@@ -128,7 +131,8 @@
       opts: opts,
       correctIndex: correctIndex,
       explain: explanation,
-      source: sourceTag || 'quiz'
+      source: sourceTag || 'quiz',
+      difficulty: difficultyTag || raw.difficulty || 'medium'
     };
   }
 
@@ -140,13 +144,14 @@
     return normText(card && (card.def || card.definition || card.back || card.meaning || card.answer));
   }
 
-  function flashcardToQuestion(card, allCards) {
+  function flashcardToQuestion(card, allCards, difficultyTag) {
     var term = cardTerm(card);
     var def = cardDef(card);
     if (!term || !def) return null;
 
     var distractors = [];
     var seen = {};
+
     (allCards || []).forEach(function (c) {
       var d = cardDef(c);
       if (!d) return;
@@ -177,7 +182,8 @@
       opts: opts,
       correctIndex: correctIndex,
       explain: explainText(card) || def,
-      source: 'flashcard'
+      source: 'flashcard',
+      difficulty: difficultyTag || card.difficulty || 'medium'
     };
   }
 
@@ -186,107 +192,110 @@
     return null;
   }
 
-  function getDiagnosisDetectiveFallback() {
-    var out = [];
-
-    if (
-      typeof window !== 'undefined' &&
-      window.QUESTION_BANK &&
-      window.QUESTION_BANK.diagnosisDetective
-    ) {
-      ['easy', 'medium', 'hard'].forEach(function (d) {
-        var bucket = window.QUESTION_BANK.diagnosisDetective[d] || [];
-        bucket.forEach(function (item) {
-          var normalized = normalizeQuestion({
-            q: item.scenario || item.q || item.question,
-            opts: item.options || item.opts || item.choices,
-            correct: item.correct,
-            explain: item.explain || item.explanation
-          }, 'diagnosisDetective');
-
-          if (normalized) out.push(normalized);
-        });
-      });
+  function getCurrentDifficulty() {
+    if (window.S && window.S.difficulty && SUPPORTED_DIFFICULTIES.indexOf(window.S.difficulty) !== -1) {
+      return window.S.difficulty;
     }
-
-    return out;
+    return RACE.difficulty || 'medium';
   }
 
-  function getRaceQuestions(evId) {
-  var ev = getEvent(evId);
-  if (!ev) return [];
+  function setCurrentDifficulty(value) {
+    var next = SUPPORTED_DIFFICULTIES.indexOf(value) !== -1 ? value : 'medium';
+    RACE.difficulty = next;
+    if (window.S) {
+      window.S.difficulty = next;
+    }
+  }
 
-  var quizPool = [];
-
-  // 1️⃣ STRICT: Only pull quiz from THIS event
-  ['easy', 'medium', 'hard'].forEach(function (d) {
+  function gatherQuizForDifficulty(ev, difficulty) {
     var bucket = [];
     try {
-      bucket = ev.getQuiz ? (ev.getQuiz(d) || []) : [];
+      bucket = ev.getQuiz ? (ev.getQuiz(difficulty) || []) : [];
     } catch (e) {
       bucket = [];
     }
 
-    bucket.forEach(function (item) {
-      var normalized = normalizeQuestion(item, 'quiz');
-      if (normalized) quizPool.push(normalized);
-    });
-  });
+    return bucket
+      .map(function (item) { return normalizeQuestion(item, 'quiz', difficulty); })
+      .filter(Boolean);
+  }
 
-  // ❌ REMOVE GLOBAL FALLBACK (this was causing cross-event mixing)
-  // if (!quizPool.length) {
-  //   quizPool = quizPool.concat(getDiagnosisDetectiveFallback());
-  // }
-
-  // 2️⃣ STRICT: Only pull flashcards from THIS event
-  var flashcards = [];
-  ['easy', 'medium', 'hard'].forEach(function (d) {
+  function gatherFlashForDifficulty(ev, difficulty) {
     var cards = [];
     try {
-      cards = ev.getFlash ? (ev.getFlash(d) || []) : [];
+      cards = ev.getFlash ? (ev.getFlash(difficulty) || []) : [];
     } catch (e) {
       cards = [];
     }
-    flashcards = flashcards.concat(cards);
-  });
-
-  flashcards = uniqBy(flashcards, function (c) {
-    return normKey(cardTerm(c) + '::' + cardDef(c));
-  });
-
-  var flashQuestions = [];
-  flashcards.forEach(function (card) {
-    var q = flashcardToQuestion(card, flashcards);
-    if (q) flashQuestions.push(q);
-  });
-
-  // 3️⃣ Combine ONLY same-event data
-  var merged = uniqBy(
-    quizPool.concat(flashQuestions),
-    function (q) {
-      return normKey(q.prompt);
-    }
-  );
-
-  // 4️⃣ Safety: if event has very low content, repeat instead of mixing events
-  if (merged.length < 10 && merged.length > 0) {
-    var expanded = [];
-    while (expanded.length < 20) {
-      expanded = expanded.concat(shuffle(merged));
-    }
-    merged = expanded;
+    return cards || [];
   }
 
-  return shuffle(merged).slice(0, 20);
-}
+  function buildDifficultyPool(ev, difficulty) {
+    var quizPool = gatherQuizForDifficulty(ev, difficulty);
+
+    var flashcards = gatherFlashForDifficulty(ev, difficulty);
+    flashcards = uniqBy(flashcards, function (c) {
+      return normKey(cardTerm(c) + '::' + cardDef(c));
+    });
+
+    var flashQuestions = flashcards
+      .map(function (card) {
+        return flashcardToQuestion(card, flashcards, difficulty);
+      })
+      .filter(Boolean);
+
+    return uniqBy(
+      quizPool.concat(flashQuestions),
+      function (q) { return normKey(q.prompt); }
+    );
+  }
+
+  function getRaceQuestions(evId, difficulty) {
+    var ev = getEvent(evId);
+    if (!ev) return [];
+
+    // Strictly only selected event
+    var primaryPool = buildDifficultyPool(ev, difficulty);
+
+    // If the chosen difficulty is sparse, top up from same event only
+    var merged = primaryPool.slice();
+
+    if (merged.length < 12) {
+      SUPPORTED_DIFFICULTIES.forEach(function (d) {
+        if (d === difficulty) return;
+        var extra = buildDifficultyPool(ev, d);
+        merged = uniqBy(
+          merged.concat(extra),
+          function (q) { return normKey(q.prompt); }
+        );
+      });
+    }
+
+    // Better to repeat same-event questions than mix events
+    if (merged.length > 0 && merged.length < 20) {
+      var expanded = [];
+      while (expanded.length < 20) {
+        expanded = expanded.concat(shuffle(merged));
+      }
+      merged = expanded;
+    }
+
+    return shuffle(merged).slice(0, 20);
+  }
+
+  function getButtonClass() {
+    var startBtn = document.getElementById('raceStartBtn');
+    if (startBtn && startBtn.className) return startBtn.className;
+    return 'btn primary';
+  }
 
   function fitRaceCanvas() {
     var canvas = document.getElementById('raceCanvas');
     if (!canvas) return;
 
     var parent = canvas.parentElement;
-    var cssWidth = Math.max(320, Math.min(parent ? parent.clientWidth : window.innerWidth, window.innerWidth - 16));
-    var cssHeight = Math.max(130, Math.min(190, Math.round(cssWidth * 0.28)));
+    var cssWidth = Math.max(360, Math.min(parent ? parent.clientWidth : window.innerWidth, window.innerWidth - 24));
+    var cssHeight = Math.max(180, Math.min(220, Math.round(cssWidth * 0.26)));
     var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
 
     canvas.style.width = cssWidth + 'px';
@@ -296,19 +305,77 @@
 
     var ctx = canvas.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    RACE.canvasReady = true;
   }
 
-  function buttonClass() {
-    return 'btn primary';
+  function ensureDifficultyControls() {
+    var container = document.getElementById('raceDifficultyWrap');
+    var statusEl = document.getElementById('raceStatus');
+    if (!statusEl) return;
+
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'raceDifficultyWrap';
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.gap = '10px';
+      container.style.flexWrap = 'wrap';
+      container.style.marginTop = '10px';
+      container.style.marginBottom = '8px';
+
+      var label = document.createElement('div');
+      label.textContent = 'Difficulty';
+      label.style.fontFamily = 'inherit';
+      label.style.fontSize = '14px';
+      label.style.fontWeight = '600';
+      label.style.color = 'var(--text)';
+      container.appendChild(label);
+
+      var select = document.createElement('select');
+      select.id = 'raceDifficultySelect';
+      select.style.padding = '10px 12px';
+      select.style.borderRadius = '12px';
+      select.style.border = '1px solid var(--bord)';
+      select.style.background = 'var(--surf2)';
+      select.style.color = 'var(--text)';
+      select.style.fontFamily = 'inherit';
+      select.style.fontSize = '14px';
+      select.style.fontWeight = '600';
+      select.style.minWidth = '130px';
+
+      SUPPORTED_DIFFICULTIES.forEach(function (d) {
+        var option = document.createElement('option');
+        option.value = d;
+        option.textContent = d.charAt(0).toUpperCase() + d.slice(1);
+        select.appendChild(option);
+      });
+
+      select.addEventListener('change', function () {
+        setCurrentDifficulty(select.value);
+        if (RACE.active) {
+          initRace(window.S && window.S.currentEvent ? window.S.currentEvent : 'terminology');
+        } else {
+          window.renderRaceGame();
+        }
+      });
+
+      container.appendChild(select);
+      statusEl.parentNode.insertBefore(container, statusEl.nextSibling);
+    }
+
+    var selectEl = document.getElementById('raceDifficultySelect');
+    if (selectEl) {
+      selectEl.value = getCurrentDifficulty();
+    }
   }
 
-  function raceOptionButtonHtml(label, i, text) {
+  function optionButtonHtml(label, i, text) {
     return (
       '<button class="race-opt" data-i="' + i + '" ' +
       'style="' +
-      'display:block;width:100%;text-align:left;padding:18px 20px;margin:12px 0;' +
-      'border:2px solid var(--bord);border-radius:20px;background:var(--surf2);' +
-      'color:var(--text);font:inherit;font-size:clamp(18px,2vw,22px);font-weight:700;' +
+      'display:block;width:100%;text-align:left;padding:14px 16px;margin:10px 0;' +
+      'border:2px solid var(--bord);border-radius:16px;background:var(--surf2);' +
+      'color:var(--text);font-family:inherit;font-size:15px;font-weight:600;' +
       'line-height:1.35;cursor:pointer;box-shadow:0 1px 0 rgba(255,255,255,0.04) inset;' +
       '">' +
       label + '. ' + text +
@@ -317,12 +384,13 @@
   }
 
   function initRace(evId) {
-    RACE.questions = getRaceQuestions(evId);
+    var difficulty = getCurrentDifficulty();
+    RACE.questions = getRaceQuestions(evId, difficulty);
 
     if (!RACE.questions.length) {
       var statusEl = document.getElementById('raceStatus');
       if (statusEl) {
-        statusEl.textContent = 'No usable practice questions found for this event yet.';
+        statusEl.textContent = 'No usable ' + difficulty + ' practice questions found for this event yet.';
       }
       return;
     }
@@ -331,17 +399,14 @@
     RACE.qIdx = 0;
     RACE.playerPos = 0;
     RACE.aiPos = [0, 0, 0];
-    RACE.aiSpeed = [
-      0.28 + Math.random() * 0.12,
-      0.22 + Math.random() * 0.15,
-      0.18 + Math.random() * 0.18
-    ];
+    RACE.aiSpeed = [0.20, 0.18, 0.16];
     RACE.playerSpeed = 0;
     RACE.score = 0;
     RACE.streak = 0;
     RACE.finished = false;
     RACE.finishOrder = [];
     RACE.event = evId;
+    RACE.difficulty = difficulty;
 
     fitRaceCanvas();
 
@@ -354,10 +419,11 @@
     if (raceQuestion) raceQuestion.style.display = 'block';
     if (raceResult) raceResult.style.display = 'none';
     if (raceStartBtn) raceStartBtn.style.display = 'none';
-    if (raceStatus) raceStatus.textContent = '';
+    if (raceStatus) raceStatus.textContent = 'Now racing in ' + difficulty + ' mode.';
     if (streakBar) streakBar.style.width = '0%';
 
     renderRaceQ();
+    drawTrack();
 
     if (RACE.frameId) cancelAnimationFrame(RACE.frameId);
     raceLoop();
@@ -375,8 +441,8 @@
       }
     }
 
-    RACE.playerSpeed = Math.max(0, RACE.playerSpeed - 0.15);
-    RACE.playerPos = Math.min(100, RACE.playerPos + RACE.playerSpeed * 0.5);
+    RACE.playerSpeed = Math.max(0, RACE.playerSpeed - 0.13);
+    RACE.playerPos = Math.min(100, RACE.playerPos + RACE.playerSpeed * 0.48);
 
     if (RACE.playerPos >= 100 && RACE.finishOrder.indexOf('player') === -1) {
       RACE.finishOrder.push('player');
@@ -394,49 +460,51 @@
 
   function drawTrack() {
     var canvas = document.getElementById('raceCanvas');
-    if (!canvas) return;
-
-    fitRaceCanvas();
+    if (!canvas || !RACE.canvasReady) return;
 
     var ctx = canvas.getContext('2d');
-    var W = parseFloat(canvas.style.width) || 360;
-    var H = parseFloat(canvas.style.height) || 140;
+    var W = parseFloat(canvas.style.width) || 560;
+    var H = parseFloat(canvas.style.height) || 200;
 
     ctx.clearRect(0, 0, W, H);
 
-    var sky = ctx.createLinearGradient(0, 0, 0, H * 0.5);
-    sky.addColorStop(0, '#0a1628');
-    sky.addColorStop(1, '#1a3a5c');
+    var sky = ctx.createLinearGradient(0, 0, 0, H * 0.54);
+    sky.addColorStop(0, '#081221');
+    sky.addColorStop(1, '#17385c');
     ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H * 0.55);
+    ctx.fillRect(0, 0, W, H * 0.56);
 
-    var road = ctx.createLinearGradient(0, H * 0.5, 0, H);
+    var road = ctx.createLinearGradient(0, H * 0.54, 0, H);
     road.addColorStop(0, '#2a2a2a');
-    road.addColorStop(1, '#1a1a1a');
+    road.addColorStop(1, '#181818');
     ctx.fillStyle = road;
-    ctx.fillRect(0, H * 0.5, W, H * 0.5);
+    ctx.fillRect(0, H * 0.56, W, H * 0.44);
 
-    ctx.strokeStyle = '#ffcc00';
-    ctx.lineWidth = Math.max(2, W * 0.004);
-    ctx.setLineDash([Math.max(12, W * 0.04), Math.max(8, W * 0.03)]);
-    ctx.beginPath();
-    ctx.moveTo(0, H * 0.72);
-    ctx.lineTo(W, H * 0.72);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    var finW = Math.max(14, W * 0.03);
-    var finX = W - finW - 8;
-    for (var fi = 0; fi < 8; fi++) {
-      ctx.fillStyle = fi % 2 === 0 ? '#fff' : '#000';
-      ctx.fillRect(finX, H * 0.52 + fi * (H * 0.06), finW, H * 0.06);
+    var finishW = 18;
+    var finishX = W - finishW - 14;
+    for (var fi = 0; fi < 10; fi++) {
+      ctx.fillStyle = fi % 2 === 0 ? '#fff' : '#111';
+      ctx.fillRect(finishX, H * 0.57 + fi * (H * 0.04), finishW, H * 0.04);
     }
 
-    var lanes = [H * 0.58, H * 0.66, H * 0.74, H * 0.82];
-    var carW = Math.max(26, Math.min(36, W * 0.08));
-    var carH = Math.max(10, Math.min(14, H * 0.1));
-    var startX = Math.max(20, W * 0.04);
-    var travelW = finX - startX - carW - 8;
+    var laneTop = H * 0.62;
+    var laneGap = H * 0.095;
+    var lanes = [laneTop, laneTop + laneGap, laneTop + laneGap * 2, laneTop + laneGap * 3];
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.lineWidth = 1;
+    for (var li = 0; li < lanes.length; li++) {
+      ctx.beginPath();
+      ctx.moveTo(70, lanes[li] + 12);
+      ctx.lineTo(finishX - 10, lanes[li] + 12);
+      ctx.stroke();
+    }
+
+    var leftLabelX = 38;
+    var startX = 96;
+    var carW = 28;
+    var carH = 12;
+    var travelW = finishX - startX - carW - 14;
 
     var carData = [
       { pos: RACE.playerPos, color: PLAYER_COLOR, label: 'YOU', lane: lanes[0] },
@@ -449,47 +517,51 @@
       var x = startX + (car.pos / 100) * travelW;
       var y = car.lane;
 
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '600 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(car.label, leftLabelX, y + 3);
+
       ctx.fillStyle = car.color;
       ctx.beginPath();
       ctx.roundRect(x - carW / 2, y - carH / 2, carW, carH, 4);
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(200,230,255,0.6)';
+      ctx.fillStyle = 'rgba(220,240,255,0.7)';
       ctx.beginPath();
-      ctx.roundRect(x - carW * 0.1, y - carH * 0.45, carW * 0.4, carH * 0.55, 2);
+      ctx.roundRect(x - 3, y - 5, 9, 5, 2);
       ctx.fill();
 
-      ctx.fillStyle = '#222';
+      ctx.fillStyle = '#111';
       ctx.beginPath();
-      ctx.arc(x - carW * 0.28, y + carH * 0.45, Math.max(2, carH * 0.28), 0, Math.PI * 2);
+      ctx.arc(x - 8, y + 6, 2.4, 0, Math.PI * 2);
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(x + carW * 0.28, y + carH * 0.45, Math.max(2, carH * 0.28), 0, Math.PI * 2);
+      ctx.arc(x + 8, y + 6, 2.4, 0, Math.PI * 2);
       ctx.fill();
-
-      ctx.fillStyle = '#ffe066';
-      ctx.beginPath();
-      ctx.arc(x + carW * 0.52, y, Math.max(2, carH * 0.18), 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = '#fff';
-      ctx.font = '600 ' + Math.max(10, Math.round(W * 0.022)) + 'px Inter, system-ui, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(car.label, x, y - carH * 0.9);
     });
 
-    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([22, 14]);
+    ctx.beginPath();
+    ctx.moveTo(startX - 10, H * 0.75);
+    ctx.lineTo(finishX - 12, H * 0.75);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = 'rgba(0,0,0,0.52)';
     ctx.fillRect(0, H - 18, W, 18);
 
     ctx.fillStyle = PLAYER_COLOR;
     ctx.fillRect(0, H - 18, (RACE.playerPos / 100) * W, 18);
 
     ctx.fillStyle = '#fff';
-    ctx.font = Math.max(10, Math.round(W * 0.022)) + 'px Inter, system-ui, sans-serif';
+    ctx.font = '600 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(
-      'Progress: ' + Math.round(RACE.playerPos) + '%   Q:' + (RACE.qIdx + 1) + '/' + RACE.questions.length,
-      8,
+      'Progress: ' + Math.round(RACE.playerPos) + '%   Q:' + (RACE.qIdx + 1) + '/' + RACE.questions.length + '   ' + RACE.difficulty.toUpperCase(),
+      10,
       H - 5
     );
   }
@@ -499,7 +571,7 @@
     if (!qArea) return;
 
     if (RACE.qIdx >= RACE.questions.length) {
-      qArea.innerHTML = '<div style="padding:14px 4px;font:inherit;font-size:20px;font-weight:700;">All questions answered! Finishing race...</div>';
+      qArea.innerHTML = '<div style="padding:14px 2px;font-family:inherit;font-size:16px;font-weight:700;color:var(--text);">All questions answered! Finishing race...</div>';
       return;
     }
 
@@ -507,20 +579,23 @@
     var opts = q.opts || [];
 
     var html = '';
-    html += '<div style="font:inherit;font-size:clamp(28px,2.5vw,42px);font-weight:800;line-height:1.2;margin:18px 0 18px 0;color:var(--text);">';
-    html += (q.prompt || q.q || q.question || 'Question unavailable');
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0 10px 0;">';
+    html += '<div style="font-family:inherit;font-size:13px;font-weight:700;color:var(--muted, #94a3b8);letter-spacing:.04em;text-transform:uppercase;">Nitro Race • ' + RACE.difficulty + '</div>';
+    html += '</div>';
+
+    html += '<div style="font-family:inherit;font-size:16px;font-weight:700;line-height:1.45;margin:8px 0 14px 0;color:var(--text);">';
+    html += (q.prompt || 'Question unavailable');
     html += '</div>';
 
     html += '<div>';
     opts.forEach(function (o, i) {
-      html += raceOptionButtonHtml(String.fromCharCode(65 + i), i, o);
+      html += optionButtonHtml(String.fromCharCode(65 + i), i, o);
     });
     html += '</div>';
 
-    html += '<div id="raceFeedback" style="display:none;font:inherit;"></div>';
-
-    html += '<div style="margin-top:18px;">';
-    html += '<button id="raceSubmit" class="' + buttonClass() + '" style="display:none;min-width:190px;padding:14px 22px;font:inherit;font-size:18px;font-weight:700;border-radius:14px;">Submit ⚡</button>';
+    html += '<div id="raceFeedback" style="display:none;font-family:inherit;"></div>';
+    html += '<div style="margin-top:16px;">';
+    html += '<button id="raceSubmit" class="' + getButtonClass() + '" style="display:none;min-width:180px;padding:12px 18px;font-family:inherit;font-size:15px;font-weight:700;border-radius:14px;">Submit ⚡</button>';
     html += '</div>';
 
     qArea.innerHTML = html;
@@ -537,11 +612,11 @@
         optEls.forEach(function (o) {
           o.style.borderColor = 'var(--bord)';
           o.style.background = 'var(--surf2)';
-          o.style.fontWeight = '700';
+          o.style.fontWeight = '600';
         });
 
         el.style.borderColor = 'var(--teal)';
-        el.style.background = 'rgba(0,188,212,0.12)';
+        el.style.background = 'rgba(20,184,166,0.12)';
         selected = parseInt(el.dataset.i, 10);
 
         if (submitEl) submitEl.style.display = 'inline-flex';
@@ -561,28 +636,28 @@
 
         if (selected === correct) {
           RACE.streak++;
-          var boost = 3 + Math.min(RACE.streak, 5);
-          RACE.playerSpeed = Math.min(12, RACE.playerSpeed + boost);
+          var boost = 2.8 + Math.min(RACE.streak, 5);
+          RACE.playerSpeed = Math.min(11, RACE.playerSpeed + boost);
           RACE.score += 100 + (RACE.streak > 1 ? RACE.streak * 20 : 0);
 
           optEls[selected].style.background = 'var(--green-l)';
           optEls[selected].style.borderColor = 'var(--green)';
 
           if (feedbackEl) {
-            feedbackEl.style.cssText = 'display:block;background:var(--green-l);color:var(--green-d);border:1px solid var(--green);padding:12px 14px;border-radius:12px;margin-top:14px;font:inherit;font-size:16px;';
-            feedbackEl.textContent = '✅ Correct! +' + boost + ' speed' + (RACE.streak > 1 ? ' (' + RACE.streak + 'x streak!)' : '');
+            feedbackEl.style.cssText = 'display:block;background:var(--green-l);color:var(--green-d);border:1px solid var(--green);padding:10px 12px;border-radius:12px;margin-top:12px;font-family:inherit;font-size:13px;';
+            feedbackEl.textContent = '✅ Correct! +' + Math.round(boost) + ' speed' + (RACE.streak > 1 ? ' (' + RACE.streak + 'x streak!)' : '');
           }
 
           updateStreakBar();
           setTimeout(function () {
             nextRaceQ();
-          }, 1200);
+          }, 1000);
         } else {
           RACE.streak = 0;
-          RACE.playerSpeed = Math.max(0, RACE.playerSpeed - 1);
+          RACE.playerSpeed = Math.max(0, RACE.playerSpeed - 0.9);
 
-          optEls[selected].style.background = 'rgba(231,76,60,0.15)';
-          optEls[selected].style.borderColor = '#e74c3c';
+          optEls[selected].style.background = 'rgba(239,68,68,0.14)';
+          optEls[selected].style.borderColor = '#ef4444';
 
           if (optEls[correct]) {
             optEls[correct].style.background = 'var(--green-l)';
@@ -590,14 +665,14 @@
           }
 
           if (feedbackEl) {
-            feedbackEl.style.cssText = 'display:block;background:rgba(231,76,60,0.1);color:#c0392b;border:1px solid #e74c3c;padding:12px 14px;border-radius:12px;margin-top:14px;font:inherit;font-size:16px;';
+            feedbackEl.style.cssText = 'display:block;background:rgba(239,68,68,0.08);color:#b91c1c;border:1px solid #ef4444;padding:10px 12px;border-radius:12px;margin-top:12px;font-family:inherit;font-size:13px;';
             feedbackEl.textContent = '❌ ' + (q.explain || 'Wrong answer — no speed boost');
           }
 
           updateStreakBar();
           setTimeout(function () {
             nextRaceQ();
-          }, 1800);
+          }, 1500);
         }
       };
     }
@@ -611,10 +686,12 @@
 
   function nextRaceQ() {
     RACE.qIdx++;
-    var qArea = document.getElementById('raceQArea');
 
     if (RACE.qIdx >= RACE.questions.length) {
-      if (qArea) qArea.innerHTML = '<div style="padding:14px 4px;font:inherit;font-size:20px;font-weight:700;">All questions answered! 🏁</div>';
+      var qArea = document.getElementById('raceQArea');
+      if (qArea) {
+        qArea.innerHTML = '<div style="padding:14px 2px;font-family:inherit;font-size:16px;font-weight:700;color:var(--text);">All questions answered! 🏁</div>';
+      }
       return;
     }
 
@@ -647,19 +724,19 @@
     if (raceResult) {
       raceResult.style.display = 'block';
       raceResult.innerHTML =
-        '<div style="text-align:center;padding:18px;font:inherit;color:var(--text);">'
-        + '<div style="font-size:54px;">' + medal + '</div>'
-        + '<div style="font-size:32px;font-weight:800;margin-top:8px;">' + placeStr + ' Place!</div>'
-        + '<div style="margin-top:10px;font-size:20px;">Score: ' + RACE.score + ' pts</div>'
-        + '<div style="margin-top:6px;font-size:18px;">Answered ' + RACE.qIdx + '/' + RACE.questions.length + ' questions</div>'
-        + '<div style="margin-top:12px;font-size:15px;">FINISH ORDER: '
+        '<div style="text-align:center;padding:18px;font-family:inherit;color:var(--text);">'
+        + '<div style="font-size:48px;">' + medal + '</div>'
+        + '<div style="font-size:26px;font-weight:800;margin-top:8px;">' + placeStr + ' Place!</div>'
+        + '<div style="margin-top:10px;font-size:17px;">Score: ' + RACE.score + ' pts</div>'
+        + '<div style="margin-top:6px;font-size:15px;">Answered ' + RACE.qIdx + '/' + RACE.questions.length + ' questions</div>'
+        + '<div style="margin-top:12px;font-size:13px;">FINISH ORDER: '
         + RACE.finishOrder.map(function (f) {
           return f === 'player' ? 'YOU' : AI_NAMES[parseInt(f.slice(2), 10)];
         }).join(' → ')
         + '</div>'
         + '<div style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">'
-        + '<button class="btn primary" style="padding:14px 22px;font:inherit;font-size:18px;font-weight:700;border-radius:14px;" onclick="startRace()">Race Again 🚀</button>'
-        + '<button class="btn" style="padding:14px 22px;font:inherit;font-size:18px;font-weight:700;border-radius:14px;" onclick="showScreen(\'home\')">Back to Home</button>'
+        + '<button class="' + getButtonClass() + '" style="padding:12px 18px;font-family:inherit;font-size:15px;font-weight:700;border-radius:14px;" onclick="startRace()">Race Again 🚀</button>'
+        + '<button class="btn" style="padding:12px 18px;font-family:inherit;font-size:15px;font-weight:700;border-radius:14px;" onclick="showScreen(\'home\')">Back to Home</button>'
         + '</div>'
         + '</div>';
     }
@@ -674,8 +751,10 @@
     var evId = window.S && window.S.currentEvent ? window.S.currentEvent : 'terminology';
     var ev = getEvent(evId);
     var evName = ev ? ev.name : 'Current Event';
+    var difficulty = getCurrentDifficulty();
 
     fitRaceCanvas();
+    ensureDifficultyControls();
 
     var lbl = document.getElementById('raceEventName');
     var startBtn = document.getElementById('raceStartBtn');
@@ -684,22 +763,24 @@
     var rs = document.getElementById('raceStatus');
 
     if (lbl) lbl.textContent = evName;
-    if (startBtn) startBtn.style.display = 'block';
+    if (startBtn) startBtn.style.display = 'inline-flex';
     if (rq) rq.style.display = 'none';
     if (rr) rr.style.display = 'none';
 
-    var previewCount = getRaceQuestions(evId).length;
+    var previewCount = getRaceQuestions(evId, difficulty).length;
     if (rs) {
       rs.textContent = previewCount
-        ? ('Loaded ' + previewCount + ' practice questions for this event.')
-        : 'No usable practice questions found for this event yet.';
+        ? ('Loaded ' + previewCount + ' ' + difficulty + ' practice questions for ' + evName + '.')
+        : ('No usable ' + difficulty + ' practice questions found for ' + evName + ' yet.');
     }
 
     drawTrack();
   };
 
   window.initRaceScreen = window.renderRaceGame;
+
   window.addEventListener('resize', function () {
-    if (document.getElementById('raceCanvas')) drawTrack();
+    fitRaceCanvas();
+    drawTrack();
   });
 })();
