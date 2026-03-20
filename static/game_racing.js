@@ -25,7 +25,7 @@ var PLAYER_COLOR = '#00bcd4';
 
 function getRaceQuestions(evId){
   var pool = [];
-  var ev = window.EVENTS && window.EVENTS[evId];
+  var ev = EVENTS && EVENTS[evId];
   if(!ev) return pool;
   // Gather from quiz pool (easy + medium)
   var qb = (ev.getQuiz('easy')||[]).concat(ev.getQuiz('medium')||[]);
@@ -279,7 +279,7 @@ window.startRace = function(){
 
 window.renderRaceGame = function(){
   var evId = window.S && window.S.currentEvent ? window.S.currentEvent : 'terminology';
-  var evName = window.EVENTS && window.EVENTS[evId] ? window.EVENTS[evId].name : 'Current Event';
+  var evName = EVENTS && EVENTS[evId] ? EVENTS[evId].name : 'Current Event';
   var lbl = document.getElementById('raceEventName');
   if(lbl) lbl.textContent = evName;
   var startBtn = document.getElementById('raceStartBtn');
