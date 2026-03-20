@@ -48,9 +48,8 @@ function renderRaceGame() {
   if(NR.anim){cancelAnimationFrame(NR.anim);NR.anim=null;}
   NR.state=null;
   // Default to currently selected event, or first available
-  if(!NR.selectedEvent) {
-    NR.selectedEvent = (window.S&&window.S.currentEvent) || 'terminology';
-  }
+  // Always sync with the currently selected event from the sidebar
+  NR.selectedEvent = (window.S&&window.S.currentEvent) || NR.selectedEvent || 'terminology';
   nrShowLobby();
 }
 window.renderRaceGame=renderRaceGame;
@@ -67,8 +66,10 @@ function nrShowLobby() {
   var eventsObj = window.EVENTS || {};
   var evKeys = Object.keys(eventsObj);
 
+  // If EVENTS not loaded yet, retry after a short delay
   if(evKeys.length === 0) {
     evOpts = '<div style="padding:10px;font-size:12px;color:var(--muted);">Loading events...</div>';
+    setTimeout(function(){ if(document.getElementById('nrEvList')) nrShowLobby(); }, 300);
   } else {
     evKeys.forEach(function(eid){
       var ev=eventsObj[eid];
