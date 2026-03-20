@@ -6,6 +6,7 @@ const fs = require('fs');
 const window = global;
 
 // ── Load all question bank files ──────────────────────────────────────────
+const BASE = require('path').join(__dirname);
 const FILES = [
   'questions_terminology.js',
   'questions_nutrition.js',
@@ -21,7 +22,7 @@ const FILES = [
 
 let loadErrors = [];
 FILES.forEach(f => {
-  const path = `static/${f}`;
+  const path = require('path').join(BASE, f);
   if (!fs.existsSync(path)) {
     loadErrors.push(`❌ FILE NOT FOUND: ${path}`);
     return;
