@@ -1,4 +1,4 @@
-// ── NITRO RACE — responsive + event-specific + progress outside canvas ──────
+// ── NITRO RACE — responsive + event-specific + auto-submit ─────────────────
 (function () {
   var RACE = {
     active: false,
@@ -197,8 +197,8 @@
   }
 
   function getCurrentDifficulty() {
-    if (window.S && window.S.difficulty && SUPPORTED_DIFFICULTIES.indexOf(window.S.difficulty) !== -1) {
-      return window.S.difficulty;
+    if (typeof S !== 'undefined' && S.difficulty && SUPPORTED_DIFFICULTIES.indexOf(S.difficulty) !== -1) {
+      return S.difficulty;
     }
     return RACE.difficulty || 'medium';
   }
@@ -206,7 +206,7 @@
   function setCurrentDifficulty(value) {
     var next = SUPPORTED_DIFFICULTIES.indexOf(value) !== -1 ? value : 'medium';
     RACE.difficulty = next;
-    if (window.S) window.S.difficulty = next;
+    if (typeof S !== 'undefined') S.difficulty = next;
   }
 
   function gatherQuizForDifficulty(ev, difficulty) {
@@ -281,35 +281,6 @@
     return shuffle(merged).slice(0, 20);
   }
 
-  function getButtonClass() {
-    var startBtn = document.getElementById('raceStartBtn');
-    if (startBtn && startBtn.className) return startBtn.className;
-    return 'btn primary';
-  }
-
-  function fitRaceCanvas() {
-    var canvas = document.getElementById('raceCanvas');
-    if (!canvas) return;
-
-    var parent = canvas.parentElement;
-    var maxWidth = parent ? parent.clientWidth : window.innerWidth;
-    var cssWidth = Math.max(320, Math.min(maxWidth, window.innerWidth - 16));
-    var cssHeight = isMobileRace()
-      ? Math.max(135, Math.min(155, Math.round(cssWidth * 0.20)))
-      : Math.max(180, Math.min(220, Math.round(cssWidth * 0.24)));
-
-    var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
-
-    canvas.style.width = cssWidth + 'px';
-    canvas.style.height = cssHeight + 'px';
-    canvas.width = Math.round(cssWidth * dpr);
-    canvas.height = Math.round(cssHeight * dpr);
-
-    var ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    RACE.canvasReady = true;
-  }
-
   function ensureDifficultyControls() {
     var container = document.getElementById('raceDifficultyWrap');
     var statusEl = document.getElementById('raceStatus');
@@ -355,7 +326,7 @@
       select.addEventListener('change', function () {
         setCurrentDifficulty(select.value);
         if (RACE.active) {
-          initRace(window.S && window.S.currentEvent ? window.S.currentEvent : 'terminology');
+          initRace(typeof S !== 'undefined' && S.currentEvent ? S.currentEvent : 'terminology');
         } else {
           window.renderRaceGame();
         }
@@ -398,6 +369,25 @@
       'Progress ' + Math.round(RACE.playerPos) + '% • Q ' + questionNumber + '/' + total + ' • ' + (RACE.difficulty || getCurrentDifficulty()).toUpperCase();
   }
 
+  function fitRaceCanvas() {
+    var canvas = document.getElementById('raceCanvas');
+    if (!canvas) return;
+
+    var parent = canvas.parentElement;
+    var cssWidth = Math.max(420, Math.min(parent ? parent.clientWidth : window.innerWidth, window.innerWidth - 24));
+    var cssHeight = Math.max(210, Math.min(260, Math.round(cssWidth * 0.28)));
+    var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+
+    canvas.style.width = cssWidth + 'px';
+    canvas.style.height = cssHeight + 'px';
+    canvas.width = Math.round(cssWidth * dpr);
+    canvas.height = Math.round(cssHeight * dpr);
+
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    RACE.canvasReady = true;
+  }
+
   function optionButtonHtml(label, i, text) {
     var mobile = isMobileRace();
     return (
@@ -429,7 +419,14 @@
     RACE.qIdx = 0;
     RACE.playerPos = 0;
     RACE.aiPos = [0, 0, 0];
-    RACE.aiSpeed = [0.20, 0.18, 0.16];
+
+    // Slower AI players
+    RACE.aiSpeed = [
+      0.12 + Math.random() * 0.05,
+      0.10 + Math.random() * 0.05,
+      0.08 + Math.random() * 0.05
+    ];
+
     RACE.playerSpeed = 0;
     RACE.score = 0;
     RACE.streak = 0;
@@ -496,8 +493,7 @@
 
     var ctx = canvas.getContext('2d');
     var W = parseFloat(canvas.style.width) || 560;
-    var H = parseFloat(canvas.style.height) || 200;
-    var mobile = isMobileRace();
+    var H = parseFloat(canvas.style.height) || 220;
 
     ctx.clearRect(0, 0, W, H);
 
@@ -515,39 +511,36 @@
     ctx.fillStyle = road;
     ctx.fillRect(0, roadTop, W, roadBottom - roadTop);
 
-    var finishW = mobile ? 14 : 18;
-    var finishX = W - finishW - (mobile ? 8 : 14);
+    var finishW = 18;
+    var finishX = W - finishW - 14;
     for (var fi = 0; fi < 10; fi++) {
       ctx.fillStyle = fi % 2 === 0 ? '#fff' : '#111';
       ctx.fillRect(finishX, roadTop + 4 + fi * ((roadBottom - roadTop - 8) / 10), finishW, (roadBottom - roadTop - 8) / 10);
     }
 
-    var laneTop = roadTop + 20;
-    var laneGap = mobile ? 24 : 28;
-    var lanes = [laneTop, laneTop + laneGap, laneTop + laneGap * 2, laneTop + laneGap * 3];
+    var lanes = [H * 0.56, H * 0.68, H * 0.80, H * 0.92];
+    var carW = 34;
+    var carH = 14;
+    var startX = 70;
+    var travelW = finishX - startX - carW - 18;
 
     ctx.strokeStyle = 'rgba(255,255,255,0.14)';
     ctx.lineWidth = 1;
     lanes.forEach(function (y) {
       ctx.beginPath();
-      ctx.moveTo(mobile ? 64 : 76, y + 8);
+      ctx.moveTo(64, y + 8);
       ctx.lineTo(finishX - 8, y + 8);
       ctx.stroke();
     });
 
     ctx.strokeStyle = '#facc15';
-    ctx.lineWidth = mobile ? 1.8 : 2;
-    ctx.setLineDash(mobile ? [16, 10] : [22, 14]);
+    ctx.lineWidth = 2;
+    ctx.setLineDash([22, 14]);
     ctx.beginPath();
-    ctx.moveTo((mobile ? 86 : 98) - 8, lanes[1] + 8);
+    ctx.moveTo(startX - 8, lanes[1] + 8);
     ctx.lineTo(finishX - 10, lanes[1] + 8);
     ctx.stroke();
     ctx.setLineDash([]);
-
-    var startX = mobile ? 86 : 98;
-    var carW = mobile ? 24 : 28;
-    var carH = mobile ? 10 : 12;
-    var travelW = finishX - startX - carW - 12;
 
     var carData = [
       { pos: RACE.playerPos, color: PLAYER_COLOR, label: 'YOU', lane: lanes[0] },
@@ -561,7 +554,7 @@
       var y = car.lane;
 
       ctx.fillStyle = '#ffffff';
-      ctx.font = (mobile ? '600 9px' : '600 11px') + ' system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.font = '600 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText(car.label, 8, y + 3);
 
@@ -597,7 +590,6 @@
     var q = RACE.questions[RACE.qIdx];
     var opts = q.opts || [];
     var mobile = isMobileRace();
-    var submitClass = getButtonClass();
 
     var html = '';
     html += '<div style="font-family:inherit;font-size:13px;font-weight:700;line-height:1.3;margin:12px 0 6px 0;color:var(--muted, #94a3b8);letter-spacing:.03em;text-transform:uppercase;">';
@@ -615,106 +607,77 @@
     html += '</div>';
 
     html += '<div id="raceFeedback" style="display:none;font-family:inherit;"></div>';
-    html += '<div style="margin-top:14px;">';
-    html += '<button id="raceSubmit" class="' + submitClass + '" style="display:none;min-width:220px;background:#22c55e;color:white;border:none;border-radius:14px;padding:14px 20px;font-family:inherit;font-size:16px;font-weight:700;box-shadow:none;">Submit ⚡</button>';
-    html += '</div>';
 
     qArea.innerHTML = html;
 
-    var selected = null;
     var feedbackEl = document.getElementById('raceFeedback');
-    var submitEl = document.getElementById('raceSubmit');
     var optEls = document.querySelectorAll('.race-opt');
 
     optEls.forEach(function (el) {
       el.onclick = function () {
         if (feedbackEl && feedbackEl.style.display !== 'none') return;
 
+        var selected = parseInt(el.dataset.i, 10);
+        var correct = q.correctIndex;
+
         optEls.forEach(function (o) {
+          o.style.pointerEvents = 'none';
           o.style.borderColor = 'var(--bord)';
           o.style.background = 'var(--surf2)';
           o.style.color = 'var(--text)';
           o.style.fontWeight = '600';
         });
 
-        el.style.borderColor = 'var(--teal)';
-        el.style.background = 'rgba(20,184,166,0.10)';
-        el.style.color = 'var(--text)';
-        selected = parseInt(el.dataset.i, 10);
-
-        if (submitEl) submitEl.style.display = 'inline-flex';
-      };
-    });
-
-    if (submitEl) {
-      submitEl.onclick = function () {
-        if (selected === null) return;
-
-        var correct = q.correctIndex;
-        submitEl.style.display = 'none';
-
-        optEls.forEach(function (o) {
-          o.style.pointerEvents = 'none';
-        });
-
         if (selected === correct) {
           RACE.streak++;
-          var boost = 4;
-          RACE.playerSpeed = Math.min(11, RACE.playerSpeed + boost);
+          var boost = 3 + Math.min(RACE.streak, 5);
+          RACE.playerSpeed = Math.min(10, RACE.playerSpeed + boost);
           RACE.score += 100 + (RACE.streak > 1 ? RACE.streak * 20 : 0);
 
           optEls[selected].style.background = 'rgba(34,197,94,0.12)';
           optEls[selected].style.borderColor = '#22c55e';
-          optEls[selected].style.color = 'var(--text)';
 
           if (feedbackEl) {
             feedbackEl.style.cssText =
-              'display:block;background:rgba(34,197,94,0.10);color:var(--text);' +
-              'border:1px solid #22c55e;padding:10px 12px;border-radius:12px;margin-top:12px;' +
-              'font-family:inherit;font-size:13px;';
-            feedbackEl.textContent = '✅ Correct! +' + boost + ' speed' + (RACE.streak > 1 ? ' (' + RACE.streak + 'x streak!)' : '');
+              'display:block;background:rgba(34,197,94,0.10);color:var(--text);border:1px solid #22c55e;padding:10px 12px;border-radius:12px;margin-top:12px;font-family:inherit;font-size:13px;';
+            feedbackEl.textContent =
+              '✅ Correct! +' + boost + ' speed' + (RACE.streak > 1 ? ' (' + RACE.streak + 'x streak!)' : '');
           }
 
           updateStreakBar();
           setTimeout(function () {
             nextRaceQ();
-          }, 1000);
+          }, 900);
         } else {
           RACE.streak = 0;
-          RACE.playerSpeed = Math.max(0, RACE.playerSpeed - 1);
+          RACE.playerSpeed = Math.max(0, RACE.playerSpeed - 0.8);
 
           optEls[selected].style.background = 'rgba(239,68,68,0.10)';
           optEls[selected].style.borderColor = '#ef4444';
-          optEls[selected].style.color = 'var(--text)';
 
           if (optEls[correct]) {
             optEls[correct].style.background = 'rgba(34,197,94,0.10)';
             optEls[correct].style.borderColor = '#22c55e';
-            optEls[correct].style.color = 'var(--text)';
           }
 
           if (feedbackEl) {
             feedbackEl.style.cssText =
-              'display:block;background:rgba(239,68,68,0.08);color:var(--text);' +
-              'border:1px solid #ef4444;padding:10px 12px;border-radius:12px;margin-top:12px;' +
-              'font-family:inherit;font-size:13px;';
+              'display:block;background:rgba(239,68,68,0.08);color:var(--text);border:1px solid #ef4444;padding:10px 12px;border-radius:12px;margin-top:12px;font-family:inherit;font-size:13px;';
             feedbackEl.textContent = '❌ ' + (q.explain || 'Wrong answer — no speed boost');
           }
 
           updateStreakBar();
           setTimeout(function () {
             nextRaceQ();
-          }, 1400);
+          }, 1300);
         }
       };
-    }
+    });
 
     if (isMobileRace()) {
       setTimeout(function () {
         var qWrap = document.getElementById('raceQArea');
-        if (qWrap) {
-          qWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (qWrap) qWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 50);
     }
   }
@@ -777,7 +740,7 @@
         }).join(' → ')
         + '</div>'
         + '<div style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">'
-        + '<button class="' + getButtonClass() + '" style="padding:12px 18px;font-family:inherit;font-size:15px;font-weight:700;border-radius:14px;" onclick="startRace()">Race Again 🚀</button>'
+        + '<button class="btn primary" style="padding:12px 18px;font-family:inherit;font-size:15px;font-weight:700;border-radius:14px;" onclick="startRace()">Race Again 🚀</button>'
         + '<button class="btn" style="padding:12px 18px;font-family:inherit;font-size:15px;font-weight:700;border-radius:14px;" onclick="showScreen(\'home\')">Back to Home</button>'
         + '</div>'
         + '</div>';
@@ -785,14 +748,14 @@
   }
 
   window.startRace = function () {
-  var evId = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : 'terminology';
-  initRace(evId);
-};
+    var evId = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : 'terminology';
+    initRace(evId);
+  };
 
   window.renderRaceGame = function () {
-  var evId = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : 'terminology';
-  var ev = getEvent(evId);
-  var evName = ev ? ev.name : 'Current Event';
+    var evId = (typeof S !== 'undefined' && S.currentEvent) ? S.currentEvent : 'terminology';
+    var ev = getEvent(evId);
+    var evName = ev ? ev.name : 'Current Event';
     var difficulty = getCurrentDifficulty();
 
     fitRaceCanvas();
