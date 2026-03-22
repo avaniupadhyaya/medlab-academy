@@ -667,7 +667,7 @@ function showScreen(name){
   S.currentScreen=name;
 
   if(name==='flashcards')initFC();
-  if(name==='quiz')initQZ();
+  if(name==='quiz')showQZStart();
   if(name==='bowl')initBowl();
   if(name==='course')renderCourse();
   if(name==='chat')syncMobileChat();
@@ -1003,6 +1003,68 @@ function fcNext(k){if(k){fcKnown++;addXP(15);S.correct++;}S.total++;fcIdx++;upda
 window.fcNext=fcNext;
 
 // ── QUIZ MODE ─────────────────────────────────────────
+function showQZStart(){
+  const body=document.getElementById('qzBody');
+  const ev=EVENTS[S.currentEvent];
+  document.getElementById('qzEventLabel').textContent=ev?ev.name:'Select event first';
+
+  // Count available questions per difficulty for the current event
+  function qCount(d){ return ev?(ev.getQuiz(d)||[]).length:0; }
+  const counts={easy:qCount('easy'),medium:qCount('medium'),hard:qCount('hard')};
+
+  function diffBtn(id,label,d,cls){
+    const n=counts[d];
+    const active=S.difficulty===d;
+    return `<button onclick="setDiffQZ('${d}')"
+      style="flex:1;padding:14px 8px;border-radius:10px;border:2px solid ${active?'var(--'+cls+')':'var(--bord)'};
+      background:${active?'var(--'+cls+'-l)':'var(--surf2)'};
+      color:${active?'var(--'+cls+'-d)':'var(--txt)'};
+      font-family:var(--font);cursor:pointer;transition:all .15s;text-align:center;" id="qzd_${d}">
+      <div style="font-size:18px;margin-bottom:4px">${id}</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:2px">${label}</div>
+      <div style="font-size:11px;opacity:.7">${Math.min(n,20)} questions</div>
+    </button>`;
+  }
+
+  body.innerHTML=`
+    <div style="padding:8px 0 16px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:4px">Event</div>
+        <div style="font-size:17px;font-weight:700">${ev?ev.icon+' '+ev.name:'No event selected'}</div>
+      </div>
+
+      <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;text-align:center;text-transform:uppercase;letter-spacing:.05em">Select Difficulty</div>
+
+      <div style="display:flex;gap:10px;margin-bottom:20px" id="qzDiffRow">
+        ${diffBtn('🌱','Easy','easy','green')}
+        ${diffBtn('💡','Medium','medium','amber')}
+        ${diffBtn('🔥','Hard','hard','red')}
+      </div>
+
+      <button onclick="initQZ()"
+        style="width:100%;padding:15px;background:var(--teal);color:white;border:none;border-radius:11px;
+        font-size:17px;font-weight:700;cursor:pointer;font-family:var(--font);">
+        Start Quiz →
+      </button>
+    </div>`;
+}
+
+function setDiffQZ(d){
+  S.difficulty=d;
+  saveState();
+  // Update sidebar buttons too
+  document.getElementById('dE').className='db'+(d==='easy'?' ae':'');
+  document.getElementById('dM').className='db'+(d==='medium'?' am':'');
+  document.getElementById('dH').className='db'+(d==='hard'?' ah':'');
+  if(document.getElementById('dE2')){
+    document.getElementById('dE2').className='db'+(d==='easy'?' ae':'');
+    document.getElementById('dM2').className='db'+(d==='medium'?' am':'');
+    document.getElementById('dH2').className='db'+(d==='hard'?' ah':'');
+  }
+  // Re-render start screen to reflect new selection
+  showQZStart();
+}
+
 let qzPool=[],qzIdx=0,qzScore=0,qzCorrect=0,qzTotal=0,qzWrong=[],qzStartTime=0;
 const QZ_SESSION_LENGTH = 20;
 function initQZ(){
@@ -1112,7 +1174,7 @@ function showQZSummary(){
       <div style="font-size:16px;color:var(--muted);margin-bottom:4px">${qzCorrect} / ${qzPool.length} correct</div>
       <div style="font-size:13px;color:var(--muted);margin-bottom:20px">⏱ ${timeStr}</div>
       <div style="display:flex;gap:10px;max-width:340px;margin:0 auto 4px">
-        <button onclick="initQZ()" style="flex:1;padding:13px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);">🔄 Retry</button>
+        <button onclick="showQZStart()" style="flex:1;padding:13px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);">🔄 Retry</button>
         <button onclick="showScreen('home')" style="flex:1;padding:13px;background:var(--surf2);color:var(--txt);border:1px solid var(--bord);border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font);">🏠 Home</button>
       </div>
     </div>
