@@ -1022,7 +1022,7 @@ function showQZStart(){
       font-family:var(--font);cursor:pointer;transition:all .15s;text-align:center;" id="qzd_${d}">
       <div style="font-size:18px;margin-bottom:4px">${id}</div>
       <div style="font-size:14px;font-weight:700;margin-bottom:2px">${label}</div>
-      <div style="font-size:11px;opacity:.7">${Math.min(n,20)} questions</div>
+      <div style="font-size:11px;opacity:.7">${n} questions</div>
     </button>`;
   }
 
@@ -1066,7 +1066,7 @@ function setDiffQZ(d){
 }
 
 let qzPool=[],qzIdx=0,qzScore=0,qzCorrect=0,qzTotal=0,qzWrong=[],qzStartTime=0;
-const QZ_SESSION_LENGTH = 20;
+const QZ_SESSION_LENGTH = Infinity; // full pool — v2 2026-03-22
 function initQZ(){
   const ev=EVENTS[S.currentEvent];
   document.getElementById('qzEventLabel').textContent=ev?ev.name:'Select event first';
@@ -1084,7 +1084,7 @@ function initQZ(){
   // Fisher-Yates shuffle for true randomness
   const arr=[...pool2];
   for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
-  qzPool=arr.slice(0, QZ_SESSION_LENGTH);
+  qzPool=arr;
   qzIdx=0;qzScore=0;qzCorrect=0;qzTotal=0;qzWrong=[];
   qzStartTime=Date.now();
   document.getElementById('qzScore').textContent=0;
