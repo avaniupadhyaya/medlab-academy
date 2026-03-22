@@ -305,14 +305,15 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   transition:all .15s;text-align:center;min-height:80px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
   -webkit-tap-highlight-color:transparent;
+  color:var(--txt);
 }
 .qz-diff-card:active{transform:scale(.97);}
 .qz-diff-card.active-easy{background:var(--green-l);color:var(--green-d);border-color:var(--green);}
 .qz-diff-card.active-medium{background:var(--amber-l);color:var(--amber-d);border-color:var(--amber);}
 .qz-diff-card.active-hard{background:var(--red-l);color:var(--red-d);border-color:var(--red);}
 .qz-diff-card .diff-emoji{font-size:20px;}
-.qz-diff-card .diff-label{font-size:13px;font-weight:700;}
-.qz-diff-card .diff-count{font-size:11px;opacity:.7;}
+.qz-diff-card .diff-label{font-size:13px;font-weight:700;color:inherit;}
+.qz-diff-card .diff-count{font-size:11px;color:var(--muted);}
 </style>
 </head>
 <body>
