@@ -911,14 +911,19 @@ function renderLessonQ(idx){
       }
       ex.classList.add('show');
       S.lastQ=q.q;updateStats();
-      setTimeout(()=>{
-        if(idx+1<lesson.quiz.length){
+      const isLast = idx+1 >= lesson.quiz.length;
+      const nxt = document.createElement('button');
+      nxt.textContent = isLast ? 'Finish Lesson 🎉' : 'Next →';
+      nxt.style.cssText='width:100%;padding:13px;margin-top:10px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);';
+      ex.insertAdjacentElement('afterend', nxt);
+      nxt.addEventListener('click',()=>{
+        if(!isLast){
           renderLessonQ(idx+1);
           document.getElementById('lessonContent').scrollTop=0;
         } else {
           finishLesson();
         }
-      }, 1500);
+      });
     });
   });
 }
@@ -1131,7 +1136,13 @@ function renderQZ(){
       }
       ex.classList.add('show');
       S.lastQ=qText;updateStats();saveState();
-      setTimeout(()=>{qzIdx++;renderQZ();}, 1500);
+      // Show Next button — user advances manually after reading explanation
+      const isLast = qzIdx+1 >= qzPool.length;
+      const nxt = document.createElement('button');
+      nxt.textContent = isLast ? 'See Results 🎉' : 'Next →';
+      nxt.style.cssText='width:100%;padding:13px;margin-top:10px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);';
+      ex.insertAdjacentElement('afterend', nxt);
+      nxt.addEventListener('click',()=>{qzIdx++;renderQZ();});
     });
   });
 }
