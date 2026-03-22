@@ -956,7 +956,8 @@ function renderLessonQ(idx){
     el.addEventListener('click',()=>{
       if(el.closest('.qz-opts').dataset.locked) return;
       el.closest('.qz-opts').dataset.locked = '1';
-      document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
+      const opts = el.closest('.qz-opts');
+      opts.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
       const i=parseInt(el.dataset.i);
       const ex=document.getElementById('lqEx');
       S.total++;
@@ -967,7 +968,7 @@ function renderLessonQ(idx){
         ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';
       } else {
         el.classList.add('wrong');
-        document.querySelectorAll('.qz-opt')[q.correct].classList.add('correct');
+        opts.querySelectorAll('.qz-opt')[q.correct].classList.add('correct');
         ex.textContent='❌ '+q.explain;
         ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';
       }
@@ -1195,7 +1196,8 @@ function renderQZ(){
     el.addEventListener('click',()=>{
       if(el.closest('.qz-opts').dataset.locked) return;
       el.closest('.qz-opts').dataset.locked = '1';
-      document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
+      const opts = el.closest('.qz-opts');
+      opts.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
       const i=parseInt(el.dataset.i);
       const correct=q.correct;
       const ex=document.getElementById('qzEx');
@@ -1208,7 +1210,7 @@ function renderQZ(){
         ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';
       } else {
         el.classList.add('wrong');
-        document.querySelectorAll('.qz-opt')[correct].classList.add('correct');
+        opts.querySelectorAll('.qz-opt')[correct].classList.add('correct');
         ex.textContent='❌ '+(q.explain||'');
         ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';
         qzWrong.push({q:qText, opts:qOpts, correct:correct, chosen:i, explain:q.explain||''});
