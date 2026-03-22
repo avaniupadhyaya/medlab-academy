@@ -889,35 +889,37 @@ function renderLessonQ(idx){
   if(!area)return;
   const title=document.querySelector('.lq-title');
   if(title)title.textContent='🎯 Quiz — Question '+(idx+1)+' of '+lesson.quiz.length;
-  let selectedAnswer = null;
-  area.innerHTML=`<div class="qz-q">${q.q}</div><div class="qz-opts">${q.opts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="lqEx"></div><button id="lqSubmit" style="display:none;width:100%;padding:13px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;font-family:var(--font);">Submit Answer</button><button class="qz-next" id="lqNxt">${idx+1<lesson.quiz.length?'Next Question →':'Finish Lesson 🎉'}</button>`;
+  area.innerHTML=`<div class="qz-q">${q.q}</div><div class="qz-opts">${q.opts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="lqEx"></div>`;
   document.querySelectorAll('.qz-opt').forEach(el=>{
     el.addEventListener('click',()=>{
-      if(document.getElementById('lqNxt').classList.contains('show'))return;
-      document.querySelectorAll('.qz-opt').forEach(o=>o.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedAnswer = parseInt(el.dataset.i);
-      document.getElementById('lqSubmit').style.display='block';
+      if(el.closest('.qz-opts').dataset.locked) return;
+      el.closest('.qz-opts').dataset.locked = '1';
+      document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
+      const i=parseInt(el.dataset.i);
+      const ex=document.getElementById('lqEx');
+      S.total++;
+      if(i===q.correct){
+        el.classList.add('correct');
+        S.lessonScore++;addXP(10);S.correct++;
+        ex.textContent='✅ '+q.explain;
+        ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';
+      } else {
+        el.classList.add('wrong');
+        document.querySelectorAll('.qz-opt')[q.correct].classList.add('correct');
+        ex.textContent='❌ '+q.explain;
+        ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';
+      }
+      ex.classList.add('show');
+      S.lastQ=q.q;updateStats();
+      setTimeout(()=>{
+        if(idx+1<lesson.quiz.length){
+          renderLessonQ(idx+1);
+          document.getElementById('lessonContent').scrollTop=0;
+        } else {
+          finishLesson();
+        }
+      }, 1500);
     });
-  });
-  document.getElementById('lqSubmit').addEventListener('click',()=>{
-    if(selectedAnswer===null)return;
-    const i=selectedAnswer;S.total++;
-    document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
-    document.getElementById('lqSubmit').style.display='none';
-    const ex=document.getElementById('lqEx');
-    if(i===q.correct){document.querySelectorAll('.qz-opt')[i].classList.add('correct');S.lessonScore++;addXP(10);S.correct++;ex.textContent='✅ '+q.explain;ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';}
-    else{document.querySelectorAll('.qz-opt')[i].classList.add('wrong');document.querySelectorAll('.qz-opt')[q.correct].classList.add('correct');ex.textContent='❌ '+q.explain;ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';}
-    ex.classList.add('show');document.getElementById('lqNxt').classList.add('show');
-    S.lastQ=q.q;updateStats();
-  });
-  document.getElementById('lqNxt').addEventListener('click',()=>{
-    if(idx+1<lesson.quiz.length){
-      renderLessonQ(idx+1);
-      document.getElementById('lessonContent').scrollTop=0;
-    } else {
-      finishLesson();
-    }
   });
 }
 
@@ -1035,30 +1037,35 @@ function renderQZ(){
   // Normalize field names (diagnosisDetective uses 'scenario', others use 'q')
   const qText=q.q||q.scenario||'';
   const qOpts=q.options||q.opts||[];
-  body.innerHTML=`<div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:8px">Question ${(qzIdx%qzPool.length)+1} of ${qzPool.length}</div><div class="qz-q">${qText}</div><div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="qzEx"></div><button id="qzSubmitBtn" style="display:none;width:100%;padding:13px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;font-family:var(--font);">Submit Answer</button><button class="qz-next" id="qzNxt">Next Question →</button>`;
-  let qzSelected = null;
+  body.innerHTML=`<div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:8px">Question ${(qzIdx%qzPool.length)+1} of ${qzPool.length}</div><div class="qz-q">${qText}</div><div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="qzEx"></div>`;
   document.querySelectorAll('.qz-opt').forEach(el=>{
     el.addEventListener('click',()=>{
-      if(document.getElementById('qzNxt').classList.contains('show'))return;
-      document.querySelectorAll('.qz-opt').forEach(o=>o.classList.remove('selected'));
-      el.classList.add('selected');
-      qzSelected = parseInt(el.dataset.i);
-      document.getElementById('qzSubmitBtn').style.display='block';
+      // Ignore clicks if already answered
+      if(el.closest('.qz-opts').dataset.locked) return;
+      el.closest('.qz-opts').dataset.locked = '1';
+      // Lock all options
+      document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
+      const i=parseInt(el.dataset.i);
+      const correct=q.correct;
+      const ex=document.getElementById('qzEx');
+      S.total++;
+      if(i===correct){
+        el.classList.add('correct');
+        qzScore+=30;addXP(30);S.correct++;
+        document.getElementById('qzScore').textContent=qzScore;
+        ex.textContent='✅ '+(q.explain||'');
+        ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';
+      } else {
+        el.classList.add('wrong');
+        document.querySelectorAll('.qz-opt')[correct].classList.add('correct');
+        ex.textContent='❌ '+(q.explain||'');
+        ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';
+      }
+      ex.classList.add('show');
+      S.lastQ=qText;updateStats();
+      setTimeout(()=>{qzIdx++;renderQZ();}, 1500);
     });
   });
-  document.getElementById('qzSubmitBtn').addEventListener('click',()=>{
-    if(qzSelected===null)return;
-    const i=qzSelected;S.total++;
-    document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
-    document.getElementById('qzSubmitBtn').style.display='none';
-    const ex=document.getElementById('qzEx');
-    const correct=q.correct;
-    if(i===correct){document.querySelectorAll('.qz-opt')[i].classList.add('correct');qzScore+=30;addXP(30);S.correct++;document.getElementById('qzScore').textContent=qzScore;ex.textContent='✅ '+(q.explain||'');ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';}
-    else{document.querySelectorAll('.qz-opt')[i].classList.add('wrong');document.querySelectorAll('.qz-opt')[correct].classList.add('correct');ex.textContent='❌ '+(q.explain||'');ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';}
-    ex.classList.add('show');document.getElementById('qzNxt').classList.add('show');
-    S.lastQ=qText;updateStats();
-  });
-  document.getElementById('qzNxt').addEventListener('click',()=>{qzSelected=null;qzIdx++;renderQZ();});
 }
 
 // ── HOSA BOWL ─────────────────────────────────────────
