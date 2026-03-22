@@ -1003,7 +1003,8 @@ function fcNext(k){if(k){fcKnown++;addXP(15);S.correct++;}S.total++;fcIdx++;upda
 window.fcNext=fcNext;
 
 // ── QUIZ MODE ─────────────────────────────────────────
-let qzPool=[],qzIdx=0,qzScore=0;
+let qzPool=[],qzIdx=0,qzScore=0,qzCorrect=0,qzTotal=0,qzWrong=[],qzStartTime=0;
+const QZ_SESSION_LENGTH = 20;
 function initQZ(){
   const ev=EVENTS[S.currentEvent];
   document.getElementById('qzEventLabel').textContent=ev?ev.name:'Select event first';
@@ -1021,8 +1022,9 @@ function initQZ(){
   // Fisher-Yates shuffle for true randomness
   const arr=[...pool2];
   for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
-  qzPool=arr;
-  qzIdx=0;qzScore=0;
+  qzPool=arr.slice(0, QZ_SESSION_LENGTH);
+  qzIdx=0;qzScore=0;qzCorrect=0;qzTotal=0;qzWrong=[];
+  qzStartTime=Date.now();
   document.getElementById('qzScore').textContent=0;
   renderQZ();
 }
@@ -1033,25 +1035,28 @@ function renderQZ(){
     body.innerHTML='<div style="text-align:center;padding:20px 0"><div style="font-size:30px;margin-bottom:12px">📝</div><div style="font-size:17px;font-weight:700;margin-bottom:8px">Pick an Event First</div><div style="font-size:14px;color:var(--muted);margin-bottom:18px">Select which event you are studying:</div>'+evBtns2+'</div>';
     return;
   }
-  const q=qzPool[qzIdx%qzPool.length];
-  // Normalize field names (diagnosisDetective uses 'scenario', others use 'q')
+  // All questions answered — show summary
+  if(qzIdx>=qzPool.length){
+    showQZSummary();
+    return;
+  }
+  const q=qzPool[qzIdx];
+  // Normalize field names
   const qText=q.q||q.scenario||'';
   const qOpts=q.options||q.opts||[];
-  body.innerHTML=`<div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:8px">Question ${(qzIdx%qzPool.length)+1} of ${qzPool.length}</div><div class="qz-q">${qText}</div><div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="qzEx"></div>`;
+  body.innerHTML=`<div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:8px">Question ${qzIdx+1} of ${qzPool.length}</div><div class="qz-q">${qText}</div><div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="qzEx"></div>`;
   document.querySelectorAll('.qz-opt').forEach(el=>{
     el.addEventListener('click',()=>{
-      // Ignore clicks if already answered
       if(el.closest('.qz-opts').dataset.locked) return;
       el.closest('.qz-opts').dataset.locked = '1';
-      // Lock all options
       document.querySelectorAll('.qz-opt').forEach(o=>o.style.pointerEvents='none');
       const i=parseInt(el.dataset.i);
       const correct=q.correct;
       const ex=document.getElementById('qzEx');
-      S.total++;
+      S.total++;qzTotal++;
       if(i===correct){
         el.classList.add('correct');
-        qzScore+=30;addXP(30);S.correct++;
+        qzScore+=30;qzCorrect++;addXP(30);S.correct++;
         document.getElementById('qzScore').textContent=qzScore;
         ex.textContent='✅ '+(q.explain||'');
         ex.style.cssText='background:var(--green-l);color:var(--green-d);border:1px solid var(--green)';
@@ -1060,12 +1065,58 @@ function renderQZ(){
         document.querySelectorAll('.qz-opt')[correct].classList.add('correct');
         ex.textContent='❌ '+(q.explain||'');
         ex.style.cssText='background:var(--red-l);color:var(--red-d);border:1px solid var(--red)';
+        qzWrong.push({q:qText, opts:qOpts, correct:correct, chosen:i, explain:q.explain||''});
       }
       ex.classList.add('show');
-      S.lastQ=qText;updateStats();
+      S.lastQ=qText;updateStats();saveState();
       setTimeout(()=>{qzIdx++;renderQZ();}, 1500);
     });
   });
+}
+function showQZSummary(){
+  const body=document.getElementById('qzBody');
+  const elapsed=Math.round((Date.now()-qzStartTime)/1000);
+  const mins=Math.floor(elapsed/60);
+  const secs=elapsed%60;
+  const timeStr=mins>0?`${mins}m ${secs}s`:`${secs}s`;
+  const pct=Math.round((qzCorrect/qzPool.length)*100);
+  const emoji=pct>=90?'🏆':pct>=70?'⭐':pct>=50?'💪':'📚';
+  const msg=pct>=90?'Outstanding!':pct>=70?'Great work!':pct>=50?'Good effort!':'Keep practicing!';
+
+  let wrongHtml='';
+  if(qzWrong.length){
+    wrongHtml=`
+      <div style="margin-top:20px;text-align:left">
+        <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--bord)">
+          ❌ Review These (${qzWrong.length})
+        </div>
+        ${qzWrong.map((w,idx)=>`
+          <div style="margin-bottom:14px;padding:12px;background:var(--surf2);border-radius:10px;border:1px solid var(--bord)">
+            <div style="font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.4">${idx+1}. ${w.q}</div>
+            ${w.opts.map((o,i)=>`
+              <div style="font-size:12px;padding:6px 10px;margin-bottom:4px;border-radius:7px;
+                ${i===w.correct?'background:var(--green-l);color:var(--green-d);font-weight:600;':
+                  i===w.chosen?'background:var(--red-l);color:var(--red-d);':'color:var(--muted);'}">
+                ${i===w.correct?'✅ ':i===w.chosen?'❌ ':'　 '}${o}
+              </div>`).join('')}
+            <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.4;font-style:italic">${w.explain}</div>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  body.innerHTML=`
+    <div style="text-align:center;padding:16px 0 8px">
+      <div style="font-size:48px;margin-bottom:8px">${emoji}</div>
+      <div style="font-size:22px;font-weight:800;margin-bottom:4px">${msg}</div>
+      <div style="font-size:32px;font-weight:800;color:${pct>=70?'var(--teal)':'var(--blue)'};margin:10px 0">${pct}%</div>
+      <div style="font-size:16px;color:var(--muted);margin-bottom:4px">${qzCorrect} / ${qzPool.length} correct</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:20px">⏱ ${timeStr}</div>
+      <div style="display:flex;gap:10px;max-width:340px;margin:0 auto 4px">
+        <button onclick="initQZ()" style="flex:1;padding:13px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);">🔄 Retry</button>
+        <button onclick="showScreen('home')" style="flex:1;padding:13px;background:var(--surf2);color:var(--txt);border:1px solid var(--bord);border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font);">🏠 Home</button>
+      </div>
+    </div>
+    ${wrongHtml}`;
 }
 
 // ── HOSA BOWL ─────────────────────────────────────────
