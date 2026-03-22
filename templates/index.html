@@ -245,12 +245,74 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   .main{left:0!important;right:0!important;bottom:120px!important;}
   .bnav{display:flex;}
   #mobileDiff{display:flex!important;}
+  /* Mobile: larger tap targets for quiz options */
+  .qz-opt{font-size:15px;padding:14px 14px;min-height:52px;}
+  .qz-q{font-size:15px;padding:13px;}
+  /* Mobile: bowl grid single column on very small screens */
+}
+@media(max-width:420px){
+  .bowl-opts{grid-template-columns:1fr;}
+  .ev-grid{grid-template-columns:1fr;}
+  .qz-opt{font-size:14px;}
+  .gt{font-size:14px;}
+  /* Diff buttons on start screen stack better */
 }
 @media(min-width:901px){
   .bnav{display:none!important;}
   #screen-chat{display:none!important;}
   .logo-event{display:block;}
 }
+
+/* ── PROGRESS BAR ─────────────────────────────────── */
+.qz-progress-wrap{
+  margin-bottom:12px;
+}
+.qz-progress-row{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:5px;font-size:11px;font-family:var(--mono);color:var(--muted);
+}
+.qz-progress-track{
+  height:5px;background:var(--surf2);border-radius:3px;overflow:hidden;
+}
+.qz-progress-fill{
+  height:100%;background:var(--teal);border-radius:3px;
+  transition:width .4s ease;
+}
+
+/* ── FADE TRANSITION ──────────────────────────────── */
+@keyframes qzFadeIn{
+  from{opacity:0;transform:translateY(6px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.qz-animate{
+  animation:qzFadeIn .2s ease forwards;
+}
+
+/* ── NEXT BUTTON (polished, consistent) ──────────── */
+.qz-next-btn{
+  width:100%;padding:14px;margin-top:12px;
+  background:var(--teal);color:white;border:none;border-radius:10px;
+  font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);
+  min-height:48px;transition:opacity .15s,transform .1s;
+  -webkit-tap-highlight-color:transparent;
+}
+.qz-next-btn:active{transform:scale(.98);opacity:.9;}
+
+/* ── DIFF PICKER CARDS (mobile-safe) ─────────────── */
+.qz-diff-card{
+  flex:1;padding:14px 6px;border-radius:10px;border:2px solid var(--bord);
+  background:var(--surf2);font-family:var(--font);cursor:pointer;
+  transition:all .15s;text-align:center;min-height:80px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  -webkit-tap-highlight-color:transparent;
+}
+.qz-diff-card:active{transform:scale(.97);}
+.qz-diff-card.active-easy{background:var(--green-l);color:var(--green-d);border-color:var(--green);}
+.qz-diff-card.active-medium{background:var(--amber-l);color:var(--amber-d);border-color:var(--amber);}
+.qz-diff-card.active-hard{background:var(--red-l);color:var(--red-d);border-color:var(--red);}
+.qz-diff-card .diff-emoji{font-size:20px;}
+.qz-diff-card .diff-label{font-size:13px;font-weight:700;}
+.qz-diff-card .diff-count{font-size:11px;opacity:.7;}
 </style>
 </head>
 <body>
@@ -914,7 +976,7 @@ function renderLessonQ(idx){
       const isLast = idx+1 >= lesson.quiz.length;
       const nxt = document.createElement('button');
       nxt.textContent = isLast ? 'Finish Lesson 🎉' : 'Next →';
-      nxt.style.cssText='width:100%;padding:13px;margin-top:10px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);';
+      nxt.className = 'qz-next-btn';
       ex.insertAdjacentElement('afterend', nxt);
       nxt.addEventListener('click',()=>{
         if(!isLast){
@@ -1021,13 +1083,10 @@ function showQZStart(){
     const n=counts[d];
     const active=S.difficulty===d;
     return `<button onclick="setDiffQZ('${d}')"
-      style="flex:1;padding:14px 8px;border-radius:10px;border:2px solid ${active?'var(--'+cls+')':'var(--bord)'};
-      background:${active?'var(--'+cls+'-l)':'var(--surf2)'};
-      color:${active?'var(--'+cls+'-d)':'var(--txt)'};
-      font-family:var(--font);cursor:pointer;transition:all .15s;text-align:center;" id="qzd_${d}">
-      <div style="font-size:18px;margin-bottom:4px">${id}</div>
-      <div style="font-size:14px;font-weight:700;margin-bottom:2px">${label}</div>
-      <div style="font-size:11px;opacity:.7">${n} questions</div>
+      class="qz-diff-card${active?' active-'+cls:''}" id="qzd_${d}">
+      <div class="diff-emoji">${id}</div>
+      <div class="diff-label">${label}</div>
+      <div class="diff-count">${n} questions</div>
     </button>`;
   }
 
@@ -1057,7 +1116,7 @@ function showQZStart(){
 function setDiffQZ(d){
   S.difficulty=d;
   saveState();
-  // Update sidebar buttons too
+  // Update sidebar buttons
   document.getElementById('dE').className='db'+(d==='easy'?' ae':'');
   document.getElementById('dM').className='db'+(d==='medium'?' am':'');
   document.getElementById('dH').className='db'+(d==='hard'?' ah':'');
@@ -1066,8 +1125,13 @@ function setDiffQZ(d){
     document.getElementById('dM2').className='db'+(d==='medium'?' am':'');
     document.getElementById('dH2').className='db'+(d==='hard'?' ah':'');
   }
-  // Re-render start screen to reflect new selection
-  showQZStart();
+  // Update diff card active states in place (no full re-render = no flicker)
+  ['easy','medium','hard'].forEach(function(x){
+    const el=document.getElementById('qzd_'+x);
+    if(!el) return;
+    const cls={easy:'active-easy',medium:'active-medium',hard:'active-hard'}[x];
+    el.className='qz-diff-card'+(x===d?' '+cls:'');
+  });
 }
 
 let qzPool=[],qzIdx=0,qzScore=0,qzCorrect=0,qzTotal=0,qzWrong=[],qzStartTime=0;
@@ -1111,7 +1175,22 @@ function renderQZ(){
   // Normalize field names
   const qText=q.q||q.scenario||'';
   const qOpts=q.options||q.opts||[];
-  body.innerHTML=`<div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:8px">Question ${qzIdx+1} of ${qzPool.length}</div><div class="qz-q">${qText}</div><div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div><div class="qz-explain" id="qzEx"></div>`;
+  const pct=Math.round((qzIdx/qzPool.length)*100);
+  body.innerHTML=`
+    <div class="qz-progress-wrap">
+      <div class="qz-progress-row">
+        <span>Question ${qzIdx+1} of ${qzPool.length}</span>
+        <span>${qzCorrect} correct</span>
+      </div>
+      <div class="qz-progress-track">
+        <div class="qz-progress-fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+    <div class="qz-animate">
+      <div class="qz-q">${qText}</div>
+      <div class="qz-opts">${qOpts.map((o,i)=>`<div class="qz-opt" data-i="${i}">${o}</div>`).join('')}</div>
+      <div class="qz-explain" id="qzEx"></div>
+    </div>`;
   document.querySelectorAll('.qz-opt').forEach(el=>{
     el.addEventListener('click',()=>{
       if(el.closest('.qz-opts').dataset.locked) return;
@@ -1140,7 +1219,7 @@ function renderQZ(){
       const isLast = qzIdx+1 >= qzPool.length;
       const nxt = document.createElement('button');
       nxt.textContent = isLast ? 'See Results 🎉' : 'Next →';
-      nxt.style.cssText='width:100%;padding:13px;margin-top:10px;background:var(--teal);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);';
+      nxt.className = 'qz-next-btn';
       ex.insertAdjacentElement('afterend', nxt);
       nxt.addEventListener('click',()=>{qzIdx++;renderQZ();});
     });
